@@ -134,6 +134,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fabric {0} is not associated with the Vault {1}.
+        /// </summary>
+        internal static string FabricNotFound {
+            get {
+                return ResourceManager.GetString("FabricNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File &quot;{0}&quot; already exists. Specify a different name or path..
         /// </summary>
         internal static string FileAlreadyExists {
@@ -473,6 +482,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Properties {
         internal static string ServerNotFound {
             get {
                 return ResourceManager.GetString("ServerNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ServicesProvider {0} is not associated with the Vault {1}.
+        /// </summary>
+        internal static string ServicesProviderNotFound {
+            get {
+                return ResourceManager.GetString("ServicesProviderNotFound", resourceCulture);
             }
         }
         

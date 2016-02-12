@@ -60,16 +60,20 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     UpdateReplicationPlan(this.RecoveryPlan);
                     break;
                 case ASRParameterSets.ByRPFile:
+
                     if (!File.Exists(this.Path))
                     {
                         throw new FileNotFoundException(string.Format(Properties.Resources.FileNotFound, this.Path)); ;
                     }
+
                     string filePath = this.Path;
+
                     RecoveryPlan recoveryPlan = null;
                     using (System.IO.StreamReader file = new System.IO.StreamReader(filePath))
                     {
                         recoveryPlan = JsonConvert.DeserializeObject<RecoveryPlan>(file.ReadToEnd(), new RecoveryPlanActionDetailsConverter());
                     }
+
                     UpdateReplicationPlan(recoveryPlan);
                     break;
             }

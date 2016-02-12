@@ -72,6 +72,87 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         #endregion Properties
     }
 
+    /// <summary>
+    /// Azure Site Recovery Server.
+    /// </summary>
+    public class ASRServicesProvider
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ASRServicesProvider" /> class.
+        /// </summary>
+        public ASRServicesProvider()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ASRServicesProvider" /> class with required 
+        /// parameters.
+        /// </summary>
+        /// <param name="server">Server object</param>
+        public ASRServicesProvider(RecoveryServicesProvider provider)
+        {
+            this.ID = provider.Id;
+            this.Name = provider.Name;
+            this.FriendlyName = provider.Properties.FriendlyName;
+            if (provider.Properties.LastHeartbeat != null)
+            {
+                this.LastHeartbeat = (DateTime)provider.Properties.LastHeartbeat;
+            }
+            this.ProviderVersion = provider.Properties.ProviderVersion;
+            this.ServerVersion = provider.Properties.ServerVersion;
+            this.Connected = provider.Properties.ConnectionStatus.ToLower().CompareTo("connected") == 0 ? true : false;
+            this.FabricType = provider.Properties.FabricType;
+            this.Type = provider.Type;
+        }
+
+        #region Properties
+        /// <summary>
+        /// Gets or sets Name of the Server.
+        /// </summary>
+        public string FriendlyName { get; set; }
+
+        /// <summary>
+        /// Gets or sets Name of the Server.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets Server ID.
+        /// </summary>
+        public string ID { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Type of Management entity – VMM, V-Center.
+        /// </summary>
+        public string Type { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of Server - VMM.
+        /// </summary>
+        public string FabricType { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether server is connected or not.
+        /// </summary>
+        public bool Connected { get; set; }
+
+        /// <summary>
+        /// Gets or sets Last communicated time.
+        /// </summary>
+        public DateTime LastHeartbeat { get; set; }
+
+        /// <summary>
+        /// Gets or sets Provider version.
+        /// </summary>
+        public string ProviderVersion { get; set; }
+
+        /// <summary>
+        /// Gets or sets Server version.
+        /// </summary>
+        public string ServerVersion { get; set; }
+
+        #endregion
+    }
 
     /// <summary>
     /// Azure Site Recovery Server.
@@ -152,6 +233,64 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         public string ServerVersion { get; set; }
         
+        #endregion
+    }
+
+    /// <summary>
+    /// Azure Site Recovery Site object.
+    /// </summary>
+    public class ASRFabric
+    {
+        #region Constructor
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ASRSite" /> class.
+        /// </summary>
+        public ASRFabric()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ASRSite" /> class.
+        /// </summary>
+        /// <param name="site">Hydra site object.</param>
+        public ASRFabric(Fabric fabric)
+        {
+            this.Name = fabric.Name;
+            this.FriendlyName = fabric.Properties.FriendlyName;
+            this.ID = fabric.Id;
+            this.Type = fabric.Properties.CustomDetails.InstanceType;
+            this.SiteIdentifier = fabric.Properties.InternalIdentifier;
+        }
+
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// Gets or sets display name.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets friendly name.
+        /// </summary>
+        public string FriendlyName { get; set; }
+
+        /// <summary>
+        /// Gets or sets ID.
+        /// </summary>
+        public string ID { get; set; }
+
+        /// <summary>
+        /// Gets or sets site type.
+        /// </summary>
+        public string Type { get; set; }
+
+        /// <summary>
+        /// Gets or sets site SiteIdentifier.
+        /// </summary>
+        public string SiteIdentifier { get; set; }
+
         #endregion
     }
 
@@ -699,6 +838,137 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         public List<ASRVMNicDetails> NicDetailsList { get; set; } 
 
+    }
+
+    /// <summary>
+    /// Azure Site Recovery Protection Entity.
+    /// </summary>
+    public class ASRProtectableItem
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ASRProtectionEntity" /> class.
+        /// </summary>
+        public ASRProtectableItem()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ASRProtectionEntity" /> class when it is not protected
+        /// </summary>
+        /// <param name="pi">Protectable Item to read values from</param>
+        public ASRProtectableItem(ProtectableItem pi)
+        {
+            this.ID = pi.Id;
+            this.Name = pi.Name;
+            this.FriendlyName = pi.Properties.FriendlyName;
+            this.ProtectionContainerId = Utilities.GetValueFromArmId(pi.Id, ARMResourceTypeConstants.ReplicationProtectionContainers);
+            this.ProtectionStatus = pi.Properties.ProtectionStatus;
+            this.ReplicationProtectedItemId = pi.Properties.ReplicationProtectedItemId;
+            this.SupportedReplicationProviders = pi.Properties.SupportedReplicationProviders;
+            if (pi.Properties.CustomDetails != null)
+            {
+                if (0 == string.Compare(
+                    pi.Properties.CustomDetails.InstanceType,
+                    "HyperVVirtualMachine",
+                    StringComparison.OrdinalIgnoreCase))
+                {
+                    if (pi.Properties.CustomDetails is HyperVVirtualMachineDetails)
+                    {
+                        HyperVVirtualMachineDetails providerSettings =
+                            (HyperVVirtualMachineDetails)pi.Properties.CustomDetails;
+
+                        IList<DiskDetails> diskDetails = providerSettings.DiskDetailsList;
+                        this.UpdateDiskDetails(diskDetails);
+                        this.OS = providerSettings.OSDetails == null ? null : providerSettings.OSDetails.OsType;
+                        this.FabricObjectId = providerSettings.SourceItemId;
+                    }
+
+                }
+            }
+        }
+
+        private void UpdateDiskDetails(IList<DiskDetails> diskDetails)
+        {
+            this.Disks = new List<VirtualHardDisk>();
+            foreach (var disk in diskDetails)
+            {
+                VirtualHardDisk hd = new VirtualHardDisk();
+                hd.Id = disk.VhdId;
+                hd.Name = disk.VhdName;
+                this.Disks.Add(hd);
+            }
+            DiskDetails OSDisk = diskDetails.SingleOrDefault(d => string.Compare(d.VhdType, "OperatingSystem", StringComparison.OrdinalIgnoreCase) == 0);
+            if (OSDisk != null)
+            {
+                this.OSDiskId = OSDisk.VhdId;
+                this.OSDiskName = OSDisk.VhdName;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets Friendly Name of the Protection entity.
+        /// </summary>
+        public string FriendlyName { get; set; }
+
+        /// <summary>
+        /// Gets or sets Name of the Protection entity.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets Protection entity ID.
+        /// </summary>
+        public string ID { get; set; }
+
+        /// <summary>
+        /// Gets or sets fabric object ID.
+        /// </summary>
+        public string FabricObjectId { get; set; }
+
+        /// <summary>
+        /// Gets or sets Protection container ID.
+        /// </summary>
+        public string ProtectionContainerId { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether it is protected or not.
+        /// </summary>
+        public string ProtectionStatus { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value that lists allowed operations.
+        /// </summary>
+        public IList<string> ProtectionReadinessErrors { get; set; }
+
+        /// <summary>
+        /// Gets or sets OSDiskVHDId.
+        /// </summary>
+        public string OSDiskId { get; set; }
+
+        /// <summary>
+        /// Gets or sets OS DiskName.
+        /// </summary>
+        public string OSDiskName { get; set; }
+
+        /// <summary>
+        /// Gets or sets OS.
+        /// </summary>
+        public string OS { get; set; }
+
+        /// <summary>
+        /// Gets or sets OS.
+        /// </summary>
+        public List<VirtualHardDisk> Disks { get; set; }
+
+        /// <summary>
+        /// Gets or sets Replication provider.
+        /// </summary>
+        public IList<string> SupportedReplicationProviders { get; set; }
+
+        /// <summary>
+        /// Gets or sets Replication protected item id.
+        /// </summary>
+        public string ReplicationProtectedItemId { get; set; }
     }
 
     /// <summary>
