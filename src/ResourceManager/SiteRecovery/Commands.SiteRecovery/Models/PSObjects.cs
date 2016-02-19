@@ -809,8 +809,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         NicDetailsList.Add(new ASRVMNicDetails(n));
                     }
                 }
-            }
-           
+            }           
         }
 
         /// <summary>
@@ -969,6 +968,195 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets Replication protected item id.
         /// </summary>
         public string ReplicationProtectedItemId { get; set; }
+    }
+
+    /// <summary>
+    /// Azure Site Recovery Replication Protected Item.
+    /// </summary>
+    public class ASRReplicationProtectedItem
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ASRProtectionEntity" /> class.
+        /// </summary>
+        public ASRReplicationProtectedItem()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ASRProtectionEntity" /> class when it is protected
+        /// </summary>
+        /// <param name="pi">Protectable Item to read values from</param>
+        /// <param name="rpi">Replication Protected Item to read values from</param>
+        public ASRReplicationProtectedItem(ReplicationProtectedItem rpi)
+        {
+            this.ID = rpi.Id;
+            this.Name = rpi.Name;
+            this.FriendlyName = rpi.Properties.FriendlyName;
+            this.Type = rpi.Type;
+            this.ActiveLocation = rpi.Properties.ActiveLocation;
+            this.AllowedOperations = rpi.Properties.AllowedOperations;
+            this.ReplicationProvider = rpi.Properties.ProviderSpecificDetails.InstanceType;
+            this.CurrentScenario = rpi.Properties.CurrentScenario;
+            this.FailoverRecoveryPointId = rpi.Properties.FailoverRecoveryPointId;
+            this.LastSuccessfulFailoverTime = rpi.Properties.LastSuccessfulFailoverTime;
+            this.LastSuccessfulTestFailoverTime = rpi.Properties.LastSuccessfulTestFailoverTime;
+            this.PolicyFriendlyName = rpi.Properties.PolicyFriendlyName;
+            this.PolicyID = rpi.Properties.PolicyID;
+            this.PrimaryFabricFriendlyName = rpi.Properties.PrimaryFabricFriendlyName;
+            this.PrimaryProtectionContainerFriendlyName = rpi.Properties.PrimaryProtectionContainerFriendlyName;
+            this.ProtectableItemId = rpi.Properties.ProtectableItemId;
+            this.ProtectedItemType = rpi.Properties.ProtectedItemType;
+            this.ProtectionState = rpi.Properties.ProtectionState;
+            this.ProtectionStateDescription = rpi.Properties.ProtectionStateDescription;
+            this.RecoveryFabricFriendlyName = rpi.Properties.RecoveryFabricFriendlyName;
+            this.RecoveryFabricId = rpi.Properties.RecoveryFabricId;
+            this.RecoveryProtectionContainerFriendlyName = rpi.Properties.RecoveryProtectionContainerFriendlyName;
+            this.RecoveryServicesProviderId = rpi.Properties.RecoveryServicesProviderId;
+            this.ReplicationHealth = rpi.Properties.ReplicationHealth;
+            this.ReplicationHealthErrors = rpi.Properties.ReplicationHealthErrors;
+            this.TestFailoverState = rpi.Properties.TestFailoverState;
+            this.TestFailoverStateDescription = rpi.Properties.TestFailoverStateDescription;           
+        }
+
+        /// <summary>
+        /// Gets or sets Friendly Name of the Protection entity.
+        /// </summary>
+        public string FriendlyName { get; set; }
+
+        /// <summary>
+        /// Gets or sets Name of the Protection entity.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets Protection entity ID.
+        /// </summary>
+        public string ID { get; set; }
+
+        /// <summary>
+        /// Gets or sets type of the Protection entity.
+        /// </summary>
+        public string Type { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public CurrentScenarioDetails CurrentScenario { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value that lists allowed operations.
+        /// </summary>
+        public IList<string> AllowedOperations { get; set; }
+
+        /// <summary>
+        /// Gets or sets a active location of protection entity.
+        /// </summary>
+        public string ActiveLocation { get; set; }
+
+        /// <summary>
+        /// Gets or sets Replication provider.
+        /// </summary>
+        public string ReplicationProvider { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string FailoverRecoveryPointId { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public DateTime? LastSuccessfulFailoverTime { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public DateTime? LastSuccessfulTestFailoverTime { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string PolicyFriendlyName { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string PolicyID { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string PrimaryFabricFriendlyName { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string PrimaryProtectionContainerFriendlyName { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string ProtectableItemId { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string ProtectedItemType { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string ProtectionState { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string ProtectionStateDescription { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public ReplicationProviderSpecificSettings ProviderSpecificDetails { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string RecoveryFabricFriendlyName { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string RecoveryFabricId { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string RecoveryProtectionContainerFriendlyName { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string RecoveryServicesProviderId { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string ReplicationHealth { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public IList<HealthError> ReplicationHealthErrors { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string TestFailoverState { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string TestFailoverStateDescription { get; set; }
     }
 
     /// <summary>

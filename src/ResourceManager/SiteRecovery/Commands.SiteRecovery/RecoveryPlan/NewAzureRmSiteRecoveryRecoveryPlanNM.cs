@@ -27,8 +27,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     /// <summary>
     /// Creates Azure Site Recovery Recovery Plan object.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureRmSiteRecoveryRecoveryPlan", DefaultParameterSetName = ASRParameterSets.EnterpriseToEnterprise)]
-    public class NewAzureSiteRecoveryRecoveryPlan : SiteRecoveryCmdletBase
+    [Cmdlet(VerbsCommon.New, "AzureRmSiteRecoveryRecoveryPlanNM", DefaultParameterSetName = ASRParameterSets.EnterpriseToEnterprise)]
+    public class NewAzureRmSiteRecoveryRecoveryPlanNM : SiteRecoveryCmdletBase
     {
         /// <summary>
         /// Gets or sets Name of the primary server.
@@ -54,7 +54,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery
 
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, Mandatory = true)]
         public string Name { get; set; }
 
         /// <summary>
@@ -63,34 +62,25 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        public ASRServer PrimaryServer { get; set; }
+        public ASRFabric PrimaryFabric { get; set; }
 
         /// <summary>
         /// Gets or sets Application Consistent Snapshot Frequency of the Policy in hours.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        public ASRServer RecoveryServer { get; set; }
-
-        /// <summary>
-        /// Gets or sets Application Consistent Snapshot Frequency of the Policy in hours.
-        /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, Mandatory = true)]
-        [ValidateNotNullOrEmpty]
-        public ASRSite PrimarySite { get; set; }
+        public ASRFabric RecoveryFabric { get; set; }
 
         /// <summary>
         /// Gets or sets switch parameter. On passing, command does not ask for confirmation.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, Mandatory = true)]
         public SwitchParameter Azure { get; set; }
 
         /// <summary>
         /// Gets or sets Replication Provider of the Policy.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         [ValidateSet(
             Constants.Classic,
@@ -102,9 +92,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        public ASRProtectionEntity[] ProtectionEntityList { get; set; }
+        public ASRReplicationProtectedItem [] ReplicationProtectedItem { get; set; }
 
         /// <summary>
         /// Gets or sets RP JSON FilePath.
@@ -125,17 +114,12 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             {
                 case ASRParameterSets.EnterpriseToEnterprise:
                     failoverDeploymentModel = Constants.NotApplicable;
-                    this.primaryserver = RecoveryServicesClient.GetAzureSiteRecoveryFabric(Utilities.GetValueFromArmId(this.PrimaryServer.ID, ARMResourceTypeConstants.ReplicationFabrics)).Fabric.Id;
-                    this.recoveryserver = RecoveryServicesClient.GetAzureSiteRecoveryFabric(Utilities.GetValueFromArmId(this.RecoveryServer.ID, ARMResourceTypeConstants.ReplicationFabrics)).Fabric.Id;
+                    this.primaryserver = this.PrimaryFabric.ID;
+                    this.recoveryserver = this.RecoveryFabric.ID;
                     break;
                 case ASRParameterSets.EnterpriseToAzure:
                     failoverDeploymentModel = this.FailoverDeploymentModel;
-                    this.primaryserver = RecoveryServicesClient.GetAzureSiteRecoveryFabric(Utilities.GetValueFromArmId(this.PrimaryServer.ID, ARMResourceTypeConstants.ReplicationFabrics)).Fabric.Id;
-                    this.recoveryserver = Constants.AzureContainer;
-                    break;
-                case ASRParameterSets.HyperVSiteToAzure:
-                    failoverDeploymentModel = this.FailoverDeploymentModel;
-                    this.primaryserver = this.PrimarySite.ID;
+                    this.primaryserver = this.PrimaryFabric.ID;
                     this.recoveryserver = Constants.AzureContainer;
                     break;
                 case ASRParameterSets.ByRPFile:
@@ -187,17 +171,14 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 EndGroupActions = new List<RecoveryPlanAction>()
             };
 
-            foreach (ASRProtectionEntity pe in ProtectionEntityList)
+            foreach (ASRReplicationProtectedItem rpi in ReplicationProtectedItem)
             {
-                string fabricName = Utilities.GetValueFromArmId(pe.ID, ARMResourceTypeConstants.ReplicationFabrics);
-                // fetch the latest PE object
-                ProtectableItemResponse protectableItemResponse =
-                                            RecoveryServicesClient.GetAzureSiteRecoveryProtectableItem(fabricName,
-                                            pe.ProtectionContainerId, pe.Name);
+                string fabricName = Utilities.GetValueFromArmId(rpi.ID, ARMResourceTypeConstants.ReplicationFabrics);
 
                 ReplicationProtectedItemResponse replicationProtectedItemResponse =
                             RecoveryServicesClient.GetAzureSiteRecoveryReplicationProtectedItem(fabricName,
-                            pe.ProtectionContainerId, Utilities.GetValueFromArmId(protectableItemResponse.ProtectableItem.Properties.ReplicationProtectedItemId, ARMResourceTypeConstants.ReplicationProtectedItems));
+                            Utilities.GetValueFromArmId(rpi.ID, ARMResourceTypeConstants.ReplicationProtectionContainers), 
+                            rpi.Name);
 
                 string VmId = null;
 

@@ -170,6 +170,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         internal const string ByFriendlyName = "ByFriendlyName";
 
         /// <summary>
+        /// When only Name is passed to the command.
+        /// </summary>
+        internal const string ByFabricObject = "ByFabricObject";
+
+        /// <summary>
         /// When nothing is passed to the command.
         /// </summary>
         internal const string Default = "Default";
@@ -193,6 +198,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// When Object and Name are passed to the command.
         /// </summary>
         internal const string ByObjectWithFriendlyName = "ByObjectWithFriendlyName";
+
+        /// <summary>
+        /// When Object and Name are passed to the command.
+        /// </summary>
+        internal const string ByProtectableItemObject = "ByProtectableItemObject";
 
         /// <summary>
         /// When group of IDs and ID are passed to the command.

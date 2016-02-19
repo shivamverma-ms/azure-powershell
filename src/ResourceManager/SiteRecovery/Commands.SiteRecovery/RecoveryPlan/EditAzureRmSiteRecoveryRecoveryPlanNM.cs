@@ -26,8 +26,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     /// <summary>
     /// Updates Azure Site Recovery Recovery Plan object in memory.
     /// </summary>
-    [Cmdlet(VerbsData.Edit, "AzureRmSiteRecoveryRecoveryPlan", DefaultParameterSetName = ASRParameterSets.AppendGroup)]
-    public class EditAzureSiteRecoveryRecoveryPlan : SiteRecoveryCmdletBase
+    [Cmdlet(VerbsData.Edit, "AzureRmSiteRecoveryRecoveryPlanNM", DefaultParameterSetName = ASRParameterSets.AppendGroup)]
+    public class EditAzureRmSiteRecoveryRecoveryPlanNM : SiteRecoveryCmdletBase
     {
         #region Parameters
 
@@ -61,13 +61,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets switch parameter
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AddProtectedEntities, Mandatory = true)]
-        public ASRProtectionEntity[] AddProtectedEntities { get; set; }
+        public ASRReplicationProtectedItem [] AddProtectedItems { get; set; }
 
         /// <summary>
         /// Gets or sets switch parameter
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.RemoveProtectedEntities, Mandatory = true)]
-        public ASRProtectionEntity[] RemoveProtectedEntities { get; set; }
+        public ASRReplicationProtectedItem [] RemoveProtectedItems { get; set; }
 
         #endregion Parameters
 
@@ -108,18 +108,14 @@ namespace Microsoft.Azure.Commands.SiteRecovery
 
                     break;
                 case ASRParameterSets.AddProtectedEntities:
-                    foreach (ASRProtectionEntity pe in AddProtectedEntities)
+                    foreach (ASRReplicationProtectedItem rpi in AddProtectedItems)
                     {
-                        string fabricName = Utilities.GetValueFromArmId(pe.ID, ARMResourceTypeConstants.ReplicationFabrics);
-                        // fetch the latest PE object
-                        ProtectableItemResponse protectableItemResponse =
-                        RecoveryServicesClient.GetAzureSiteRecoveryProtectableItem(fabricName,
-                        pe.ProtectionContainerId, pe.Name);
+                        string fabricName = Utilities.GetValueFromArmId(rpi.ID, ARMResourceTypeConstants.ReplicationFabrics);
 
                         ReplicationProtectedItemResponse replicationProtectedItemResponse =
                         RecoveryServicesClient.GetAzureSiteRecoveryReplicationProtectedItem(fabricName,
-                        pe.ProtectionContainerId, Utilities.GetValueFromArmId(protectableItemResponse.ProtectableItem.Properties.ReplicationProtectedItemId,
-                        ARMResourceTypeConstants.ReplicationProtectedItems));
+                        Utilities.GetValueFromArmId(rpi.ID, ARMResourceTypeConstants.ReplicationProtectionContainers), 
+                        rpi.Name);
 
                         tempGroup = this.RecoveryPlan.Groups.FirstOrDefault(g => String.Compare(g.Name, Group.Name, StringComparison.OrdinalIgnoreCase) == 0);
 
@@ -127,9 +123,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         {
                             foreach (ASRRecoveryPlanGroup gp in this.RecoveryPlan.Groups)
                             {
-                                if(gp.ReplicationProtectedItems.Any(pi => String.CompareOrdinal(pi.Id, replicationProtectedItemResponse.ReplicationProtectedItem.Id) == 0))
+                                if (gp.ReplicationProtectedItems.Any(pi => String.CompareOrdinal(pi.Id, replicationProtectedItemResponse.ReplicationProtectedItem.Id) == 0))
                                 {
-                                    throw new PSArgumentException(string.Format(Properties.Resources.VMAlreadyPartOfGroup, pe.FriendlyName, gp.Name, this.RecoveryPlan.FriendlyName));
+                                    throw new PSArgumentException(string.Format(Properties.Resources.VMAlreadyPartOfGroup, rpi.FriendlyName, gp.Name, this.RecoveryPlan.FriendlyName));
                                 }
                             }
 
@@ -142,18 +138,14 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     }
                     break;
                 case ASRParameterSets.RemoveProtectedEntities:
-                    foreach (ASRProtectionEntity pe in RemoveProtectedEntities)
+                    foreach (ASRReplicationProtectedItem rpi in RemoveProtectedItems)
                     {
-                        string fabricName = Utilities.GetValueFromArmId(pe.ID, ARMResourceTypeConstants.ReplicationFabrics);
-                        // fetch the latest PE object
-                        ProtectableItemResponse protectableItemResponse =
-                        RecoveryServicesClient.GetAzureSiteRecoveryProtectableItem(fabricName,
-                        pe.ProtectionContainerId, pe.Name);
+                        string fabricName = Utilities.GetValueFromArmId(rpi.ID, ARMResourceTypeConstants.ReplicationFabrics);
 
                         ReplicationProtectedItemResponse replicationProtectedItemResponse =
                         RecoveryServicesClient.GetAzureSiteRecoveryReplicationProtectedItem(fabricName,
-                        pe.ProtectionContainerId, Utilities.GetValueFromArmId(protectableItemResponse.ProtectableItem.Properties.ReplicationProtectedItemId, 
-                        ARMResourceTypeConstants.ReplicationProtectedItems));
+                        Utilities.GetValueFromArmId(rpi.ID, ARMResourceTypeConstants.ReplicationProtectionContainers), 
+                        rpi.Name);
 
                         tempGroup = this.RecoveryPlan.Groups.FirstOrDefault(g => String.Compare(g.Name, Group.Name, StringComparison.OrdinalIgnoreCase) == 0);
 
@@ -169,7 +161,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                             }
                             else
                             {
-                                throw new PSArgumentException(string.Format(Properties.Resources.VMNotFoundInGroup, pe.FriendlyName, this.Group.Name, this.RecoveryPlan.FriendlyName));
+                                throw new PSArgumentException(string.Format(Properties.Resources.VMNotFoundInGroup, rpi.FriendlyName, this.Group.Name, this.RecoveryPlan.FriendlyName));
                             }
                         }
                         else

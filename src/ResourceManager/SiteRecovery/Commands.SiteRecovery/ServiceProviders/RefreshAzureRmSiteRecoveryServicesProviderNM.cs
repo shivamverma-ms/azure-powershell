@@ -13,20 +13,16 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Management.Automation;
 using Microsoft.Azure.Management.SiteRecovery.Models;
-using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
     /// <summary>
     /// Retrieves Azure Site Recovery Server.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureRmSiteRecoveryServicesProvider", DefaultParameterSetName = ASRParameterSets.Default)]
-    [OutputType(typeof(IEnumerable<ASRJob>))]
-    public class RemoveAzureSiteRecoveryServicesProvider : SiteRecoveryCmdletBase
+    [Cmdlet(VerbsData.Update, "AzureRmSiteRecoveryServicesProviderNM", DefaultParameterSetName = ASRParameterSets.Default)]
+    public class UpdateAzureRmSiteRecoveryServicesProviderNM : SiteRecoveryCmdletBase
     {
         #region Parameters
 
@@ -37,12 +33,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [ValidateNotNullOrEmpty]
         public ASRServicesProvider ServicesProvider { get; set; }
 
-        /// <summary>
-        /// Gets or sets switch parameter. On passing, command does not ask for confirmation.
-        /// </summary>
-        [Parameter]
-        public SwitchParameter Force { get; set; }
-
         #endregion Parameters
 
         /// <summary>
@@ -51,26 +41,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public override void ExecuteSiteRecoveryCmdlet()
         {
             base.ExecuteSiteRecoveryCmdlet();
-            RemoveServiceProvider();
+            RefreshServicesProvider();
         }
 
         /// <summary>
-        /// Remove Server
+        /// Refresh Server
         /// </summary>
-        private void RemoveServiceProvider()
+        private void RefreshServicesProvider()
         {
-            LongRunningOperationResponse response;
-
-            if (!this.Force.IsPresent)
-            {
-                response =
-                        RecoveryServicesClient.RemoveAzureSiteRecoveryProvider(Utilities.GetValueFromArmId(this.ServicesProvider.ID, ARMResourceTypeConstants.ReplicationFabrics), this.ServicesProvider.Name);
-            }
-            else
-            {
-                response =
-                        RecoveryServicesClient.PurgeAzureSiteRecoveryProvider(Utilities.GetValueFromArmId(this.ServicesProvider.ID, ARMResourceTypeConstants.ReplicationFabrics), this.ServicesProvider.Name);
-            }
+            LongRunningOperationResponse response =
+                RecoveryServicesClient.RefreshAzureSiteRecoveryProvider(Utilities.GetValueFromArmId(this.ServicesProvider.ID, ARMResourceTypeConstants.ReplicationFabrics), this.ServicesProvider.Name);
 
             JobResponse jobResponse =
                 RecoveryServicesClient

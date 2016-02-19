@@ -13,29 +13,35 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using System.ComponentModel;
+using System.Collections.Generic;
+using System.Linq;
 using System.Management.Automation;
 using Microsoft.Azure.Management.SiteRecovery.Models;
-using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
-using Microsoft.WindowsAzure.Commands.Common.Properties;
 using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
     /// <summary>
-    /// Creates Azure Site Recovery Fabric object.
+    /// Retrieves Azure Site Recovery Server.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureRmSiteRecoveryFabric", DefaultParameterSetName = ASRParameterSets.Default)]
-    public class NewAzureSiteRecoveryFabric : SiteRecoveryCmdletBase
+    [Cmdlet(VerbsCommon.Remove, "AzureRmSiteRecoveryServicesProviderNM", DefaultParameterSetName = ASRParameterSets.Default)]
+    [OutputType(typeof(IEnumerable<ASRJob>))]
+    public class RemoveAzureRmSiteRecoveryServicesProviderNM : SiteRecoveryCmdletBase
     {
         #region Parameters
 
         /// <summary>
-        /// Gets or sets the name of the fabric to be created
+        /// Gets or sets the Server.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.Default, Mandatory = true, HelpMessage = "Name of the fabric to be created")]
+        [Parameter(Mandatory = true, ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
-        public string Name { get; set; }
+        public ASRServicesProvider ServicesProvider { get; set; }
+
+        /// <summary>
+        /// Gets or sets switch parameter. On passing, command does not ask for confirmation.
+        /// </summary>
+        [Parameter]
+        public SwitchParameter Force { get; set; }
 
         #endregion Parameters
 
@@ -45,9 +51,26 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public override void ExecuteSiteRecoveryCmdlet()
         {
             base.ExecuteSiteRecoveryCmdlet();
+            RemoveServiceProvider();
+        }
 
-            LongRunningOperationResponse response =
-             RecoveryServicesClient.CreateAzureSiteRecoveryFabric(this.Name, FabricProviders.HyperVSite);
+        /// <summary>
+        /// Remove Server
+        /// </summary>
+        private void RemoveServiceProvider()
+        {
+            LongRunningOperationResponse response;
+
+            if (!this.Force.IsPresent)
+            {
+                response =
+                        RecoveryServicesClient.RemoveAzureSiteRecoveryProvider(Utilities.GetValueFromArmId(this.ServicesProvider.ID, ARMResourceTypeConstants.ReplicationFabrics), this.ServicesProvider.Name);
+            }
+            else
+            {
+                response =
+                        RecoveryServicesClient.PurgeAzureSiteRecoveryProvider(Utilities.GetValueFromArmId(this.ServicesProvider.ID, ARMResourceTypeConstants.ReplicationFabrics), this.ServicesProvider.Name);
+            }
 
             JobResponse jobResponse =
                 RecoveryServicesClient

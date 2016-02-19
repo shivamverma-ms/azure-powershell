@@ -23,27 +23,27 @@ using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
     /// <summary>
-    /// Creates Azure Site Recovery Policy object in memory.
+    /// Creates Azure Site Recovery Fabric object.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureRmSiteRecoveryFabric", DefaultParameterSetName = ASRParameterSets.Default)]
-    public class RemoveAzureSiteRecoveryFabric : SiteRecoveryCmdletBase
+    [Cmdlet(VerbsCommon.New, "AzureRmSiteRecoveryFabricNM", DefaultParameterSetName = ASRParameterSets.Default)]
+    public class NewAzureRmSiteRecoveryFabricNM : SiteRecoveryCmdletBase
     {
         #region Parameters
 
         /// <summary>
-        /// Gets or sets the fabric name
+        /// Gets or sets the name of the fabric to be created
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.Default, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.Default, Mandatory = true, HelpMessage = "Name of the fabric to be created")]
         [ValidateNotNullOrEmpty]
-        public ASRFabric Fabric { get; set; }
+        public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets switch parameter. On passing, command does not ask for confirmation.
-        /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.Default)]
-        public SwitchParameter Force { get; set; }
+        [Parameter(ParameterSetName = ASRParameterSets.Default, Mandatory = false)]
+        [ValidateNotNullOrEmpty]
+        [ValidateSet(
+            Constants.HyperVSite)]
+        public string Type { get; set; }
 
-        #endregion
+        #endregion Parameters
 
         /// <summary>
         /// ProcessRecord of the command.
@@ -52,17 +52,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         {
             base.ExecuteSiteRecoveryCmdlet();
 
-            LongRunningOperationResponse response;
+            string fabricType = string.IsNullOrEmpty(this.Type)? FabricProviders.HyperVSite : this.Type;
 
-            if (!this.Force.IsPresent)
-            {
-                response = RecoveryServicesClient.DeleteAzureSiteRecoveryFabric(this.Fabric.Name);
-            }
-            else
-            {
-                response = RecoveryServicesClient.PurgeAzureSiteRecoveryFabric(this.Fabric.Name);
-            }
-           
+            LongRunningOperationResponse response =
+             RecoveryServicesClient.CreateAzureSiteRecoveryFabric(this.Name, fabricType);
+
             JobResponse jobResponse =
                 RecoveryServicesClient
                 .GetAzureSiteRecoveryJobDetails(PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location));
