@@ -24,7 +24,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     /// <summary>
     /// Retrieves Azure Site Recovery Protection Container.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureRmSiteRecoveryProtectionContainerNM", DefaultParameterSetName = ASRParameterSets.Default)]
+    [Cmdlet(VerbsCommon.Get, "AzureRmSiteRecoveryProtectionContainerNM", DefaultParameterSetName = ASRParameterSets.ByFabricObject)]
     [OutputType(typeof(IEnumerable<ASRProtectionContainer>))]
     public class GetAzureRmSiteRecoveryProtectionContainerNM : SiteRecoveryCmdletBase
     {
@@ -46,9 +46,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Fabric object.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.ByFabricObject, Mandatory = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.ByObjectWithName, Mandatory = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.ByObjectWithFriendlyName, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByFabricObject, ValueFromPipeline = true, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByObjectWithName, ValueFromPipeline = true, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByObjectWithFriendlyName, ValueFromPipeline = true, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public ASRFabric Fabric { get; set; }
 
@@ -84,7 +84,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             bool found = false;
 
             protectionContainerListResponse =
-            RecoveryServicesClient.GetAzureSiteRecoveryProtectionContainer(this.Fabric.Name);
+                RecoveryServicesClient.GetAzureSiteRecoveryProtectionContainer(this.Fabric.Name);
 
             foreach (
                 ProtectionContainer protectionContainer in

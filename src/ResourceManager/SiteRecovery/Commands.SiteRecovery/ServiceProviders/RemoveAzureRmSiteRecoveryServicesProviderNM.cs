@@ -22,7 +22,7 @@ using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
     /// <summary>
-    /// Retrieves Azure Site Recovery Server.
+    /// Retrieves Azure Site Recovery Services Provider.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureRmSiteRecoveryServicesProviderNM", DefaultParameterSetName = ASRParameterSets.Default)]
     [OutputType(typeof(IEnumerable<ASRJob>))]
@@ -31,11 +31,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         #region Parameters
 
         /// <summary>
-        /// Gets or sets the Server.
+        /// Gets or sets the Recovery Services Provider.
         /// </summary>
-        [Parameter(Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.Default, Mandatory = true, ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
-        public ASRServicesProvider ServicesProvider { get; set; }
+        public ASRRecoveryServicesProvider ServicesProvider { get; set; }
 
         /// <summary>
         /// Gets or sets switch parameter. On passing, command does not ask for confirmation.
@@ -64,12 +64,14 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             if (!this.Force.IsPresent)
             {
                 response =
-                        RecoveryServicesClient.RemoveAzureSiteRecoveryProvider(Utilities.GetValueFromArmId(this.ServicesProvider.ID, ARMResourceTypeConstants.ReplicationFabrics), this.ServicesProvider.Name);
+                        RecoveryServicesClient.RemoveAzureSiteRecoveryProvider(
+                        Utilities.GetValueFromArmId(this.ServicesProvider.ID, ARMResourceTypeConstants.ReplicationFabrics), this.ServicesProvider.Name);
             }
             else
             {
                 response =
-                        RecoveryServicesClient.PurgeAzureSiteRecoveryProvider(Utilities.GetValueFromArmId(this.ServicesProvider.ID, ARMResourceTypeConstants.ReplicationFabrics), this.ServicesProvider.Name);
+                        RecoveryServicesClient.PurgeAzureSiteRecoveryProvider(
+                        Utilities.GetValueFromArmId(this.ServicesProvider.ID, ARMResourceTypeConstants.ReplicationFabrics), this.ServicesProvider.Name);
             }
 
             JobResponse jobResponse =

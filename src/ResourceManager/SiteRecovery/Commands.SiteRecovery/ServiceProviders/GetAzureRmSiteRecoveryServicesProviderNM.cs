@@ -22,22 +22,22 @@ using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
     /// <summary>
-    /// Retrieves Azure Site Recovery Server.
+    /// Retrieves Azure Site Recovery Services Provider.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureRmSiteRecoveryServicesProviderNM", DefaultParameterSetName = ASRParameterSets.Default)]
-    [OutputType(typeof(IEnumerable<ASRServicesProvider>))]
+    [Cmdlet(VerbsCommon.Get, "AzureRmSiteRecoveryRecoveryServicesProviderNM", DefaultParameterSetName = ASRParameterSets.Default)]
+    [OutputType(typeof(IEnumerable<ASRRecoveryServicesProvider>))]
     public class GetAzureRmSiteRecoveryServicesProviderNM : SiteRecoveryCmdletBase
     {
         #region Parameters
         /// <summary>
-        /// Gets or sets ID of the Services Provider.
+        /// Gets or sets ID of the Recovery Services Provider.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByName, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets name of the Services Provider.
+        /// Gets or sets name of the Recovery Services Provider.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByFriendlyName, Mandatory = true)]
         [ValidateNotNullOrEmpty]
@@ -46,9 +46,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Fabric object.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.Default, Mandatory = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.ByName, Mandatory = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.ByFriendlyName, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.Default, ValueFromPipeline = true, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByName, ValueFromPipeline = true, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByFriendlyName, ValueFromPipeline = true, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public ASRFabric Fabric { get; set; }
 
@@ -151,12 +151,12 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         }
 
         /// <summary>
-        /// Write Powershell Services Provider.
+        /// Write Powershell Recovery Services Provider.
         /// </summary>
         /// <param name="provider">Recovery Service Provider object</param>
         private void WriteServicesProvider(RecoveryServicesProvider provider)
         {
-            this.WriteObject(new ASRServicesProvider(provider));
+            this.WriteObject(new ASRRecoveryServicesProvider(provider));
         }
     }
 }

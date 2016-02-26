@@ -145,6 +145,9 @@
     <Compile Include="Network\GetAzureRmSiteRecoveryNetworkMappingNM.cs" />
     <Compile Include="Network\GetAzureRmSiteRecoveryNetworkNM.cs" />
     <Compile Include="ProtectableItem\GetAzureRmSiteRecoveryProtectableItemNM.cs" />
+    <Compile Include="ProtectionContainerMapping\GetAzureRmSiteRecoveryProtectionContainerMapping.cs" />
+    <Compile Include="ProtectionContainerMapping\NewAzureRmSiteRecoveryProtectionContainerMapping.cs" />
+    <Compile Include="ProtectionContainerMapping\RemoveAzureRmSiteRecoveryProtectionContainerMapping.cs" />
     <Compile Include="ProtectionContainer\GetAzureRmSiteRecoveryProtectionContainerNM.cs" />
     <Compile Include="RecoveryPlan\EditAzureRmSiteRecoveryRecoveryPlanNM.cs" />
     <Compile Include="RecoveryPlan\NewAzureRmSiteRecoveryRecoveryPlanNM.cs" />

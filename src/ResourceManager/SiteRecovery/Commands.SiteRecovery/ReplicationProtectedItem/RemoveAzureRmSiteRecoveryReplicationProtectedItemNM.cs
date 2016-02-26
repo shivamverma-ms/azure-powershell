@@ -29,12 +29,12 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     public class RemoveAzureRmSiteRecoveryReplicationProtectedItemNM : SiteRecoveryCmdletBase
     {
         /// <summary>
-        /// Job response.
+        /// Long Running Operation Response
         /// </summary>
         private LongRunningOperationResponse response = null;
 
         /// <summary>
-        /// 
+        /// Job Response
         /// </summary>
         private JobResponse jobResponse = null;
 
@@ -46,7 +46,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         #region Parameters
 
         /// <summary>
-        /// Gets or sets Protection Entity Object.
+        /// Gets or sets Replication Protected Item.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.DisableDR, Mandatory = true, ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]

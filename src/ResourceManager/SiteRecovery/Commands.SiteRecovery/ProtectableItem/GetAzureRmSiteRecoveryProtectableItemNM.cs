@@ -22,7 +22,7 @@ using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
     /// <summary>
-    /// Retrieves Azure Site Recovery Protection Entity.
+    /// Retrieves Azure Site Protectable Item.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureRmSiteRecoveryProtectableItemNM", DefaultParameterSetName = ASRParameterSets.ByObject)]
     [OutputType(typeof(IEnumerable<ASRProtectableItem>))]
@@ -30,14 +30,14 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     {
         #region Parameters
         /// <summary>
-        /// Gets or sets Name of the Replicated Protected Item.
+        /// Gets or sets Name of the Protectable Item.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByObjectWithName, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets friendly name of the Protection Entity.
+        /// Gets or sets friendly name of the Protectable Item.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByObjectWithFriendlyName, Mandatory = true)]
         [ValidateNotNullOrEmpty]
@@ -85,7 +85,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             ProtectableItemListResponse protectableItemListResponse = RecoveryServicesClient.GetAzureSiteRecoveryProtectableItem(
                 Utilities.GetValueFromArmId(this.ProtectionContainer.ID, ARMResourceTypeConstants.ReplicationFabrics),
                 this.ProtectionContainer.Name);
-            ProtectableItem protectableItem = protectableItemListResponse.ProtectableItems.SingleOrDefault(t => string.Compare(t.Properties.FriendlyName, this.FriendlyName, StringComparison.OrdinalIgnoreCase) == 0);
+            ProtectableItem protectableItem = 
+                protectableItemListResponse.ProtectableItems.SingleOrDefault(t => 
+                string.Compare(t.Properties.FriendlyName, this.FriendlyName, StringComparison.OrdinalIgnoreCase) == 0);
 
             if (protectableItem != null)
             {
@@ -118,7 +120,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             ProtectableItemListResponse protectableItemListResponse = RecoveryServicesClient.GetAzureSiteRecoveryProtectableItem(
                 Utilities.GetValueFromArmId(this.ProtectionContainer.ID, ARMResourceTypeConstants.ReplicationFabrics),
                 this.ProtectionContainer.Name);
-            ProtectableItem protectableItem = protectableItemListResponse.ProtectableItems.SingleOrDefault(t => string.Compare(t.Name, this.Name, StringComparison.OrdinalIgnoreCase) == 0);
+            ProtectableItem protectableItem = 
+                protectableItemListResponse.ProtectableItems.SingleOrDefault(t => 
+                string.Compare(t.Name, this.Name, StringComparison.OrdinalIgnoreCase) == 0);
 
             if (protectableItem != null)
             {

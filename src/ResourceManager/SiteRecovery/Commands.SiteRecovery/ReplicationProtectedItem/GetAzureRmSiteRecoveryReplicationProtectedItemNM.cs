@@ -22,7 +22,7 @@ using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
     /// <summary>
-    /// Retrieves Azure Site Recovery Protection Entity.
+    /// Retrieves Azure Site Protected Item.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureRmSiteRecoveryReplicationProtectedItemNM", DefaultParameterSetName = ASRParameterSets.ByObject)]
     [OutputType(typeof(IEnumerable<ASRReplicationProtectedItem>))]
@@ -44,7 +44,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public string FriendlyName { get; set; }
 
         /// <summary>
-        /// Gets or sets Server Object.
+        /// Gets or sets Protection Container Object.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByObject, Mandatory = true, ValueFromPipeline = true)]
         [Parameter(ParameterSetName = ASRParameterSets.ByObjectWithName, Mandatory = true, ValueFromPipeline = true)]
@@ -53,9 +53,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public ASRProtectionContainer ProtectionContainer { get; set; }
 
         /// <summary>
-        /// Gets or sets Server Object.
+        /// Gets or sets Protectable Item.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.ByProtectableItemObject, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByProtectableItemObject, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public ASRProtectableItem ProtectableItem { get; set; }
 
@@ -95,7 +95,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             ReplicationProtectedItemListResponse replicationProtectedItemListResponse = RecoveryServicesClient.GetAzureSiteRecoveryReplicationProtectedItem(
                 Utilities.GetValueFromArmId(this.ProtectionContainer.ID, ARMResourceTypeConstants.ReplicationFabrics),
                 this.ProtectionContainer.Name);
-            ReplicationProtectedItem replicationProtectedItem = replicationProtectedItemListResponse.ReplicationProtectedItems.SingleOrDefault(t => string.Compare(t.Properties.FriendlyName, this.FriendlyName, StringComparison.OrdinalIgnoreCase) == 0);
+            ReplicationProtectedItem replicationProtectedItem = 
+                replicationProtectedItemListResponse.ReplicationProtectedItems.SingleOrDefault(t => 
+                string.Compare(t.Properties.FriendlyName, this.FriendlyName, StringComparison.OrdinalIgnoreCase) == 0);
 
             if (replicationProtectedItem != null)
             {
@@ -128,7 +130,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             ReplicationProtectedItemListResponse replicationProtectedItemListResponse = RecoveryServicesClient.GetAzureSiteRecoveryReplicationProtectedItem(
                 Utilities.GetValueFromArmId(this.ProtectionContainer.ID, ARMResourceTypeConstants.ReplicationFabrics),
                 this.ProtectionContainer.Name);
-            ReplicationProtectedItem replicationProtectedItem = replicationProtectedItemListResponse.ReplicationProtectedItems.SingleOrDefault(t => string.Compare(t.Name, this.Name, StringComparison.OrdinalIgnoreCase) == 0);
+            ReplicationProtectedItem replicationProtectedItem = 
+                replicationProtectedItemListResponse.ReplicationProtectedItems.SingleOrDefault(t => 
+                string.Compare(t.Name, this.Name, StringComparison.OrdinalIgnoreCase) == 0);
 
             if (replicationProtectedItem != null)
             {
@@ -152,7 +156,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         }
 
         /// <summary>
-        /// Queries by protectable item.
+        /// Queries by Protectable Item
         /// </summary>
         private void GetByProtectableItem()
         {
@@ -186,7 +190,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         }
 
         /// <summary>
-        /// Queries all Protection Entities under given Protection Container.
+        /// Queries all Protected Items under given Protection Container.
         /// </summary>
         private void GetAll()
         {
@@ -198,7 +202,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         }
 
         /// <summary>
-        /// Write Protection Items
+        /// Write Protected Items
         /// </summary>
         /// <param name="protectableItems">List of protectable items</param>
         private void WriteReplicationProtectedItems(IList<ReplicationProtectedItem> replicationProtectedItems)
@@ -207,7 +211,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         }
 
         /// <summary>
-        /// Write Protection Items
+        /// Write Protected Items
         /// </summary>
         /// <param name="replicationProtectedItem"></param>
         private void WriteReplicationProtectedItem(ReplicationProtectedItem replicationProtectedItem)

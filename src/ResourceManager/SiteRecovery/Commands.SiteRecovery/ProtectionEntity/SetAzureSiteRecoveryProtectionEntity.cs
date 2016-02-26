@@ -223,6 +223,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         ProtectableItemResponse protectableItemResponse =
                                                     RecoveryServicesClient.GetAzureSiteRecoveryProtectableItem(Utilities.GetValueFromArmId(this.ProtectionEntity.ID, ARMResourceTypeConstants.ReplicationFabrics),
                                                     this.ProtectionEntity.ProtectionContainerId, this.ProtectionEntity.Name);
+                        ProtectableItem protectableItem = protectableItemResponse.ProtectableItem;
 
                         if (!this.Force.IsPresent)
                         {
@@ -231,9 +232,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                             {
                                 ProviderSettings = new DisableProtectionProviderSpecificInput()
                             };
-
-
-                            ProtectableItem protectableItem = protectableItemResponse.ProtectableItem;
 
                             this.response =
                                 RecoveryServicesClient.DisableProtection(
@@ -244,13 +242,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         }
                         else
                         {
-                            ProtectableItem protectableItem = protectableItemResponse.ProtectableItem;
 
                             this.response =
                                 RecoveryServicesClient.PurgeProtection(
                                 Utilities.GetValueFromArmId(this.ProtectionEntity.ID, ARMResourceTypeConstants.ReplicationFabrics),
                                 Utilities.GetValueFromArmId(this.ProtectionEntity.ID, ARMResourceTypeConstants.ReplicationProtectionContainers),
-                                Utilities.GetValueFromArmId(protectableItem.Properties.ReplicationProtectedItemId, ARMResourceTypeConstants.ReplicationProtectedItems));
+                                Utilities.GetValueFromArmId(protectableItem.Properties.ReplicationProtectedItemId, ARMResourceTypeConstants.ReplicationProtectedItems)
+                                );
                         }
                     }
 

@@ -19,7 +19,7 @@ using Microsoft.Azure.Management.SiteRecovery.Models;
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
     /// <summary>
-    /// Retrieves Azure Site Recovery Server.
+    /// Retrieves Azure Site Recovery Services Provider.
     /// </summary>
     [Cmdlet(VerbsData.Update, "AzureRmSiteRecoveryServicesProviderNM", DefaultParameterSetName = ASRParameterSets.Default)]
     public class UpdateAzureRmSiteRecoveryServicesProviderNM : SiteRecoveryCmdletBase
@@ -27,11 +27,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         #region Parameters
 
         /// <summary>
-        /// Gets or sets the Server.
+        /// Gets or sets the Recovery Services Provider.
         /// </summary>
-        [Parameter(Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.Default, Mandatory = true, ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
-        public ASRServicesProvider ServicesProvider { get; set; }
+        public ASRRecoveryServicesProvider ServicesProvider { get; set; }
 
         #endregion Parameters
 

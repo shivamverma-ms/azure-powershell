@@ -26,6 +26,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     /// Creates Azure Site Recovery Fabric object.
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureRmSiteRecoveryFabricNM", DefaultParameterSetName = ASRParameterSets.Default)]
+    [OutputType(typeof(ASRJob))]
     public class NewAzureRmSiteRecoveryFabricNM : SiteRecoveryCmdletBase
     {
         #region Parameters
@@ -37,6 +38,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
+        /// <summary>
+        /// Gets or Sets the Fabric type
+        /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.Default, Mandatory = false)]
         [ValidateNotNullOrEmpty]
         [ValidateSet(

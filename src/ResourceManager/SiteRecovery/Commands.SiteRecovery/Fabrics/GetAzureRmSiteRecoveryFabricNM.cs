@@ -24,7 +24,7 @@ using System.Collections.Generic;
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
     /// <summary>
-    /// Creates Azure Site Recovery Policy object in memory.
+    /// Gets Azure Site Recovery fabric object.
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureRmSiteRecoveryFabricNM", DefaultParameterSetName = ASRParameterSets.Default)]
     [OutputType(typeof(List<ASRFabric>))]
@@ -32,14 +32,14 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     {
         #region Parameters
         /// <summary>
-        /// Gets or sets Name of the Site.
+        /// Gets or sets Name of the Fabric.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByName, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets Friendly name of the Site.
+        /// Gets or sets Friendly name of the Fabric.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByFriendlyName, Mandatory = true)]
         [ValidateNotNullOrEmpty]
@@ -143,7 +143,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         }
 
         /// <summary>
-        /// Write Powershell Site.
+        /// Write Powershell Fabric.
         /// </summary>
         /// <param name="server">Fabric object</param>
         private void WriteFabric(Fabric fabric)

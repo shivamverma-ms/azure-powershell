@@ -48,7 +48,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public ASRRecoveryPlan RecoveryPlan { get; set; }
 
         /// <summary>
-        /// Gets or sets Protection Entity Object.
+        /// Gets or sets Replication Protected Item.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByPEObject, Mandatory = true, ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
@@ -76,7 +76,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             switch (this.ParameterSetName)
             {
                 case ASRParameterSets.ByPEObject:
-                    this.protectionContainerName = Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationProtectionContainers);
+                    this.protectionContainerName = 
+                        Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationProtectionContainers);
                     this.fabricName = Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationFabrics);
                     this.SetPEReprotect();
                     break;
@@ -108,9 +109,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         this.protectionContainerName, this.ReplicationProtectedItem.Name);
 
             ProtectableItemResponse protectableItemResponse =
-                                        RecoveryServicesClient.GetAzureSiteRecoveryProtectableItem(this.fabricName,
-                                        this.protectionContainerName,
-                                        Utilities.GetValueFromArmId(replicationProtectedItemResponse.ReplicationProtectedItem.Properties.ProtectableItemId, ARMResourceTypeConstants.ProtectableItems));
+                        RecoveryServicesClient.GetAzureSiteRecoveryProtectableItem(this.fabricName, this.protectionContainerName,
+                        Utilities.GetValueFromArmId(replicationProtectedItemResponse.ReplicationProtectedItem.Properties.ProtectableItemId, 
+                        ARMResourceTypeConstants.ProtectableItems));
 
             var aSRProtectableItem = new ASRProtectableItem(protectableItemResponse.ProtectableItem);
 
@@ -125,7 +126,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     {
                         HvHostVmId = aSRProtectableItem.FabricObjectId,
                         VmName = aSRProtectableItem.FriendlyName,
-                        OSType = ((string.Compare(aSRProtectableItem.OS, "Windows") == 0) || (string.Compare(aSRProtectableItem.OS, "Linux") == 0)) ? aSRProtectableItem.OS : "Windows",
+                        OSType = ((string.Compare(aSRProtectableItem.OS, "Windows") == 0) || 
+                                    (string.Compare(aSRProtectableItem.OS, "Linux") == 0)) ? aSRProtectableItem.OS : "Windows",
                         VHDId = aSRProtectableItem.OSDiskId
                     };
 

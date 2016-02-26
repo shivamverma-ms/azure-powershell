@@ -342,6 +342,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Protection Container Mapping &quot;{0}&quot; is not associated with Protection Container &quot;{1}&quot;.
+        /// </summary>
+        internal static string ProtectionConatinerMappingNotFound {
+            get {
+                return ResourceManager.GetString("ProtectionConatinerMappingNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Protection Container {0} is not associated with the Vault {1}.
         /// </summary>
         internal static string ProtectionContainerNotFound {
@@ -686,7 +695,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Virtual Machine &quot;{0}&quot; is already part of Group &quot;{1}&quot; for recovery plan &quot;{1}&quot;.
+        ///   Looks up a localized string similar to Virtual Machine &quot;{0}&quot; is already part of Group &quot;{1}&quot; for recovery plan &quot;{2}&quot;.
         /// </summary>
         internal static string VMAlreadyPartOfGroup {
             get {
@@ -695,7 +704,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Virtual Machine &quot;{0}&quot; not found in Group &quot;{1}&quot; for recovery plan &quot;{1}&quot;.
+        ///   Looks up a localized string similar to Virtual Machine &quot;{0}&quot; not found in Group &quot;{1}&quot; for recovery plan &quot;{2}&quot;.
         /// </summary>
         internal static string VMNotFoundInGroup {
             get {

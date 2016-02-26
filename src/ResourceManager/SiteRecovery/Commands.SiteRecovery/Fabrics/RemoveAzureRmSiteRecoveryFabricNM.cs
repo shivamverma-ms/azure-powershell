@@ -26,6 +26,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     /// Creates Azure Site Recovery Policy object in memory.
     /// </summary>
     [Cmdlet(VerbsCommon.Remove, "AzureRmSiteRecoveryFabricNM", DefaultParameterSetName = ASRParameterSets.Default)]
+    [OutputType(typeof(ASRJob))]
     public class RemoveAzureRmSiteRecoveryFabricNM : SiteRecoveryCmdletBase
     {
         #region Parameters

@@ -84,7 +84,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     break;
                 case ASRParameterSets.ByObject:
                     storageClassifications = storageClassifications.Where(item =>
-                        item.GetFabricId().Equals(this.Fabric.ID)).ToList();
+                        item.GetFabricId().ToLower().Equals(this.Fabric.ID.ToLower())).ToList();
                     break;
             }
 

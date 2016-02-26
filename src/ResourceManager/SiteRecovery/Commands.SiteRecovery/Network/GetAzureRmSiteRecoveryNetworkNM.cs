@@ -29,7 +29,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     {
         #region Parameters
         /// <summary>
-        /// Gets or sets Server object.
+        /// Gets or sets Fabric object.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByServerObject, Mandatory = true, ValueFromPipeline = true)]
         [Parameter(ParameterSetName = ASRParameterSets.ByName, Mandatory = true)]
@@ -38,14 +38,14 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public ASRFabric Fabric { get; set; }
 
         /// <summary>
-        /// Gets or sets ID of the Server.
+        /// Gets or sets Name of the Network.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByName, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets name of the Server.
+        /// Gets or sets Friendly Name of the Network.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByFriendlyName, Mandatory = true)]
         [ValidateNotNullOrEmpty]
@@ -63,7 +63,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             switch (this.ParameterSetName)
             {
                 case ASRParameterSets.ByServerObject:
-                    this.GetByServer();
+                    this.GetByFabric();
                     break;
                 case ASRParameterSets.ByName:
                     this.GetByName();
@@ -89,9 +89,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         }
 
         /// <summary>
-        /// Queries all Networks under Server
+        /// Queries all Networks under Fabric
         /// </summary>
-        private void GetByServer()
+        private void GetByFabric()
         {
             NetworksListResponse networkListResponse =
                 RecoveryServicesClient.GetAzureSiteRecoveryNetworks(

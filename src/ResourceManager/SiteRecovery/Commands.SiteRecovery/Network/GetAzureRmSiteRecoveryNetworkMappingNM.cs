@@ -27,9 +27,20 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     [OutputType(typeof(IEnumerable<ASRNetworkMapping>))]
     public class GetAzureRmSiteRecoveryNetworkMappingNM : SiteRecoveryCmdletBase
     {
+        /// <summary>
+        /// holds Network Mappings
+        /// </summary>
+        private NetworkMappingsListResponse networkMappingsListResponse;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        string primaryServerName = string.Empty;
+        string recoveryServerName = string.Empty;
+
         #region Parameters
         /// <summary>
-        /// Gets or sets Primary Server object.
+        /// Gets or sets Primary Fabric object.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true)]
@@ -37,7 +48,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public ASRFabric PrimaryFabric { get; set; }
 
         /// <summary>
-        /// Gets or sets Recovery Server object.
+        /// Gets or sets Recovery Fabric object.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true)]
         [ValidateNotNullOrEmpty]
@@ -49,13 +60,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true)]
         public SwitchParameter Azure { get; set; }
 
-        /// <summary>
-        /// holds Network Mappings
-        /// </summary>
-        private NetworkMappingsListResponse networkMappingsListResponse;
-
-        string primaryServerName = string.Empty;
-        string recoveryServerName = string.Empty;
         #endregion Parameters
 
         /// <summary>
@@ -90,11 +94,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         {              
             foreach (NetworkMapping networkMapping in networkMappingsListResponse.NetworkMappingsList)
             {
-                string primaryFabricName = this.PrimaryFabric.Name;
-                string recoveryFabricName = this.RecoveryFabric.Name;
+                string primaryFabricName = Utilities.GetValueFromArmId(networkMapping.Id, ARMResourceTypeConstants.ReplicationFabrics);
 
-                if (0 == string.Compare(primaryFabricName, this.primaryServerName, true) &&
-                    0 == string.Compare(recoveryFabricName, this.recoveryServerName, true))
+                // Skip azure cases 
+                if (!networkMapping.Properties.RecoveryNetworkId.ToLower().Contains(ARMResourceTypeConstants.ReplicationFabrics.ToLower()))
+                    continue;
+
+                string recoveryFabricName = Utilities.GetValueFromArmId(networkMapping.Properties.RecoveryNetworkId, ARMResourceTypeConstants.ReplicationFabrics);
+
+                if (0 == string.Compare(this.PrimaryFabric.Name, primaryFabricName, true) &&
+                    0 == string.Compare(this.RecoveryFabric.Name, recoveryFabricName, true))
                 {
                     this.WriteNetworkMapping(networkMapping);
                 }
@@ -108,9 +117,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         {
             foreach (NetworkMapping networkMapping in networkMappingsListResponse.NetworkMappingsList)
             {
-                string primaryFabricName = this.PrimaryFabric.Name;
+                string primaryFabricName = Utilities.GetValueFromArmId(networkMapping.Id, ARMResourceTypeConstants.ReplicationFabrics);
 
-                if (0 == string.Compare(primaryFabricName, this.primaryServerName, true) &&
+                if (0 == string.Compare(this.PrimaryFabric.Name, this.primaryServerName, true) &&
                     !networkMapping.Properties.RecoveryNetworkId.Contains(ARMResourceTypeConstants.ReplicationFabrics))
                 {
                     this.WriteNetworkMapping(networkMapping);

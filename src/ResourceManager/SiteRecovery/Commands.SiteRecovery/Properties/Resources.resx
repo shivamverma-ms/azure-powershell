@@ -327,14 +327,17 @@ Please provide a storage account with the same location as that of the vault.</v
   </data>
   <data name="ServicesProviderNotFound" xml:space="preserve">
     <value>ServicesProvider {0} is not associated with the Vault {1}</value>
-</data>
+  </data>
   <data name="GroupNotFoundInRecoveryPlan" xml:space="preserve">
     <value>Group "{0}" not found for recovery plan "{1}"</value>
   </data>
   <data name="VMAlreadyPartOfGroup" xml:space="preserve">
-    <value>Virtual Machine "{0}" is already part of Group "{1}" for recovery plan "{1}"</value>
+    <value>Virtual Machine "{0}" is already part of Group "{1}" for recovery plan "{2}"</value>
   </data>
   <data name="VMNotFoundInGroup" xml:space="preserve">
-    <value>Virtual Machine "{0}" not found in Group "{1}" for recovery plan "{1}"</value>
+    <value>Virtual Machine "{0}" not found in Group "{1}" for recovery plan "{2}"</value>
+  </data>
+  <data name="ProtectionConatinerMappingNotFound" xml:space="preserve">
+    <value>Protection Container Mapping "{0}" is not associated with Protection Container "{1}"</value>
   </data>
 </root>

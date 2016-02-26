@@ -75,21 +75,21 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     /// <summary>
     /// Azure Site Recovery Server.
     /// </summary>
-    public class ASRServicesProvider
+    public class ASRRecoveryServicesProvider
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ASRServicesProvider" /> class.
+        /// Initializes a new instance of the <see cref="ASRRecoveryServicesProvider" /> class.
         /// </summary>
-        public ASRServicesProvider()
+        public ASRRecoveryServicesProvider()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ASRServicesProvider" /> class with required 
+        /// Initializes a new instance of the <see cref="ASRRecoveryServicesProvider" /> class with required 
         /// parameters.
         /// </summary>
         /// <param name="server">Server object</param>
-        public ASRServicesProvider(RecoveryServicesProvider provider)
+        public ASRRecoveryServicesProvider(RecoveryServicesProvider provider)
         {
             this.ID = provider.Id;
             this.Name = provider.Name;
@@ -348,6 +348,104 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets site SiteIdentifier.
         /// </summary>
         public string SiteIdentifier { get; set; }
+
+        #endregion
+    }
+
+    /// <summary>
+    /// Azure Site Recovery Protection Container Mapping.
+    /// </summary>
+    public class ASRProtectionContainerMapping
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ASRProtectionContainerMapping" /> class.
+        /// </summary>
+        public ASRProtectionContainerMapping()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ASRProtectionContainerMapping" /> class with 
+        /// required parameters.
+        /// </summary>
+        /// <param name="pc">Protection container mapping object</param>
+        public ASRProtectionContainerMapping(ProtectionContainerMapping pcm)
+        {
+            this.Name = pcm.Name;
+            this.ID = pcm.Id;
+            this.Health = pcm.Properties.Health;
+            this.HealthErrorDetails = pcm.Properties.HealthErrorDetails;
+            this.PolicyFriendlyName = pcm.Properties.PolicyFriendlyName;
+            this.PolicyId = pcm.Properties.PolicyId;
+            this.SourceFabricFriendlyName = pcm.Properties.SourceFabricFriendlyName;
+            this.SourceProtectionContainerFriendlyName = pcm.Properties.SourceProtectionContainerFriendlyName;
+            this.State = pcm.Properties.State;
+            this.TargetFabricFriendlyName = pcm.Properties.TargetFabricFriendlyName;
+            this.TargetProtectionContainerFriendlyName = pcm.Properties.TargetProtectionContainerFriendlyName;
+            this.TargetProtectionContainerId = pcm.Properties.TargetProtectionContainerId;
+        }
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets name of the Protection Container Mapping.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets Protection container Mapping ID.
+        /// </summary>
+        public string ID { get; set; }
+
+        /// <summary>
+        /// Gets or sets Health
+        /// </summary>
+        public string Health { get; set; }
+
+        /// <summary>
+        /// Gets or sets Health Error Details
+        /// </summary>
+        public IList<HealthError> HealthErrorDetails { get; set; }
+
+        /// <summary>
+        /// Gets or sets Policy Friendly Name
+        /// </summary>
+        public string PolicyFriendlyName { get; set; }
+
+        /// <summary>
+        /// Gets or sets Policy Id
+        /// </summary>
+        public string PolicyId { get; set; }
+
+        /// <summary>
+        /// Gets or sets Source Fabric Friendly Name
+        /// </summary>
+        public string SourceFabricFriendlyName { get; set; }
+        
+        /// <summary>
+        /// Gets or sets Source Protection Container Friendly Name
+        /// </summary>
+        public string SourceProtectionContainerFriendlyName { get; set; }
+
+        /// <summary>
+        /// Gets or sets State
+        /// </summary>
+        public string State { get; set; }
+
+        /// <summary>
+        /// Gets or sets Target Fabric Friendly Name
+        /// </summary>
+        public string TargetFabricFriendlyName { get; set; }
+
+        /// <summary>
+        /// Gets or sets Target Protection Container Friendly Name
+        /// </summary>
+        public string TargetProtectionContainerFriendlyName { get; set; }
+
+        /// <summary>
+        /// Gets or sets Target Protection Container Id
+        /// </summary>
+        public string TargetProtectionContainerId { get; set; }
 
         #endregion
     }
@@ -840,19 +938,19 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     }
 
     /// <summary>
-    /// Azure Site Recovery Protection Entity.
+    /// Azure Site Recovery Protectable Item
     /// </summary>
     public class ASRProtectableItem
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ASRProtectionEntity" /> class.
+        /// Initializes a new instance of the <see cref="ASRProtectableItem" /> class.
         /// </summary>
         public ASRProtectableItem()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ASRProtectionEntity" /> class when it is not protected
+        /// Initializes a new instance of the <see cref="ASRProtectableItem" /> class when it is not protected
         /// </summary>
         /// <param name="pi">Protectable Item to read values from</param>
         public ASRProtectableItem(ProtectableItem pi)
@@ -976,14 +1074,14 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     public class ASRReplicationProtectedItem
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ASRProtectionEntity" /> class.
+        /// Initializes a new instance of the <see cref="ASRReplicationProtectedItem" /> class.
         /// </summary>
         public ASRReplicationProtectedItem()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ASRProtectionEntity" /> class when it is protected
+        /// Initializes a new instance of the <see cref="ASRReplicationProtectedItem" /> class when it is protected
         /// </summary>
         /// <param name="pi">Protectable Item to read values from</param>
         /// <param name="rpi">Replication Protected Item to read values from</param>
@@ -1039,7 +1137,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public string Type { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets Current Scenario Details
         /// </summary>
         public CurrentScenarioDetails CurrentScenario { get; set; }
 
@@ -1059,102 +1157,102 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public string ReplicationProvider { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets Failover Recovery Point Id
         /// </summary>
         public string FailoverRecoveryPointId { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets Last Successful Failover Time
         /// </summary>
         public DateTime? LastSuccessfulFailoverTime { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets Last Successful TestFailover Time
         /// </summary>
         public DateTime? LastSuccessfulTestFailoverTime { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets Policy Friendly Name
         /// </summary>
         public string PolicyFriendlyName { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets Policy ID
         /// </summary>
         public string PolicyID { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets Primary Fabric Friendly Name
         /// </summary>
         public string PrimaryFabricFriendlyName { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets Primary Protection Container Friendly Name
         /// </summary>
         public string PrimaryProtectionContainerFriendlyName { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets Protectable Item Id
         /// </summary>
         public string ProtectableItemId { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets Protected Item Type
         /// </summary>
         public string ProtectedItemType { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets Protection State
         /// </summary>
         public string ProtectionState { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets Protection State Description
         /// </summary>
         public string ProtectionStateDescription { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets Provider Specific Details
         /// </summary>
         public ReplicationProviderSpecificSettings ProviderSpecificDetails { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets Recovery Fabric Friendly Name
         /// </summary>
         public string RecoveryFabricFriendlyName { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets Recovery Fabric Id
         /// </summary>
         public string RecoveryFabricId { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets Recovery Protection Container Friendly Name
         /// </summary>
         public string RecoveryProtectionContainerFriendlyName { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets Recovery Services Provider Id
         /// </summary>
         public string RecoveryServicesProviderId { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets Replication Health
         /// </summary>
         public string ReplicationHealth { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets Replication Health Errors
         /// </summary>
         public IList<HealthError> ReplicationHealthErrors { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets Test Failover State
         /// </summary>
         public string TestFailoverState { get; set; }
 
         /// <summary>
-        /// 
+        /// Gets or sets Test Failover State Description
         /// </summary>
         public string TestFailoverStateDescription { get; set; }
     }
@@ -1368,7 +1466,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         {
             this.ID = task.ID;
             this.EndTime = task.EndTime;
-            this.Name = task.Name;
+            this.Name = task.TaskFriendlyName;
             this.StartTime = task.StartTime;
             this.State = task.State;
             this.StateDescription = "";
