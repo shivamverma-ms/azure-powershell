@@ -13,27 +13,38 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.ComponentModel;
 using System.Management.Automation;
 using Microsoft.Azure.Management.SiteRecovery.Models;
+using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
+using Microsoft.WindowsAzure.Commands.Common.Properties;
+using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
     /// <summary>
-    /// Retrieves Azure Site Recovery Server.
+    /// Creates Azure Site Recovery Policy object in memory.
     /// </summary>
-    [Cmdlet(VerbsData.Update, "AzureRmSiteRecoveryServer", DefaultParameterSetName = ASRParameterSets.Default)]
-    public class UpdateAzureRmSiteRecoveryServer : SiteRecoveryCmdletBase
+    [Cmdlet(VerbsCommon.Remove, "AzureRmSiteRecoveryFabric", DefaultParameterSetName = ASRParameterSets.Default)]
+    [OutputType(typeof(ASRJob))]
+    public class RemoveAzureRmSiteRecoveryFabric : SiteRecoveryCmdletBase
     {
         #region Parameters
 
         /// <summary>
-        /// Gets or sets the Server.
+        /// Gets or sets the fabric name
         /// </summary>
-        [Parameter(Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.Default, Mandatory = true, ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
-        public ASRServer Server { get; set; }
+        public ASRFabric Fabric { get; set; }
 
-        #endregion Parameters
+        /// <summary>
+        /// Gets or sets switch parameter. On passing, command does not ask for confirmation.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.Default)]
+        public SwitchParameter Force { get; set; }
+
+        #endregion
 
         /// <summary>
         /// ProcessRecord of the command.
@@ -42,27 +53,17 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         {
             base.ExecuteSiteRecoveryCmdlet();
 
-            this.WriteWarningWithTimestamp(
-                string.Format(Properties.Resources.CmdletWillBeDeprecatedSoon,
-                    this.MyInvocation.MyCommand.Name,
-                    "Update-AzureRmSiteRecoveryServicesProvider"));
+            LongRunningOperationResponse response;
 
-            RefreshServer();
-        }
-
-        /// <summary>
-        /// Refresh Server
-        /// </summary>
-        private void RefreshServer()
-        {
-            if ((String.Compare(this.Server.FabricType, Constants.VMM) != 0 && String.Compare(this.Server.FabricType, Constants.HyperVSite) != 0))
+            if (!this.Force.IsPresent)
             {
-                throw new PSInvalidOperationException(Properties.Resources.InvalidServerType);
+                response = RecoveryServicesClient.DeleteAzureSiteRecoveryFabric(this.Fabric.Name);
             }
-
-            LongRunningOperationResponse response =
-                RecoveryServicesClient.RefreshAzureSiteRecoveryProvider(Utilities.GetValueFromArmId(this.Server.ID, ARMResourceTypeConstants.ReplicationFabrics), this.Server.Name);
-
+            else
+            {
+                response = RecoveryServicesClient.PurgeAzureSiteRecoveryFabric(this.Fabric.Name);
+            }
+           
             JobResponse jobResponse =
                 RecoveryServicesClient
                 .GetAzureSiteRecoveryJobDetails(PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location));

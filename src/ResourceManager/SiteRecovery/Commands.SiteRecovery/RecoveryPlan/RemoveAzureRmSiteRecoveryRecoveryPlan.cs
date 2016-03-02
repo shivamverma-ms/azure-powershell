@@ -13,25 +13,33 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.ComponentModel;
 using System.Management.Automation;
 using Microsoft.Azure.Management.SiteRecovery.Models;
+using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
+using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
     /// <summary>
-    /// Retrieves Azure Site Recovery Server.
+    /// Remove Azure Site Recovery Recovery Plan.
     /// </summary>
-    [Cmdlet(VerbsData.Update, "AzureRmSiteRecoveryServer", DefaultParameterSetName = ASRParameterSets.Default)]
-    public class UpdateAzureRmSiteRecoveryServer : SiteRecoveryCmdletBase
+    [Cmdlet(VerbsCommon.Remove, "AzureRmSiteRecoveryRecoveryPlan", DefaultParameterSetName = ASRParameterSets.ByObject)]
+    public class RemoveAzureRmSiteRecoveryRecoveryPlan : SiteRecoveryCmdletBase
     {
         #region Parameters
 
         /// <summary>
-        /// Gets or sets the Server.
+        /// Gets or sets Name of the Recovery Plan.
         /// </summary>
-        [Parameter(Mandatory = true, ValueFromPipeline = true)]
-        [ValidateNotNullOrEmpty]
-        public ASRServer Server { get; set; }
+        [Parameter(Mandatory = true, ParameterSetName = ASRParameterSets.ByName)]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets Name of the Recovery Plan.
+        /// </summary>
+        [Parameter(Mandatory = true, ParameterSetName = ASRParameterSets.ByObject)]
+        public ASRRecoveryPlan RecoveryPlan { get; set; }
 
         #endregion Parameters
 
@@ -42,26 +50,12 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         {
             base.ExecuteSiteRecoveryCmdlet();
 
-            this.WriteWarningWithTimestamp(
-                string.Format(Properties.Resources.CmdletWillBeDeprecatedSoon,
-                    this.MyInvocation.MyCommand.Name,
-                    "Update-AzureRmSiteRecoveryServicesProvider"));
-
-            RefreshServer();
-        }
-
-        /// <summary>
-        /// Refresh Server
-        /// </summary>
-        private void RefreshServer()
-        {
-            if ((String.Compare(this.Server.FabricType, Constants.VMM) != 0 && String.Compare(this.Server.FabricType, Constants.HyperVSite) != 0))
+            if (string.Compare(this.ParameterSetName, ASRParameterSets.ByObject, StringComparison.OrdinalIgnoreCase) == 0)
             {
-                throw new PSInvalidOperationException(Properties.Resources.InvalidServerType);
+                this.Name = this.RecoveryPlan.Name;
             }
 
-            LongRunningOperationResponse response =
-                RecoveryServicesClient.RefreshAzureSiteRecoveryProvider(Utilities.GetValueFromArmId(this.Server.ID, ARMResourceTypeConstants.ReplicationFabrics), this.Server.Name);
+            LongRunningOperationResponse response = RecoveryServicesClient.RemoveAzureSiteRecoveryRecoveryPlan(this.Name);
 
             JobResponse jobResponse =
                 RecoveryServicesClient

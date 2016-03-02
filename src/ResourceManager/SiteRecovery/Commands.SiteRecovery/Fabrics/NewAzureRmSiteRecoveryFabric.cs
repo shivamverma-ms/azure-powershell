@@ -13,25 +13,39 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.ComponentModel;
 using System.Management.Automation;
 using Microsoft.Azure.Management.SiteRecovery.Models;
+using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
+using Microsoft.WindowsAzure.Commands.Common.Properties;
+using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
     /// <summary>
-    /// Retrieves Azure Site Recovery Server.
+    /// Creates Azure Site Recovery Fabric object.
     /// </summary>
-    [Cmdlet(VerbsData.Update, "AzureRmSiteRecoveryServer", DefaultParameterSetName = ASRParameterSets.Default)]
-    public class UpdateAzureRmSiteRecoveryServer : SiteRecoveryCmdletBase
+    [Cmdlet(VerbsCommon.New, "AzureRmSiteRecoveryFabric", DefaultParameterSetName = ASRParameterSets.Default)]
+    [OutputType(typeof(ASRJob))]
+    public class NewAzureRmSiteRecoveryFabric : SiteRecoveryCmdletBase
     {
         #region Parameters
 
         /// <summary>
-        /// Gets or sets the Server.
+        /// Gets or sets the name of the fabric to be created
         /// </summary>
-        [Parameter(Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.Default, Mandatory = true, HelpMessage = "Name of the fabric to be created")]
         [ValidateNotNullOrEmpty]
-        public ASRServer Server { get; set; }
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or Sets the Fabric type
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.Default, Mandatory = false)]
+        [ValidateNotNullOrEmpty]
+        [ValidateSet(
+            Constants.HyperVSite)]
+        public string Type { get; set; }
 
         #endregion Parameters
 
@@ -42,26 +56,10 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         {
             base.ExecuteSiteRecoveryCmdlet();
 
-            this.WriteWarningWithTimestamp(
-                string.Format(Properties.Resources.CmdletWillBeDeprecatedSoon,
-                    this.MyInvocation.MyCommand.Name,
-                    "Update-AzureRmSiteRecoveryServicesProvider"));
-
-            RefreshServer();
-        }
-
-        /// <summary>
-        /// Refresh Server
-        /// </summary>
-        private void RefreshServer()
-        {
-            if ((String.Compare(this.Server.FabricType, Constants.VMM) != 0 && String.Compare(this.Server.FabricType, Constants.HyperVSite) != 0))
-            {
-                throw new PSInvalidOperationException(Properties.Resources.InvalidServerType);
-            }
+            string fabricType = string.IsNullOrEmpty(this.Type)? FabricProviders.HyperVSite : this.Type;
 
             LongRunningOperationResponse response =
-                RecoveryServicesClient.RefreshAzureSiteRecoveryProvider(Utilities.GetValueFromArmId(this.Server.ID, ARMResourceTypeConstants.ReplicationFabrics), this.Server.Name);
+             RecoveryServicesClient.CreateAzureSiteRecoveryFabric(this.Name, fabricType);
 
             JobResponse jobResponse =
                 RecoveryServicesClient

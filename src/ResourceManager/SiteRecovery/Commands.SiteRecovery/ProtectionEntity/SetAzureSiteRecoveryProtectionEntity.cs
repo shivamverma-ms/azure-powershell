@@ -119,6 +119,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         {
             base.ExecuteSiteRecoveryCmdlet();
 
+            this.WriteWarningWithTimestamp(
+                string.Format(Properties.Resources.CmdletWillBeDeprecatedSoon,
+                    this.MyInvocation.MyCommand.Name,
+                    "New-AzureRmSiteRecoveryReplicationProtectedItem or Remove-AzureRmSiteRecoveryReplicationProtectedItem"));
+
             this.targetNameOrId = this.ProtectionEntity.FriendlyName;
             this.ConfirmAction(
                 this.Force.IsPresent || 0 != string.CompareOrdinal(this.Protection, Constants.DisableProtection),

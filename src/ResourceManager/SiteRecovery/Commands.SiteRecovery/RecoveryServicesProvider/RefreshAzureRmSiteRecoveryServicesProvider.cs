@@ -12,28 +12,28 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections.Generic;
+using System;
 using System.Management.Automation;
 using Microsoft.Azure.Management.SiteRecovery.Models;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
-    // <summary>
-    /// Pairs storage classification
+    /// <summary>
+    /// Retrieves Azure Site Recovery Services Provider.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureRmSiteRecoveryStorageClassificationMapping")]
-    [OutputType(typeof(ASRJob))]
-    public class RemoveAzureRmSiteRecoveryStorageClassificationMapping : SiteRecoveryCmdletBase
+    [Cmdlet(VerbsData.Update, "AzureRmSiteRecoveryServicesProvider", DefaultParameterSetName = ASRParameterSets.Default)]
+    public class UpdateAzureRmSiteRecoveryServicesProvider : SiteRecoveryCmdletBase
     {
         #region Parameters
 
         /// <summary>
-        /// Gets or sets primary storage classification.
+        /// Gets or sets the Recovery Services Provider.
         /// </summary>
-        [Parameter(Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.Default, Mandatory = true, ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
-        public ASRStorageClassificationMapping StorageClassificationMapping { get; set; }
-        #endregion
+        public ASRRecoveryServicesProvider ServicesProvider { get; set; }
+
+        #endregion Parameters
 
         /// <summary>
         /// ProcessRecord of the command.
@@ -41,18 +41,22 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public override void ExecuteSiteRecoveryCmdlet()
         {
             base.ExecuteSiteRecoveryCmdlet();
+            RefreshServicesProvider();
+        }
 
-            string[] tokens = StorageClassificationMapping.Id.UnFormatArmId(
-                ARMResourceIdPaths.StorageClassificationMappingResourceIdPath);
-            var operationResponse = RecoveryServicesClient.UnmapStorageClassifications(
-                fabricName: tokens[0],
-                storageClassificationName: tokens[1],
-                mappingName: tokens[2]);
+        /// <summary>
+        /// Refresh Server
+        /// </summary>
+        private void RefreshServicesProvider()
+        {
+            LongRunningOperationResponse response =
+                RecoveryServicesClient.RefreshAzureSiteRecoveryProvider(Utilities.GetValueFromArmId(this.ServicesProvider.ID, ARMResourceTypeConstants.ReplicationFabrics), this.ServicesProvider.Name);
+
             JobResponse jobResponse =
-                RecoveryServicesClient.GetAzureSiteRecoveryJobDetails(
-                PSRecoveryServicesClient.GetJobIdFromReponseLocation(operationResponse.Location));
+                RecoveryServicesClient
+                .GetAzureSiteRecoveryJobDetails(PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location));
 
-            base.WriteObject(new ASRJob(jobResponse.Job));
+            WriteObject(new ASRJob(jobResponse.Job));
         }
     }
 }

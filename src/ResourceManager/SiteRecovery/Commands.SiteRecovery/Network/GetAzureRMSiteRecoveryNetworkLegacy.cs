@@ -23,34 +23,33 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     /// <summary>
     /// Retrieves Azure Site Recovery Network.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureRmSiteRecoveryNetwork", DefaultParameterSetName = ASRParameterSets.Default)]
+    [Cmdlet(VerbsCommon.Get, "AzureRmSiteRecoveryNetworkLegacy", DefaultParameterSetName = ASRParameterSets.Default)]
     [OutputType(typeof(IEnumerable<ASRNetwork>))]
-    public class GetAzureRmSiteRecoveryNetwork : SiteRecoveryCmdletBase
+    public class GetAzureRmSiteRecoveryNetworkLegacy : SiteRecoveryCmdletBase
     {
         #region Parameters
         /// <summary>
-        /// Gets or sets Fabric object.
+        /// Gets or sets Server object.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByServerObject, Mandatory = true, ValueFromPipeline = true)]
         [Parameter(ParameterSetName = ASRParameterSets.ByName, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.ByFriendlyName, Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        public ASRFabric Fabric { get; set; }
+        public ASRServer Server { get; set; }
 
         /// <summary>
-        /// Gets or sets Name of the Network.
+        /// Gets or sets ID of the Server.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByName, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets Friendly Name of the Network.
+        /// Gets or sets name of the Server.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByFriendlyName, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string FriendlyName { get; set; }
-
         #endregion Parameters
 
         /// <summary>
@@ -60,10 +59,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         {
             base.ExecuteSiteRecoveryCmdlet();
 
+            this.WriteWarningWithTimestamp(
+                string.Format(Properties.Resources.CmdletWillBeDeprecatedSoon,
+                    this.MyInvocation.MyCommand.Name,
+                    "Get-AzureRmSiteRecoveryNetwork"));
+
             switch (this.ParameterSetName)
             {
                 case ASRParameterSets.ByServerObject:
-                    this.GetByFabric();
+                    this.GetByServer();
                     break;
                 case ASRParameterSets.ByName:
                     this.GetByName();
@@ -89,13 +93,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         }
 
         /// <summary>
-        /// Queries all Networks under Fabric
+        /// Queries all Networks under Server
         /// </summary>
-        private void GetByFabric()
+        private void GetByServer()
         {
             NetworksListResponse networkListResponse =
                 RecoveryServicesClient.GetAzureSiteRecoveryNetworks(
-                this.Fabric.Name);
+                Utilities.GetValueFromArmId(this.Server.ID, ARMResourceTypeConstants.ReplicationFabrics));
 
             this.WriteNetworks(networkListResponse.NetworksList);
         }
@@ -107,7 +111,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         {
             NetworkResponse networkResponse =
                 RecoveryServicesClient.GetAzureSiteRecoveryNetwork(
-                this.Fabric.Name,
+                Utilities.GetValueFromArmId(this.Server.ID, ARMResourceTypeConstants.ReplicationFabrics),
                 this.Name);
 
             this.WriteNetwork(networkResponse.Network);
@@ -120,7 +124,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         {
             NetworksListResponse networkListResponse =
                 RecoveryServicesClient.GetAzureSiteRecoveryNetworks(
-                this.Fabric.Name);
+                Utilities.GetValueFromArmId(this.Server.ID, ARMResourceTypeConstants.ReplicationFabrics));
 
             foreach (Network network in networkListResponse.NetworksList)
             {

@@ -13,37 +13,45 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using System.ComponentModel;
+using System.Collections.Generic;
+using System.Linq;
 using System.Management.Automation;
 using Microsoft.Azure.Management.SiteRecovery.Models;
-using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
-using Microsoft.WindowsAzure.Commands.Common.Properties;
 using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
-using System.Collections.Generic;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
     /// <summary>
-    /// Creates Azure Site Recovery Policy object in memory.
+    /// Retrieves Azure Site Recovery Services Provider.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureRmSiteRecoverySite", DefaultParameterSetName = ASRParameterSets.Default)]
-    [OutputType(typeof(List<ASRSite>))]
-    public class GetAzureSiteRecoverySite : SiteRecoveryCmdletBase
+    [Cmdlet(VerbsCommon.Get, "AzureRmSiteRecoveryServicesProvider", DefaultParameterSetName = ASRParameterSets.Default)]
+    [OutputType(typeof(IEnumerable<ASRRecoveryServicesProvider>))]
+    public class GetAzureRmSiteRecoveryServicesProvider : SiteRecoveryCmdletBase
     {
         #region Parameters
         /// <summary>
-        /// Gets or sets Name of the Site.
+        /// Gets or sets ID of the Recovery Services Provider.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByName, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets Friendly name of the Site.
+        /// Gets or sets name of the Recovery Services Provider.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByFriendlyName, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string FriendlyName { get; set; }
+
+        /// <summary>
+        /// Gets or sets Fabric object.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.Default, ValueFromPipeline = true, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByName, ValueFromPipeline = true, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByFriendlyName, ValueFromPipeline = true, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        public ASRFabric Fabric { get; set; }
+
         #endregion Parameters
 
         /// <summary>
@@ -52,11 +60,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public override void ExecuteSiteRecoveryCmdlet()
         {
             base.ExecuteSiteRecoveryCmdlet();
-
-            this.WriteWarningWithTimestamp(
-                string.Format(Properties.Resources.CmdletWillBeDeprecatedSoon,
-                    this.MyInvocation.MyCommand.Name,
-                    "Get-AzureRmSiteRecoveryFabric"));
 
             switch (this.ParameterSetName)
             {
@@ -77,21 +80,17 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         private void GetByFriendlyName()
         {
-            FabricListResponse fabricListResponse =
-                RecoveryServicesClient.GetAzureSiteRecoveryFabric();
-
             bool found = false;
-            foreach (Fabric fabric in fabricListResponse.Fabrics)
+
+            RecoveryServicesProviderListResponse recoveryServicesProviderListResponse =
+                    RecoveryServicesClient.GetAzureSiteRecoveryProvider(
+                    Fabric.Name);
+
+            foreach (RecoveryServicesProvider recoveryServicesProvider in recoveryServicesProviderListResponse.RecoveryServicesProviders)
             {
-                // Do not process for fabrictype other than HyperVSite 
-                if (String.Compare(fabric.Properties.CustomDetails.InstanceType, Constants.HyperVSite) != 0)
-                    continue;
-
-                if (0 == string.Compare(this.FriendlyName, fabric.Properties.FriendlyName, StringComparison.OrdinalIgnoreCase))
+                if (0 == string.Compare(this.FriendlyName, recoveryServicesProvider.Properties.FriendlyName, true))
                 {
-                    var fabricByName = RecoveryServicesClient.GetAzureSiteRecoveryFabric(fabric.Name).Fabric;
-                    this.WriteSite(fabricByName);
-
+                    this.WriteServicesProvider(recoveryServicesProvider);
                     found = true;
                 }
             }
@@ -100,7 +99,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             {
                 throw new InvalidOperationException(
                     string.Format(
-                    Properties.Resources.SiteNotFound,
+                    Properties.Resources.ServicesProviderNotFound,
                     this.FriendlyName,
                     PSRecoveryServicesClient.asrVaultCreds.ResourceName));
             }
@@ -111,21 +110,17 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         private void GetByName()
         {
-            FabricListResponse fabricListResponse =
-                RecoveryServicesClient.GetAzureSiteRecoveryFabric();
-
             bool found = false;
-            foreach (Fabric fabric in fabricListResponse.Fabrics)
+
+            RecoveryServicesProviderListResponse recoveryServicesProviderListResponse =
+                    RecoveryServicesClient.GetAzureSiteRecoveryProvider(
+                    Fabric.Name);
+
+            foreach (RecoveryServicesProvider recoveryServicesProvider in recoveryServicesProviderListResponse.RecoveryServicesProviders)
             {
-                // Do not process for fabrictype other than HyperVSite 
-                if (String.Compare(fabric.Properties.CustomDetails.InstanceType, Constants.HyperVSite) != 0)
-                    continue;
-
-                if (0 == string.Compare(this.Name, fabric.Name, StringComparison.OrdinalIgnoreCase))
+                if (0 == string.Compare(this.Name, recoveryServicesProvider.Name, true))
                 {
-                    var fabricByName = RecoveryServicesClient.GetAzureSiteRecoveryFabric(fabric.Name).Fabric;
-                    this.WriteSite(fabricByName);
-
+                    this.WriteServicesProvider(recoveryServicesProvider);
                     found = true;
                 }
             }
@@ -134,7 +129,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             {
                 throw new InvalidOperationException(
                     string.Format(
-                    Properties.Resources.SiteNotFound,
+                    Properties.Resources.ServicesProviderNotFound,
                     this.Name,
                     PSRecoveryServicesClient.asrVaultCreds.ResourceName));
             }
@@ -145,26 +140,23 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         private void GetAll()
         {
-            FabricListResponse fabricListResponse =
-                RecoveryServicesClient.GetAzureSiteRecoveryFabric();
+            RecoveryServicesProviderListResponse recoveryServicesProviderListResponse =
+                    RecoveryServicesClient.GetAzureSiteRecoveryProvider(
+                    Fabric.Name);
 
-            foreach (Fabric fabric in fabricListResponse.Fabrics)
+            foreach (RecoveryServicesProvider recoveryServicesProvider in recoveryServicesProviderListResponse.RecoveryServicesProviders)
             {
-                // Do not process for fabrictype other than HyperVSite 
-                if (String.Compare(fabric.Properties.CustomDetails.InstanceType, Constants.HyperVSite) != 0)
-                    continue;
-
-                this.WriteSite(fabric);
+                this.WriteServicesProvider(recoveryServicesProvider);
             }
         }
 
         /// <summary>
-        /// Write Powershell Site.
+        /// Write Powershell Recovery Services Provider.
         /// </summary>
-        /// <param name="server">Fabric object</param>
-        private void WriteSite(Fabric fabric)
+        /// <param name="provider">Recovery Service Provider object</param>
+        private void WriteServicesProvider(RecoveryServicesProvider provider)
         {
-            this.WriteObject(new ASRSite(fabric));
+            this.WriteObject(new ASRRecoveryServicesProvider(provider));
         }
     }
 }

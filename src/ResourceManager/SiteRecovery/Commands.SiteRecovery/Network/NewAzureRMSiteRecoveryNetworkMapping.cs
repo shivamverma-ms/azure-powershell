@@ -25,7 +25,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureRmSiteRecoveryNetworkMapping")]
     [OutputType(typeof(ASRJob))]
-    public class NewAzureRMSiteRecoveryNetworkMapping : SiteRecoveryCmdletBase
+    public class NewAzureRmSiteRecoveryNetworkMapping : SiteRecoveryCmdletBase
     {
         #region Parameters
 

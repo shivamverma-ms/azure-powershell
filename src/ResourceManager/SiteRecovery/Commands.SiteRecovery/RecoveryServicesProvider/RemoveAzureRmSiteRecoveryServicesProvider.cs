@@ -13,25 +13,35 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Management.Automation;
 using Microsoft.Azure.Management.SiteRecovery.Models;
+using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
     /// <summary>
-    /// Retrieves Azure Site Recovery Server.
+    /// Retrieves Azure Site Recovery Services Provider.
     /// </summary>
-    [Cmdlet(VerbsData.Update, "AzureRmSiteRecoveryServer", DefaultParameterSetName = ASRParameterSets.Default)]
-    public class UpdateAzureRmSiteRecoveryServer : SiteRecoveryCmdletBase
+    [Cmdlet(VerbsCommon.Remove, "AzureRmSiteRecoveryServicesProvider", DefaultParameterSetName = ASRParameterSets.Default)]
+    [OutputType(typeof(IEnumerable<ASRJob>))]
+    public class RemoveAzureRmSiteRecoveryServicesProvider : SiteRecoveryCmdletBase
     {
         #region Parameters
 
         /// <summary>
-        /// Gets or sets the Server.
+        /// Gets or sets the Recovery Services Provider.
         /// </summary>
-        [Parameter(Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.Default, Mandatory = true, ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
-        public ASRServer Server { get; set; }
+        public ASRRecoveryServicesProvider ServicesProvider { get; set; }
+
+        /// <summary>
+        /// Gets or sets switch parameter. On passing, command does not ask for confirmation.
+        /// </summary>
+        [Parameter]
+        public SwitchParameter Force { get; set; }
 
         #endregion Parameters
 
@@ -41,27 +51,28 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public override void ExecuteSiteRecoveryCmdlet()
         {
             base.ExecuteSiteRecoveryCmdlet();
-
-            this.WriteWarningWithTimestamp(
-                string.Format(Properties.Resources.CmdletWillBeDeprecatedSoon,
-                    this.MyInvocation.MyCommand.Name,
-                    "Update-AzureRmSiteRecoveryServicesProvider"));
-
-            RefreshServer();
+            RemoveServiceProvider();
         }
 
         /// <summary>
-        /// Refresh Server
+        /// Remove Server
         /// </summary>
-        private void RefreshServer()
+        private void RemoveServiceProvider()
         {
-            if ((String.Compare(this.Server.FabricType, Constants.VMM) != 0 && String.Compare(this.Server.FabricType, Constants.HyperVSite) != 0))
-            {
-                throw new PSInvalidOperationException(Properties.Resources.InvalidServerType);
-            }
+            LongRunningOperationResponse response;
 
-            LongRunningOperationResponse response =
-                RecoveryServicesClient.RefreshAzureSiteRecoveryProvider(Utilities.GetValueFromArmId(this.Server.ID, ARMResourceTypeConstants.ReplicationFabrics), this.Server.Name);
+            if (!this.Force.IsPresent)
+            {
+                response =
+                        RecoveryServicesClient.RemoveAzureSiteRecoveryProvider(
+                        Utilities.GetValueFromArmId(this.ServicesProvider.ID, ARMResourceTypeConstants.ReplicationFabrics), this.ServicesProvider.Name);
+            }
+            else
+            {
+                response =
+                        RecoveryServicesClient.PurgeAzureSiteRecoveryProvider(
+                        Utilities.GetValueFromArmId(this.ServicesProvider.ID, ARMResourceTypeConstants.ReplicationFabrics), this.ServicesProvider.Name);
+            }
 
             JobResponse jobResponse =
                 RecoveryServicesClient

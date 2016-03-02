@@ -51,6 +51,12 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public override void ExecuteSiteRecoveryCmdlet()
         {
             base.ExecuteSiteRecoveryCmdlet();
+
+            this.WriteWarningWithTimestamp(
+                string.Format(Properties.Resources.CmdletWillBeDeprecatedSoon,
+                    this.MyInvocation.MyCommand.Name,
+                    "Remove-AzureRmSiteRecoveryServicesProvider"));
+
             RemoveServer();
         }
 

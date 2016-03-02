@@ -1113,7 +1113,29 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             this.ReplicationHealth = rpi.Properties.ReplicationHealth;
             this.ReplicationHealthErrors = rpi.Properties.ReplicationHealthErrors;
             this.TestFailoverState = rpi.Properties.TestFailoverState;
-            this.TestFailoverStateDescription = rpi.Properties.TestFailoverStateDescription;           
+            this.TestFailoverStateDescription = rpi.Properties.TestFailoverStateDescription;
+
+            if (0 == string.Compare(
+                    rpi.Properties.ProviderSpecificDetails.InstanceType,
+                    Constants.HyperVReplicaAzure,
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                HyperVReplicaAzureReplicationDetails providerSpecificDetails =
+                           (HyperVReplicaAzureReplicationDetails)rpi.Properties.ProviderSpecificDetails;
+
+                RecoveryAzureVMName = providerSpecificDetails.RecoveryAzureVMName;
+                RecoveryAzureVMSize = providerSpecificDetails.RecoveryAzureVMSize;
+                RecoveryAzureStorageAccount = providerSpecificDetails.RecoveryAzureStorageAccount;
+                SelectedRecoveryAzureNetworkId = providerSpecificDetails.SelectedRecoveryAzureNetworkId;
+                if (providerSpecificDetails.VMNics != null)
+                {
+                    NicDetailsList = new List<ASRVMNicDetails>();
+                    foreach (VMNicDetails n in providerSpecificDetails.VMNics)
+                    {
+                        NicDetailsList.Add(new ASRVMNicDetails(n));
+                    }
+                }
+            }         
         }
 
         /// <summary>
@@ -1255,6 +1277,31 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets Test Failover State Description
         /// </summary>
         public string TestFailoverStateDescription { get; set; }
+
+        /// <summary>
+        /// Gets or sets Recovery Azure VM Name of the Virtual machine.
+        /// </summary>
+        public string RecoveryAzureVMName { get; set; }
+
+        /// <summary>
+        /// Gets or sets Recovery Azure VM Size of the Virtual machine.
+        /// </summary>
+        public string RecoveryAzureVMSize { get; set; }
+
+        /// <summary>
+        /// Gets or sets Recovery Azure Storage Account of the Virtual machine.
+        /// </summary>
+        public string RecoveryAzureStorageAccount { get; set; }
+
+        /// <summary>
+        /// Gets or sets Selected Recovery Azure Network Id of the Virtual machine.
+        /// </summary>
+        public string SelectedRecoveryAzureNetworkId { get; set; }
+
+        /// <summary>
+        /// Gets or sets Nic Details of the Virtual machine.
+        /// </summary>
+        public List<ASRVMNicDetails> NicDetailsList { get; set; } 
     }
 
     /// <summary>
@@ -1465,9 +1512,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public ASRTask(AsrTask task)
         {
             this.ID = task.ID;
-            this.EndTime = task.EndTime;
+            if (task.EndTime != null)
+            {
+                this.EndTime = task.EndTime.ToLocalTime();
+            }
             this.Name = task.TaskFriendlyName;
-            this.StartTime = task.StartTime;
+            if (task.StartTime != null)
+            {
+                this.StartTime = task.StartTime.ToLocalTime();
+            }
             this.State = task.State;
             this.StateDescription = "";
         }

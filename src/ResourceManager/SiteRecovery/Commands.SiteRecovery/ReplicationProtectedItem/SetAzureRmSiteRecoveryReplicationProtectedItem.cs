@@ -24,9 +24,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     /// <summary>
     /// Retrieves Azure Site Recovery Protection Entity.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, "AzureRmSiteRecoveryVM", DefaultParameterSetName = ASRParameterSets.ByObject)]
+    [Cmdlet(VerbsCommon.Set, "AzureRmSiteRecoveryReplicationProtectedItem", DefaultParameterSetName = ASRParameterSets.ByObject)]
     [OutputType(typeof(ASRJob))]
-    public class SetAzureSiteRecoveryVM : SiteRecoveryCmdletBase
+    public class SetAzureRmSiteRecoveryReplicationProtectedItem : SiteRecoveryCmdletBase
     {
         #region Parameters
 
@@ -35,7 +35,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         [Parameter(Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        public ASRVirtualMachine VirtualMachine { get; set; }
+        public ASRReplicationProtectedItem ReplicationProtectedItem { get; set; }
 
         /// <summary>
         /// Gets or sets Recovery Azure VM given name
@@ -98,24 +98,10 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         {
             base.ExecuteSiteRecoveryCmdlet();
 
-            this.WriteWarningWithTimestamp(
-                string.Format(Properties.Resources.CmdletWillBeDeprecatedSoon,
-                    this.MyInvocation.MyCommand.Name,
-                    "Set-AzureRmSiteRecoveryReplicationProtectedItem"));
-
-            ProtectableItemResponse protectableItemResponse =
-                                                RecoveryServicesClient.GetAzureSiteRecoveryProtectableItem(Utilities.GetValueFromArmId(this.VirtualMachine.ID, ARMResourceTypeConstants.ReplicationFabrics),
-                                                this.VirtualMachine.ProtectionContainerId, this.VirtualMachine.Name);
-
-            if (protectableItemResponse.ProtectableItem.Properties.ReplicationProtectedItemId == null)
-            {
-                this.WriteWarning(Properties.Resources.ProtectionIsNotEnabledForVM.ToString());
-                return;
-            }
-
             ReplicationProtectedItemResponse replicationProtectedItemResponse =
-                        RecoveryServicesClient.GetAzureSiteRecoveryReplicationProtectedItem(Utilities.GetValueFromArmId(this.VirtualMachine.ID, ARMResourceTypeConstants.ReplicationFabrics),
-                        this.VirtualMachine.ProtectionContainerId, Utilities.GetValueFromArmId(protectableItemResponse.ProtectableItem.Properties.ReplicationProtectedItemId, ARMResourceTypeConstants.ReplicationProtectedItems));
+                        RecoveryServicesClient.GetAzureSiteRecoveryReplicationProtectedItem(Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationFabrics),
+                        Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationProtectionContainers), 
+                        ReplicationProtectedItem.Name);
 
             // Check for Replication Provider type HyperVReplicaAzure
             if (0 != string.Compare(
@@ -198,9 +184,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             };
 
             LongRunningOperationResponse response = RecoveryServicesClient.UpdateVmProperties(
-                Utilities.GetValueFromArmId(this.VirtualMachine.ID, ARMResourceTypeConstants.ReplicationFabrics),
-                Utilities.GetValueFromArmId(this.VirtualMachine.ID, ARMResourceTypeConstants.ReplicationProtectionContainers),
-                this.VirtualMachine.Name,
+                Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationFabrics),
+                Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationProtectionContainers),
+                ReplicationProtectedItem.Name,
                 input);
 
             JobResponse jobResponse =

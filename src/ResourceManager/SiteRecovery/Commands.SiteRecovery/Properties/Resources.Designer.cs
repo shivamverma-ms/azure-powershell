@@ -107,6 +107,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cmdlet &quot;{0}&quot; will be deprecated soon. Please use use cmdlet(s) &quot;{1}&quot; instead..
+        /// </summary>
+        internal static string CmdletWillBeDeprecatedSoon {
+            get {
+                return ResourceManager.GetString("CmdletWillBeDeprecatedSoon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Directory {0} Not Found.
         /// </summary>
         internal static string DirectoryNotFound {
