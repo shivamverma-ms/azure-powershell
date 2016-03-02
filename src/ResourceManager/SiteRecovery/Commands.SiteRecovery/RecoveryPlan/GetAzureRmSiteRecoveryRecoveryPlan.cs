@@ -20,6 +20,7 @@ using Microsoft.Azure.Management.SiteRecovery.Models;
 using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 using Newtonsoft.Json;
 using System.IO;
+using Hyak.Common;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
@@ -113,32 +114,35 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         private void GetByName()
         {
-            RecoveryPlanListResponse recoveryPlanListResponse =
-                 RecoveryServicesClient.GetAzureSiteRecoveryRecoveryPlan();
-            bool found = false;
-
-            foreach (RecoveryPlan recoveryPlan in recoveryPlanListResponse.RecoveryPlans)
+            try
             {
-                if (0 == string.Compare(this.Name, recoveryPlan.Name, StringComparison.OrdinalIgnoreCase))
+                var recoveryPlanResponse =
+                    RecoveryServicesClient.GetAzureSiteRecoveryRecoveryPlan(this.Name);
+
+                if (recoveryPlanResponse.RecoveryPlan != null)
                 {
-                    var rp = RecoveryServicesClient.GetAzureSiteRecoveryRecoveryPlan(recoveryPlan.Name).RecoveryPlan;
-                    this.WriteRecoveryPlan(rp);
+                    this.WriteRecoveryPlan(recoveryPlanResponse.RecoveryPlan);
+
                     if (!string.IsNullOrEmpty(this.Path))
                     {
-                        GetRecoveryPlanFile(rp);
+                        GetRecoveryPlanFile(recoveryPlanResponse.RecoveryPlan);
                     }
-
-                    found = true;
                 }
             }
-
-            if (!found)
+            catch (CloudException ex)
             {
-                throw new InvalidOperationException(
-                    string.Format(
-                    Properties.Resources.RecoveryPlanNotFound,
-                    this.Name,
-                    PSRecoveryServicesClient.asrVaultCreds.ResourceName));
+                if (string.Compare(ex.Error.Code, "NotFound", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                        Properties.Resources.RecoveryPlanNotFound,
+                        this.Name,
+                        PSRecoveryServicesClient.asrVaultCreds.ResourceName));
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
 

@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
+using Hyak.Common;
 using Microsoft.Azure.Management.SiteRecovery.Models;
 using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 
@@ -125,34 +126,33 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         private void GetByName()
         {
-            bool found = false;
-
-            ReplicationProtectedItemListResponse replicationProtectedItemListResponse = RecoveryServicesClient.GetAzureSiteRecoveryReplicationProtectedItem(
-                Utilities.GetValueFromArmId(this.ProtectionContainer.ID, ARMResourceTypeConstants.ReplicationFabrics),
-                this.ProtectionContainer.Name);
-            ReplicationProtectedItem replicationProtectedItem = 
-                replicationProtectedItemListResponse.ReplicationProtectedItems.SingleOrDefault(t => 
-                string.Compare(t.Name, this.Name, StringComparison.OrdinalIgnoreCase) == 0);
-
-            if (replicationProtectedItem != null)
+            try
             {
-                ReplicationProtectedItemResponse replicationProtectedItemResponse = RecoveryServicesClient.GetAzureSiteRecoveryReplicationProtectedItem(
+                var replicationProtectedItemResponse = RecoveryServicesClient.GetAzureSiteRecoveryReplicationProtectedItem(
                     Utilities.GetValueFromArmId(this.ProtectionContainer.ID, ARMResourceTypeConstants.ReplicationFabrics),
                     this.ProtectionContainer.Name,
-                    replicationProtectedItem.Name);
-                WriteReplicationProtectedItem(replicationProtectedItemResponse.ReplicationProtectedItem);
+                    this.Name);
 
-                found = true;
+                if (replicationProtectedItemResponse.ReplicationProtectedItem != null)
+                {
+                    this.WriteReplicationProtectedItem(replicationProtectedItemResponse.ReplicationProtectedItem);
+                }
             }
-
-            if (!found)
+            catch (CloudException ex)
             {
-                throw new InvalidOperationException(
-                    string.Format(
-                    Properties.Resources.ProtectionEntityNotFound,
-                    this.Name,
-                    this.ProtectionContainer.FriendlyName));
-            }
+                if (string.Compare(ex.Error.Code, "NotFound", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                        Properties.Resources.ReplicationProtectedItemNotFound,
+                        this.Name,
+                        this.ProtectionContainer.FriendlyName));
+                }
+                else
+                {
+                    throw;
+                }
+            }        
         }
 
         /// <summary>

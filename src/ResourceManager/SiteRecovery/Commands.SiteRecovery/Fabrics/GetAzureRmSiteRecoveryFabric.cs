@@ -106,8 +106,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         {
             try
             {
-                FabricResponse fabricResponse =
-                    RecoveryServicesClient.GetAzureSiteRecoveryFabric(Name);
+                var fabricResponse =
+                    RecoveryServicesClient.GetAzureSiteRecoveryFabric(this.Name);
 
                 if (fabricResponse.Fabric != null)
                 {
@@ -116,11 +116,18 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             }
             catch (CloudException ex)
             {
-                throw new InvalidOperationException(
-                    string.Format(
-                    Properties.Resources.FabricNotFound,
-                    this.Name,
-                    PSRecoveryServicesClient.asrVaultCreds.ResourceName));
+                if (string.Compare(ex.Error.Code, "NotFound", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                            Properties.Resources.FabricNotFound,
+                            this.Name,
+                            PSRecoveryServicesClient.asrVaultCreds.ResourceName));
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
 

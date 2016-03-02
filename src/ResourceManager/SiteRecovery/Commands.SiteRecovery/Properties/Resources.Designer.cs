@@ -351,6 +351,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Protectectable Item&quot;{0}&quot; is not associated with Protection Container &quot;{1}&quot;.
+        /// </summary>
+        internal static string ProtectableItemNotFound {
+            get {
+                return ResourceManager.GetString("ProtectableItemNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Protection Container Mapping &quot;{0}&quot; is not associated with Protection Container &quot;{1}&quot;.
         /// </summary>
         internal static string ProtectionConatinerMappingNotFound {
@@ -473,6 +482,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Properties {
         internal static string RemoveVaultWhatIfMessage {
             get {
                 return ResourceManager.GetString("RemoveVaultWhatIfMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Replication Protected Item&quot;{0}&quot; is not associated with Protection Container &quot;{1}&quot;.
+        /// </summary>
+        internal static string ReplicationProtectedItemNotFound {
+            get {
+                return ResourceManager.GetString("ReplicationProtectedItemNotFound", resourceCulture);
             }
         }
         

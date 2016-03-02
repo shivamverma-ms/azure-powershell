@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
+using Hyak.Common;
 using Microsoft.Azure.Management.SiteRecovery.Models;
 using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 
@@ -115,33 +116,32 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         private void GetByName()
         {
-            bool found = false;
-
-            ProtectableItemListResponse protectableItemListResponse = RecoveryServicesClient.GetAzureSiteRecoveryProtectableItem(
-                Utilities.GetValueFromArmId(this.ProtectionContainer.ID, ARMResourceTypeConstants.ReplicationFabrics),
-                this.ProtectionContainer.Name);
-            ProtectableItem protectableItem = 
-                protectableItemListResponse.ProtectableItems.SingleOrDefault(t => 
-                string.Compare(t.Name, this.Name, StringComparison.OrdinalIgnoreCase) == 0);
-
-            if (protectableItem != null)
+            try
             {
-                ProtectableItemResponse protectableItemResponse = RecoveryServicesClient.GetAzureSiteRecoveryProtectableItem(
+                var protectableItemResponse = RecoveryServicesClient.GetAzureSiteRecoveryProtectableItem(
                     Utilities.GetValueFromArmId(this.ProtectionContainer.ID, ARMResourceTypeConstants.ReplicationFabrics),
                     this.ProtectionContainer.Name,
-                    protectableItem.Name);
-                WriteProtectableItem(protectableItemResponse.ProtectableItem);
+                    this.Name);
 
-                found = true;
+                if (protectableItemResponse.ProtectableItem != null)
+                {
+                    WriteProtectableItem(protectableItemResponse.ProtectableItem);
+                }
             }
-
-            if (!found)
+            catch (CloudException ex)
             {
-                throw new InvalidOperationException(
-                    string.Format(
-                    Properties.Resources.ProtectionEntityNotFound,
-                    this.Name,
-                    this.ProtectionContainer.FriendlyName));
+                if (string.Compare(ex.Error.Code, "NotFound", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                        Properties.Resources.ProtectableItemNotFound,
+                        this.Name,
+                        this.ProtectionContainer.FriendlyName));
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
 

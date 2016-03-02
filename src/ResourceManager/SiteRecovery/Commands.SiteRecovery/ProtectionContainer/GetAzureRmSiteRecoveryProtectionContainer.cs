@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
+using Hyak.Common;
 using Microsoft.Azure.Management.SiteRecovery.Models;
 using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 
@@ -93,7 +94,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 if (0 == string.Compare(this.FriendlyName, protectionContainer.Properties.FriendlyName, StringComparison.OrdinalIgnoreCase))
                 {
                     var protectionContainerByName = RecoveryServicesClient.GetAzureSiteRecoveryProtectionContainer(this.Fabric.Name, protectionContainer.Name).ProtectionContainer;
-                    this.WriteProtectionContainer(protectionContainerByName);
+                    WriteProtectionContainer(protectionContainerByName);
 
                     found = true;
                 }
@@ -104,7 +105,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 throw new InvalidOperationException(
                     string.Format(
                     Properties.Resources.ProtectionContainerNotFound,
-                    this.FriendlyName,
+                    FriendlyName,
                     PSRecoveryServicesClient.asrVaultCreds.ResourceName));
             }
         }
@@ -114,34 +115,29 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         private void GetByName()
         {
-            ProtectionContainerListResponse protectionContainerListResponse;
-            bool found = false;
-
-            protectionContainerListResponse =
-            RecoveryServicesClient.GetAzureSiteRecoveryProtectionContainer(this.Fabric.Name);
-
-            foreach (
-                ProtectionContainer protectionContainer in
-                protectionContainerListResponse.ProtectionContainers)
+            try
             {
-                if (0 == string.Compare(this.Name, protectionContainer.Name, StringComparison.OrdinalIgnoreCase))
-                {
-                    var protectionContainerByName = RecoveryServicesClient.GetAzureSiteRecoveryProtectionContainer(this.Fabric.Name, protectionContainer.Name).ProtectionContainer;
-                    this.WriteProtectionContainer(protectionContainerByName);
+                var protectionContainerResponse = RecoveryServicesClient.GetAzureSiteRecoveryProtectionContainer(this.Fabric.Name, this.Name);
 
-                    found = true;
-                    break;
+                if (protectionContainerResponse.ProtectionContainer != null)
+                {
+                    this.WriteProtectionContainer(protectionContainerResponse.ProtectionContainer);
                 }
             }
-
-
-            if (!found)
+            catch (CloudException ex)
             {
-                throw new InvalidOperationException(
-                    string.Format(
-                    Properties.Resources.ProtectionContainerNotFound,
-                    this.Name,
-                    PSRecoveryServicesClient.asrVaultCreds.ResourceName));
+                if (string.Compare(ex.Error.Code, "NotFound", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                        Properties.Resources.ProtectionContainerNotFound,
+                        this.Name,
+                        PSRecoveryServicesClient.asrVaultCreds.ResourceName));
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
 

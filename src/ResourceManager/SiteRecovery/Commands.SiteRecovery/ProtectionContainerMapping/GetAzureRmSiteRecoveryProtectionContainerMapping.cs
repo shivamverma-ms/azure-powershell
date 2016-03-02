@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
+using Hyak.Common;
 using Microsoft.Azure.Management.SiteRecovery.Models;
 using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 
@@ -70,35 +71,32 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         private void GetByName()
         {
-            bool found = false;
-
-            ProtectionContainerMappingListResponse protectionContainerMappingListResponse = RecoveryServicesClient.GetAzureSiteRecoveryProtectionContainerMapping(
-                Utilities.GetValueFromArmId(this.ProtectionContainer.ID, ARMResourceTypeConstants.ReplicationFabrics),
-                this.ProtectionContainer.Name);
-
-            ProtectionContainerMapping protectionContainerMapping =
-                protectionContainerMappingListResponse.ProtectionContainerMappings.SingleOrDefault(t =>
-                string.Compare(t.Name, this.Name, StringComparison.OrdinalIgnoreCase) == 0);
-
-            if (protectionContainerMapping != null)
+            try
             {
-                ProtectionContainerMapping protectionContainerMappingByName = RecoveryServicesClient.GetAzureSiteRecoveryProtectionContainerMapping(
+                var protectionContainerMappingResponse = RecoveryServicesClient.GetAzureSiteRecoveryProtectionContainerMapping(
                     Utilities.GetValueFromArmId(this.ProtectionContainer.ID, ARMResourceTypeConstants.ReplicationFabrics),
                     this.ProtectionContainer.Name,
-                    protectionContainerMapping.Name).ProtectionContainerMapping;
+                    this.Name);
 
-                WriteProtectionContainerMapping(protectionContainerMappingByName);
-
-                found = true;
+                if (protectionContainerMappingResponse.ProtectionContainerMapping != null)
+                {
+                    this.WriteProtectionContainerMapping(protectionContainerMappingResponse.ProtectionContainerMapping);
+                }
             }
-
-            if (!found)
+            catch (CloudException ex)
             {
-                throw new InvalidOperationException(
-                    string.Format(
-                    Properties.Resources.ProtectionConatinerMappingNotFound,
-                    this.Name,
-                    this.ProtectionContainer.FriendlyName));
+                if (string.Compare(ex.Error.Code, "NotFound", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                        Properties.Resources.ProtectionConatinerMappingNotFound,
+                        this.Name,
+                        this.ProtectionContainer.FriendlyName));
+                }
+                else
+                {
+                    throw;
+                }
             }
         }
 

@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
+using Hyak.Common;
 using Microsoft.Azure.Management.SiteRecovery.Models;
 using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 
@@ -110,29 +111,32 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         private void GetByName()
         {
-            bool found = false;
-
-            RecoveryServicesProviderListResponse recoveryServicesProviderListResponse =
-                    RecoveryServicesClient.GetAzureSiteRecoveryProvider(
-                    Fabric.Name);
-
-            foreach (RecoveryServicesProvider recoveryServicesProvider in recoveryServicesProviderListResponse.RecoveryServicesProviders)
+            try
             {
-                if (0 == string.Compare(this.Name, recoveryServicesProvider.Name, true))
+                var recoveryServicesProviderResponse = RecoveryServicesClient.GetAzureSiteRecoveryProvider(
+                        Fabric.Name,
+                        this.Name);
+
+                if (recoveryServicesProviderResponse.RecoveryServicesProvider != null)
                 {
-                    this.WriteServicesProvider(recoveryServicesProvider);
-                    found = true;
+                    this.WriteServicesProvider(recoveryServicesProviderResponse.RecoveryServicesProvider);
                 }
             }
-
-            if (!found)
+            catch (CloudException ex)
             {
-                throw new InvalidOperationException(
-                    string.Format(
-                    Properties.Resources.ServicesProviderNotFound,
-                    this.Name,
-                    PSRecoveryServicesClient.asrVaultCreds.ResourceName));
-            }
+                if (string.Compare(ex.Error.Code, "NotFound", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                        Properties.Resources.ServicesProviderNotFound,
+                        this.Name,
+                        PSRecoveryServicesClient.asrVaultCreds.ResourceName));
+                }
+                else
+                {
+                    throw;
+                }
+            }         
         }
 
         /// <summary>
