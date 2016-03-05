@@ -56,7 +56,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Protectable Item.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.ByProtectableItemObject, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByProtectableItemObject, Mandatory = true, ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
         public ASRProtectableItem ProtectableItem { get; set; }
 
