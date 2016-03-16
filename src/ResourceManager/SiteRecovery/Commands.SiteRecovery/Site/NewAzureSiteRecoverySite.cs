@@ -58,8 +58,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     this.MyInvocation.MyCommand.Name,
                     "New-AzureRmSiteRecoveryFabric"));
 
+            FabricCreationInputProperties fabricCreationInputProperties = new FabricCreationInputProperties();
+
+            FabricCreationInput fabricCreationInput = new FabricCreationInput()
+            {
+                Properties = fabricCreationInputProperties
+            };
+
             LongRunningOperationResponse response =
-             RecoveryServicesClient.CreateAzureSiteRecoveryFabric(this.Name, FabricProviders.HyperVSite);
+             RecoveryServicesClient.CreateAzureSiteRecoveryFabric(this.Name, fabricCreationInput);
 
             JobResponse jobResponse =
                 RecoveryServicesClient

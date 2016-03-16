@@ -261,6 +261,14 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             this.ID = fabric.Id;
             this.Type = fabric.Properties.CustomDetails.InstanceType;
             this.SiteIdentifier = fabric.Properties.InternalIdentifier;
+
+            if (
+                string.Compare(fabric.Properties.CustomDetails.InstanceType, "Azure", StringComparison.OrdinalIgnoreCase) ==
+                0)
+            {
+                var azureFabricSpecificDetails = fabric.Properties.CustomDetails as AzureFabricSpecificDetails;
+                this.Location = azureFabricSpecificDetails != null ? azureFabricSpecificDetails.Location : null;
+            }
         }
 
         #endregion
@@ -290,6 +298,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets site SiteIdentifier.
         /// </summary>
         public string SiteIdentifier { get; set; }
+
+        /// <summary>
+        /// Gets or sets Location.
+        /// </summary>
+        public string Location { get; set; }
 
         #endregion
     }

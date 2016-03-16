@@ -298,6 +298,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public const string HyperVSite = "HyperVSite";
 
         /// <summary>
+        /// FabricType - Azure.
+        /// </summary>
+        public const string Azure = "Azure";
+
+        /// <summary>
         /// FabricType - VMware.
         /// </summary>
         public const string VMware = "VMware";
