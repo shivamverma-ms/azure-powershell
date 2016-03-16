@@ -261,6 +261,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Location is not specified for creating Azure fabric..
+        /// </summary>
+        internal static string LocationNotSpecifiedForAzureFabric {
+            get {
+                return ResourceManager.GetString("LocationNotSpecifiedForAzureFabric", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} will be a mandatory paramter from next release..
         /// </summary>
         internal static string MandatoryParamFromNextRelease {

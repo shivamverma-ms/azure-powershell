@@ -52,24 +52,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         /// <param name="createAndAssociatePolicyInput">Policy Input</param>
         /// <returns>Long operation response</returns>
-        public LongRunningOperationResponse CreateAzureSiteRecoveryFabric(string fabricName, string fabricType = null) 
+        public LongRunningOperationResponse CreateAzureSiteRecoveryFabric(string fabricName, FabricCreationInput input) 
         {
-            if (string.IsNullOrEmpty(fabricType))
-            {
-                fabricType = FabricProviders.HyperVSite;
-            }
-
-            FabricCreationInputProperties fabricCreationInputProperties = new FabricCreationInputProperties()
-            {
-                FabricType = fabricType,
-            };
-
-            FabricCreationInput fabricCreationInput = new FabricCreationInput()
-            {
-                Properties = fabricCreationInputProperties
-            };
-
-            return this.GetSiteRecoveryClient().Fabrics.BeginCreating(fabricName, fabricCreationInput,
+            return this.GetSiteRecoveryClient().Fabrics.BeginCreating(fabricName, input,
                 this.GetRequestHeaders(false));
         }
 
