@@ -200,7 +200,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             LongRunningOperationResponse response = RecoveryServicesClient.UpdateVmProperties(
                 Utilities.GetValueFromArmId(this.VirtualMachine.ID, ARMResourceTypeConstants.ReplicationFabrics),
                 Utilities.GetValueFromArmId(this.VirtualMachine.ID, ARMResourceTypeConstants.ReplicationProtectionContainers),
-                this.VirtualMachine.Name,
+                replicationProtectedItemResponse.ReplicationProtectedItem.Name,
                 input);
 
             JobResponse jobResponse =
