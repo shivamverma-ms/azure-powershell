@@ -153,6 +153,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public const string HyperVReplicaAzure = "HyperVReplicaAzure";
 
         /// <summary>
+        /// Represents AzureToAzure string constant.
+        /// </summary>
+        public const string AzureToAzure = "AzureToAzure";
+
+        /// <summary>
         /// Represents HyperVReplicaAzureReplicationDetails string constant.
         /// </summary>
         public const string HyperVReplicaAzureReplicationDetails = "HyperVReplicaAzureReplicationDetails";
@@ -356,6 +361,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// JSON field: InstanceType
         /// </summary>
         public const string InstanceType = "InstanceType";
+
+        /// <summary>
+        /// Enable.
+        /// </summary>
+        public const string Enable = "Enable";
+
+        /// <summary>
+        /// Disable.
+        /// </summary>
+        public const string Disable = "Disable";
     }
 
      /// <summary>
