@@ -230,6 +230,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         internal const string EnterpriseToAzure = "EnterpriseToAzure";
 
         /// <summary>
+        /// To define Azure to Azure parameter set.
+        /// </summary>
+        internal const string AzureToAzure = "AzureToAzure";
+
+        /// <summary>
         /// Mapping between HyperV Site to Azure.
         /// </summary>
         internal const string HyperVSiteToAzure = "HyperVSiteToAzure";

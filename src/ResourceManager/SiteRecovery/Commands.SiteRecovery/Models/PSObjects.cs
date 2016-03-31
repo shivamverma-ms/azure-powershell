@@ -666,6 +666,26 @@ namespace Microsoft.Azure.Commands.SiteRecovery
 
                 this.ReplicationProviderSettings = replicationProviderSettings;
             }
+            else if (policy.Properties.ProviderSpecificDetails.InstanceType == Constants.AzureToAzure)
+            {
+                A2APolicyDetails details =
+                    (A2APolicyDetails)policy.Properties.ProviderSpecificDetails;
+
+                ASRAzureToAzurePolicyDetails replicationProviderSettings =
+                    new ASRAzureToAzurePolicyDetails();
+
+                replicationProviderSettings.AppConsistentFrequencyInMinutes =
+                    details.AppConsistentFrequencyInMinutes;
+                replicationProviderSettings.CrashConsistentFrequencyInMinutes =
+                    details.CrashConsistentFrequencyInMinutes;
+                replicationProviderSettings.MultiVmSyncStatus =
+                    details.MultiVmSyncStatus;
+                replicationProviderSettings.RecoveryPointHistory = details.RecoveryPointHistory;
+                replicationProviderSettings.RecoveryPointThresholdInMinutes =
+                    details.RecoveryPointThresholdInMinutes;
+
+                this.ReplicationProviderSettings = replicationProviderSettings;
+            }
         }
 
         #region Properties
@@ -788,6 +808,32 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         // Summary:
         //     Optional.
         public int ReplicationFrequencyInSeconds { get; set; }
+    }
+
+    /// <summary>
+    /// ASR AzureToAzure policy details.
+    /// </summary>
+    public class ASRAzureToAzurePolicyDetails : ASRPolicyProviderSettingsDetails
+    {
+        // Summary:
+        //     Optional.
+        public int AppConsistentFrequencyInMinutes { get; set; }
+        //
+        // Summary:
+        //     Optional.
+        public int CrashConsistentFrequencyInMinutes { get; set; }
+        //
+        // Summary:
+        //     Optional.
+        public string MultiVmSyncStatus { get; set; }
+        //
+        // Summary:
+        //     Optional.
+        public int RecoveryPointHistory { get; set; }
+        //
+        // Summary:
+        //     Optional.
+        public int RecoveryPointThresholdInMinutes { get; set; }
     }
 
     /// <summary>

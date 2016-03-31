@@ -40,6 +40,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
         public string Name { get; set; }
 
         /// <summary>
@@ -47,11 +48,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         [ValidateSet(
             Constants.HyperVReplica2012R2,
             Constants.HyperVReplica2012,
-            Constants.HyperVReplicaAzure)]
+            Constants.HyperVReplicaAzure,
+            Constants.AzureToAzure)]
         public string ReplicationProvider { get; set; }
 
         /// <summary>
@@ -147,6 +150,41 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure)]
         public SwitchParameter Encrypt { get; set; }
 
+        /* TODO: SriramVu:
+         * Revise the mandatory inputs for A2A prameterset and use defaults if req.
+         * Check out the possible allowed values (if any) and use ValidateSet.
+         */
+
+        /// <summary>
+        /// Gets or sets Recovery point threshold in minutes.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
+        public int RecoveryPointThresholdInMinutes { get; set; }
+
+        /// <summary>
+        /// Gets or sets Recovery point history.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
+        public int RecoveryPointHistory { get; set; }
+
+        /// <summary>
+        /// Gets or sets Crash consistent frequency in minutes.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
+        public int CrashConsistentFrequencyInMinutes { get; set; }
+
+        /// <summary>
+        /// Gets or sets App consistent frequency in minutes.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
+        public int AppConsistentFrequencyInMinutes { get; set; }
+
+        /// <summary>
+        /// Gets or sets EnableMultiVmSync parameter. On passing, MultiVmSync will be enabled.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        public SwitchParameter EnableMultiVmSync { get; set; }
+
         #endregion Parameters
 
         /// <summary>
@@ -163,6 +201,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     break;
                 case ASRParameterSets.EnterpriseToAzure:
                     this.EnterpriseToAzurePolicyObject();
+                    break;
+                case ASRParameterSets.AzureToAzure:
+                    this.CreateAzureToAzurePolicy();
                     break;
             }
         }
@@ -291,6 +332,53 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             JobResponse jobResponse =
                 RecoveryServicesClient
                 .GetAzureSiteRecoveryJobDetails(PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location));
+
+            WriteObject(new ASRJob(jobResponse.Job));
+        }
+
+        /// <summary>
+        /// Creates an A2A Policy.
+        /// </summary>
+        private void CreateAzureToAzurePolicy()
+        {
+            if (string.Compare(
+                this.ReplicationProvider,
+                Constants.AzureToAzure,
+                StringComparison.OrdinalIgnoreCase) != 0)
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                    Properties.Resources.IncorrectReplicationProvider,
+                    this.ReplicationProvider));
+            }
+
+            var a2aPolicyCreationInput = new A2APolicyCreationInput()
+            {
+                AppConsistentFrequencyInMinutes = this.AppConsistentFrequencyInMinutes,
+                CrashConsistentFrequencyInMinutes = this.CrashConsistentFrequencyInMinutes,
+                MultiVmSyncStatus = this.EnableMultiVmSync ? Constants.Enable: Constants.Disable,
+                RecoveryPointHistory = this.RecoveryPointHistory,
+                RecoveryPointThresholdInMinutes = this.RecoveryPointThresholdInMinutes
+            };
+
+            var createPolicyInputProperties = new CreatePolicyInputProperties()
+            {
+                ProviderSpecificInput = a2aPolicyCreationInput
+            };
+
+            var createPolicyInput = new CreatePolicyInput()
+            {
+                Properties = createPolicyInputProperties
+            };
+
+            LongRunningOperationResponse response =
+                RecoveryServicesClient.CreatePolicy(this.Name, createPolicyInput);
+
+            string jobId = PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location);
+
+            JobResponse jobResponse =
+                RecoveryServicesClient
+                .GetAzureSiteRecoveryJobDetails(jobId);
 
             WriteObject(new ASRJob(jobResponse.Job));
         }
