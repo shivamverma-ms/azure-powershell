@@ -180,6 +180,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             foreach (ProtectionContainer protectionContainer in protectionContainers)
             {
                 List<ASRPolicy> availablePolicies = new List<ASRPolicy>();
+                List<ASRProtectionContainerMapping> mappings = null;
 
                 // Check if container is paired then fetch policy details.
                 if (0 == string.Compare(protectionContainer.Properties.PairingStatus, "paired", StringComparison.OrdinalIgnoreCase))
@@ -189,6 +190,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         RecoveryServicesClient.GetAzureSiteRecoveryProtectionContainerMapping(
                         Utilities.GetValueFromArmId(protectionContainer.Id, ARMResourceTypeConstants.ReplicationFabrics),
                         protectionContainer.Name);
+                    mappings = protectionContainerMappingListResponse.ProtectionContainerMappings.Select(pcm => new ASRProtectionContainerMapping(pcm)).ToList();
 
                     // TODO: This call can be made parallel to speed up processing if required later.
                     foreach (ProtectionContainerMapping protectionContainerMapping in protectionContainerMappingListResponse.ProtectionContainerMappings)
@@ -225,7 +227,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     }
                 }
 
-                asrProtectionContainers.Add(new ASRProtectionContainer(protectionContainer, availablePolicies));
+                asrProtectionContainers.Add(new ASRProtectionContainer(protectionContainer, availablePolicies, mappings));
             }
 
             asrProtectionContainers.Sort((x, y) => x.FriendlyName.CompareTo(y.FriendlyName));
@@ -239,9 +241,12 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         private void WriteProtectionContainer(ProtectionContainer protectionContainer)
         {
             List<ASRPolicy> availablePolicies = new List<ASRPolicy>();
+            List<ASRProtectionContainerMapping> mappings = null;
 
             ProtectionContainerMappingListResponse protectionContainerMappingListResponse = RecoveryServicesClient.GetAzureSiteRecoveryProtectionContainerMapping(
                 Utilities.GetValueFromArmId(protectionContainer.Id, ARMResourceTypeConstants.ReplicationFabrics), protectionContainer.Name);
+            mappings = protectionContainerMappingListResponse.ProtectionContainerMappings.Select(pcm => new ASRProtectionContainerMapping(pcm)).ToList();
+
             foreach (ProtectionContainerMapping protectionContainerMapping in protectionContainerMappingListResponse.ProtectionContainerMappings)
             {
                 PolicyResponse policyResponse = RecoveryServicesClient.GetAzureSiteRecoveryPolicy(
@@ -249,7 +254,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 availablePolicies.Add(new ASRPolicy(policyResponse.Policy));
             }
 
-            this.WriteObject(new ASRProtectionContainer(protectionContainer, availablePolicies));
+            this.WriteObject(new ASRProtectionContainer(protectionContainer, availablePolicies, mappings));
         }
     }
 }

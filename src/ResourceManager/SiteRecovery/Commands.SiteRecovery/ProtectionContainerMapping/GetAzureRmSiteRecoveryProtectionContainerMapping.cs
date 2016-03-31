@@ -26,7 +26,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     /// Retrieves Azure Site Recovery Protection Conatiner Mapping
     /// </summary>
     [Cmdlet(VerbsCommon.Get, "AzureRmSiteRecoveryProtectionContainerMapping", DefaultParameterSetName = ASRParameterSets.ByObject)]
-    [OutputType(typeof(IEnumerable<ASRReplicationProtectedItem>))]
+    [OutputType(typeof(IEnumerable<ASRProtectionContainerMapping>))]
     public class GetAzureRmSiteRecoveryProtectionContainerMapping : SiteRecoveryCmdletBase
     {
         #region Parameters
