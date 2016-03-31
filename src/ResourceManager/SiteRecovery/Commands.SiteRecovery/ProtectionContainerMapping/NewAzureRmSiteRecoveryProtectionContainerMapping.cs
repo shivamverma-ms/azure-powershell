@@ -102,7 +102,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 Constants.HyperVReplica2012R2,
                 StringComparison.OrdinalIgnoreCase) != 0 && string.Compare(
                 this.Policy.ReplicationProvider,
-                "A2A",
+                Constants.AzureToAzure,
                 StringComparison.OrdinalIgnoreCase) != 0)
             {
                 throw new InvalidOperationException(

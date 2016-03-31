@@ -155,7 +155,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Represents AzureToAzure string constant.
         /// </summary>
-        public const string AzureToAzure = "AzureToAzure";
+        public const string AzureToAzure = "A2A";
 
         /// <summary>
         /// Represents HyperVReplicaAzureReplicationDetails string constant.
