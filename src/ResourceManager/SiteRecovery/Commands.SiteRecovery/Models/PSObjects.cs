@@ -480,7 +480,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// required parameters.
         /// </summary>
         /// <param name="pc">Protection container object</param>
-        public ASRProtectionContainer(ProtectionContainer pc, List<ASRPolicy> availablePolicies, List<ASRProtectionContainerMapping> mappings)
+        public ASRProtectionContainer(ProtectionContainer pc, List<ASRPolicy> availablePolicies, List<ASRProtectionContainerMapping> protectionContainerMappings)
         {
             this.ID = pc.Id;
             this.Name = pc.Name;
@@ -490,7 +490,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             this.FabricType = pc.Properties.FabricType;
             this.Type = pc.Type;
             this.AvailablePolicies = availablePolicies;
-            this.Mappings = mappings;
+            this.ProtectionContainerMappings = protectionContainerMappings;
         }
 
         #region Properties
@@ -538,7 +538,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets the list of Protection Container Mappings.
         /// </summary>
-        public List<ASRProtectionContainerMapping> Mappings { get; set; }
+        public List<ASRProtectionContainerMapping> ProtectionContainerMappings { get; set; }
         #endregion
     }
 
