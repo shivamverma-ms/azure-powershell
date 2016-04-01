@@ -162,7 +162,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             foreach (ProtectionContainer protectionContainer in protectionContainers)
             {
                 List<ASRPolicy> availablePolicies = new List<ASRPolicy>();
-                List<ASRProtectionContainerMapping> asrProtectionContainerMappings = null;
+                List<ASRProtectionContainerMapping> asrProtectionContainerMappings = new List<ASRProtectionContainerMapping>();
 
                 // Check if container is paired then fetch policy details.
                 if (0 == string.Compare(protectionContainer.Properties.PairingStatus, "paired", StringComparison.OrdinalIgnoreCase))
@@ -210,7 +210,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     }
                 }
 
-                asrProtectionContainers.Add(new ASRProtectionContainer(protectionContainer, availablePolicies.Distinct().ToList(), asrProtectionContainerMappings.Distinct().ToList()));
+                asrProtectionContainers.Add(new ASRProtectionContainer(protectionContainer, availablePolicies.Distinct().ToList(), asrProtectionContainerMappings));
             }
 
             asrProtectionContainers.Sort((x, y) => x.FriendlyName.CompareTo(y.FriendlyName));
@@ -224,7 +224,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         private void WriteProtectionContainer(ProtectionContainer protectionContainer)
         {
             List<ASRPolicy> availablePolicies = new List<ASRPolicy>();
-            List<ASRProtectionContainerMapping> asrProtectionContainerMappings = null;
+            List<ASRProtectionContainerMapping> asrProtectionContainerMappings = new List<ASRProtectionContainerMapping>();
 
             ProtectionContainerMappingListResponse protectionContainerMappingListResponse = RecoveryServicesClient.GetAzureSiteRecoveryProtectionContainerMapping(
                 Utilities.GetValueFromArmId(protectionContainer.Id, ARMResourceTypeConstants.ReplicationFabrics), protectionContainer.Name);
@@ -237,7 +237,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 availablePolicies.Add(new ASRPolicy(policyResponse.Policy));
             }
 
-            this.WriteObject(new ASRProtectionContainer(protectionContainer, availablePolicies.Distinct().ToList(), asrProtectionContainerMappings.Distinct().ToList()));
+            this.WriteObject(new ASRProtectionContainer(protectionContainer, availablePolicies.Distinct().ToList(), asrProtectionContainerMappings));
         }
     }
 }
