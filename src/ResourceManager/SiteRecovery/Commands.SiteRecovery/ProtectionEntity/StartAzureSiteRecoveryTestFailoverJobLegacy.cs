@@ -142,7 +142,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             this.WriteWarningWithTimestamp(
                 string.Format(Properties.Resources.CmdletWillBeDeprecatedSoon,
                     this.MyInvocation.MyCommand.Name,
-                    "Start-AzureRmSiteRecoveryTestFailoverJob"));
+                    "Start-AzureRmSiteRecoveryTestFailover"));
 
             if (!string.IsNullOrEmpty(this.DataEncryptionPrimaryCertFile))
             {

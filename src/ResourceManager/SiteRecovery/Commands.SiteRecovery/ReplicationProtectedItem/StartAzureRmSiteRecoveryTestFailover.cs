@@ -26,9 +26,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     /// <summary>
     /// Used to initiate a commit operation.
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Start, "AzureRmSiteRecoveryTestFailoverJob", DefaultParameterSetName = ASRParameterSets.ByPEObject)]
+    [Cmdlet(VerbsLifecycle.Start, "AzureRmSiteRecoveryTestFailover", DefaultParameterSetName = ASRParameterSets.ByPEObject)]
     [OutputType(typeof(ASRJob))]
-    public class StartAzureRmSiteRecoveryTestFailoverJob : SiteRecoveryCmdletBase
+    public class StartAzureRmSiteRecoveryTestFailover : SiteRecoveryCmdletBase
     {
         #region local parameters
 

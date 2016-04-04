@@ -14,9 +14,7 @@
 
 using System;
 using System.Linq;
-using System.Diagnostics;
 using System.Management.Automation;
-using System.Threading;
 using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
 using Microsoft.Azure.Management.SiteRecovery.Models;
 using System.Collections.Generic;
@@ -27,16 +25,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     /// <summary>
     /// Used to initiate a failover operation.
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Start, "AzureRmSiteRecoveryUnplannedFailoverJob", DefaultParameterSetName = ASRParameterSets.ByPEObject)]
+    [Cmdlet(VerbsLifecycle.Start, "AzureRmSiteRecoveryPlannedFailover", DefaultParameterSetName = ASRParameterSets.ByPEObject)]
     [OutputType(typeof(ASRJob))]
-    public class StartAzureRmSiteRecoveryUnplannedFailoverJob : SiteRecoveryCmdletBase
+    public class StartAzureRmSiteRecoveryPlannedFailover : SiteRecoveryCmdletBase
     {
         #region local parameters
-
-        /// <summary>
-        /// Gets or sets Name of the PE.
-        /// </summary>
-        public string protectionEntityName;
 
         /// <summary>
         /// Gets or sets Name of the Protection Container.
@@ -77,17 +70,18 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public ASRReplicationProtectedItem ReplicationProtectedItem { get; set; }
 
         /// <summary>
-        /// Gets or sets Failover direction for the recovery plan.
+        /// Gets or sets Failover direction for the protected Item.
         /// </summary>
         [Parameter(Mandatory = true)]
         [ValidateSet(Constants.PrimaryToRecovery, Constants.RecoveryToPrimary)]
         public string Direction { get; set; }
 
         /// <summary>
-        /// Gets or sets switch parameter. This is required to PerformSourceSideActions.
+        /// Gets or sets the Optimize value.
         /// </summary>
         [Parameter]
-        public SwitchParameter PerformSourceSideActions { get; set; }
+        [ValidateSet(Constants.ForDowntime, Constants.ForSynchronization)]
+        public string Optimize { get; set; }
 
         /// <summary>
         /// Gets or sets Data encryption certificate file path for failover of Protected Item.
@@ -130,29 +124,28 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     this.protectionContainerName = 
                         Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationProtectionContainers);
                     this.fabricName = Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationFabrics);
-                    this.StartPEUnplannedFailover();
+                    this.StartPEPlannedFailover();
                     break;
                 case ASRParameterSets.ByRPObject:
-                    this.StartRpUnplannedFailover();
+                    this.StartRpPlannedFailover();
                     break;
             }
         }
 
         /// <summary>
-        /// Starts PE Unplanned failover.
+        /// Starts PE Planned failover.
         /// </summary>
-        private void StartPEUnplannedFailover()
+        private void StartPEPlannedFailover()
         {
-            var unplannedFailoverInputProperties = new UnplannedFailoverInputProperties()
+            var plannedFailoverInputProperties = new PlannedFailoverInputProperties()
             {
                 FailoverDirection = this.Direction,
-                SourceSiteOperations = this.PerformSourceSideActions ? "Required" : "NotRequired",
                 ProviderSpecificDetails = new ProviderSpecificFailoverInput()
             };
 
-            var input = new UnplannedFailoverInput()
+            var input = new PlannedFailoverInput()
             {
-                Properties = unplannedFailoverInputProperties
+                Properties = plannedFailoverInputProperties
             };
 
             if (0 == string.Compare(
@@ -170,10 +163,19 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     };
                     input.Properties.ProviderSpecificDetails = failoverInput;
                 }
+                else
+                {
+                    var failbackInput = new HyperVReplicaAzureFailbackProviderInput()
+                    {
+                        DataSyncOption = this.Optimize == Constants.ForDowntime ? Constants.ForDowntime : Constants.ForSynchronization,
+                        RecoveryVmCreationOption = "CreateVmIfNotFound" //CreateVmIfNotFound | NoAction
+                    };
+                    input.Properties.ProviderSpecificDetails = failbackInput;
+                }
             }
 
             LongRunningOperationResponse response =
-                RecoveryServicesClient.StartAzureSiteRecoveryUnplannedFailover(
+                RecoveryServicesClient.StartAzureSiteRecoveryPlannedFailover(
                 this.fabricName,
                 this.protectionContainerName,
                 this.ReplicationProtectedItem.Name,
@@ -187,17 +189,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         }
 
         /// <summary>
-        /// Starts RP Unplanned failover.
+        /// Starts RP Planned failover.
         /// </summary>
-        private void StartRpUnplannedFailover()
+        private void StartRpPlannedFailover()
         {
             // Refresh RP Object
             var rp = RecoveryServicesClient.GetAzureSiteRecoveryRecoveryPlan(this.RecoveryPlan.Name);
 
-            var recoveryPlanUnplannedFailoverInputProperties = new RecoveryPlanUnplannedFailoverInputProperties()
+            var recoveryPlanPlannedFailoverInputProperties = new RecoveryPlanPlannedFailoverInputProperties()
             {
                 FailoverDirection = this.Direction,
-                SourceSiteOperations = this.PerformSourceSideActions ? "Required" : "NotRequired", //Required|NotRequired
                 ProviderSpecificDetails = new List<RecoveryPlanProviderSpecificFailoverInput>()
             };
 
@@ -217,19 +218,29 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                             SecondaryKekCertificatePfx = secondaryKekCertpfx,
                             VaultLocation = this.GetCurrentVaultLocation()
                         };
-                        recoveryPlanUnplannedFailoverInputProperties.ProviderSpecificDetails.Add(recoveryPlanHyperVReplicaAzureFailoverInput);
+                        recoveryPlanPlannedFailoverInputProperties.ProviderSpecificDetails.Add(recoveryPlanHyperVReplicaAzureFailoverInput);
+                    }
+                    else
+                    {
+                        var recoveryPlanHyperVReplicaAzureFailbackInput = new RecoveryPlanHyperVReplicaAzureFailbackInput()
+                        {
+                            InstanceType = replicationProvider + "Failback",
+                            DataSyncOption = this.Optimize == Constants.ForDowntime ? Constants.ForDowntime : Constants.ForSynchronization,
+                            RecoveryVmCreationOption = "CreateVmIfNotFound" //CreateVmIfNotFound | NoAction
+                        };
+                        recoveryPlanPlannedFailoverInputProperties.ProviderSpecificDetails.Add(recoveryPlanHyperVReplicaAzureFailbackInput);
                     }
                 }
             }
 
-            var recoveryPlanUnplannedFailoverInput = new RecoveryPlanUnplannedFailoverInput()
+            var recoveryPlanPlannedFailoverInput = new RecoveryPlanPlannedFailoverInput()
             {
-                Properties = recoveryPlanUnplannedFailoverInputProperties
+                Properties = recoveryPlanPlannedFailoverInputProperties
             };
 
-            LongRunningOperationResponse response = RecoveryServicesClient.StartAzureSiteRecoveryUnplannedFailover(
+            LongRunningOperationResponse response = RecoveryServicesClient.StartAzureSiteRecoveryPlannedFailover(
                 this.RecoveryPlan.Name,
-                recoveryPlanUnplannedFailoverInput);
+                recoveryPlanPlannedFailoverInput);
 
             JobResponse jobResponse =
                 RecoveryServicesClient

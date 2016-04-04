@@ -216,6 +216,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid Parameter Set.
+        /// </summary>
+        internal static string InvalidParameterSet {
+            get {
+                return ResourceManager.GetString("InvalidParameterSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Replication Frequency {0} is invalid.
         /// </summary>
         internal static string InvalidReplicationFrequency {
@@ -437,6 +446,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Properties {
         internal static string RecoveryPlanNotFound {
             get {
                 return ResourceManager.GetString("RecoveryPlanNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recovery Point &apos;{0}&apos; is not associated with the Replication Protected Item &apos;{1}&apos;.
+        /// </summary>
+        internal static string RecoveryPointNotFound {
+            get {
+                return ResourceManager.GetString("RecoveryPointNotFound", resourceCulture);
             }
         }
         

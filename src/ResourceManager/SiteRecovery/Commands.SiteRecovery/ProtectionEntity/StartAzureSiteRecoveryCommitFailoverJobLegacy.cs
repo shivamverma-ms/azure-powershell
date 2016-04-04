@@ -71,7 +71,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             this.WriteWarningWithTimestamp(
                 string.Format(Properties.Resources.CmdletWillBeDeprecatedSoon,
                     this.MyInvocation.MyCommand.Name,
-                    "Start-AzureRmSiteRecoveryCommitFailoverJob"));
+                    "Start-AzureRmSiteRecoveryCommitFailover"));
 
             switch (this.ParameterSetName)
             {

@@ -1559,6 +1559,57 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     }
 
     /// <summary>
+    /// PS Recovery Point Class.
+    /// </summary>
+    public class ASRRecoveryPoint
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ASRRecoveryPoint" /> class.
+        /// </summary>
+        public ASRRecoveryPoint()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ASRRecoveryPoint" /> class.
+        /// </summary>
+        /// <param name="recoveryPoint">Recovery point object to read values from.</param>
+        public ASRRecoveryPoint(RecoveryPoint recoveryPoint)
+        {
+            this.ID = recoveryPoint.Id;
+            this.Name = recoveryPoint.Name;
+            this.Type = recoveryPoint.Type;
+            this.RecoveryPointTime = recoveryPoint.Properties.RecoveryPointTime;
+            this.RecoveryPointType = recoveryPoint.Properties.RecoveryPointType;
+        }
+
+        /// <summary>
+        /// Gets or sets Name of the Recovery Point.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets Recovery Point ID.
+        /// </summary>
+        public string ID { get; set; }
+
+        /// <summary>
+        /// Gets or sets type of the Recovery Point.
+        /// </summary>
+        public string Type { get; set; }
+
+        /// <summary>
+        /// Gets or sets Recovery Point Time.
+        /// </summary>
+        public DateTime RecoveryPointTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets Recovery Point Type.
+        /// </summary>
+        public string RecoveryPointType { get; set; }
+    }
+
+    /// <summary>
     /// Task of the Job.
     /// </summary>
     public class ASRTask
