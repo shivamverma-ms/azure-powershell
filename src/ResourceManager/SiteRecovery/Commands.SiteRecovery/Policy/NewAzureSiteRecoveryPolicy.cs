@@ -190,10 +190,14 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public int AppConsistentFrequencyInMinutes { get; set; }
 
         /// <summary>
-        /// Gets or sets EnableMultiVmSync parameter. On passing, MultiVmSync will be enabled.
+        /// Gets or sets EnableMultiVmSync parameter.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
-        public SwitchParameter EnableMultiVmSync { get; set; }
+        [DefaultValue(Constants.Disable)]
+        [ValidateSet(
+            Constants.Enable,
+            Constants.Disable)]
+        public string MultiVmSyncStatus { get; set; }
 
         #endregion Parameters
 
@@ -365,7 +369,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             {
                 AppConsistentFrequencyInMinutes = this.AppConsistentFrequencyInMinutes,
                 CrashConsistentFrequencyInMinutes = this.CrashConsistentFrequencyInMinutes,
-                MultiVmSyncStatus = this.EnableMultiVmSync ? Constants.Enable: Constants.Disable,
+                MultiVmSyncStatus = this.MultiVmSyncStatus,
                 RecoveryPointHistory = this.RecoveryPointHistory,
                 RecoveryPointThresholdInMinutes = this.RecoveryPointThresholdInMinutes
             };

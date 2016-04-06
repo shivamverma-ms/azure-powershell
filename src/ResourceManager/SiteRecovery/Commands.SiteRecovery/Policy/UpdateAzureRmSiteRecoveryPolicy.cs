@@ -42,6 +42,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         private string replicaDeletion { get; set; }
         private string recoveryAzureStorageAccountId { get; set; }
         private string encryption { get; set; }
+        private int recoveryPointThresholdInMinutes { get; set; }
+        private int recoveryPointHistory { get; set; }
+        private int crashConsistentFrequencyInMinutes { get; set; }
+        private int appConsistentFrequencyInMinutes { get; set; }
+        private string multiVmSyncStatus { get; set; }
 
         #endregion Private
 
@@ -52,6 +57,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true, ValueFromPipeline = true)]
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true, ValueFromPipeline = true)]
         public ASRPolicy Policy { get; set; }
 
         /// <summary>
@@ -155,6 +161,40 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             Constants.Disable)]
         public string Encryption { get; set; }
 
+        /// <summary>
+        /// Gets or sets Recovery point threshold in minutes.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        public int RecoveryPointThresholdInMinutes { get; set; }
+
+        /// <summary>
+        /// Gets or sets Recovery point history.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        public int RecoveryPointHistory { get; set; }
+
+        /// <summary>
+        /// Gets or sets Crash consistent frequency in minutes.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        public int CrashConsistentFrequencyInMinutes { get; set; }
+
+        /// <summary>
+        /// Gets or sets App consistent frequency in minutes.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        public int AppConsistentFrequencyInMinutes { get; set; }
+
+        /// <summary>
+        /// Gets or sets EnableMultiVmSync parameter.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [DefaultValue(Constants.Disable)]
+        [ValidateSet(
+            Constants.Enable,
+            Constants.Disable)]
+        public string MultiVmSyncStatus { get; set; }
+
         #endregion Parameters
 
         /// <summary>
@@ -171,6 +211,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     break;
                 case ASRParameterSets.EnterpriseToAzure:
                     this.EnterpriseToAzurePolicyObject();
+                    break;
+                case ASRParameterSets.AzureToAzure:
+                    this.UpdateAzureToAzurePolicy();
                     break;
             }
         }
@@ -334,6 +377,71 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             JobResponse jobResponse =
                 RecoveryServicesClient
                 .GetAzureSiteRecoveryJobDetails(PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location));
+
+            WriteObject(new ASRJob(jobResponse.Job));
+        }
+
+        /// <summary>
+        /// Updates an A2A Policy.
+        /// </summary>
+        private void UpdateAzureToAzurePolicy()
+        {
+            if (string.Compare(
+                this.Policy.ReplicationProvider,
+                Constants.AzureToAzure,
+                StringComparison.OrdinalIgnoreCase) != 0)
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                    Properties.Resources.IncorrectReplicationProvider,
+                    this.Policy.ReplicationProvider));
+            }
+
+            var replicationProviderSettings = this.Policy.ReplicationProviderSettings as ASRAzureToAzurePolicyDetails;
+
+            this.appConsistentFrequencyInMinutes = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.AppConsistentFrequencyInMinutes)) ?
+                this.AppConsistentFrequencyInMinutes :
+                replicationProviderSettings.AppConsistentFrequencyInMinutes;
+            this.crashConsistentFrequencyInMinutes = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.CrashConsistentFrequencyInMinutes)) ?
+                this.CrashConsistentFrequencyInMinutes :
+                replicationProviderSettings.CrashConsistentFrequencyInMinutes;
+            this.multiVmSyncStatus = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.MultiVmSyncStatus)) ?
+                this.MultiVmSyncStatus :
+                replicationProviderSettings.MultiVmSyncStatus;
+            this.recoveryPointHistory = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.RecoveryPointHistory)) ?
+                this.RecoveryPointHistory :
+                replicationProviderSettings.RecoveryPointHistory;
+            this.recoveryPointThresholdInMinutes = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.RecoveryPointThresholdInMinutes)) ?
+                this.RecoveryPointThresholdInMinutes :
+                replicationProviderSettings.RecoveryPointThresholdInMinutes;
+            
+            var a2aPolicyCreationInput = new A2APolicyCreationInput()
+            {
+                AppConsistentFrequencyInMinutes = this.appConsistentFrequencyInMinutes,
+                CrashConsistentFrequencyInMinutes = this.crashConsistentFrequencyInMinutes,
+                MultiVmSyncStatus = this.multiVmSyncStatus,
+                RecoveryPointHistory = this.recoveryPointHistory,
+                RecoveryPointThresholdInMinutes = this.recoveryPointThresholdInMinutes
+            };
+
+            var updatePolicyProperties = new UpdatePolicyProperties()
+            {
+                ReplicationProviderSettings = a2aPolicyCreationInput
+            };
+
+            var updatePolicyInput = new UpdatePolicyInput()
+            {
+                Properties = updatePolicyProperties
+            };
+
+            LongRunningOperationResponse response =
+                RecoveryServicesClient.UpdatePolicy(this.Policy.Name, updatePolicyInput);
+
+            string jobId = PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location);
+
+            JobResponse jobResponse =
+                RecoveryServicesClient
+                .GetAzureSiteRecoveryJobDetails(jobId);
 
             WriteObject(new ASRJob(jobResponse.Job));
         }
