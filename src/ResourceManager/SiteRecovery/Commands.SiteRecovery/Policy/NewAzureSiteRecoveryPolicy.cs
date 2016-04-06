@@ -101,8 +101,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets a value indicating whether Compression needs to be Enabled on the Policy.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise)]
-        [DefaultValue(false)]
-        public SwitchParameter CompressionEnabled { get; set; }
+        [DefaultValue(Constants.Disable)]
+        [ValidateSet(
+            Constants.Enable,
+            Constants.Disable)]
+        public string Compression { get; set; }
 
         /// <summary>
         /// Gets or sets the Replication Port of the Policy.
@@ -134,8 +137,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// disabling protection of a protection entity protected by the Policy.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise)]
-        [DefaultValue(false)]
-        public SwitchParameter AllowReplicaDeletion { get; set; }
+        [DefaultValue(Constants.NotRequired)]
+        [ValidateSet(
+            Constants.Required,
+            Constants.NotRequired)]
+        public string ReplicaDeletion { get; set; }
 
         /// <summary>
         /// Gets or sets Recovery Azure Storage Account Name of the Policy for E2A scenarios.
@@ -148,7 +154,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets Encrypt parameter. On passing, data will be encrypted.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure)]
-        public SwitchParameter Encrypt { get; set; }
+        [ValidateNotNullOrEmpty]
+        [ValidateSet(
+            Constants.Enable,
+            Constants.Disable)]
+        public string Encryption { get; set; }
 
         /* TODO: SriramVu:
          * Revise the mandatory inputs for A2A prameterset and use defaults if req.
@@ -235,12 +245,12 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     AllowedAuthenticationType =
                         (ushort)((string.Compare(this.Authentication, Constants.AuthenticationTypeKerberos, StringComparison.OrdinalIgnoreCase) == 0) ? 1 : 2),
                     ApplicationConsistentSnapshotFrequencyInHours = this.ApplicationConsistentSnapshotFrequencyInHours,
-                    Compression = this.CompressionEnabled == true ? "Enable" : "Disable",
+                    Compression = this.Compression,
                     InitialReplicationMethod =
                      (string.Compare(this.ReplicationMethod, Constants.OnlineReplicationMethod, StringComparison.OrdinalIgnoreCase) == 0) ? "OverNetwork" : "Offline",
                     OnlineReplicationStartTime = this.ReplicationStartTime,
                     RecoveryPoints = this.RecoveryPoints,
-                    ReplicaDeletion = this.AllowReplicaDeletion == true ? "Required" : "NotRequired",
+                    ReplicaDeletion = this.ReplicaDeletion,
                     ReplicationPort = this.ReplicationPort
                 };
 
@@ -252,12 +262,12 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     AllowedAuthenticationType =
                         (ushort)((string.Compare(this.Authentication, Constants.AuthenticationTypeKerberos, StringComparison.OrdinalIgnoreCase) == 0) ? 1 : 2),
                     ApplicationConsistentSnapshotFrequencyInHours = this.ApplicationConsistentSnapshotFrequencyInHours,
-                    Compression = this.CompressionEnabled == true ? "Enable" : "Disable",
+                    Compression = this.Compression,
                     InitialReplicationMethod =
                      (string.Compare(this.ReplicationMethod, Constants.OnlineReplicationMethod, StringComparison.OrdinalIgnoreCase) == 0) ? "OverNetwork" : "Offline",
                     OnlineReplicationStartTime = this.ReplicationStartTime,
                     RecoveryPoints = this.RecoveryPoints,
-                    ReplicaDeletion = this.AllowReplicaDeletion == true ? "Required" : "NotRequired",
+                    ReplicaDeletion = this.ReplicaDeletion,
                     ReplicationFrequencyInSeconds = replicationFrequencyInSeconds,
                     ReplicationPort = this.ReplicationPort
                 };
@@ -300,11 +310,10 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             {
                 ApplicationConsistentSnapshotFrequencyInHours =
                     this.ApplicationConsistentSnapshotFrequencyInHours,
-                Encryption = this.Encrypt ? "Enable" : "Disable",
+                Encryption = this.Encryption,
                 OnlineIrStartTime = this.ReplicationStartTime,
                 RecoveryPointHistoryDuration = this.RecoveryPoints,
-                ReplicationInterval = replicationFrequencyInSeconds,
-
+                ReplicationInterval = replicationFrequencyInSeconds
             };
 
             hyperVReplicaAzurePolicyInput.StorageAccounts =
