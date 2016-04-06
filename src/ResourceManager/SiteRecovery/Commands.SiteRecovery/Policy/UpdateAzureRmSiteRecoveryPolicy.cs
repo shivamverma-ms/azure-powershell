@@ -66,7 +66,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise)]
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure)]
         [ValidateNotNullOrEmpty]
-        [DefaultValue(0)]
         public int RecoveryPoints { get; set; }
 
         /// <summary>
@@ -75,14 +74,12 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise)]
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure)]
         [ValidateNotNullOrEmpty]
-        [DefaultValue(0)]
         public int ApplicationConsistentSnapshotFrequencyInHours { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether Compression needs to be Enabled on the Policy.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise)]
-        [DefaultValue(false)]
         public SwitchParameter CompressionEnabled { get; set; }
 
         /// <summary>

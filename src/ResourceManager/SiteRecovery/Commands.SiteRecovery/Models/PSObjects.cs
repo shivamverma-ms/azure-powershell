@@ -1610,35 +1610,74 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     }
 
     /// <summary>
-    /// Task of the Job.
+    /// ASRGroupTaskDetails of the Task.
     /// </summary>
-    public class ASRTask
+    public class ASRGroupTaskDetails
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ASRTask" /> class.
+        /// Initializes a new instance of the <see cref="ASRGroupTaskDetails" /> class.
         /// </summary>
-        public ASRTask()
+        public ASRGroupTaskDetails()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ASRTask" /> class.
+        /// Initializes a new instance of the <see cref="ASRGroupTaskDetails" /> class.
         /// </summary>
         /// <param name="task">Task details to load values from.</param>
-        public ASRTask(AsrTask task)
+        public ASRGroupTaskDetails(GroupTaskDetails groupTaskDetails)
         {
-            this.ID = task.ID;
-            if (task.EndTime != null)
+            this.Type = groupTaskDetails.Type;
+            ChildTasks = new List<ASRTaskBase>();
+            if (groupTaskDetails.ChildTasks != null)
             {
-                this.EndTime = task.EndTime.ToLocalTime();
+                ChildTasks = groupTaskDetails.ChildTasks.Select(ct => new ASRTaskBase(ct)).ToList();
             }
-            this.Name = task.TaskFriendlyName;
-            if (task.StartTime != null)
+        }
+
+        /// <summary>
+        /// Gets or sets ASRGroupTaskDetails Type.
+        /// </summary>
+        public string Type { get; set; }
+
+        /// <summary>
+        /// Child Tasks.
+        /// </summary>
+        List<ASRTaskBase> ChildTasks { get; set; }
+    }
+
+    /// <summary>
+    /// ASRTaskBase.
+    /// </summary>
+    public class ASRTaskBase
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ASRTaskBase" /> class.
+        /// </summary>
+        public ASRTaskBase()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ASRTaskBase" /> class.
+        /// </summary>
+        /// <param name="task">Base task details to load values from.</param>
+        public ASRTaskBase(AsrTaskBase taskBase)
+        {
+            this.ID = taskBase.ID;
+            this.Name = taskBase.TaskFriendlyName;
+            if (taskBase.EndTime != null)
             {
-                this.StartTime = task.StartTime.ToLocalTime();
+                this.EndTime = taskBase.EndTime.ToLocalTime();
             }
-            this.State = task.State;
-            this.StateDescription = "";
+
+            if (taskBase.StartTime != null)
+            {
+                this.StartTime = taskBase.StartTime.ToLocalTime();
+            }
+
+            this.State = taskBase.State;
+            this.StateDescription = taskBase.StateDescription;
         }
 
         /// <summary>
@@ -1670,6 +1709,75 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets the end time.
         /// </summary>
         public DateTime EndTime { get; set; }
+    }
+
+    /// <summary>
+    /// Task of the Job.
+    /// </summary>
+    public class ASRTask
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ASRTask" /> class.
+        /// </summary>
+        public ASRTask()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ASRTask" /> class.
+        /// </summary>
+        /// <param name="task">Task details to load values from.</param>
+        public ASRTask(AsrTask task)
+        {
+            this.ID = task.ID;
+            if (task.EndTime != null)
+            {
+                this.EndTime = task.EndTime.ToLocalTime();
+            }
+            this.Name = task.TaskFriendlyName;
+            if (task.StartTime != null)
+            {
+                this.StartTime = task.StartTime.ToLocalTime();
+            }
+            this.State = task.State;
+            this.StateDescription = task.StateDescription;
+            this.GroupTaskDetails = new ASRGroupTaskDetails(task.GroupTaskCustomDetails);
+        }
+
+        /// <summary>
+        /// Gets or sets the task name.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets Job ID.
+        /// </summary>
+        public string ID { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Status.
+        /// </summary>
+        public string State { get; set; }
+
+        /// <summary>
+        /// Gets or sets the State description, which tells the exact internal state.
+        /// </summary>
+        public string StateDescription { get; set; }
+
+        /// <summary>
+        /// Gets or sets the start time.
+        /// </summary>
+        public DateTime StartTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the end time.
+        /// </summary>
+        public DateTime EndTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the GroupTaskDetails
+        /// </summary>
+        public ASRGroupTaskDetails GroupTaskDetails { get; set; }
     }
 
     /// <summary>
