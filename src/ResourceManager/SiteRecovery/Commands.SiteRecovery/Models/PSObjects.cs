@@ -1741,7 +1741,10 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             }
             this.State = task.State;
             this.StateDescription = task.StateDescription;
-            this.GroupTaskDetails = new ASRGroupTaskDetails(task.GroupTaskCustomDetails);
+            if (task.GroupTaskCustomDetails != null)
+            {
+                this.GroupTaskDetails = new ASRGroupTaskDetails(task.GroupTaskCustomDetails);
+            }
         }
 
         /// <summary>
