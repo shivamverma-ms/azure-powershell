@@ -61,13 +61,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets Policy.
+        /// Gets or sets Protection Container Mapping.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        public ASRPolicy Policy { get; set; }
+        public ASRProtectionContainerMapping ProtectionContainerMapping { get; set; }
 
         /// <summary>
         /// Gets or sets Recovery Azure Storage Account Name of the Policy for E2A and B2A scenarios.
@@ -109,18 +109,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         {
             base.ExecuteSiteRecoveryCmdlet();
 
-            this.targetNameOrId = this.ProtectableItem.FriendlyName;
-
-            if (string.Compare(this.ParameterSetName, ASRParameterSets.DisableDR, StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                throw new PSArgumentException(Properties.Resources.PassingPolicyMandatoryForEnablingDR);
-            }
-
             EnableProtectionProviderSpecificInput enableProtectionProviderSpecificInput = new EnableProtectionProviderSpecificInput();
 
             EnableProtectionInputProperties inputProperties = new EnableProtectionInputProperties()
             {
-                PolicyId = this.Policy.ID,
+                PolicyId = this.ProtectionContainerMapping.PolicyId,
                 ProtectableItemId = this.ProtectableItem.ID,
                 ProviderSpecificDetails = enableProtectionProviderSpecificInput
             };
@@ -131,9 +124,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             };
 
             // Process if block only if policy is not null, policy is created for E2A or B2A and parameter set is for enable DR of E2A or B2A 
-            if (this.Policy != null &&
-                0 == string.Compare(this.Policy.ReplicationProvider, Constants.HyperVReplicaAzure, StringComparison.OrdinalIgnoreCase) &&
-                (0 == string.Compare(this.ParameterSetName, ASRParameterSets.EnterpriseToAzure, StringComparison.OrdinalIgnoreCase) ||
+            if ((0 == string.Compare(this.ParameterSetName, ASRParameterSets.EnterpriseToAzure, StringComparison.OrdinalIgnoreCase) ||
                 0 == string.Compare(this.ParameterSetName, ASRParameterSets.HyperVSiteToAzure, StringComparison.OrdinalIgnoreCase)))
             {
                 HyperVReplicaAzureEnableProtectionInput providerSettings = new HyperVReplicaAzureEnableProtectionInput();
@@ -185,12 +176,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 }
 
                 input.Properties.ProviderSpecificDetails = providerSettings;
-            }
-            else if (this.Policy != null &&
-                0 == string.Compare(this.Policy.ReplicationProvider, Constants.HyperVReplicaAzure, StringComparison.OrdinalIgnoreCase) &&
-                0 == string.Compare(this.ParameterSetName, ASRParameterSets.EnterpriseToEnterprise, StringComparison.OrdinalIgnoreCase))
-            {
-                throw new PSArgumentException(Properties.Resources.PassingStorageMandatoryForEnablingDRInAzureScenarios);
             }
 
             this.response =
