@@ -33,11 +33,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         private LongRunningOperationResponse response = null;
 
-        /// <summary>
-        /// Holds either Name (if object is passed) or ID (if IDs are passed) of the PE.
-        /// </summary>
-        private string targetNameOrId = string.Empty;
-
         JobResponse jobResponse = null;
 
         #region Parameters
@@ -123,8 +118,10 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 Properties = inputProperties
             };
 
-            // Process if block only if policy is not null, policy is created for E2A or B2A and parameter set is for enable DR of E2A or B2A 
-            if ((0 == string.Compare(this.ParameterSetName, ASRParameterSets.EnterpriseToAzure, StringComparison.OrdinalIgnoreCase) ||
+            // Process if block only if policy is not null, mapping is for E2A or B2A and parameter set is for create replication protected item  of E2A or B2A 
+            if (this.ProtectionContainerMapping != null &&
+                0 == string.Compare(this.ProtectionContainerMapping.ReplicationProvider, Constants.HyperVReplicaAzure, StringComparison.OrdinalIgnoreCase) &&
+                (0 == string.Compare(this.ParameterSetName, ASRParameterSets.EnterpriseToAzure, StringComparison.OrdinalIgnoreCase) ||
                 0 == string.Compare(this.ParameterSetName, ASRParameterSets.HyperVSiteToAzure, StringComparison.OrdinalIgnoreCase)))
             {
                 HyperVReplicaAzureEnableProtectionInput providerSettings = new HyperVReplicaAzureEnableProtectionInput();
@@ -176,6 +173,12 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 }
 
                 input.Properties.ProviderSpecificDetails = providerSettings;
+            }
+            else if (this.ProtectionContainerMapping != null &&
+                0 == string.Compare(this.ProtectionContainerMapping.ReplicationProvider, Constants.HyperVReplicaAzure, StringComparison.OrdinalIgnoreCase) &&
+                0 == string.Compare(this.ParameterSetName, ASRParameterSets.EnterpriseToEnterprise, StringComparison.OrdinalIgnoreCase))
+            {
+                throw new PSArgumentException(Properties.Resources.PassingStorageMandatoryForEnablingDRInAzureScenarios);
             }
 
             this.response =

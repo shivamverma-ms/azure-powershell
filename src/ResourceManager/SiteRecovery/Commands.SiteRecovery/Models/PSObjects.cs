@@ -396,6 +396,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             this.TargetFabricFriendlyName = pcm.Properties.TargetFabricFriendlyName;
             this.TargetProtectionContainerFriendlyName = pcm.Properties.TargetProtectionContainerFriendlyName;
             this.TargetProtectionContainerId = pcm.Properties.TargetProtectionContainerId;
+            this.ReplicationProvider = pcm.Properties.ProviderSpecificDetails.InstanceType;
         }
 
         #region Properties
@@ -459,6 +460,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets Target Protection Container Id
         /// </summary>
         public string TargetProtectionContainerId { get; set; }
+
+        /// <summary>
+        /// Gets or sets Replication Type (HyperVReplica, HyperVReplicaAzure, San)
+        /// </summary>
+        public string ReplicationProvider { get; set; }
 
         #endregion
     }
