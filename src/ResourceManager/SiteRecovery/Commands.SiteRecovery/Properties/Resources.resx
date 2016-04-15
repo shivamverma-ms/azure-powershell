@@ -358,4 +358,7 @@ Please provide a storage account with the same location as that of the vault.</v
   <data name="RecoveryPointNotFound" xml:space="preserve">
     <value>Recovery Point '{0}' is not associated with the Replication Protected Item '{1}'</value>
   </data>
+  <data name="ContainerMappingParameterSetMismatch" xml:space="preserve">
+    <value>There is a mismatch in the chosen parameter set and passed container mapping "{0}" with provider type "{1}".</value>
+  </data>
 </root>

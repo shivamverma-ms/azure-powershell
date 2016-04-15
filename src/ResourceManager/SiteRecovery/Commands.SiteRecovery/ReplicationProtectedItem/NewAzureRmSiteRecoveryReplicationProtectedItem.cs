@@ -103,9 +103,37 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public override void ExecuteSiteRecoveryCmdlet()
         {
             base.ExecuteSiteRecoveryCmdlet();
+            switch (this.ParameterSetName)
+            {
+                case ASRParameterSets.EnterpriseToEnterprise:
+                    if (this.ProtectionContainerMapping.ReplicationProvider != Constants.HyperVReplica2012 &&
+                        this.ProtectionContainerMapping.ReplicationProvider != Constants.HyperVReplica2012R2)
+                    {
+                        throw new PSArgumentException(
+                            string.Format(
+                                Properties.Resources.ContainerMappingParameterSetMismatch,
+                                this.ProtectionContainerMapping.Name,
+                                this.ProtectionContainerMapping.ReplicationProvider));
+                    }
+                    break;
+
+                case ASRParameterSets.EnterpriseToAzure:
+                case ASRParameterSets.HyperVSiteToAzure:
+                    if (this.ProtectionContainerMapping.ReplicationProvider != Constants.HyperVReplicaAzure)
+                    {
+                        throw new PSArgumentException(
+                            string.Format(
+                                Properties.Resources.ContainerMappingParameterSetMismatch,
+                                this.ProtectionContainerMapping.Name,
+                                this.ProtectionContainerMapping.ReplicationProvider));
+                    }
+                    break;
+
+                default:
+                    break;
+            }
 
             EnableProtectionProviderSpecificInput enableProtectionProviderSpecificInput = new EnableProtectionProviderSpecificInput();
-
             EnableProtectionInputProperties inputProperties = new EnableProtectionInputProperties()
             {
                 PolicyId = this.ProtectionContainerMapping.PolicyId,
@@ -118,11 +146,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 Properties = inputProperties
             };
 
-            // Process if block only if policy is not null, mapping is for E2A or B2A and parameter set is for create replication protected item  of E2A or B2A 
-            if (this.ProtectionContainerMapping != null &&
-                0 == string.Compare(this.ProtectionContainerMapping.ReplicationProvider, Constants.HyperVReplicaAzure, StringComparison.OrdinalIgnoreCase) &&
-                (0 == string.Compare(this.ParameterSetName, ASRParameterSets.EnterpriseToAzure, StringComparison.OrdinalIgnoreCase) ||
-                0 == string.Compare(this.ParameterSetName, ASRParameterSets.HyperVSiteToAzure, StringComparison.OrdinalIgnoreCase)))
+            // E2A and B2A.
+            if (0 == string.Compare(this.ParameterSetName, ASRParameterSets.EnterpriseToAzure, StringComparison.OrdinalIgnoreCase) ||
+                0 == string.Compare(this.ParameterSetName, ASRParameterSets.HyperVSiteToAzure, StringComparison.OrdinalIgnoreCase))
             {
                 HyperVReplicaAzureEnableProtectionInput providerSettings = new HyperVReplicaAzureEnableProtectionInput();
                 providerSettings.HvHostVmId = this.ProtectableItem.FabricObjectId;
@@ -173,12 +199,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 }
 
                 input.Properties.ProviderSpecificDetails = providerSettings;
-            }
-            else if (this.ProtectionContainerMapping != null &&
-                0 == string.Compare(this.ProtectionContainerMapping.ReplicationProvider, Constants.HyperVReplicaAzure, StringComparison.OrdinalIgnoreCase) &&
-                0 == string.Compare(this.ParameterSetName, ASRParameterSets.EnterpriseToEnterprise, StringComparison.OrdinalIgnoreCase))
-            {
-                throw new PSArgumentException(Properties.Resources.PassingStorageMandatoryForEnablingDRInAzureScenarios);
             }
 
             this.response =
