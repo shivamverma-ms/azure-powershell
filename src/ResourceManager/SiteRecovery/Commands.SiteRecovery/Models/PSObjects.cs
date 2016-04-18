@@ -396,7 +396,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             this.TargetFabricFriendlyName = pcm.Properties.TargetFabricFriendlyName;
             this.TargetProtectionContainerFriendlyName = pcm.Properties.TargetProtectionContainerFriendlyName;
             this.TargetProtectionContainerId = pcm.Properties.TargetProtectionContainerId;
-            this.ReplicationProvider = pcm.Properties.ProviderSpecificDetails.InstanceType;
+            //// this.ReplicationProvider = pcm.Properties.ProviderSpecificDetails.InstanceType;
         }
 
         #region Properties
