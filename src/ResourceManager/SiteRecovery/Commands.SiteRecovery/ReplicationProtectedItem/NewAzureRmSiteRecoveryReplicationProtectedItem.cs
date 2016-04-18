@@ -22,17 +22,20 @@ using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
     /// <summary>
-    /// Set Protection Entity protection state.
+    /// Creates Replication protected item.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureRmSiteRecoveryReplicationProtectedItem", DefaultParameterSetName = ASRParameterSets.DisableDR, SupportsShouldProcess = true)]
+    [Cmdlet(VerbsCommon.New, "AzureRmSiteRecoveryReplicationProtectedItem", SupportsShouldProcess = true)]
     [OutputType(typeof(ASRJob))]
     public class NewAzureRmSiteRecoveryReplicationProtectedItem : SiteRecoveryCmdletBase
     {
         /// <summary>
-        /// Job response.
+        /// Long running operation response.
         /// </summary>
         private LongRunningOperationResponse response = null;
 
+        /// <summary>
+        /// Job response.
+        /// </summary>
         JobResponse jobResponse = null;
 
         #region Parameters
@@ -49,18 +52,14 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Replication Protected Item Name.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, Mandatory = true)]
+        [Parameter(Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets Protection Container Mapping.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, Mandatory = true)]
+        [Parameter(Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public ASRProtectionContainerMapping ProtectionContainerMapping { get; set; }
 
@@ -90,6 +89,34 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public string OS { get; set; }
 
         /// <summary>
+        /// Gets or sets Azure VM ARM ID.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        public string AzureVmArmId { get; set; }
+
+        /// <summary>
+        /// Gets or sets target vhd storage account.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        public string TargetVhdStorageAccount { get; set; }
+
+        /// <summary>
+        /// Gets or sets target log storage account.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [ValidateNotNullOrEmpty]
+        public string TargetLogStorageAccount { get; set; }
+
+        /// <summary>
+        /// Gets or sets Staging storage account.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        public string StagingStorageAccount { get; set; }
+
+        /// <summary>
         /// Gets or sets switch parameter. On passing, command waits till completion.
         /// </summary>
         [Parameter]
@@ -103,41 +130,55 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public override void ExecuteSiteRecoveryCmdlet()
         {
             base.ExecuteSiteRecoveryCmdlet();
-            switch (this.ParameterSetName)
-            {
-                case ASRParameterSets.EnterpriseToEnterprise:
-                    if (this.ProtectionContainerMapping.ReplicationProvider != Constants.HyperVReplica2012 &&
-                        this.ProtectionContainerMapping.ReplicationProvider != Constants.HyperVReplica2012R2)
-                    {
-                        throw new PSArgumentException(
-                            string.Format(
-                                Properties.Resources.ContainerMappingParameterSetMismatch,
-                                this.ProtectionContainerMapping.Name,
-                                this.ProtectionContainerMapping.ReplicationProvider));
-                    }
-                    break;
+            ////switch (this.ParameterSetName)
+            ////{
+            ////    case ASRParameterSets.EnterpriseToEnterprise:
+            ////        if (this.ProtectionContainerMapping.ReplicationProvider != Constants.HyperVReplica2012 &&
+            ////            this.ProtectionContainerMapping.ReplicationProvider != Constants.HyperVReplica2012R2)
+            ////        {
+            ////            throw new PSArgumentException(
+            ////                string.Format(
+            ////                    Properties.Resources.ContainerMappingParameterSetMismatch,
+            ////                    this.ProtectionContainerMapping.Name,
+            ////                    this.ProtectionContainerMapping.ReplicationProvider));
+            ////        }
+            ////        break;
 
-                case ASRParameterSets.EnterpriseToAzure:
-                case ASRParameterSets.HyperVSiteToAzure:
-                    if (this.ProtectionContainerMapping.ReplicationProvider != Constants.HyperVReplicaAzure)
-                    {
-                        throw new PSArgumentException(
-                            string.Format(
-                                Properties.Resources.ContainerMappingParameterSetMismatch,
-                                this.ProtectionContainerMapping.Name,
-                                this.ProtectionContainerMapping.ReplicationProvider));
-                    }
-                    break;
+            ////    case ASRParameterSets.EnterpriseToAzure:
+            ////    case ASRParameterSets.HyperVSiteToAzure:
+            ////        if (this.ProtectionContainerMapping.ReplicationProvider != Constants.HyperVReplicaAzure)
+            ////        {
+            ////            throw new PSArgumentException(
+            ////                string.Format(
+            ////                    Properties.Resources.ContainerMappingParameterSetMismatch,
+            ////                    this.ProtectionContainerMapping.Name,
+            ////                    this.ProtectionContainerMapping.ReplicationProvider));
+            ////        }
+            ////        break;
 
-                default:
-                    break;
-            }
+            ////    case ASRParameterSets.AzureToAzure:
+            ////        if (this.ProtectionContainerMapping.ReplicationProvider != Constants.AzureToAzure)
+            ////        {
+            ////            throw new PSArgumentException(
+            ////                string.Format(
+            ////                    Properties.Resources.ContainerMappingParameterSetMismatch,
+            ////                    this.ProtectionContainerMapping.Name,
+            ////                    this.ProtectionContainerMapping.ReplicationProvider));
+            ////        }
+            ////        break;
+
+            ////    default:
+            ////        break;
+            ////}
 
             EnableProtectionProviderSpecificInput enableProtectionProviderSpecificInput = new EnableProtectionProviderSpecificInput();
             EnableProtectionInputProperties inputProperties = new EnableProtectionInputProperties()
             {
                 PolicyId = this.ProtectionContainerMapping.PolicyId,
-                ProtectableItemId = this.ProtectableItem.ID,
+                ProtectableItemId =
+                    0 == string.Compare(this.ParameterSetName, ASRParameterSets.AzureToAzure, StringComparison.OrdinalIgnoreCase) ?
+                    string.Empty :
+                    this.ProtectableItem.ID,
                 ProviderSpecificDetails = enableProtectionProviderSpecificInput
             };
 
@@ -200,11 +241,34 @@ namespace Microsoft.Azure.Commands.SiteRecovery
 
                 input.Properties.ProviderSpecificDetails = providerSettings;
             }
+            /* A2A */
+            else if (0 ==
+                string.Compare(
+                    this.ParameterSetName,
+                    ASRParameterSets.AzureToAzure,
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                A2AEnableProtectionInput providerSettings = new A2AEnableProtectionInput()
+                {
+                    FabricObjectId = this.AzureVmArmId,
+                    RemoteContainerId =
+                        Utilities.GetValueFromArmId(
+                            this.ProtectionContainerMapping.TargetProtectionContainerId,
+                            ARMResourceTypeConstants.ReplicationProtectionContainers),
+                    RemoteFabricId =
+                        Utilities.GetValueFromArmId(
+                            this.ProtectionContainerMapping.TargetProtectionContainerId,
+                            ARMResourceTypeConstants.ReplicationFabrics),
+                    TargetVhdStorageAccountId = this.TargetVhdStorageAccount,
+                    TargetLogStorageAccountId = this.TargetLogStorageAccount,
+                    StagingLogStorageAccountId = this.StagingStorageAccount
+                };
+            }
 
             this.response =
                 RecoveryServicesClient.EnableProtection(
-                Utilities.GetValueFromArmId(this.ProtectableItem.ID, ARMResourceTypeConstants.ReplicationFabrics),
-                Utilities.GetValueFromArmId(this.ProtectableItem.ID, ARMResourceTypeConstants.ReplicationProtectionContainers),
+                Utilities.GetValueFromArmId(this.ProtectionContainerMapping.ID, ARMResourceTypeConstants.ReplicationFabrics),
+                Utilities.GetValueFromArmId(this.ProtectionContainerMapping.ID, ARMResourceTypeConstants.ReplicationProtectionContainers),
                 Name,
                 input);
 

@@ -95,7 +95,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <param name="replicationProtectedItemName">Virtual Machine ID or Replication group Id</param>
         /// <param name="input">Enable protection input.</param>
         /// <returns>Job response</returns>
-        public LongRunningOperationResponse EnableProtection(string fabricName,
+        public LongRunningOperationResponse EnableProtection(
+            string fabricName,
             string protectionContainerName,
             string replicationProtectedItemName,
             EnableProtectionInput input)
