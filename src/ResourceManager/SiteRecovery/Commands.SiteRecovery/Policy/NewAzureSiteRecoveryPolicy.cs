@@ -154,7 +154,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets Encrypt parameter. On passing, data will be encrypted.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure)]
-        [ValidateNotNullOrEmpty]
+        [DefaultValue(Constants.Disable)]
         [ValidateSet(
             Constants.Enable,
             Constants.Disable)]
@@ -249,12 +249,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     AllowedAuthenticationType =
                         (ushort)((string.Compare(this.Authentication, Constants.AuthenticationTypeKerberos, StringComparison.OrdinalIgnoreCase) == 0) ? 1 : 2),
                     ApplicationConsistentSnapshotFrequencyInHours = this.ApplicationConsistentSnapshotFrequencyInHours,
-                    Compression = this.Compression,
+                    Compression = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.Compression)) ?
+                        this.Compression :
+                        Constants.Disable,
                     InitialReplicationMethod =
                      (string.Compare(this.ReplicationMethod, Constants.OnlineReplicationMethod, StringComparison.OrdinalIgnoreCase) == 0) ? "OverNetwork" : "Offline",
                     OnlineReplicationStartTime = this.ReplicationStartTime,
                     RecoveryPoints = this.RecoveryPoints,
-                    ReplicaDeletion = this.ReplicaDeletion,
+                    ReplicaDeletion = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.ReplicaDeletion)) ?
+                        this.ReplicaDeletion :
+                        Constants.NotRequired,
                     ReplicationPort = this.ReplicationPort
                 };
 
@@ -266,12 +270,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     AllowedAuthenticationType =
                         (ushort)((string.Compare(this.Authentication, Constants.AuthenticationTypeKerberos, StringComparison.OrdinalIgnoreCase) == 0) ? 1 : 2),
                     ApplicationConsistentSnapshotFrequencyInHours = this.ApplicationConsistentSnapshotFrequencyInHours,
-                    Compression = this.Compression,
+                    Compression = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.Compression)) ?
+                        this.Compression :
+                        Constants.Disable,
                     InitialReplicationMethod =
                      (string.Compare(this.ReplicationMethod, Constants.OnlineReplicationMethod, StringComparison.OrdinalIgnoreCase) == 0) ? "OverNetwork" : "Offline",
                     OnlineReplicationStartTime = this.ReplicationStartTime,
                     RecoveryPoints = this.RecoveryPoints,
-                    ReplicaDeletion = this.ReplicaDeletion,
+                    ReplicaDeletion = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.ReplicaDeletion)) ?
+                        this.ReplicaDeletion :
+                        Constants.NotRequired,
                     ReplicationFrequencyInSeconds = replicationFrequencyInSeconds,
                     ReplicationPort = this.ReplicationPort
                 };
@@ -314,7 +322,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             {
                 ApplicationConsistentSnapshotFrequencyInHours =
                     this.ApplicationConsistentSnapshotFrequencyInHours,
-                Encryption = this.Encryption,
+                Encryption = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.Encryption)) ?
+                        this.Encryption :
+                        Constants.Disable,
                 OnlineIrStartTime = this.ReplicationStartTime,
                 RecoveryPointHistoryDuration = this.RecoveryPoints,
                 ReplicationInterval = replicationFrequencyInSeconds
@@ -369,7 +379,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             {
                 AppConsistentFrequencyInMinutes = this.AppConsistentFrequencyInMinutes,
                 CrashConsistentFrequencyInMinutes = this.CrashConsistentFrequencyInMinutes,
-                MultiVmSyncStatus = this.MultiVmSyncStatus,
+                MultiVmSyncStatus = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.MultiVmSyncStatus)) ?
+                        this.MultiVmSyncStatus :
+                        Constants.Disable,
                 RecoveryPointHistory = this.RecoveryPointHistory,
                 RecoveryPointThresholdInMinutes = this.RecoveryPointThresholdInMinutes
             };

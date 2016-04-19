@@ -119,7 +119,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             {
                 string primaryFabricName = Utilities.GetValueFromArmId(networkMapping.Id, ARMResourceTypeConstants.ReplicationFabrics);
 
-                if (0 == string.Compare(this.PrimaryFabric.Name, this.primaryServerName, true) &&
+                if (0 == string.Compare(this.PrimaryFabric.Name, primaryFabricName, true) &&
                     !networkMapping.Properties.RecoveryNetworkId.Contains(ARMResourceTypeConstants.ReplicationFabrics))
                 {
                     this.WriteNetworkMapping(networkMapping);

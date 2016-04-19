@@ -130,46 +130,51 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public override void ExecuteSiteRecoveryCmdlet()
         {
             base.ExecuteSiteRecoveryCmdlet();
-            ////switch (this.ParameterSetName)
-            ////{
-            ////    case ASRParameterSets.EnterpriseToEnterprise:
-            ////        if (this.ProtectionContainerMapping.ReplicationProvider != Constants.HyperVReplica2012 &&
-            ////            this.ProtectionContainerMapping.ReplicationProvider != Constants.HyperVReplica2012R2)
-            ////        {
-            ////            throw new PSArgumentException(
-            ////                string.Format(
-            ////                    Properties.Resources.ContainerMappingParameterSetMismatch,
-            ////                    this.ProtectionContainerMapping.Name,
-            ////                    this.ProtectionContainerMapping.ReplicationProvider));
-            ////        }
-            ////        break;
 
-            ////    case ASRParameterSets.EnterpriseToAzure:
-            ////    case ASRParameterSets.HyperVSiteToAzure:
-            ////        if (this.ProtectionContainerMapping.ReplicationProvider != Constants.HyperVReplicaAzure)
-            ////        {
-            ////            throw new PSArgumentException(
-            ////                string.Format(
-            ////                    Properties.Resources.ContainerMappingParameterSetMismatch,
-            ////                    this.ProtectionContainerMapping.Name,
-            ////                    this.ProtectionContainerMapping.ReplicationProvider));
-            ////        }
-            ////        break;
+            var policy = RecoveryServicesClient.GetAzureSiteRecoveryPolicy(
+                Utilities.GetValueFromArmId(this.ProtectionContainerMapping.PolicyId, ARMResourceTypeConstants.Policies)).Policy;
+            var policyInstanceType = policy.Properties.ProviderSpecificDetails.InstanceType;
 
-            ////    case ASRParameterSets.AzureToAzure:
-            ////        if (this.ProtectionContainerMapping.ReplicationProvider != Constants.AzureToAzure)
-            ////        {
-            ////            throw new PSArgumentException(
-            ////                string.Format(
-            ////                    Properties.Resources.ContainerMappingParameterSetMismatch,
-            ////                    this.ProtectionContainerMapping.Name,
-            ////                    this.ProtectionContainerMapping.ReplicationProvider));
-            ////        }
-            ////        break;
+            switch (this.ParameterSetName)
+            {
+                case ASRParameterSets.EnterpriseToEnterprise:
+                    if (policyInstanceType != Constants.HyperVReplica2012 &&
+                        policyInstanceType != Constants.HyperVReplica2012R2)
+                    {
+                        throw new PSArgumentException(
+                            string.Format(
+                                Properties.Resources.ContainerMappingParameterSetMismatch,
+                                this.ProtectionContainerMapping.Name,
+                                this.ProtectionContainerMapping.ReplicationProvider));
+                    }
+                    break;
 
-            ////    default:
-            ////        break;
-            ////}
+                case ASRParameterSets.EnterpriseToAzure:
+                case ASRParameterSets.HyperVSiteToAzure:
+                    if (policyInstanceType != Constants.HyperVReplicaAzure)
+                    {
+                        throw new PSArgumentException(
+                            string.Format(
+                                Properties.Resources.ContainerMappingParameterSetMismatch,
+                                this.ProtectionContainerMapping.Name,
+                                this.ProtectionContainerMapping.ReplicationProvider));
+                    }
+                    break;
+
+                case ASRParameterSets.AzureToAzure:
+                    if (policyInstanceType != Constants.AzureToAzure)
+                    {
+                        throw new PSArgumentException(
+                            string.Format(
+                                Properties.Resources.ContainerMappingParameterSetMismatch,
+                                this.ProtectionContainerMapping.Name,
+                                this.ProtectionContainerMapping.ReplicationProvider));
+                    }
+                    break;
+
+                default:
+                    break;
+            }
 
             EnableProtectionProviderSpecificInput enableProtectionProviderSpecificInput = new EnableProtectionProviderSpecificInput();
             EnableProtectionInputProperties inputProperties = new EnableProtectionInputProperties()
