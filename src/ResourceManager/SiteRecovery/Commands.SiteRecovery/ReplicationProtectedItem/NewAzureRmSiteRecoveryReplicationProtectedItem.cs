@@ -268,6 +268,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     TargetLogStorageAccountId = this.TargetLogStorageAccount,
                     StagingLogStorageAccountId = this.StagingStorageAccount
                 };
+
+                input.Properties.ProviderSpecificDetails = providerSettings;
             }
 
             this.response =
