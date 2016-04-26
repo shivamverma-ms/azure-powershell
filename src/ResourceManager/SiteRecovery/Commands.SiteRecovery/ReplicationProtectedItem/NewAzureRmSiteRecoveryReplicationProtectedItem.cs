@@ -145,7 +145,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                             string.Format(
                                 Properties.Resources.ContainerMappingParameterSetMismatch,
                                 this.ProtectionContainerMapping.Name,
-                                this.ProtectionContainerMapping.ReplicationProvider));
+                                policyInstanceType));
                     }
                     break;
 
@@ -157,7 +157,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                             string.Format(
                                 Properties.Resources.ContainerMappingParameterSetMismatch,
                                 this.ProtectionContainerMapping.Name,
-                                this.ProtectionContainerMapping.ReplicationProvider));
+                                policyInstanceType));
                     }
                     break;
 
@@ -168,7 +168,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                             string.Format(
                                 Properties.Resources.ContainerMappingParameterSetMismatch,
                                 this.ProtectionContainerMapping.Name,
-                                this.ProtectionContainerMapping.ReplicationProvider));
+                                policyInstanceType));
                     }
                     break;
 
