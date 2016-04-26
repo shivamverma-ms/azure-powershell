@@ -177,7 +177,7 @@
     <value>Waiting for completion</value>
   </data>
   <data name="DisableProtectionWarning" xml:space="preserve">
-    <value>Are you sure want to disable protection on {0}</value>
+    <value>Are you sure want to disable protection on '{0}'</value>
   </data>
   <data name="DisableProtectionWhatIfMessage" xml:space="preserve">
     <value>{0}s protection</value>
