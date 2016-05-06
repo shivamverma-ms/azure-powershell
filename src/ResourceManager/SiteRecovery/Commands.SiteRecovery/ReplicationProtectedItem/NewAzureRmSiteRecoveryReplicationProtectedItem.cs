@@ -103,13 +103,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public string TargetVhdStorageAccount { get; set; }
 
         /// <summary>
-        /// Gets or sets target log storage account.
-        /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
-        [ValidateNotNullOrEmpty]
-        public string TargetLogStorageAccount { get; set; }
-
-        /// <summary>
         /// Gets or sets Staging storage account.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
@@ -265,7 +258,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                             this.ProtectionContainerMapping.TargetProtectionContainerId,
                             ARMResourceTypeConstants.ReplicationFabrics),
                     TargetVhdStorageAccountId = this.TargetVhdStorageAccount,
-                    TargetLogStorageAccountId = this.TargetLogStorageAccount,
                     StagingLogStorageAccountId = this.StagingStorageAccount
                 };
 

@@ -371,6 +371,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Disable.
         /// </summary>
         public const string Disable = "Disable";
+
+        /// <summary>
+        /// Remove.
+        /// </summary>
+        public const string Remove = "Remove";
+
+        /// <summary>
+        /// Keep.
+        /// </summary>
+        public const string Keep = "Keep";
     }
 
      /// <summary>

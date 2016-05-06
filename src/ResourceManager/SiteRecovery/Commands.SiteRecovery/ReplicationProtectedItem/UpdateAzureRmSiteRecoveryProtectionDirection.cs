@@ -51,6 +51,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets Replication Protected Item.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByPEObject, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true, ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
         public ASRReplicationProtectedItem ReplicationProtectedItem { get; set; }
 
@@ -59,10 +60,41 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByRPObject, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.ByPEObject, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
         [ValidateSet(
             Constants.PrimaryToRecovery,
             Constants.RecoveryToPrimary)]
         public string Direction { get; set; }
+
+        /// <summary>
+        /// Gets or sets Protection Container Mapping.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        public ASRProtectionContainerMapping ProtectionContainerMapping { get; set; }
+
+        /// <summary>
+        /// Gets or sets target vhd storage account.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [ValidateNotNullOrEmpty]
+        public string TargetVhdStorageAccount { get; set; }
+
+        /// <summary>
+        /// Gets or sets Staging storage account.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        public string StagingStorageAccount { get; set; }
+
+        /// <summary>
+        /// Gets or sets Azure VM ARM ID.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [ValidateSet(
+            Constants.Remove,
+            Constants.Keep)]
+        public string TargetAzureArtifactsOption { get; set; }
 
         #endregion Parameters
 
@@ -103,15 +135,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 Properties = plannedFailoverInputProperties
             };
 
-            // fetch the latest Protectable item objects
+            // Fetch the latest Protectable item objects
             ReplicationProtectedItemResponse replicationProtectedItemResponse =
                         RecoveryServicesClient.GetAzureSiteRecoveryReplicationProtectedItem(this.fabricName,
                         this.protectionContainerName, this.ReplicationProtectedItem.Name);
 
             ProtectableItemResponse protectableItemResponse =
-                        RecoveryServicesClient.GetAzureSiteRecoveryProtectableItem(this.fabricName, this.protectionContainerName,
-                        Utilities.GetValueFromArmId(replicationProtectedItemResponse.ReplicationProtectedItem.Properties.ProtectableItemId, 
-                        ARMResourceTypeConstants.ProtectableItems));
+                RecoveryServicesClient.GetAzureSiteRecoveryProtectableItem(this.fabricName, this.protectionContainerName,
+                Utilities.GetValueFromArmId(replicationProtectedItemResponse.ReplicationProtectedItem.Properties.ProtectableItemId,
+                ARMResourceTypeConstants.ProtectableItems));
 
             var aSRProtectableItem = new ASRProtectableItem(protectableItemResponse.ProtectableItem);
 
@@ -134,10 +166,34 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     HyperVReplicaAzureReplicationDetails providerSpecificDetails =
                            (HyperVReplicaAzureReplicationDetails)replicationProtectedItemResponse.ReplicationProtectedItem.Properties.ProviderSpecificDetails;
 
-                    reprotectInput.StorageAccountId = providerSpecificDetails.RecoveryAzureStorageAccount;
-
                     input.Properties.ProviderSpecificDetails = reprotectInput;
                 }
+            }
+            else if(0 == string.Compare(
+                this.ReplicationProtectedItem.ReplicationProvider,
+                Constants.AzureToAzure,
+                StringComparison.OrdinalIgnoreCase))
+            {
+                var reprotectInput = new A2AReprotectInput()
+                {
+                    FabricObjectId = aSRProtectableItem.FabricObjectId,
+                    PolicyId = this.ProtectionContainerMapping.PolicyId,
+                    RemoteContainerId =
+                        Utilities.GetValueFromArmId(
+                            this.ProtectionContainerMapping.TargetProtectionContainerId,
+                            ARMResourceTypeConstants.ReplicationProtectionContainers),
+                    RemoteFabricId =
+                        Utilities.GetValueFromArmId(
+                            this.ProtectionContainerMapping.TargetProtectionContainerId,
+                            ARMResourceTypeConstants.ReplicationFabrics),
+                    TargetVhdStorageAccountId = this.TargetVhdStorageAccount,
+                    StagingLogStorageAccountId = this.StagingStorageAccount,
+                    TargetAzureArtifactsOption = string.Compare(this.TargetAzureArtifactsOption, Constants.Remove) == 0 ?
+                        Constants.Remove :
+                        Constants.Keep
+                };
+
+                input.Properties.ProviderSpecificDetails = reprotectInput;
             }
 
             LongRunningOperationResponse response =
