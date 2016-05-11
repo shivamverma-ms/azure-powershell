@@ -246,17 +246,10 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     ASRParameterSets.AzureToAzure,
                     StringComparison.OrdinalIgnoreCase))
             {
-                A2AEnableProtectionInput providerSettings = new A2AEnableProtectionInput()
+                var providerSettings = new A2AEnableProtectionInput()
                 {
                     FabricObjectId = this.AzureVmArmId,
-                    RemoteContainerId =
-                        Utilities.GetValueFromArmId(
-                            this.ProtectionContainerMapping.TargetProtectionContainerId,
-                            ARMResourceTypeConstants.ReplicationProtectionContainers),
-                    RemoteFabricId =
-                        Utilities.GetValueFromArmId(
-                            this.ProtectionContainerMapping.TargetProtectionContainerId,
-                            ARMResourceTypeConstants.ReplicationFabrics),
+                    RemoteContainerId = this.ProtectionContainerMapping.TargetProtectionContainerId,
                     TargetVhdStorageAccountId = this.TargetVhdStorageAccount,
                     StagingLogStorageAccountId = this.StagingStorageAccount
                 };

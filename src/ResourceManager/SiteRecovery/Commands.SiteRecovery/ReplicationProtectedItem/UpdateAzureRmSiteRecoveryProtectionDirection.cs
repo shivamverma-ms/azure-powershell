@@ -76,14 +76,14 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets target vhd storage account.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string TargetVhdStorageAccount { get; set; }
 
         /// <summary>
         /// Gets or sets Staging storage account.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
         [ValidateNotNullOrEmpty]
         public string StagingStorageAccount { get; set; }
 
@@ -176,16 +176,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             {
                 var reprotectInput = new A2AReprotectInput()
                 {
-                    FabricObjectId = aSRProtectableItem.FabricObjectId,
                     PolicyId = this.ProtectionContainerMapping.PolicyId,
-                    RemoteContainerId =
-                        Utilities.GetValueFromArmId(
-                            this.ProtectionContainerMapping.TargetProtectionContainerId,
-                            ARMResourceTypeConstants.ReplicationProtectionContainers),
-                    RemoteFabricId =
-                        Utilities.GetValueFromArmId(
-                            this.ProtectionContainerMapping.TargetProtectionContainerId,
-                            ARMResourceTypeConstants.ReplicationFabrics),
+                    RemoteContainerId = this.ProtectionContainerMapping.TargetProtectionContainerId,
                     TargetVhdStorageAccountId = this.TargetVhdStorageAccount,
                     StagingLogStorageAccountId = this.StagingStorageAccount,
                     TargetAzureArtifactsOption = string.Compare(this.TargetAzureArtifactsOption, Constants.Remove) == 0 ?
