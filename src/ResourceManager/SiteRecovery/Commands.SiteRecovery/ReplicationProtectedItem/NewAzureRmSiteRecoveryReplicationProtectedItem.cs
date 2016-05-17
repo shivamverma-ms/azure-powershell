@@ -13,11 +13,8 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using System.Linq;
 using System.Management.Automation;
 using Microsoft.Azure.Management.SiteRecovery.Models;
-using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
-using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
@@ -68,6 +65,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string RecoveryAzureStorageAccountId { get; set; }
 
@@ -93,21 +91,14 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        public string AzureVmArmId { get; set; }
-
-        /// <summary>
-        /// Gets or sets target vhd storage account.
-        /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
-        [ValidateNotNullOrEmpty]
-        public string TargetVhdStorageAccount { get; set; }
+        public string AzureVmId { get; set; }
 
         /// <summary>
         /// Gets or sets Staging storage account.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        public string StagingStorageAccount { get; set; }
+        public string PrimaryStagingAzureStorageAccountId { get; set; }
 
         /// <summary>
         /// Gets or sets switch parameter. On passing, command waits till completion.
@@ -248,10 +239,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             {
                 var providerSettings = new A2AEnableProtectionInput()
                 {
-                    FabricObjectId = this.AzureVmArmId,
-                    RemoteContainerId = this.ProtectionContainerMapping.TargetProtectionContainerId,
-                    TargetVhdStorageAccountId = this.TargetVhdStorageAccount,
-                    StagingLogStorageAccountId = this.StagingStorageAccount
+                    FabricObjectId = this.AzureVmId,
+                    RecoveryContainerId =
+                        this.ProtectionContainerMapping.TargetProtectionContainerId,
+                    RecoveryAzureStorageAccountId = this.RecoveryAzureStorageAccountId,
+                    PrimaryStagingAzureStorageAccountId = this.PrimaryStagingAzureStorageAccountId
                 };
 
                 input.Properties.ProviderSpecificDetails = providerSettings;

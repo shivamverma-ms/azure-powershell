@@ -13,11 +13,8 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using System.Linq;
 using System.Management.Automation;
-using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
 using Microsoft.Azure.Management.SiteRecovery.Models;
-using System.Collections.Generic;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
@@ -74,18 +71,18 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public ASRProtectionContainerMapping ProtectionContainerMapping { get; set; }
 
         /// <summary>
-        /// Gets or sets target vhd storage account.
+        /// Gets or sets recovery vhd storage account.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        public string TargetVhdStorageAccount { get; set; }
+        public string RecoveryAzureStorageAccountId { get; set; }
 
         /// <summary>
         /// Gets or sets Staging storage account.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
         [ValidateNotNullOrEmpty]
-        public string StagingStorageAccount { get; set; }
+        public string SourceStagingAzureStorageAccountId { get; set; }
 
         /// <summary>
         /// Gets or sets Azure VM ARM ID.
@@ -177,9 +174,10 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 var reprotectInput = new A2AReprotectInput()
                 {
                     PolicyId = this.ProtectionContainerMapping.PolicyId,
-                    RemoteContainerId = this.ProtectionContainerMapping.TargetProtectionContainerId,
-                    TargetVhdStorageAccountId = this.TargetVhdStorageAccount,
-                    StagingLogStorageAccountId = this.StagingStorageAccount,
+                    RecoveryContainerId =
+                        this.ProtectionContainerMapping.TargetProtectionContainerId,
+                    RecoveryAzureStorageAccountId = this.RecoveryAzureStorageAccountId,
+                    PrimaryStagingAzureStorageAccountId = this.SourceStagingAzureStorageAccountId,
                     TargetAzureArtifactsOption = string.Compare(this.TargetAzureArtifactsOption, Constants.Remove) == 0 ?
                         Constants.Remove :
                         Constants.Keep
