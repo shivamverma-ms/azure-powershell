@@ -89,6 +89,20 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             Constants.SelectedByUser)]
         public string NicSelectionType { get; set; }
 
+        /// <summary>
+        /// Gets or sets the target cloud service ARM Id (for V1).
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryCloudServiceId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the target resource group ARM Id (for V2).
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryResourceGroupId { get; set; }
+
         #endregion Parameters
 
         /// <summary>
@@ -175,7 +189,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 RecoveryAzureVMName = this.Name,
                 RecoveryAzureVMSize = this.Size,
                 SelectedRecoveryAzureNetworkId = this.RecoveryNetworkId,
-                VmNics = vMNicInputDetailsList
+                VmNics = vMNicInputDetailsList,
+                RecoveryCloudServiceId = this.RecoveryCloudServiceId,
+                RecoveryResourceGroupId = this.RecoveryResourceGroupId
             };
 
             UpdateReplicationProtectedItemInput input = new UpdateReplicationProtectedItemInput()
