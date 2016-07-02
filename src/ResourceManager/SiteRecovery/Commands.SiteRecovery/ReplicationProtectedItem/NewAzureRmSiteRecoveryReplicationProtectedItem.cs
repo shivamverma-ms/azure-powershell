@@ -15,6 +15,7 @@
 using System;
 using System.Management.Automation;
 using Microsoft.Azure.Management.SiteRecovery.Models;
+using System.Collections.Generic;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
@@ -92,6 +93,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string AzureVmId { get; set; }
+
+        /// <summary>
+        /// Gets or sets list of disks to be replicated.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        public string[] ProtectableDiskIds { get; set; }
 
         /// <summary>
         /// Gets or sets Staging storage account.
@@ -242,9 +250,18 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     FabricObjectId = this.AzureVmId,
                     RecoveryContainerId =
                         this.ProtectionContainerMapping.TargetProtectionContainerId,
-                    RecoveryAzureStorageAccountId = this.RecoveryAzureStorageAccountId,
-                    PrimaryStagingAzureStorageAccountId = this.PrimaryStagingAzureStorageAccountId
+                    VmDisks = new List<A2AVmDiskInputDetails>()
                 };
+
+                foreach (var disk in this.ProtectableDiskIds)
+                {
+                    providerSettings.VmDisks.Add(new A2AVmDiskInputDetails
+                        {
+                            DiskId = disk,
+                            RecoveryAzureStorageAccountId = this.RecoveryAzureStorageAccountId,
+                            PrimaryStagingAzureStorageAccountId = this.PrimaryStagingAzureStorageAccountId
+                        });
+                }
 
                 input.Properties.ProviderSpecificDetails = providerSettings;
             }

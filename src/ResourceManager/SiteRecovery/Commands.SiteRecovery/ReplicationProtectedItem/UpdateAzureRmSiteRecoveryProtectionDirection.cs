@@ -15,6 +15,7 @@
 using System;
 using System.Management.Automation;
 using Microsoft.Azure.Management.SiteRecovery.Models;
+using System.Collections.Generic;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
@@ -105,7 +106,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             switch (this.ParameterSetName)
             {
                 case ASRParameterSets.ByPEObject:
-                    this.protectionContainerName = 
+                    this.protectionContainerName =
                         Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationProtectionContainers);
                     this.fabricName = Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationFabrics);
                     this.SetPEReprotect();
@@ -155,7 +156,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     {
                         HvHostVmId = aSRProtectableItem.FabricObjectId,
                         VmName = aSRProtectableItem.FriendlyName,
-                        OSType = ((string.Compare(aSRProtectableItem.OS, "Windows") == 0) || 
+                        OSType = ((string.Compare(aSRProtectableItem.OS, "Windows") == 0) ||
                                     (string.Compare(aSRProtectableItem.OS, "Linux") == 0)) ? aSRProtectableItem.OS : "Windows",
                         VHDId = aSRProtectableItem.OSDiskId
                     };
@@ -166,7 +167,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     input.Properties.ProviderSpecificDetails = reprotectInput;
                 }
             }
-            else if(0 == string.Compare(
+            else if (0 == string.Compare(
                 this.ReplicationProtectedItem.ReplicationProvider,
                 Constants.AzureToAzure,
                 StringComparison.OrdinalIgnoreCase))
@@ -176,12 +177,22 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     PolicyId = this.ProtectionContainerMapping.PolicyId,
                     RecoveryContainerId =
                         this.ProtectionContainerMapping.TargetProtectionContainerId,
-                    RecoveryAzureStorageAccountId = this.RecoveryAzureStorageAccountId,
-                    PrimaryStagingAzureStorageAccountId = this.SourceStagingAzureStorageAccountId,
+                    VmDisks = new List<A2AVmDiskInputDetails>(),
                     TargetAzureArtifactsOption = string.Compare(this.TargetAzureArtifactsOption, Constants.Remove) == 0 ?
                         Constants.Remove :
                         Constants.Keep
                 };
+
+                // TODO (avrai): fetch all disks from VM and fill per disk
+                //foreach (var disk in this.ProtectableDiskIds)
+                //{
+                reprotectInput.VmDisks.Add(new A2AVmDiskInputDetails
+                    {
+                        DiskId = "RANDOM URI",
+                        RecoveryAzureStorageAccountId = this.RecoveryAzureStorageAccountId,
+                        PrimaryStagingAzureStorageAccountId = this.SourceStagingAzureStorageAccountId
+                    });
+                //}
 
                 input.Properties.ProviderSpecificDetails = reprotectInput;
             }
