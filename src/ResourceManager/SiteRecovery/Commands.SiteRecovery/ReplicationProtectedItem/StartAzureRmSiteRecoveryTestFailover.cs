@@ -130,6 +130,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [ValidateNotNullOrEmpty]
         public string DataEncryptionSecondaryCertFile { get; set; }
 
+        /// <summary>
+        /// Gets or sets Recovery Point object.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public ASRRecoveryPoint RecoveryPoint { get; set; }
+
         #endregion Parameters
 
         /// <summary>
@@ -228,6 +235,18 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 {
                     new ArgumentException(Properties.Resources.UnsupportedDirectionForTFO);// Throw Unsupported Direction Exception
                 }
+            }
+            else if (0 == string.Compare(
+                this.ReplicationProtectedItem.ReplicationProvider,
+                Constants.AzureToAzure,
+                StringComparison.OrdinalIgnoreCase))
+            {
+                var failoverInput = new A2AFailoverProviderInput()
+                {
+                    RecoveryPointId = this.RecoveryPoint != null ? this.RecoveryPoint.ID : null
+                };
+
+                input.Properties.ProviderSpecificDetails = failoverInput;
             }
 
             LongRunningOperationResponse response =

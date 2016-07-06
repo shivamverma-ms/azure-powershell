@@ -173,6 +173,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     input.Properties.ProviderSpecificDetails = failbackInput;
                 }
             }
+            else if (0 == string.Compare(
+                this.ReplicationProtectedItem.ReplicationProvider,
+                Constants.AzureToAzure,
+                StringComparison.OrdinalIgnoreCase))
+            {
+                var failoverInput = new A2AFailoverProviderInput();
+
+                input.Properties.ProviderSpecificDetails = failoverInput;
+            }
 
             LongRunningOperationResponse response =
                 RecoveryServicesClient.StartAzureSiteRecoveryPlannedFailover(

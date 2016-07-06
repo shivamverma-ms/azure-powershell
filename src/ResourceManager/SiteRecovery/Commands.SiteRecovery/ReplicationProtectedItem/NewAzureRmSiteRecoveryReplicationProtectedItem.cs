@@ -99,7 +99,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        public string[] ProtectableDiskIds { get; set; }
+        public string[] AzureVmVhdUris { get; set; }
 
         /// <summary>
         /// Gets or sets Staging storage account.
@@ -253,7 +253,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     VmDisks = new List<A2AVmDiskInputDetails>()
                 };
 
-                foreach (var disk in this.ProtectableDiskIds)
+                foreach (var disk in this.AzureVmVhdUris)
                 {
                     providerSettings.VmDisks.Add(new A2AVmDiskInputDetails
                         {

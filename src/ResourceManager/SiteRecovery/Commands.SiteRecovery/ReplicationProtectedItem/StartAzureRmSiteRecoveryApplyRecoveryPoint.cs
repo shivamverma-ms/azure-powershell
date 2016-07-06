@@ -56,7 +56,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         #region Parameters
 
         /// <summary>
-        /// Gets or sets Recovery Plan object.
+        /// Gets or sets Recovery Point object.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByPEObject, Mandatory = true)]
         [ValidateNotNullOrEmpty]
