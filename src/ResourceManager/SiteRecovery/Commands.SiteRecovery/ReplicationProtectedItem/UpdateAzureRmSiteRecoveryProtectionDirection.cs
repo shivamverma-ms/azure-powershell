@@ -83,7 +83,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
         [ValidateNotNullOrEmpty]
-        public string SourceStagingAzureStorageAccountId { get; set; }
+        public string PrimaryStagingAzureStorageAccountId { get; set; }
 
         /// <summary>
         /// Gets or sets Azure VM ARM ID.
@@ -105,6 +105,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
 
             switch (this.ParameterSetName)
             {
+                case ASRParameterSets.AzureToAzure:
                 case ASRParameterSets.ByPEObject:
                     this.protectionContainerName =
                         Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationProtectionContainers);
@@ -133,18 +134,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 Properties = plannedFailoverInputProperties
             };
 
-            // Fetch the latest Protectable item objects
-            ReplicationProtectedItemResponse replicationProtectedItemResponse =
-                        RecoveryServicesClient.GetAzureSiteRecoveryReplicationProtectedItem(this.fabricName,
-                        this.protectionContainerName, this.ReplicationProtectedItem.Name);
-
-            ProtectableItemResponse protectableItemResponse =
-                RecoveryServicesClient.GetAzureSiteRecoveryProtectableItem(this.fabricName, this.protectionContainerName,
-                Utilities.GetValueFromArmId(replicationProtectedItemResponse.ReplicationProtectedItem.Properties.ProtectableItemId,
-                ARMResourceTypeConstants.ProtectableItems));
-
-            var aSRProtectableItem = new ASRProtectableItem(protectableItemResponse.ProtectableItem);
-
             if (0 == string.Compare(
                 this.ReplicationProtectedItem.ReplicationProvider,
                 Constants.HyperVReplicaAzure,
@@ -152,7 +141,19 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             {
                 if (this.Direction == Constants.PrimaryToRecovery)
                 {
-                    HyperVReplicaAzureReprotectInput reprotectInput = new HyperVReplicaAzureReprotectInput()
+                    // Fetch the latest Protectable item objects
+                    ReplicationProtectedItemResponse replicationProtectedItemResponse =
+                                RecoveryServicesClient.GetAzureSiteRecoveryReplicationProtectedItem(this.fabricName,
+                                this.protectionContainerName, this.ReplicationProtectedItem.Name);
+
+                    ProtectableItemResponse protectableItemResponse =
+                        RecoveryServicesClient.GetAzureSiteRecoveryProtectableItem(this.fabricName, this.protectionContainerName,
+                        Utilities.GetValueFromArmId(replicationProtectedItemResponse.ReplicationProtectedItem.Properties.ProtectableItemId,
+                        ARMResourceTypeConstants.ProtectableItems));
+
+                    var aSRProtectableItem = new ASRProtectableItem(protectableItemResponse.ProtectableItem);
+
+                    var reprotectInput = new HyperVReplicaAzureReprotectInput()
                     {
                         HvHostVmId = aSRProtectableItem.FabricObjectId,
                         VmName = aSRProtectableItem.FriendlyName,
@@ -190,7 +191,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     {
                         DiskId = "RANDOM URI",
                         RecoveryAzureStorageAccountId = this.RecoveryAzureStorageAccountId,
-                        PrimaryStagingAzureStorageAccountId = this.SourceStagingAzureStorageAccountId
+                        PrimaryStagingAzureStorageAccountId = this.PrimaryStagingAzureStorageAccountId
                     });
                 //}
 
