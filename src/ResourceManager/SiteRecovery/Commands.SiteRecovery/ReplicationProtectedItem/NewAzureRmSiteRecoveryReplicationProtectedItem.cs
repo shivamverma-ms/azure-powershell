@@ -257,7 +257,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 {
                     providerSettings.VmDisks.Add(new A2AVmDiskInputDetails
                         {
-                            DiskId = disk,
+                            DiskUri = disk,
                             RecoveryAzureStorageAccountId = this.RecoveryAzureStorageAccountId,
                             PrimaryStagingAzureStorageAccountId = this.PrimaryStagingAzureStorageAccountId
                         });

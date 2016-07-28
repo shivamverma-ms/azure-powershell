@@ -234,6 +234,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please pass a valid RecoveryAzureStorageAccountId as input..
+        /// </summary>
+        internal static string InvalidRecoveryAzureStorageAccountId {
+            get {
+                return ResourceManager.GetString("InvalidRecoveryAzureStorageAccountId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Replication Frequency {0} is invalid.
         /// </summary>
         internal static string InvalidReplicationFrequency {
