@@ -103,6 +103,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [ValidateNotNullOrEmpty]
         public string RecoveryResourceGroupId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the target availability set ARM Id (for V2).
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryAvailabilitySetId { get; set; }
+
         #endregion Parameters
 
         /// <summary>
@@ -191,7 +198,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 SelectedRecoveryAzureNetworkId = this.RecoveryNetworkId,
                 VmNics = vMNicInputDetailsList,
                 RecoveryCloudServiceId = this.RecoveryCloudServiceId,
-                RecoveryResourceGroupId = this.RecoveryResourceGroupId
+                RecoveryResourceGroupId = this.RecoveryResourceGroupId,
+                RecoveryAvailabilitySetId = this.RecoveryAvailabilitySetId
             };
 
             UpdateReplicationProtectedItemInput input = new UpdateReplicationProtectedItemInput()

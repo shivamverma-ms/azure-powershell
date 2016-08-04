@@ -109,6 +109,27 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public string PrimaryStagingAzureStorageAccountId { get; set; }
 
         /// <summary>
+        /// Gets or sets Recovery Resource Group Id.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryResourceGroupId { get; set; }
+
+        /// <summary>
+        /// Gets or sets Recovery Cloud Service Id.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryCloudServiceId { get; set; }
+
+        /// <summary>
+        /// Gets or sets Recovery Availability Set Id.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryAvailabilitySetId { get; set; }
+
+        /// <summary>
         /// Gets or sets switch parameter. On passing, command waits till completion.
         /// </summary>
         [Parameter]
@@ -250,7 +271,10 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     FabricObjectId = this.AzureVmId,
                     RecoveryContainerId =
                         this.ProtectionContainerMapping.TargetProtectionContainerId,
-                    VmDisks = new List<A2AVmDiskInputDetails>()
+                    VmDisks = new List<A2AVmDiskInputDetails>(),
+                    RecoveryResourceGroupId = this.RecoveryResourceGroupId,
+                    RecoveryCloudServiceId = this.RecoveryCloudServiceId,
+                    RecoveryAvailabilitySetId = this.RecoveryAvailabilitySetId
                 };
 
                 foreach (var disk in this.AzureVmVhdUris)
@@ -259,7 +283,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         {
                             DiskUri = disk,
                             RecoveryAzureStorageAccountId = this.RecoveryAzureStorageAccountId,
-                            PrimaryStagingAzureStorageAccountId = this.PrimaryStagingAzureStorageAccountId
+                            PrimaryStagingAzureStorageAccountId = this.PrimaryStagingAzureStorageAccountId,
                         });
                 }
 
