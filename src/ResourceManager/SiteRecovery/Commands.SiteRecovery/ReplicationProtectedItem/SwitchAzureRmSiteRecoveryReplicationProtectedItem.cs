@@ -22,9 +22,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     /// <summary>
     /// Reprotects Replication protected item.
     /// </summary>
-    [Cmdlet("Reprotect", "AzureRmSiteRecoveryReplicationProtectedItem", SupportsShouldProcess = true)]
+    [Cmdlet(VerbsCommon.Switch, "AzureRmSiteRecoveryReplicationProtectedItem", SupportsShouldProcess = true)]
     [OutputType(typeof(ASRJob))]
-    public class ReprotectAzureRmSiteRecoveryReplicationProtectedItem : SiteRecoveryCmdletBase
+    public class SwitchAzureRmSiteRecoveryReplicationProtectedItem : SiteRecoveryCmdletBase
     {
         /// <summary>
         /// Gets or sets Name of the Protection Container.

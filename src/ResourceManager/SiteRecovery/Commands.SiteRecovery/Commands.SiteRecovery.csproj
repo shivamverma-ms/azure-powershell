@@ -151,7 +151,7 @@
     <Compile Include="ReplicationProtectedItem\GetAzureRmSiteRecoveryReplicationProtectedItem.cs" />
     <Compile Include="ReplicationProtectedItem\NewAzureRmSiteRecoveryReplicationProtectedItem.cs" />
     <Compile Include="ReplicationProtectedItem\RemoveAzureRmSiteRecoveryReplicationProtectedItem.cs" />
-    <Compile Include="ReplicationProtectedItem\ReprotectAzureRmSiteRecoveryReplicationProtectedItem.cs" />
+    <Compile Include="ReplicationProtectedItem\SwitchAzureRmSiteRecoveryReplicationProtectedItem.cs" />
     <Compile Include="ReplicationProtectedItem\SetAzureRmSiteRecoveryReplicationProtectedItem.cs" />
     <Compile Include="ReplicationProtectedItem\StartAzureRmSiteRecoveryApplyRecoveryPoint.cs" />
     <Compile Include="ReplicationProtectedItem\StartAzureRmSiteRecoveryCommitFailover.cs" />
