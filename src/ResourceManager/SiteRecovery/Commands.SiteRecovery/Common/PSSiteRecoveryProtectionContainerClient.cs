@@ -12,7 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
 using Microsoft.Azure.Management.SiteRecovery;
 using Microsoft.Azure.Management.SiteRecovery.Models;
 
@@ -75,6 +74,41 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             string protectionContainerName, string mappingName)
         {
             return this.GetSiteRecoveryClient().ProtectionContainerMapping.Get(fabricName, protectionContainerName, mappingName, this.GetRequestHeaders());
+        }
+
+        /// <summary>
+        /// Create protection container.
+        /// </summary>
+        /// <param name="fabricName">Fabric Name.</param>
+        /// <param name="protectionContainerName">Protection Container name.</param>
+        /// <param name="input">Creation input.</param>
+        /// <returns>A long running operation response.</returns>
+        public LongRunningOperationResponse CreateProtectionContainer(
+            string fabricName,
+            string protectionContainerName,
+            CreateProtectionContainerInput input)
+        {
+            return this.GetSiteRecoveryClient().ProtectionContainer.BeginCreating(
+                fabricName,
+                protectionContainerName,
+                input,
+                this.GetRequestHeaders());
+        }
+
+        /// <summary>
+        /// Remove protection container.
+        /// </summary>
+        /// <param name="fabricName">Fabric Name.</param>
+        /// <param name="protectionContainerName">Protection Container name.</param>
+        /// <returns>A long running operation response.</returns>
+        public LongRunningOperationResponse RemoveProtectionContainer(
+            string fabricName,
+            string protectionContainerName)
+        {
+            return this.GetSiteRecoveryClient().ProtectionContainer.BeginDeleting(
+                fabricName,
+                protectionContainerName,
+                this.GetRequestHeaders());
         }
 
         /// <summary>
