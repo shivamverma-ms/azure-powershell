@@ -158,6 +158,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public const string AzureToAzure = "A2A";
 
         /// <summary>
+        /// Represents InMageAzureV2 string constant.
+        /// </summary>
+        public const string InMageAzureV2 = "InMageAzureV2";
+
+        /// <summary>
         /// Represents HyperVReplicaAzureReplicationDetails string constant.
         /// </summary>
         public const string HyperVReplicaAzureReplicationDetails = "HyperVReplicaAzureReplicationDetails";
@@ -326,6 +331,17 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Nic Selection Type - SelectedByUser
         /// </summary>
         public const string SelectedByUser = "SelectedByUser";
+
+        /// <summary>
+        /// No license type for HUB https://azure.microsoft.com/en-in/pricing/hybrid-use-benefit/
+        /// </summary>
+        public const string NoLicenseType = "NoLicenseType";
+
+        /// <summary>
+        /// The windows server license type for
+        /// HUB https://azure.microsoft.com/en-in/pricing/hybrid-use-benefit/
+        /// </summary>
+        public const string LicenseTypeWindowsServer = "WindowsServer";
 
         /// <summary>
         /// Failover deployment model: NotApplicable
