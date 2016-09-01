@@ -140,7 +140,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
 
             // Check for Replication Provider type HyperVReplicaAzure/InMageAzureV2
             if (0 != string.Compare(provider, Constants.HyperVReplicaAzure, StringComparison.OrdinalIgnoreCase) &&
-                0 != string.Compare(provider, Constants.InMageAzureV2, StringComparison.OrdinalIgnoreCase))
+                0 != string.Compare(provider, Constants.InMageAzureV2, StringComparison.OrdinalIgnoreCase) &&
+                0 != string.Compare(provider, Constants.AzureToAzure, StringComparison.OrdinalIgnoreCase))
             {
                 this.WriteWarning(Properties.Resources.UnsupportedReplicationProvidedForUpdateVmProperties.ToString());
                 return;
