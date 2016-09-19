@@ -144,6 +144,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 };
                 input.Properties.ProviderSpecificDetails = hyperVReplicaAzureApplyRecoveryPointInput;
             }
+            else if (string.Compare(
+               this.ReplicationProtectedItem.ReplicationProvider,
+               Constants.AzureToAzure,
+               StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                input.Properties.ProviderSpecificDetails = new A2AApplyRecoveryPointInput();
+            }
 
             LongRunningOperationResponse response =
                 RecoveryServicesClient.StartAzureSiteRecoveryApplyRecoveryPoint(
