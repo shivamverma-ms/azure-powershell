@@ -12,20 +12,17 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
-using System.Linq;
-using System.Management.Automation;
-using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
 using Microsoft.Azure.Management.SiteRecovery.Models;
-using System.Collections.Generic;
+using System;
 using System.IO;
+using System.Management.Automation;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
     /// <summary>
     /// Used to initiate a apply recovery point operation.
     /// </summary>
-    [Cmdlet(VerbsLifecycle.Start, "AzureRmSiteRecoveryApplyRecoveryPoint", DefaultParameterSetName = ASRParameterSets.ByPEObject)]
+    [Cmdlet(VerbsLifecycle.Start, "AzureRmSiteRecoveryApplyRecoveryPoint", DefaultParameterSetName = ASRParameterSets.Default)]
     [OutputType(typeof(ASRJob))]
     public class StartAzureRmSiteRecoveryApplyRecoveryPoint : SiteRecoveryCmdletBase
     {
@@ -56,30 +53,32 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         #region Parameters
 
         /// <summary>
-        /// Gets or sets Recovery Plan object.
+        /// Gets or sets Recovery Point object.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.ByPEObject, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.Default, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzure, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public ASRRecoveryPoint RecoveryPoint { get; set; }
 
         /// <summary>
         /// Gets or sets Replication Protected Item.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.ByPEObject, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.Default, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzure, Mandatory = true, ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
         public ASRReplicationProtectedItem ReplicationProtectedItem { get; set; }
 
         /// <summary>
         /// Gets or sets Data encryption certificate file path for failover of Protected Item.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.Default)]
         [ValidateNotNullOrEmpty]
         public string DataEncryptionPrimaryCertFile { get; set; }
 
         /// <summary>
         /// Gets or sets Data encryption certificate file path for failover of Protected Item.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.Default)]
         [ValidateNotNullOrEmpty]
         public string DataEncryptionSecondaryCertFile { get; set; }
 
@@ -106,19 +105,20 @@ namespace Microsoft.Azure.Commands.SiteRecovery
 
             switch (this.ParameterSetName)
             {
-                case ASRParameterSets.ByPEObject:
+                case ASRParameterSets.Default:
+                case ASRParameterSets.VMwareToAzure:
                     this.fabricName = Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationFabrics);
                     this.protectionContainerName =
                         Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationProtectionContainers);
-                    this.StartPEApplyRecoveryPoint();
+                    this.StartRPIApplyRecoveryPoint();
                     break;
             }
         }
 
         /// <summary>
-        /// Starts PE Apply Recovery Point.
+        /// Starts RPI Apply Recovery Point.
         /// </summary>
-        private void StartPEApplyRecoveryPoint()
+        private void StartRPIApplyRecoveryPoint()
         {
             var applyRecoveryPointInputProperties = new ApplyRecoveryPointInputProperties()
             {
@@ -131,10 +131,12 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 Properties = applyRecoveryPointInputProperties
             };
 
+            // Validate the Replication Provider.
+            // Note: InMage Replication Provider is not valid.
             if (0 == string.Compare(
-                this.ReplicationProtectedItem.ReplicationProvider,
-                Constants.HyperVReplicaAzure,
-                StringComparison.OrdinalIgnoreCase))
+                    this.ReplicationProtectedItem.ReplicationProvider,
+                    Constants.HyperVReplicaAzure,
+                    StringComparison.OrdinalIgnoreCase))
             {
                 var hyperVReplicaAzureApplyRecoveryPointInput = new HyperVReplicaAzureApplyRecoveryPointInput()
                 {
@@ -143,6 +145,29 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     VaultLocation = this.GetCurrentVaultLocation()
                 };
                 input.Properties.ProviderSpecificDetails = hyperVReplicaAzureApplyRecoveryPointInput;
+            }
+            else if (string.Compare(
+                        this.ReplicationProtectedItem.ReplicationProvider,
+                        Constants.InMageAzureV2,
+                        StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Create the InMageAzureV2 specific Apply Recovery Point Input.
+                var inMageAzureV2ApplyRecoveryPointInput =
+                    new InMageAzureV2ApplyRecoveryPointInput()
+                    {
+                        VaultLocation = this.GetCurrentVaultLocation()
+                    };
+                input.Properties.ProviderSpecificDetails = inMageAzureV2ApplyRecoveryPointInput;
+            }
+            else if (string.Compare(
+                        this.ReplicationProtectedItem.ReplicationProvider,
+                        Constants.InMage,
+                        StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                        Properties.Resources.UnsupportedReplicationProviderForApplyRecoveryPoint.ToString(),
+                        this.ReplicationProtectedItem.ReplicationProvider));
             }
 
             LongRunningOperationResponse response =
@@ -157,6 +182,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 .GetAzureSiteRecoveryJobDetails(PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location));
 
             WriteObject(new ASRJob(jobResponse.Job));
-        }      
+        }
     }
 }

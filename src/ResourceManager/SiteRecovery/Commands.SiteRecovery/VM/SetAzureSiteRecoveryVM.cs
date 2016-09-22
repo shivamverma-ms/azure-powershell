@@ -122,7 +122,10 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     Constants.HyperVReplicaAzure,
                     StringComparison.OrdinalIgnoreCase))
             {
-                this.WriteWarning(Properties.Resources.UnsupportedReplicationProvidedForUpdateVmProperties.ToString());
+                this.WriteWarning(
+                    string.Format(
+                        Properties.Resources.UnsupportedReplicationProviderForUpdateVmProperties.ToString(),
+                        replicationProtectedItemResponse.ReplicationProtectedItem.Properties.ProviderSpecificDetails.InstanceType));
                 return;
             }
 

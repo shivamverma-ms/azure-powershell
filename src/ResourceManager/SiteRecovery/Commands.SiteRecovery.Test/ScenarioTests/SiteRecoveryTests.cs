@@ -116,5 +116,39 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Test.ScenarioTests
         {
             this.RunPowerShellTest(Constants.NewModel, "Test-SiteRecoveryNewModelE2ETest");
         }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void NewModelV2ATestSingleVM()
+        {
+            this.RunPowerShellTest(
+                Constants.NewModelV2A,
+                "Test-SiteRecoveryNewModelV2ATestSingleVM -vaultSettingsV2AFilePath \"" + vaultSettingsV2AFilePath + "\"");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void NewModelV2ATestRP()
+        {
+            this.RunPowerShellTest(
+                Constants.NewModelV2A,
+                "Test-SiteRecoveryNewModelV2ATestRP -vaultSettingsV2AFilePath \"" + vaultSettingsV2AFilePath + "\"");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void VCenterTest()
+        {
+            this.RunPowerShellTest(Constants.NewModelV2A,
+                "Test-SiteRecoveryVCenterTest -vaultSettingsV2AFilePath \"" + vaultSettingsV2AFilePath + "\"");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void EventsAndAlertsTest()
+        {
+            this.RunPowerShellTest(Constants.NewModelV2A,
+                "Test-SiteRecoveryEventsAlerts -vaultSettingsV2AFilePath \"" + vaultSettingsV2AFilePath + "\"");
+        }
     }
 }

@@ -270,9 +270,53 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         internal const string EnterpriseToAzure = "EnterpriseToAzure";
 
         /// <summary>
+        /// Mapping between Enterprise to Enterprise and VMware to VMware.
+        /// </summary>
+        internal const string EnterpriseToEnterpriseAndVMwareToVMware = "EnterpriseToEnterpriseAndVMwareToVMware";
+
+        /// <summary>
+        /// Mapping between Enterprise to Azure and VMware to Azure.
+        /// </summary>
+        internal const string EnterpriseToAzureAndVMwareToAzure = "EnterpriseToAzureAndVMwareToAzure";
+
+        /// <summary>
         /// Mapping between HyperV Site to Azure.
         /// </summary>
         internal const string HyperVSiteToAzure = "HyperVSiteToAzure";
+
+        /// <summary>
+        /// Mapping for VMware to Azure.
+        /// </summary>
+        internal const string VMwareToAzure = "VMwareToAzure";
+
+        /// <summary>
+        /// Mapping for VMware to Azure for RPI.
+        /// </summary>
+        internal const string VMwareToAzureRPI = "VMwareToAzureRPI";
+
+        /// <summary>
+        /// Mapping for VMware to Azure for RP.
+        /// </summary>
+        internal const string VMwareToAzureRP = "VMwareToAzureRP";
+
+        /// <summary>
+        /// Mapping for VMware to VMware for RPI.
+        /// </summary>
+        internal const string VMwareToVMwareRPI = "VMwareToVMwareRPI";
+
+        /// <summary>
+        /// Mapping for both VMware to Azure and VMware to VMware.
+        /// </summary>
+        internal const string VMwareToAzureAndVMwareToVMware = "VMwareToAzureAndVMwareToVMware";
+
+        /// <summary>
+        /// Mapping for both VMware to Azure and VMware to VMware for RPI.
+        /// </summary>
+        internal const string VMwareToAzureAndVMwareToVMwareRPI = "VMwareToAzureAndVMwareToVMwareRPI";
+        /// <summary>
+        /// Mapping for both VMware to Azure and VMware to VMware for RP.
+        /// </summary>
+        internal const string VMwareToAzureAndVMwareToVMwareRP = "VMwareToAzureAndVMwareToVMwareRP";
 
         /// <summary>
         /// Mapping between Enterprise to Enterprise Legacy.
@@ -339,7 +383,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         internal const string RemoveReplicationProtectedItems = "RemoveReplicationProtectedItems";
 
-	/// </summary>
+        /// </summary>
         /// Handle ASR Vault.
         /// </summary>
         internal const string ASRVault = "AzureSiteRecoveryVault";
@@ -348,5 +392,30 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Handle ARS Vault.
         /// </summary>
         internal const string ARSVault = "AzureRecoveryServicesVault";
+
+        /// <summary>
+        /// Disable
+        /// </summary>
+        internal const string Disable = "Disable";
+
+        /// <summary>
+        /// Set email addresses.
+        /// </summary>
+        internal const string SetEmail = "SetEmail";
+
+        /// <summary>
+        /// Set alerts to send to owners.
+        /// </summary>
+        internal const string Set = "Set";
+
+        /// <summary>
+        /// Set alerts to send to owners.
+        /// </summary>
+        internal const string SendToOwners = "SendToOwners";
+
+        /// <summary>
+        /// Set
+        /// </summary>
+        internal const string ByTime = "ByTime";
     }
 }

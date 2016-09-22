@@ -157,7 +157,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     this.StartPEPlannedFailover();
                     break;
                 case ASRParameterSets.ByRPIObject:
-                    this.protectionContainerName = 
+                    this.protectionContainerName =
                         Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationProtectionContainers);
                     this.fabricName = Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationFabrics);
                     this.StartRPIPlannedFailover();
@@ -224,7 +224,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     if (String.Compare(this.CreateVmIfNotFound, Constants.Yes, StringComparison.OrdinalIgnoreCase) == 0 &&
                         string.Compare(RecoveryServicesClient.GetAzureSiteRecoveryFabric(this.fabricName).Fabric.Properties.CustomDetails.InstanceType, Constants.HyperVSite) == 0)
                     {
-                        if(this.Server == null || string.Compare(this.Server.FabricType, Constants.HyperVSite) != 0)
+                        if (this.Server == null || string.Compare(this.Server.FabricType, Constants.HyperVSite) != 0)
                         {
                             throw new InvalidOperationException(
                                 Properties.Resources.ImproperServerObjectPassedForHyperVFailback);
@@ -232,7 +232,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         else
                         {
                             failbackInput.ProviderIdForAlternateRecovery = this.Server.ID;
-                        }                             
+                        }
                     }
 
                     input.Properties.ProviderSpecificDetails = failbackInput;
@@ -269,6 +269,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 Properties = plannedFailoverInputProperties
             };
 
+            // Validate the Replication Provider.
+            // Note: InMageAzureV2 and InMage Replication Providers are not valid.
             if (0 == string.Compare(
                 this.ReplicationProtectedItem.ReplicationProvider,
                 Constants.HyperVReplicaAzure,
@@ -309,6 +311,20 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     input.Properties.ProviderSpecificDetails = failbackInput;
                 }
             }
+            else if ((string.Compare(
+                    this.ReplicationProtectedItem.ReplicationProvider,
+                    Constants.InMageAzureV2,
+                    StringComparison.OrdinalIgnoreCase) == 0) ||
+                (string.Compare(
+                    this.ReplicationProtectedItem.ReplicationProvider,
+                    Constants.InMage,
+                    StringComparison.OrdinalIgnoreCase)) == 0)
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                        Properties.Resources.UnsupportedReplicationProviderForPlannedFailover.ToString(),
+                        this.ReplicationProtectedItem.ReplicationProvider));
+            }
 
             LongRunningOperationResponse response =
                 RecoveryServicesClient.StartAzureSiteRecoveryPlannedFailover(
@@ -340,6 +356,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
 
             foreach (string replicationProvider in rp.RecoveryPlan.Properties.ReplicationProviders)
             {
+                // Validate the Replication Provider.
+                // Note: InMageAzureV2 and InMage Replication Providers are not valid.
                 if (0 == string.Compare(
                     replicationProvider,
                     Constants.HyperVReplicaAzure,
@@ -366,6 +384,20 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         };
                         recoveryPlanPlannedFailoverInputProperties.ProviderSpecificDetails.Add(recoveryPlanHyperVReplicaAzureFailbackInput);
                     }
+                }
+                else if ((string.Compare(
+                        replicationProvider,
+                        Constants.InMageAzureV2,
+                        StringComparison.OrdinalIgnoreCase) == 0) ||
+                    (string.Compare(
+                        replicationProvider,
+                        Constants.InMage,
+                        StringComparison.OrdinalIgnoreCase)) == 0)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                            Properties.Resources.UnsupportedReplicationProviderForPlannedFailover.ToString(),
+                            replicationProvider));
                 }
             }
 

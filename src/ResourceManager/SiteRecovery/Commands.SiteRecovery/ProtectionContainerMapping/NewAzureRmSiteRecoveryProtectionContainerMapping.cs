@@ -12,21 +12,16 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Management.SiteRecovery.Models;
 using System;
 using System.Management.Automation;
-using Microsoft.Azure.Management.SiteRecovery.Models;
-using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
-using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
     /// <summary>
     /// Adds Azure Site Recovery Policy settings to a Protection Container.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureRmSiteRecoveryProtectionContainerMapping", DefaultParameterSetName = ASRParameterSets.EnterpriseToAzure)]
+    [Cmdlet(VerbsCommon.New, "AzureRmSiteRecoveryProtectionContainerMapping", DefaultParameterSetName = ASRParameterSets.EnterpriseToAzureAndVMwareToAzure)]
     [OutputType(typeof(ASRJob))]
     public class NewAzureRmSiteRecoveryProtectionContainerMapping : SiteRecoveryCmdletBase
     {
@@ -35,31 +30,31 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Policy object.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterpriseAndVMwareToVMware, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzureAndVMwareToAzure, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets Policy object.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true, ValueFromPipeline = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterpriseAndVMwareToVMware, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzureAndVMwareToAzure, Mandatory = true, ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
         public ASRPolicy Policy { get; set; }
 
         /// <summary>
         /// Gets or sets Protection Container to be applied the Policy settings on.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterpriseAndVMwareToVMware, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzureAndVMwareToAzure, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public ASRProtectionContainer PrimaryProtectionContainer { get; set; }
 
         /// <summary>
         /// Gets or sets Recovery Protection Container to be applied the Policy settings on.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterpriseAndVMwareToVMware, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public ASRProtectionContainer RecoveryProtectionContainer { get; set; }
 
@@ -74,11 +69,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
 
             switch (this.ParameterSetName)
             {
-                case ASRParameterSets.EnterpriseToAzure:
-                    this.EnterpriseToAzureAssociation();
+                case ASRParameterSets.EnterpriseToAzureAndVMwareToAzure:
+                    this.EnterpriseToAzureAndVMwareToAzureAssociation();
                     break;
-                case ASRParameterSets.EnterpriseToEnterprise:
-                    this.EnterpriseToEnterpriseAssociation();
+                case ASRParameterSets.EnterpriseToEnterpriseAndVMwareToVMware:
+                    this.EnterpriseToEnterpriseAndVMwareToVMwareAssociation();
                     break;
             }
         }
@@ -86,15 +81,20 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Associates Policy with enterprise based protection containers
         /// </summary>
-        private void EnterpriseToEnterpriseAssociation()
+        private void EnterpriseToEnterpriseAndVMwareToVMwareAssociation()
         {
-            if (string.Compare(
-                this.Policy.ReplicationProvider,
-                Constants.HyperVReplica2012,
-                StringComparison.OrdinalIgnoreCase) != 0 && string.Compare(
-                this.Policy.ReplicationProvider,
-                Constants.HyperVReplica2012R2,
-                StringComparison.OrdinalIgnoreCase) != 0)
+            if ((string.Compare(
+                    this.Policy.ReplicationProvider,
+                    Constants.HyperVReplica2012,
+                    StringComparison.OrdinalIgnoreCase) != 0) &&
+                (string.Compare(
+                    this.Policy.ReplicationProvider,
+                    Constants.HyperVReplica2012R2,
+                    StringComparison.OrdinalIgnoreCase) != 0) &&
+                (string.Compare(
+                    this.Policy.ReplicationProvider,
+                    Constants.InMage,
+                    StringComparison.OrdinalIgnoreCase) != 0))
             {
                 throw new InvalidOperationException(
                     string.Format(
@@ -109,12 +109,17 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Associates Azure Policy with enterprise based protection containers
         /// </summary>
-        private void EnterpriseToAzureAssociation()
+        private void EnterpriseToAzureAndVMwareToAzureAssociation()
         {
-            if (string.Compare(
-                this.Policy.ReplicationProvider,
-                Constants.HyperVReplicaAzure,
-                StringComparison.OrdinalIgnoreCase) != 0)
+            if ((string.Compare(
+                    this.Policy.ReplicationProvider,
+                    Constants.HyperVReplicaAzure,
+                    StringComparison.OrdinalIgnoreCase) != 0) &&
+                (string.Compare(
+                    this.Policy.ReplicationProvider,
+                    Constants.InMageAzureV2,
+                    StringComparison.OrdinalIgnoreCase) != 0))
+
             {
                 throw new InvalidOperationException(
                     string.Format(
@@ -144,8 +149,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
 
             LongRunningOperationResponse response = RecoveryServicesClient.ConfigureProtection(
                 Utilities.GetValueFromArmId(this.PrimaryProtectionContainer.ID, ARMResourceTypeConstants.ReplicationFabrics),
-                this.PrimaryProtectionContainer.Name, 
-                this.Name, 
+                this.PrimaryProtectionContainer.Name,
+                this.Name,
                 input);
 
             JobResponse jobResponse =

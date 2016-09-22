@@ -12,14 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Management.SiteRecovery.Models;
 using System;
 using System.ComponentModel;
 using System.Management.Automation;
-using Microsoft.Azure.Management.SiteRecovery.Models;
-using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
-using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
@@ -42,6 +38,10 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         private string replicaDeletion { get; set; }
         private string recoveryAzureStorageAccountId { get; set; }
         private string encryption { get; set; }
+        private int applicationConsistentSnapshotFrequencyInMinutes { get; set; }
+        private int rpoWarningThresholdInMinutes { get; set; }
+        private int crashConsistentFrequencyInMinutes { get; set; }
+        private string multiVmSyncStatus { get; set; }
 
         #endregion Private
 
@@ -50,13 +50,14 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Name of the Policy.
         /// </summary>
-        [Parameter(Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.Default, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzureAndVMwareToVMware, Mandatory = true, ValueFromPipeline = true)]
         public ASRPolicy Policy { get; set; }
 
         /// <summary>
         /// Gets or sets a value for Replication Method of the Policy.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.Default)]
         [ValidateNotNullOrEmpty]
         [ValidateSet(
             Constants.OnlineReplicationMethod,
@@ -66,7 +67,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Replication Frequency of the Policy in seconds.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.Default)]
         [ValidateNotNullOrEmpty]
         [ValidateSet(
             Constants.Thirty,
@@ -77,21 +78,22 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Recovery Points of the Policy.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.Default)]
+        [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzureAndVMwareToVMware)]
         [ValidateNotNullOrEmpty]
         public int RecoveryPoints { get; set; }
 
         /// <summary>
         /// Gets or sets Application Consistent Snapshot Frequency of the Policy in hours.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.Default)]
         [ValidateNotNullOrEmpty]
         public int ApplicationConsistentSnapshotFrequencyInHours { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether Compression needs to be Enabled on the Policy.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.Default)]
         [ValidateNotNullOrEmpty]
         [ValidateSet(
             Constants.Enable,
@@ -101,14 +103,14 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets the Replication Port of the Policy.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.Default)]
         [ValidateNotNullOrEmpty]
         public ushort ReplicationPort { get; set; }
 
         /// <summary>
         /// Gets or sets the Replication Port of the Policy.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.Default)]
         [ValidateNotNullOrEmpty]
         [ValidateSet(
             Constants.AuthenticationTypeCertificate,
@@ -118,7 +120,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Replication Start time of the Policy.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.Default)]
         [ValidateNotNullOrEmpty]
         public TimeSpan? ReplicationStartTime { get; set; }
 
@@ -126,7 +128,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets a value indicating whether Replica should be Deleted on 
         /// disabling protection of a protection entity protected by the Policy.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.Default)]
         [ValidateNotNullOrEmpty]
         [ValidateSet(
             Constants.Required,
@@ -136,19 +138,43 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Recovery Azure Storage Account Name of the Policy for E2A scenarios.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.Default)]
         [ValidateNotNullOrEmpty]
         public string RecoveryAzureStorageAccountId { get; set; }
 
         /// <summary>
         /// Gets or sets Encrypt parameter. On passing, data will be encrypted.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.Default)]
         [ValidateNotNullOrEmpty]
         [ValidateSet(
             Constants.Enable,
             Constants.Disable)]
         public string Encryption { get; set; }
+
+        /// <summary>
+        /// Gets or sets Application consistent snapshot frequency in minutes.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzureAndVMwareToVMware)]
+        [ValidateNotNullOrEmpty]
+        public int ApplicationConsistentSnapshotFrequencyInMinutes { get; set; }
+
+        /// <summary>
+        /// Gets or sets RPO warning threshold in minutes.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzureAndVMwareToVMware)]
+        [ValidateNotNullOrEmpty]
+        public int RPOWarningThresholdInMinutes { get; set; }
+
+        /// <summary>
+        /// Gets or sets Multi VM sync status parameter.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzureAndVMwareToVMware, DontShow = true)]
+        [DefaultValue(Constants.Enable)]
+        [ValidateSet(
+            Constants.Enable,
+            Constants.Disable)]
+        public string MultiVmSyncStatus { get; set; }
 
         #endregion Parameters
 
@@ -167,6 +193,20 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             else if (string.Compare(this.Policy.ReplicationProvider, Constants.HyperVReplicaAzure, StringComparison.OrdinalIgnoreCase) == 0)
             {
                 this.EnterpriseToAzurePolicyObject();
+            }
+            else if (string.Compare(
+                        this.Policy.ReplicationProvider,
+                        Constants.InMageAzureV2,
+                        StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                this.UpdateV2APolicyObject();
+            }
+            else if (string.Compare(
+                         this.Policy.ReplicationProvider,
+                         Constants.InMage,
+                         StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                this.UpdateV2VPolicyObject();
             }
         }
 
@@ -188,7 +228,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             this.replicationMethod = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.ReplicationMethod)) ?
                 ((string.Compare(this.ReplicationMethod, Constants.OnlineReplicationMethod, StringComparison.OrdinalIgnoreCase) == 0) ? "OverNetwork" : "Offline") :
                 ((string.Compare(replicationProviderSettings.InitialReplicationMethod, Constants.OnlineReplicationMethod, StringComparison.OrdinalIgnoreCase) == 0) ? "OverNetwork" : "Offline");
-            this.replicationFrequencyInSeconds = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.ReplicationFrequencyInSeconds)) ? 
+            this.replicationFrequencyInSeconds = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.ReplicationFrequencyInSeconds)) ?
                 PSRecoveryServicesClient.ConvertReplicationFrequencyToUshort(this.ReplicationFrequencyInSeconds) :
                 replicationProviderSettings.ReplicationFrequencyInSeconds;
             this.recoveryPoints = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.RecoveryPoints)) ?
@@ -212,7 +252,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             this.replicaDeletion = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.ReplicaDeletion)) ?
                 this.ReplicaDeletion :
                 replicationProviderSettings.ReplicaDeletionOption;
-                
+
             var updatePolicyProperties = new UpdatePolicyProperties();
 
             if (string.Compare(this.Policy.ReplicationProvider, Constants.HyperVReplica2012, StringComparison.OrdinalIgnoreCase) == 0)
@@ -240,7 +280,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     InitialReplicationMethod = this.replicationMethod,
                     OnlineReplicationStartTime = this.replicationStartTime,
                     RecoveryPoints = this.recoveryPoints,
-                    ReplicaDeletion = this.replicaDeletion,                    
+                    ReplicaDeletion = this.replicaDeletion,
                     ReplicationPort = this.replicationPort,
                     ReplicationFrequencyInSeconds = replicationFrequencyInSeconds
                 };
@@ -284,7 +324,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 replicationProviderSettings.RecoveryPoints;
             this.applicationConsistentSnapshotFrequencyInHours = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.ApplicationConsistentSnapshotFrequencyInHours)) ?
                 this.ApplicationConsistentSnapshotFrequencyInHours :
-                replicationProviderSettings.ApplicationConsistentSnapshotFrequencyInHours;           
+                replicationProviderSettings.ApplicationConsistentSnapshotFrequencyInHours;
             this.replicationStartTime = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.ReplicationStartTime)) ?
                 this.replicationStartTime :
                 replicationProviderSettings.OnlineReplicationStartTime;
@@ -329,6 +369,119 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             JobResponse jobResponse =
                 RecoveryServicesClient
                 .GetAzureSiteRecoveryJobDetails(PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location));
+
+            WriteObject(new ASRJob(jobResponse.Job));
+        }
+
+        /// <summary> 
+        /// Updates an InMageAzureV2 Policy Object. 
+        /// </summary> 
+        private void UpdateV2APolicyObject()
+        {
+            // Create the Update Policy Input.
+            var updatePolicyInput = new UpdatePolicyInput()
+            {
+                Properties = new UpdatePolicyProperties()
+            };
+
+            // Get the InMageAzureV2 Provider specific details from the Policy.
+            var replicationProviderSettings =
+                this.Policy.ReplicationProviderSettings as ASRInMageAzureV2PolicyDetails;
+
+            // Set the Paremeters to be updated.
+            this.applicationConsistentSnapshotFrequencyInMinutes =
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() =>
+                    this.ApplicationConsistentSnapshotFrequencyInMinutes)) ?
+                        this.ApplicationConsistentSnapshotFrequencyInMinutes :
+                        replicationProviderSettings.AppConsistentFrequencyInMinutes;
+            this.recoveryPoints =
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() =>
+                    this.RecoveryPoints)) ? this.RecoveryPoints :
+                        (replicationProviderSettings.RecoveryPointHistory / 60);
+            this.rpoWarningThresholdInMinutes =
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() =>
+                    this.RPOWarningThresholdInMinutes)) ? this.RPOWarningThresholdInMinutes :
+                        replicationProviderSettings.RecoveryPointThresholdInMinutes;
+            this.multiVmSyncStatus =
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() =>
+                    this.MultiVmSyncStatus)) ? this.MultiVmSyncStatus :
+                        replicationProviderSettings.MultiVmSyncStatus == Constants.Enabled ?
+                            Constants.Enable : Constants.Disable;
+            this.crashConsistentFrequencyInMinutes =
+                replicationProviderSettings.CrashConsistentFrequencyInMinutes;
+
+            // Set the Provider Specific Input for InMageAzureV2.
+            updatePolicyInput.Properties.ReplicationProviderSettings = new InMageAzureV2PolicyInput()
+            {
+                AppConsistentFrequencyInMinutes = this.applicationConsistentSnapshotFrequencyInMinutes,
+                RecoveryPointHistory = this.recoveryPoints * 60, // Convert from hours to minutes.
+                RecoveryPointThresholdInMinutes = this.rpoWarningThresholdInMinutes,
+                MultiVmSyncStatus = this.multiVmSyncStatus,
+                CrashConsistentFrequencyInMinutes = this.crashConsistentFrequencyInMinutes
+            };
+
+            LongRunningOperationResponse response =
+                RecoveryServicesClient.UpdatePolicy(this.Policy.Name, updatePolicyInput);
+
+            string jobId = PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location);
+            JobResponse jobResponse =
+                RecoveryServicesClient
+                    .GetAzureSiteRecoveryJobDetails(jobId);
+
+            WriteObject(new ASRJob(jobResponse.Job));
+        }
+
+        /// <summary> 
+        /// Updates an InMage Policy Object. 
+        /// </summary> 
+        private void UpdateV2VPolicyObject()
+        {
+            // Create the Update Policy Input.
+            var updatePolicyInput = new UpdatePolicyInput()
+            {
+                Properties = new UpdatePolicyProperties()
+            };
+
+            // Get the InMage Provider specific details from the Policy.
+            var replicationProviderSettings =
+                this.Policy.ReplicationProviderSettings as ASRInMagePolicyDetails;
+
+            // Set the Paremeters to be updated.
+            this.applicationConsistentSnapshotFrequencyInMinutes =
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() =>
+                    this.ApplicationConsistentSnapshotFrequencyInMinutes)) ?
+                        this.ApplicationConsistentSnapshotFrequencyInMinutes :
+                        replicationProviderSettings.AppConsistentFrequencyInMinutes;
+            this.recoveryPoints =
+                 this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() =>
+                    this.RecoveryPoints)) ? this.RecoveryPoints :
+                        (replicationProviderSettings.RecoveryPointHistory / 60);
+            this.rpoWarningThresholdInMinutes =
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() =>
+                    this.RPOWarningThresholdInMinutes)) ? this.RPOWarningThresholdInMinutes :
+                        replicationProviderSettings.RecoveryPointThresholdInMinutes;
+            this.multiVmSyncStatus =
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() =>
+                    this.MultiVmSyncStatus)) ? this.MultiVmSyncStatus :
+                        replicationProviderSettings.MultiVmSyncStatus == Constants.Enabled ?
+                            Constants.Enable : Constants.Disable;
+
+            // Set the Provider Specific Input for InMage.
+            updatePolicyInput.Properties.ReplicationProviderSettings = new InMagePolicyInput()
+            {
+                AppConsistentFrequencyInMinutes = this.applicationConsistentSnapshotFrequencyInMinutes,
+                RecoveryPointHistory = this.recoveryPoints * 60, // Convert from hours to minutes.
+                RecoveryPointThresholdInMinutes = this.rpoWarningThresholdInMinutes,
+                MultiVmSyncStatus = this.multiVmSyncStatus
+            };
+
+            LongRunningOperationResponse response =
+                RecoveryServicesClient.UpdatePolicy(this.Policy.Name, updatePolicyInput);
+
+            string jobId = PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location);
+            JobResponse jobResponse =
+                RecoveryServicesClient
+                    .GetAzureSiteRecoveryJobDetails(jobId);
 
             WriteObject(new ASRJob(jobResponse.Job));
         }

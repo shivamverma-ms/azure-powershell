@@ -64,5 +64,24 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 .GetSiteRecoveryClient().
                 ProtectableItem.Get(fabricName, protectionContainerName, replicatedProtectedItemName, this.GetRequestHeaders());
         }
+
+        /// <summary>
+        /// Discovers Protectable Items.
+        /// </summary>
+        /// <param name="fabricName">Fabric Name</param>
+        /// <param name="protectionContainerName">Protection Container Name</param>
+        /// <param name="input">Discover Protectable Item Request</param>
+        /// <returns>Long running operation response</returns>
+        public LongRunningOperationResponse NewAzureSiteRecoveryProtectableItem(
+            string fabricName,
+            string protectionContainerName,
+            DiscoverProtectableItemRequest input)
+        {
+            return this.GetSiteRecoveryClient().ProtectionContainer.BeginDiscoverProtectableItem(
+                fabricName,
+                protectionContainerName,
+                input,
+                this.GetRequestHeaders());
+        }
     }
 }

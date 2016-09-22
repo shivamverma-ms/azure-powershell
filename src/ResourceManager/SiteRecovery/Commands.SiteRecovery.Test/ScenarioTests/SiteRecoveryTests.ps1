@@ -491,3 +491,472 @@ function Test-SiteRecoveryNewModelE2ETest
 	$ProtectionProfile = Get-AzureRMSiteRecoveryPolicy | Where-Object {$_.Name -eq "PP1"}
 	Assert-Null($ProtectionProfile)
 }
+
+<#
+.SYNOPSIS
+Site Recovery New model End to End for V2A using Single VM
+#>
+function Test-SiteRecoveryNewModelV2ATestSingleVM
+{
+	param([string] $vaultSettingsV2AFilePath)
+
+	# Set the V2A Vault Settings Path if not set already
+	if ($vaultSettingsV2AFilePath -eq "")
+	{
+		$vaultSettingsV2AFilePath = "..\bin\Debug\ScenarioTests\vaultSettingsV2A.VaultCredentials"
+	}
+	
+	##############################
+	### PREPARE INFRASTRUCTURE ###
+	##############################
+
+	# Import V2A Azure Recovery Services Vault Settings
+	Import-AzureRmSiteRecoveryVaultSettingsFile $vaultSettingsV2AFilePath
+
+	# Get Fabric
+	$fabricName = "V2A-w2K12-660"
+	$fabric =  Get-AzureRmSiteRecoveryFabric -FriendlyName $fabricName
+	Assert-NotNull($fabric)
+	Assert-True { $fabric.Count -eq 1 }
+	Assert-NotNull($fabric.Name)
+	Assert-NotNull($fabric.ID)
+
+	# Get the RSPs
+	$rsps = Get-AzureRmSiteRecoveryServicesProvider -Fabric $fabric
+	Assert-NotNull($rsps)
+	Assert-True { $rsps.Count -gt 0 }
+	foreach($rsp in $rsps)
+	{
+		Assert-NotNull($rsp.Name)
+	}
+
+	# Get Protection Containers
+	$pcList = Get-AzureRmSiteRecoveryProtectionContainer -Fabric $fabric
+	$pc = $pcList[0]
+	Assert-NotNull($pc)
+	Assert-NotNull($pc.Name)
+
+	# Create Policies - Failover Policy
+	$policyName1 = "V2A-w2K12-660-Policy1"
+	$currentJob = New-AzureRmSiteRecoveryPolicy -Name $policyName1 -ReplicationProvider InMageAzureV2 -RecoveryPoints 24 -ApplicationConsistentSnapshotFrequencyInMinutes 60 -RPOWarningThresholdInMinutes 15
+	WaitForJobCompletion -JobId $currentJob.Name
+	$policy1 = Get-AzureRmSiteRecoveryPolicy -Name $policyName1
+	Assert-NotNull($policy1)
+	Assert-NotNull($policy1.Name)
+
+	# Create Policies - Failback Policy
+	$policyName2 = "V2A-w2K12-660-Policy1-failback"
+	$currentJob = New-AzureRmSiteRecoveryPolicy -Name $policyName2 -ReplicationProvider InMage -RecoveryPoints 24 -ApplicationConsistentSnapshotFrequencyInMinutes 60 -RPOWarningThresholdInMinutes 15
+	WaitForJobCompletion -JobId $currentJob.Name
+	$policy2 = Get-AzureRmSiteRecoveryPolicy -Name $policyName2
+	Assert-NotNull($policy2)
+	Assert-NotNull($policy2.Name)
+
+	# Create Protection Container Mappings - Forward Mapping
+	$pcmName1 = "FailoverPolicy"
+	$currentJob = New-AzureRmSiteRecoveryProtectionContainerMapping -Name $pcmName1 -Policy $policy1 -PrimaryProtectionContainer $pc
+	WaitForJobCompletion -JobId $currentJob.Name
+	$pcm1 = Get-AzureRmSiteRecoveryProtectionContainerMapping -Name $pcmName1 -ProtectionContainer $pc
+	Assert-NotNull($pcm1)
+	Assert-NotNull($pcm1.Name)
+	
+	# Create Protection Container Mappings - Reverse Mapping
+	$pcmName2 = "FailbackPolicy"
+	$currentJob = New-AzureRmSiteRecoveryProtectionContainerMapping -Name $pcmName2 -Policy $policy2 -PrimaryProtectionContainer $pc -RecoveryProtectionContainer $pc
+	WaitForJobCompletion -JobId $currentJob.Name
+	$pcm2 = Get-AzureRmSiteRecoveryProtectionContainerMapping -Name $pcmName2 -ProtectionContainer $pc
+	Assert-NotNull($pcm2)
+	Assert-NotNull($pcm2.Name)
+
+	#############################
+	### REPLICATE APPLICATION ###
+	#############################
+
+	# Discover and Get Protectable Item
+	$piName = "V2A-w2K12-657"
+	$piIpAddress = "10.150.1.181"
+	$piId = "07fb57bc-7a61-11e6-8b3f-005056be7a5f"
+	$pi = Get-AzureRmSiteRecoveryProtectableItem -ProtectionContainer $pc | Where-Object {$_.FabricSpecificVMDetails.IpAddress -match $piIpAddress -and $_.Name -match $piId }
+	Assert-NotNull($pi)
+	Assert-NotNull($pi.Name)
+
+	# Create and Get Replication Protected Item
+	$storage = "/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/IbizaV2AKtest/providers/Microsoft.ClassicStorage/storageAccounts/ibizav2aktest"
+	$network = "/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/Default-Networking/providers/Microsoft.ClassicNetwork/virtualNetworks/ExpressRouteVNet-Canary3-SEA"
+	$subnet = "TenantSubnet"
+	$rpiName = "V2A-w2K12-657"
+	$currentJob = New-AzureRmSiteRecoveryReplicationProtectedItem -ProtectableItem $pi -Name $pi.Name -ProtectionContainerMapping $pcm1 -ProcessServer $fabric.FabricSpecificDetails.ProcessServers[0] -Account $fabric.FabricSpecificDetails.RunAsAccounts[1] -RecoveryAzureStorageAccountId $storage -RecoveryAzureNetworkId $network -RecoveryAzureSubnetId $subnet
+	WaitForJobCompletion -JobId $currentJob.Name
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
+	Assert-NotNull($rpi)
+	Assert-NotNull($rpi.Name)
+
+	# Modify Replicated Protected Item
+	$currentJob = Set-AzureRmSiteRecoveryReplicationProtectedItem -ReplicationProtectedItem $rpi -Name $pi.FriendlyName -Size Basic_A2 -PrimaryNic $rpi.NicDetailsList[0].NicId -RecoveryNetworkId $network -RecoveryNicSubnetName $subnet
+	WaitForJobCompletion -JobId $currentJob.Name
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
+	
+	# Get Recovery Points
+	$recPtList = Get-AzureRmSiteRecoveryRecoveryPoint -ReplicationProtectedItem $rpi 
+	Assert-NotNull($recPtList)
+	Assert-True { $recPtList.Count -gt 0 }
+	foreach($recPt in $recPtList)
+	{
+		Assert-NotNull($recPt.Name)
+	}
+
+	###########################
+	### FAILOVER / FAILBACK ###
+	###########################
+
+	# Replication Protection Items - Test Failover
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
+	$currentJob = Start-AzureRmSiteRecoveryTestFailoverJob -ReplicationProtectedItem $rpi -AzureVMNetworkId $network -Direction PrimaryToRecovery -RecoveryPoint $recPtList[0]	$currentJob = Get-AzureRmSiteRecoveryJob -State Suspended
+	$currentJob = Resume-AzureRmSiteRecoveryJob -Job $currentJob
+	WaitForJobCompletion -JobId $currentJob.Name
+	
+	# Replication Protection Items - Unplanned Failover
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
+	$currentJob = Start-AzureRmSiteRecoveryUnplannedFailoverJob -ReplicationProtectedItem $rpi -Direction PrimaryToRecovery -PerformSourceSideActions -RecoveryPoint $recPtList[0]
+	WaitForJobCompletion -JobId $currentJob.Name
+	
+	# Replication Protection Items - Commit
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
+	$currentJob = Start-AzureRmSiteRecoveryCommitFailoverJob -ReplicationProtectedItem $rpi
+	WaitForJobCompletion -JobId $currentJob.Name
+	
+	# Replication Protection Items - Switch Protection
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
+	$currentJob = Update-AzureRmSiteRecoveryProtectionDirection -ReplicationProtectedItem $rpi -Direction RecoveryToPrimary -ProcessServer $fabric.FabricSpecificDetails.ProcessServers[0] -MasterTarget $fabric.FabricSpecificDetails.MasterTargetServers[0] -Account $fabric.FabricSpecificDetails.RunAsAccounts[1] -DataStore $fabric.FabricSpecificDetails.MasterTargetServers[0].DataStores[0].SymbolicName -RetentionVolume $fabric.FabricSpecificDetails.MasterTargetServers[0].RetentionVolumes[1].VolumeName -ProtectionContainerMapping $pcm2
+	WaitForJobCompletion -JobId $currentJob.Name
+	
+	# Replication Protection Items - Failback (Unplanned Failover)
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
+	$currentJob = Start-AzureRmSiteRecoveryUnplannedFailoverJob -ReplicationProtectedItem $rpi -Direction PrimaryToRecovery -PerformSourceSideActions -RecoveryTag Latest
+	WaitForJobCompletion -JobId $currentJob.Name
+	
+	# Replication Protection Items - Commit (after Failback)
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
+	$currentJob = Start-AzureRmSiteRecoveryCommitFailoverJob -ReplicationProtectedItem $rpi
+	WaitForJobCompletion -JobId $currentJob.Name
+	
+	# Replication Protection Items - Reprotect
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
+	$currentJob = Update-AzureRmSiteRecoveryProtectionDirection -ReplicationProtectedItem $rpi -Direction RecoveryToPrimary -ProcessServer $fabric.FabricSpecificDetails.ProcessServers[0] -Account $fabric.FabricSpecificDetails.RunAsAccounts[1] -ProtectionContainerMapping $pcm1 -RecoveryAzureStorageAccountId null
+	WaitForJobCompletion -JobId $currentJob.Name
+	
+	###############
+	### CLEANUP ###
+	###############
+
+	# Remove Replicated Protected Item
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
+	$currentJob = Remove-AzureRmSiteRecoveryReplicationProtectedItem -ReplicationProtectedItem $rpi
+	WaitForJobCompletion -JobId $currentJob.Name
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc | Where-Object {$_.FriendlyName -eq $rpiName }
+	Assert-Null($rpi)
+
+	# Remove Protection Container Mappings - Reverse Mapping
+	$currentJob = Remove-AzureRmSiteRecoveryProtectionContainerMapping -ProtectionContainerMapping $pcm2
+	WaitForJobCompletion -JobId $currentJob.Name
+	$pcm2 = Get-AzureRmSiteRecoveryProtectionContainerMapping -ProtectionContainer $pc | Where-Object {$_.Name -eq $pcmName2 }
+	Assert-Null($pcm2)
+	
+	# Remove Protection Container Mappings - Forward Mapping
+	$currentJob = Remove-AzureRmSiteRecoveryProtectionContainerMapping -ProtectionContainerMapping $pcm1
+	WaitForJobCompletion -JobId $currentJob.Name
+	$pcm1 = Get-AzureRmSiteRecoveryProtectionContainerMapping -ProtectionContainer $pc | Where-Object {$_.Name -eq $pcmName1 }
+	Assert-Null($pcm1)
+
+	# Remove Policies - Failback Policy
+	$currentJob = Remove-AzureRmSiteRecoveryPolicy -Policy $policy2
+	WaitForJobCompletion -JobId $currentJob.Name
+	$policy2 = Get-AzureRmSiteRecoveryPolicy | Where-Object {$_.Name -eq $policyName2 }
+	Assert-Null($policy2)
+
+	# Remove Policies - Failover Policy
+	$currentJob = Remove-AzureRmSiteRecoveryPolicy -Policy $policy1
+	WaitForJobCompletion -JobId $currentJob.Name
+	$policy1 = Get-AzureRmSiteRecoveryPolicy | Where-Object {$_.Name -eq $policyName1 }
+	Assert-Null($policy1)
+}
+
+<#
+.SYNOPSIS
+Site Recovery New model End to End for V2A using RP
+#>
+function Test-SiteRecoveryNewModelV2ATestRP
+{
+	param([string] $vaultSettingsV2AFilePath)
+
+	# Set the V2A Vault Settings Path if not set already
+	if ($vaultSettingsV2AFilePath -eq "")
+	{
+		$vaultSettingsV2AFilePath = "..\bin\Debug\ScenarioTests\vaultSettingsV2A.VaultCredentials"
+	}
+	
+	##############################
+	### PREPARE INFRASTRUCTURE ###
+	##############################
+
+	# Import V2A Azure Recovery Services Vault Settings
+	Import-AzureRmSiteRecoveryVaultSettingsFile $vaultSettingsV2AFilePath
+
+	# Get Fabric
+	$fabricName = "MADHUDG-INMAGE-"
+	$fabric =  Get-AzureRmSiteRecoveryFabric -FriendlyName $fabricName
+	Assert-NotNull($fabric)
+	Assert-True { $fabric.Count -eq 1 }
+	Assert-NotNull($fabric.Name)
+	Assert-NotNull($fabric.ID)
+
+	# Get the RSPs
+	$rsps = Get-AzureRmSiteRecoveryServicesProvider -Fabric $fabric
+	Assert-NotNull($rsps)
+	Assert-True { $rsps.Count -gt 0 }
+	foreach($rsp in $rsps)
+	{
+		Assert-NotNull($rsp.Name)
+	}
+
+	# Get Protection Containers
+	$pcList = Get-AzureRmSiteRecoveryProtectionContainer -Fabric $fabric
+	$pc = $pcList[0]
+	Assert-NotNull($pc)
+	Assert-NotNull($pc.Name)
+
+	# Create Policies - Failover Policy
+	$policyName1 = "madhudgRepPolicy1"
+	$currentJob = New-AzureRmSiteRecoveryPolicy -Name $policyName1 -ReplicationProvider InMageAzureV2 -RecoveryPoints 24 -ApplicationConsistentSnapshotFrequencyInMinutes 60 -RPOWarningThresholdInMinutes 15
+	$policy1 = Get-AzureRmSiteRecoveryPolicy -Name $policyName1
+	Assert-NotNull($policy1)
+	Assert-NotNull($policy1.Name)
+
+	# Create Policies - Failback Policy
+	$policyName2 = "madhudgRepPolicy1-failback"
+	$currentJob = New-AzureRmSiteRecoveryPolicy -Name $policyName2 -ReplicationProvider InMage -RecoveryPoints 24 -ApplicationConsistentSnapshotFrequencyInMinutes 60 -RPOWarningThresholdInMinutes 15
+	$policy2 = Get-AzureRmSiteRecoveryPolicy -Name $policyName2
+	Assert-NotNull($policy2)
+	Assert-NotNull($policy2.Name)
+
+	# Create Protection Container Mappings - Forward Mapping
+	$pcmName1 = "FailoverPolicy"
+	$currentJob = New-AzureRmSiteRecoveryProtectionContainerMapping -Name $pcmName1 -Policy $policy1 -PrimaryProtectionContainer $pc
+	$pcm1 = Get-AzureRmSiteRecoveryProtectionContainerMapping -Name $pcmName1 -ProtectionContainer $pc
+	Assert-NotNull($pcm1)
+	Assert-NotNull($pcm1.Name)
+	
+	# Create Protection Container Mappings - Reverse Mapping
+	$pcmName2 = "FailbackPolicy"
+	$currentJob = New-AzureRmSiteRecoveryProtectionContainerMapping -Name $pcmName2 -Policy $policy2 -PrimaryProtectionContainer $pc -RecoveryProtectionContainer $pc
+	$pcm2 = Get-AzureRmSiteRecoveryProtectionContainerMapping -Name $pcmName2 -ProtectionContainer $pc
+	Assert-NotNull($pcm2)
+	Assert-NotNull($pcm2.Name)
+
+	#############################
+	### REPLICATE APPLICATION ###
+	#############################
+
+	# Discover and Get Protectable Item
+	$piName = "madhudg-vm2"
+	$piIpAddress = "10.150.209.250"
+	$piId = "078d624a-8279-11e6-ab5e-0050568f37f2"
+	$pi = Get-AzureRmSiteRecoveryProtectableItem -ProtectionContainer $pc | Where-Object {$_.FabricSpecificVMDetails.IpAddress -match $piIpAddress -and $_.Name -match $piId }
+	Assert-NotNull($pi)
+	Assert-NotNull($pi.Name)
+
+	# Create and Get Replication Protected Item
+	$storage = "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/madhudgRG1/providers/Microsoft.ClassicStorage/storageAccounts/madhudgstorage4"
+	$network = "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/Default-Networking/providers/Microsoft.ClassicNetwork/virtualNetworks/ExpressRouteVNet-SEA"
+	$subnet = "TenantSubnet"
+	$rpiName = "madhudg-vm2"
+	$currentJob = New-AzureRmSiteRecoveryReplicationProtectedItem -ProtectableItem $pi -Name $pi.Name -ProtectionContainerMapping $pcm1 -ProcessServer $fabric.FabricSpecificDetails.ProcessServers[0] -Account $fabric.FabricSpecificDetails.RunAsAccounts[1] -RecoveryAzureStorageAccountId $storage -RecoveryAzureNetworkId $network -RecoveryAzureSubnetId $subnet
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
+	Assert-NotNull($rpi)
+	Assert-NotNull($rpi.Name)
+
+	# Modify Replicated Protected Item
+	$currentJob = Set-AzureRmSiteRecoveryReplicationProtectedItem -ReplicationProtectedItem $rpi -Name $pi.FriendlyName -Size Basic_A2 -PrimaryNic $rpi.NicDetailsList[0].NicId -RecoveryNetworkId $network -RecoveryNicSubnetName $subnet
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
+	
+	# Get Recovery Points
+	$recPtList = Get-AzureRmSiteRecoveryRecoveryPoint -ReplicationProtectedItem $rpi 
+	Assert-NotNull($recPtList)
+	Assert-True { $recPtList.Count -gt 0 }
+	foreach($recPt in $recPtList)
+	{
+		Assert-NotNull($recPt.Name)
+	}
+
+	#############################
+	### MANAGE RECOVERY PLANS ###
+	#############################
+
+	# Create Recovery Plan
+	$rpName = "RPmadhudg1" 
+	$currentJob = New-AzureRmSiteRecoveryRecoveryPlan -Name $rpName -PrimaryFabric $fabric -Azure -FailoverDeploymentModel Classic -ReplicationProtectedItem $rpi
+	$rp = Get-AzureRmSiteRecoveryRecoveryPlan -Name $rpName
+	Assert-NotNull($rp)
+
+	###########################
+	### FAILOVER / FAILBACK ###
+	###########################
+
+	# Recovery Plan - Test Failover
+	$rp = Get-AzureRmSiteRecoveryRecoveryPlan -Name $rpName
+	$currentJob = Start-AzureRmSiteRecoveryTestFailoverJob -RecoveryPlan $rp -AzureVMNetworkId $network -Direction PrimaryToRecovery -RecoveryTag Latest
+	$currentJob = Get-AzureRmSiteRecoveryJob -State Suspended
+	$currentJob = Resume-AzureRmSiteRecoveryJob -Job $currentJob
+	
+	# Recovery Plan - Unplanned Failover
+	$rp = Get-AzureRmSiteRecoveryRecoveryPlan -Name $rpName
+	$currentJob = Start-AzureRmSiteRecoveryUnplannedFailoverJob -RecoveryPlan $rp -Direction PrimaryToRecovery -PerformSourceSideActions -RecoveryTag Latest
+	
+	# Recovery Plan - Commit
+	$rp = Get-AzureRmSiteRecoveryRecoveryPlan -Name $rpName
+	$currentJob = Start-AzureRmSiteRecoveryCommitFailoverJob -RecoveryPlan $rp
+	
+	# Replication Protection Items - Switch Protection (Recovery Plan Switch Protection is blocked)
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
+	$currentJob = Update-AzureRmSiteRecoveryProtectionDirection -ReplicationProtectedItem $rpi -Direction RecoveryToPrimary -ProcessServer $fabric.FabricSpecificDetails.ProcessServers[0] -MasterTarget $fabric.FabricSpecificDetails.MasterTargetServers[0] -Account $fabric.FabricSpecificDetails.RunAsAccounts[1] -DataStore $fabric.FabricSpecificDetails.MasterTargetServers[0].DataStores[0].SymbolicName -RetentionVolume $fabric.FabricSpecificDetails.MasterTargetServers[0].RetentionVolumes[0].VolumeName -ProtectionContainerMapping $pcm2
+	
+	# Recovery Plan - Failback (Unplanned Failover)
+	$rp = Get-AzureRmSiteRecoveryRecoveryPlan -Name $rpName
+	$currentJob = Start-AzureRmSiteRecoveryUnplannedFailoverJob -RecoveryPlan $rp -Direction RecoveryToPrimary -PerformSourceSideActions -RecoveryTag Latest
+	
+	# Recovery Plan - Commit (after Failback)
+	$rp = Get-AzureRmSiteRecoveryRecoveryPlan -Name $rpName
+	$currentJob = Start-AzureRmSiteRecoveryCommitFailoverJob -RecoveryPlan $rp
+	
+	# Replication Protection Items - Reprotect (Recovery Plan Switch Protection is blocked)
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
+	$currentJob = Update-AzureRmSiteRecoveryProtectionDirection -ReplicationProtectedItem $rpi -Direction RecoveryToPrimary -ProcessServer $fabric.FabricSpecificDetails.ProcessServers[0] -Account $fabric.FabricSpecificDetails.RunAsAccounts[1] -ProtectionContainerMapping $pcm1 -RecoveryAzureStorageAccountId null
+	
+	###############
+	### CLEANUP ###
+	###############
+
+	# Delete Recovery Plan
+	$currentJob = Remove-AzureRmSiteRecoveryRecoveryPlan -RecoveryPlan $rp
+	$rp = Get-AzureRmSiteRecoveryRecoveryPlan | Where-Object { $_.Name -eq "RPmadhudg1" }
+	Assert-Null($rp)
+
+	# Remove Replicated Protected Item
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
+	$currentJob = Remove-AzureRmSiteRecoveryReplicationProtectedItem -ReplicationProtectedItem $rpi
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc | Where-Object {$_.FriendlyName -eq $rpiName }
+	Assert-Null($rpi)
+
+	# Remove Protection Container Mappings - Reverse Mapping
+	$currentJob = Remove-AzureRmSiteRecoveryProtectionContainerMapping -ProtectionContainerMapping $pcm2
+	$pcm2 = Get-AzureRmSiteRecoveryProtectionContainerMapping -ProtectionContainer $pc | Where-Object {$_.Name -eq $pcmName2 }
+	Assert-Null($pcm2)
+	
+	# Remove Protection Container Mappings - Forward Mapping
+	$currentJob = Remove-AzureRmSiteRecoveryProtectionContainerMapping -ProtectionContainerMapping $pcm1
+	$pcm1 = Get-AzureRmSiteRecoveryProtectionContainerMapping -ProtectionContainer $pc | Where-Object {$_.Name -eq $pcmName1 }
+	Assert-Null($pcm1)
+
+	# Remove Policies - Failback Policy
+	$currentJob = Remove-AzureRmSiteRecoveryPolicy -Policy $policy2
+	$policy2 = Get-AzureRmSiteRecoveryPolicy | Where-Object {$_.Name -eq $policyName2 }
+	Assert-Null($policy2)
+
+	# Remove Policies - Failover Policy
+	$currentJob = Remove-AzureRmSiteRecoveryPolicy -Policy $policy1
+	$policy1 = Get-AzureRmSiteRecoveryPolicy | Where-Object {$_.Name -eq $policyName1 }
+	Assert-Null($policy1)
+}
+
+<#
+.SYNOPSIS
+Site Recovery vCenter Tests.
+#>
+function Test-SiteRecoveryVCenterTest
+{
+	param([string] $vaultSettingsV2AFilePath)
+
+	# Set the V2A Vault Settings Path if not set already
+	if ($vaultSettingsV2AFilePath -eq "")
+	{
+		$vaultSettingsV2AFilePath = "..\bin\Debug\ScenarioTests\vaultSettingsV2A.VaultCredentials"
+	}
+
+	# Import V2A Azure Recovery Services Vault Settings
+	Import-AzureRmSiteRecoveryVaultSettingsFile $vaultSettingsV2AFilePath
+
+	# Get Fabric
+	$fabricName = "V2A-w2K12-660"
+	$fabric =  Get-AzureRmSiteRecoveryFabric -FriendlyName $fabricName
+	Assert-NotNull($fabric)
+	Assert-True { $fabric.Count -eq 1 }
+	Assert-NotNull($fabric.Name)
+	Assert-NotNull($fabric.ID)
+
+    # Add vCenter
+	$vcenterName = "esx-155"
+	$ipOrFqdn = "inmtest155"
+	$port = 443
+    $job=New-AzureRmSiteRecoveryVCenter -Fabric $fabric -Name $vcenterName -Server $ipOrFqdn -Port $port -ProcessServerId $fabric.FabricSpecificDetails.ProcessServers[0].Id -Account $fabric.FabricSpecificDetails.RunAsAccounts[2].AccountId
+    Assert-NotNull($job)
+	WaitForJobCompletion -JobId $job.Name
+
+	# Enumerate specific vCenter
+	$vcenter=Get-AzureRmSiteRecoveryVCenter -Fabric $fabric -Name $vcenterName
+	Assert-NotNull($vcenter)
+	Assert-NotNull($vcenter.Name)
+	Assert-NotNull($vcenter.ID)
+
+    #update vCenter credentials
+    $job=Update-AzureRmSiteRecoveryVCenter -VCenter $vcenter -Account $fabric.FabricSpecificDetails.RunAsAccounts[1].AccountId
+    Assert-NotNull($job)
+	WaitForJobCompletion -JobId $job.Name
+
+	# Remove specific vCenter
+	$job = Remove-AzureRmSiteRecoveryVCenter -VCenter $vcenter
+	Assert-NotNull($job)
+	WaitForJobCompletion -JobId $job.Name
+	$vcenter =  Get-AzureRmSiteRecoveryVCenter -Fabric $fabric | Where-Object {$_.Name -eq $vcenterName}
+	Assert-Null($vcenter)
+}
+
+<#
+.SYNOPSIS
+Site Recovery Events and alerts Tests.
+#>
+function Test-SiteRecoveryEventsAlerts
+{
+	param([string] $vaultSettingsV2AFilePath)
+
+	# Set the V2A Vault Settings Path if not set already
+	if ($vaultSettingsV2AFilePath -eq "")
+	{
+		$vaultSettingsV2AFilePath = "..\bin\Debug\ScenarioTests\vaultSettingsV2A.VaultCredentials"
+	}
+
+	# Import V2A Azure Recovery Services Vault Settings
+	Import-AzureRmSiteRecoveryVaultSettingsFile $vaultSettingsV2AFilePath
+
+	# Get Fabric
+	$fabricName = "V2A-w2K12-660"
+	$fabric =  Get-AzureRmSiteRecoveryFabric -FriendlyName $fabricName
+
+	# Get notification settings
+	$settings=Get-AzureRmSiteRecoveryNotificationSettings
+	Assert-NotNull($settings)
+
+    # Set notification settings
+    $settings=Set-AzureRmSiteRecoveryNotification -EmailSubscriptionOwners -CustomEmailAddresses @("admin@aad296.ccsctp.net") -LocaleID fr-FR
+    Assert-NotNull($settings)
+
+	# Clear the settings
+	$settings = Set-AzureRmSiteRecoveryNotification -Disable
+	Assert-NotNull($settings)
+    
+    # DataTime for events
+    $startDate=Get-Date -Year 2016 -Month 10 -Day 18
+    $endDate=Get-Date -Year 2016 -Month 10 -Day 19
+
+    # Get events
+    $events=Get-AzureRmSiteRecoveryEvents -Fabric $fabric -AffectedObjectName $fabricName -StartTime $startDate -EndTime $endDate -Severity Warning -Type VmHealth
+}

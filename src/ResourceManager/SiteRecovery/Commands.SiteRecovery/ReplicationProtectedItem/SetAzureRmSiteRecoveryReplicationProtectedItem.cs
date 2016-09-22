@@ -12,12 +12,11 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using Microsoft.Azure.Management.SiteRecovery.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
-using Microsoft.Azure.Management.SiteRecovery.Models;
-using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
@@ -121,8 +120,10 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             if (0 != string.Compare(provider, Constants.HyperVReplicaAzure, StringComparison.OrdinalIgnoreCase) &&
                 0 != string.Compare(provider, Constants.InMageAzureV2, StringComparison.OrdinalIgnoreCase))
             {
-                this.WriteWarning(Properties.Resources.UnsupportedReplicationProvidedForUpdateVmProperties.ToString());
-                return;
+                throw new InvalidOperationException(
+                    string.Format(
+                        Properties.Resources.UnsupportedReplicationProviderForUpdateVmProperties.ToString(),
+                        replicationProtectedItemResponse.ReplicationProtectedItem.Properties.ProviderSpecificDetails.InstanceType));
             }
 
             // Check for at least one option

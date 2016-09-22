@@ -22,5 +22,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Test.ScenarioTests
     {
         public const string Default = "Default";
         public const string NewModel = "NewModel";
+        public const string NewModelV2A = "NewModelV2A";
     }
 }

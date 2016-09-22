@@ -167,9 +167,24 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public const string HyperVReplicaAzure = "HyperVReplicaAzure";
 
         /// <summary>
+        /// Represents HyperV Virtual Machine string constant.
+        /// </summary>
+        public const string HyperVVirtualMachine = "HyperVVirtualMachine";
+
+        /// <summary>
+        /// Represents VMWare Virtual Machine string constant.
+        /// </summary>
+        public const string VMwareVirtualMachine = "VMwareVirtualMachine";
+
+        /// <summary>
         /// Represents InMageAzureV2 string constant.
         /// </summary>
         public const string InMageAzureV2 = "InMageAzureV2";
+
+        /// <summary>
+        /// Represents InMage string constant.
+        /// </summary>
+        public const string InMage = "InMage";
 
         /// <summary>
         /// Represents HyperVReplicaAzureReplicationDetails string constant.
@@ -197,7 +212,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public const string San = "San";
 
         /// <summary>
-        /// Represents HyperVReplica string constant.
+        /// Represents Azure string constant.
         /// </summary>
         public const string AzureContainer = "Microsoft Azure";
 
@@ -210,6 +225,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Represents OfflineReplicationMethod string constant.
         /// </summary>
         public const string OfflineReplicationMethod = "Offline";
+
+        /// <summary>
+        /// Represent string OperatingSystem constant.
+        /// </summary>
+        public const string OperatingSystem = "OperatingSystem";
 
         /// <summary>
         /// Represents OS Windows.
@@ -391,6 +411,117 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Disable.
         /// </summary>
         public const string Disable = "Disable";
+
+        /// <summary>
+        /// Name value for configure alert setting.
+        /// </summary>
+        public const string DefaultAlertSettingName = "DefaultAlertSetting";
+
+        /// <summary>
+        /// Severity of the event: Critical
+        /// </summary>
+        public const string Critical = "Critical";
+
+        /// <summary>
+        /// Severity of the event: Warning.
+        /// </summary>
+        public const string Warning = "Warning";
+
+        /// <summary>
+        /// Severity of the event: Information.
+        /// </summary>
+        public const string Information = "Information";
+
+        /// <summary>
+        /// Type of the event: VmHealth.
+        /// </summary>
+        public const string VmHealth = "VmHealth";
+
+        /// <summary>
+        /// Type of the event: ServerHealth.
+        /// </summary>
+        public const string ServerHealth = "ServerHealth";
+
+        /// <summary>
+        /// Type of the event: JobStatus.
+        /// </summary>
+        public const string JobStatus = "JobStatus";
+
+        /// <summary>
+        /// Type of the event: AgentHealth.
+        /// </summary>
+        public const string AgentHealth = "AgentHealth";
+        /// <summary>
+        /// Enabled.
+        /// </summary>
+        public const string Enabled = "Enabled";
+
+        /// <summary>
+        /// Disabled.
+        /// </summary>
+        public const string Disabled = "Disabled";
+
+        /// <summary>
+        /// Never Enable RDP On Target Option while Enabling Protection for InMageAzureV2.
+        /// </summary>
+        public const string NeverEnableRDPOnTargetOption = "Never";
+
+        /// <summary>
+        /// Recovery Tag for Latest Recovery Point.
+        /// </summary>
+        public const string RecoveryTagLatest = "Latest";
+
+        /// <summary>
+        /// Recovery Tag for Latest Available Recovery Point.
+        /// </summary>
+        public const string RecoveryTagLatestAvailable = "LatestAvailable";
+
+        /// <summary>
+        /// Recovery Tag for Latest Available Application Consistent Recovery Point.
+        /// </summary>
+        public const string RecoveryTagLatestAvailableApplicationConsistent = "LatestAvailableApplicationConsistent";
+    }
+
+    /// <summary>
+    /// Recovery Tags for InMageAzureV2.
+    /// </summary>
+    public enum InMageAzureV2RecoveryTag
+    {
+        /// <summary>
+        /// Latest Recovery Point.
+        /// </summary>
+        Latest,
+
+        /// <summary>
+        /// Latest Available Recovery Point.
+        /// </summary>
+        LatestProcessed,
+
+        /// <summary>
+        /// Latest Application Consistent Recovery Point.
+        /// </summary>
+        LatestApplicationConsistent
+    }
+
+    /// <summary>
+    /// Recovery Tags for InMage.
+    /// </summary>
+    public enum InMageRecoveryTag
+    {
+        /// <summary>
+        /// Latest / Latest Available Recovery Point.
+        /// </summary>
+        LatestTime,
+
+        /// <summary>
+        /// Latest Application Consistent Recovery Point.
+        /// </summary>
+        LatestTag,
+
+        /// <summary>
+        /// Custom Recovery Point. Applicable if a valid Recovery Point is given.
+        /// </summary>
+        Custom
     }
 
     /// <summary>
@@ -805,5 +936,31 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public const string TargetComputesSizesPath =
             ReplicationProtectedItemsRoutePath + "/{replicatedProtectedItemName}/" +
             ARMResourceTypeConstants.TargetComputeSizes;
+    }
+
+    /// <summary>
+    /// Status of whether email alerts should be sent or not.
+    /// </summary>    
+    public class SendToOwners
+    {
+        /// <summary>
+        /// Indicates that email alerts must be sent.
+        /// </summary>
+        public const string Send = "Send";
+
+        /// <summary>
+        /// Indicates that email alerts must not be sent.
+        /// </summary>
+        public const string DoNotSend = "DoNotSend";
+
+        /// <summary>
+        /// Indicates that email alerts is on for owners.
+        /// </summary>
+        public const string On = "On";
+
+        /// <summary>
+        /// Indicates that email alerts is off for owners.
+        /// </summary>
+        public const string Off = "Off";
     }
 }

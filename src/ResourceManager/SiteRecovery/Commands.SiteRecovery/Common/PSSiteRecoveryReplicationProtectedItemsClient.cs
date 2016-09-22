@@ -268,6 +268,47 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         }
 
         /// <summary>
+        /// Resyncs / Repairs Replication.
+        /// </summary>
+        /// <param name="fabricName">Fabric Name</param>
+        /// <param name="protectionContainerName">Protection Conatiner Name</param>
+        /// <param name="replicationProtectedItemName">Replication Protected Item</param>
+        /// <returns>Job Response</returns>
+        public LongRunningOperationResponse StartAzureSiteRecoveryResyncReplication(
+            string fabricName,
+            string protectionContainerName,
+            string replicationProtectedItemName)
+        {
+            return this.GetSiteRecoveryClient().ReplicationProtectedItem.BeginRepairReplication(
+                fabricName,
+                protectionContainerName,
+                replicationProtectedItemName,
+                this.GetRequestHeaders());
+        }
+
+        /// <summary>
+        /// Updates Mobility Service.
+        /// </summary>
+        /// <param name="fabricName">Fabric Name</param>
+        /// <param name="protectionContainerName">Protection Conatiner Name</param>
+        /// <param name="replicationProtectedItemName">Replication Protected Item</param>
+        /// <param name="input">Update Mobility Service Request</param>
+        /// <returns>Job Response</returns>
+        public LongRunningOperationResponse UpdateAzureSiteRecoveryMobilityService(
+            string fabricName,
+            string protectionContainerName,
+            string replicationProtectedItemName,
+            UpdateMobilityServiceRequest input)
+        {
+            return this.GetSiteRecoveryClient().ReplicationProtectedItem.BeginUpdateMobilityService(
+                fabricName,
+                protectionContainerName,
+                replicationProtectedItemName,
+                input,
+                this.GetRequestHeaders());
+        }
+
+        /// <summary>
         /// Write Protection Entities
         /// </summary>
         /// <param name="protectableItems">List of protectable items</param>

@@ -23,6 +23,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Linq.Expressions;
+using System.Text.RegularExpressions;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
@@ -292,6 +293,68 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             return string.Format(
                 ARMResourceIdPaths.SRSArmUrlPattern,
                 data.UnFormatArmId(ARMResourceIdPaths.SRSArmUrlPattern));
+        }
+
+        /// <summary>
+        /// Validate the email addresses.
+        /// </summary>
+        /// <param name="emails">list of email addresses.</param>
+        public static void ValidateCustomEmails(string[] emails)
+        {
+            string emailPattern = "^[a-zA-Z0-9\\\".!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9]" +
+                "(?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9]" +
+                "(?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
+            Regex rgx = new Regex(emailPattern);
+
+            if (emails.Length > 20)
+            {
+                throw new InvalidOperationException(
+                    string.Format(Properties.Resources.EmailsCountExceeded));
+            }
+
+            foreach (string email in emails)
+            {
+                if (email.Length > 254)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(Properties.Resources.EmailLengthExceeded));
+                }
+
+                if (!rgx.IsMatch(email))
+                {
+                    throw new InvalidOperationException(
+                        string.Format(Properties.Resources.EmailFormatInvalid));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Validate the ipaddress or host name.
+        /// </summary>
+        /// <param name="server">ip or hostname.</param>
+        public static void ValidateIpOrHostName(string server)
+        {
+            string ipRegEx = "^([0-9]+).(([0-9]+)|.)*$";
+            Regex ipReg = new Regex(ipRegEx);
+
+            // Checking for ipv4
+            if (ipReg.IsMatch(server))
+            {
+                string ipAddressRegEX = "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]).){3}" +
+                    "([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$";
+
+                Regex ipAddressReg = new Regex(ipAddressRegEX);
+
+                if (!ipAddressReg.IsMatch(server))
+                {
+                    throw new InvalidOperationException(
+                        string.Format(Properties.Resources.InvalidIpAddress));
+                }
+            }
+            else
+            {
+                // Treating as hostname or ipv6 proceeding.
+            }
         }
     }
 

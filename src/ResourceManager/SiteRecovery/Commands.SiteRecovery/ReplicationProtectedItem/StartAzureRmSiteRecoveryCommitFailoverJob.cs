@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Management.SiteRecovery.Models;
+using System;
 using System.Management.Automation;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
@@ -81,7 +82,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     break;
 
                 case ASRParameterSets.ByRPIObject:
-                    this.protectionContainerName = 
+                    this.protectionContainerName =
                         Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationProtectionContainers);
                     this.fabricName = Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationFabrics);
                     this.SetRPICommit();
@@ -127,6 +128,60 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         private void SetRPICommit()
         {
+            // Check if the Replication Provider is InMageAzureV2.
+            if (string.Compare(
+                    this.ReplicationProtectedItem.ReplicationProvider,
+                    Constants.InMageAzureV2,
+                    StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Validate if the Replication Protection Item is part of any Replication Group.
+                Guid guidResult;
+                bool parseFlag = Guid.TryParse(
+                        ((ASRInMageAzureV2SpecificRPIDetails)
+                            this.ReplicationProtectedItem.ProviderSpecificRPIDetails).MultiVmGroupName,
+                            out guidResult);
+                if (parseFlag == false ||
+                    guidResult == Guid.Empty ||
+                    (string.Compare(
+                        ((ASRInMageAzureV2SpecificRPIDetails)
+                            this.ReplicationProtectedItem.ProviderSpecificRPIDetails).MultiVmGroupName,
+                        ((ASRInMageAzureV2SpecificRPIDetails)
+                            this.ReplicationProtectedItem.ProviderSpecificRPIDetails).MultiVmGroupId) != 0))
+                {
+                    // Replication Group was created at the time of Protection.
+                    throw new InvalidOperationException(
+                        string.Format(
+                            Properties.Resources.UnsupportedReplicationProtectionActionForCommit.ToString(),
+                            this.ReplicationProtectedItem.ReplicationProvider));
+                }
+            }
+            else if (string.Compare(
+                        this.ReplicationProtectedItem.ReplicationProvider,
+                        Constants.InMage,
+                        StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Validate if the Replication Protection Item is part of any Replication Group.
+                Guid guidResult;
+                bool parseFlag = Guid.TryParse(
+                        ((ASRInMageSpecificRPIDetails)
+                            this.ReplicationProtectedItem.ProviderSpecificRPIDetails).MultiVmGroupName,
+                            out guidResult);
+                if (parseFlag == false ||
+                    guidResult == Guid.Empty ||
+                    (string.Compare(
+                        ((ASRInMageSpecificRPIDetails)
+                            this.ReplicationProtectedItem.ProviderSpecificRPIDetails).MultiVmGroupName,
+                        ((ASRInMageSpecificRPIDetails)
+                            this.ReplicationProtectedItem.ProviderSpecificRPIDetails).MultiVmGroupId) != 0))
+                {
+                    // Replication Group was created at the time of Protection.
+                    throw new InvalidOperationException(
+                        string.Format(
+                            Properties.Resources.UnsupportedReplicationProtectionActionForCommit.ToString(),
+                            this.ReplicationProtectedItem.ReplicationProvider));
+                }
+            }
+
             LongRunningOperationResponse response = RecoveryServicesClient.StartAzureSiteRecoveryCommitFailover(
                 this.fabricName,
                 this.protectionContainerName,

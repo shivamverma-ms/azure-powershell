@@ -260,6 +260,46 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             this.ID = fabric.Id;
             this.Type = fabric.Properties.CustomDetails.InstanceType;
             this.SiteIdentifier = fabric.Properties.InternalIdentifier;
+
+            // Populate Fabric Specific Details for VMWare.
+            if (string.Compare(
+                    fabric.Properties.CustomDetails.InstanceType,
+                    Constants.VMware,
+                    StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                VMwareFabricDetails vmwareFabricSpecificDetails =
+                    fabric.Properties.CustomDetails as VMwareFabricDetails;
+                ASRVMWareSpecificDetails fabricSpecificDetails = new ASRVMWareSpecificDetails()
+                {
+                    HostName = vmwareFabricSpecificDetails.HostName,
+                    IpAddress = vmwareFabricSpecificDetails.IpAddress,
+                    AgentVersion = vmwareFabricSpecificDetails.AgentVersion,
+                    ProtectedServers = vmwareFabricSpecificDetails.ProtectedServers,
+                    LastHeartbeat = vmwareFabricSpecificDetails.LastHeartbeat,
+                    CsServiceStatus = vmwareFabricSpecificDetails.CsServiceStatus,
+                    VersionStatus = vmwareFabricSpecificDetails.VersionStatus,
+                    ProcessServers = new List<ASRProcessServer>(),
+                    MasterTargetServers = new List<ASRMasterTargetServer>(),
+                    RunAsAccounts = new List<ASRRunAsAccount>()
+                };
+
+                foreach (ProcessServer p in vmwareFabricSpecificDetails.ProcessServers)
+                {
+                    fabricSpecificDetails.ProcessServers.Add(new ASRProcessServer(p));
+                }
+
+                foreach (MasterTargetServer m in vmwareFabricSpecificDetails.MasterTargetServers)
+                {
+                    fabricSpecificDetails.MasterTargetServers.Add(new ASRMasterTargetServer(m));
+                }
+
+                foreach (RunAsAccount r in vmwareFabricSpecificDetails.RunAsAccounts)
+                {
+                    fabricSpecificDetails.RunAsAccounts.Add(new ASRRunAsAccount(r));
+                }
+
+                this.FabricSpecificDetails = fabricSpecificDetails;
+            }
         }
 
         #endregion
@@ -290,7 +330,19 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         public string SiteIdentifier { get; set; }
 
+        /// <summary>
+        /// Gets or sets Fabric Specific Details.
+        /// </summary>
+        public ASRFabricSpecificDetails FabricSpecificDetails { get; set; }
+
         #endregion
+    }
+
+    /// <summary>
+    /// Fabric Specific Details.
+    /// </summary>
+    public class ASRFabricSpecificDetails
+    {
     }
 
     /// <summary>
@@ -420,7 +472,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets Source Fabric Friendly Name
         /// </summary>
         public string SourceFabricFriendlyName { get; set; }
-        
+
         /// <summary>
         /// Gets or sets Source Protection Container Friendly Name
         /// </summary>
@@ -658,6 +710,38 @@ namespace Microsoft.Azure.Commands.SiteRecovery
 
                 this.ReplicationProviderSettings = replicationProviderSettings;
             }
+            else if (policy.Properties.ProviderSpecificDetails.InstanceType == Constants.InMageAzureV2)
+            {
+                InMageAzureV2PolicyDetails details =
+                    (InMageAzureV2PolicyDetails)policy.Properties.ProviderSpecificDetails;
+
+                ASRInMageAzureV2PolicyDetails replicationProviderSettings =
+                    new ASRInMageAzureV2PolicyDetails()
+                    {
+                        AppConsistentFrequencyInMinutes = details.AppConsistentFrequencyInMinutes,
+                        RecoveryPointHistory = details.RecoveryPointHistory,
+                        RecoveryPointThresholdInMinutes = details.RecoveryPointThresholdInMinutes,
+                        CrashConsistentFrequencyInMinutes = details.CrashConsistentFrequencyInMinutes,
+                        MultiVmSyncStatus = details.MultiVmSyncStatus
+                    };
+
+                this.ReplicationProviderSettings = replicationProviderSettings;
+            }
+            else if (policy.Properties.ProviderSpecificDetails.InstanceType == Constants.InMage)
+            {
+                InMagePolicyDetails details =
+                    (InMagePolicyDetails)policy.Properties.ProviderSpecificDetails;
+
+                ASRInMagePolicyDetails replicationProviderSettings = new ASRInMagePolicyDetails()
+                {
+                    AppConsistentFrequencyInMinutes = details.AppConsistentFrequencyInMinutes,
+                    RecoveryPointHistory = details.RecoveryPointHistory,
+                    RecoveryPointThresholdInMinutes = details.RecoveryPointThresholdInMinutes,
+                    MultiVmSyncStatus = details.MultiVmSyncStatus
+                };
+
+                this.ReplicationProviderSettings = replicationProviderSettings;
+            }
         }
 
         #region Properties
@@ -687,9 +771,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public string ReplicationProvider { get; set; }
 
         /// <summary>
-        /// Gets or sets HyperVReplicaProviderSettings
+        /// Gets or sets Replication Provider Specific Policy Settings.
         /// </summary>
-        // public HyperVReplicaProviderSettings ReplicationProviderSettings { get; set; }
         public ASRPolicyProviderSettingsDetails ReplicationProviderSettings { get; set; }
 
         #endregion Properties
@@ -780,6 +863,45 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         // Summary:
         //     Optional.
         public int ReplicationFrequencyInSeconds { get; set; }
+    }
+
+    /// <summary> 
+    /// InMageAzureV2 Specific Policy Details. 
+    /// </summary> 
+    public class ASRInMageAzureV2PolicyDetails : ASRPolicyProviderSettingsDetails
+    {
+        // Gets or sets the app consistent snapshot frequency in minutes.
+        public int AppConsistentFrequencyInMinutes { get; set; }
+
+        // Gets or sets the duration in minutes until which the recovery points need to be stored.
+        public int RecoveryPointHistory { get; set; }
+
+        // Gets or sets the recovery point threshold in minutes. 
+        public int RecoveryPointThresholdInMinutes { get; set; }
+
+        // Gets or sets the crash consistent snapshot frequency in minutes.
+        public int CrashConsistentFrequencyInMinutes { get; set; }
+
+        // Gets or sets a value indicating whether multi-VM sync has to be enabled.
+        public string MultiVmSyncStatus { get; set; }
+    }
+
+    /// <summary> 
+    /// InMage Specific Policy Details.
+    /// </summary> 
+    public class ASRInMagePolicyDetails : ASRPolicyProviderSettingsDetails
+    {
+        // Gets or sets the app consistent snapshot frequency in minutes.
+        public int AppConsistentFrequencyInMinutes { get; set; }
+
+        // Gets or sets the duration in minutes until which the recovery points need to be stored.
+        public int RecoveryPointHistory { get; set; }
+
+        // Gets or sets the recovery point threshold in minutes. 
+        public int RecoveryPointThresholdInMinutes { get; set; }
+
+        // Gets or sets a value indicating whether multi-VM sync has to be enabled.
+        public string MultiVmSyncStatus { get; set; }
     }
 
     /// <summary>
@@ -912,7 +1034,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         NicDetailsList.Add(new ASRVMNicDetails(n));
                     }
                 }
-            }           
+            }
         }
 
         /// <summary>
@@ -963,6 +1085,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             this.ID = pi.Id;
             this.Name = pi.Name;
             this.FriendlyName = pi.Properties.FriendlyName;
+            this.Type = pi.Properties.CustomDetails.InstanceType;
             this.ProtectionContainerId = Utilities.GetValueFromArmId(pi.Id, ARMResourceTypeConstants.ReplicationProtectionContainers);
             this.ProtectionStatus = pi.Properties.ProtectionStatus;
             this.ReplicationProtectedItemId = pi.Properties.ReplicationProtectedItemId;
@@ -971,7 +1094,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             {
                 if (0 == string.Compare(
                     pi.Properties.CustomDetails.InstanceType,
-                    "HyperVVirtualMachine",
+                    Constants.HyperVVirtualMachine,
                     StringComparison.OrdinalIgnoreCase))
                 {
                     if (pi.Properties.CustomDetails is HyperVVirtualMachineDetails)
@@ -983,6 +1106,33 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         this.UpdateDiskDetails(diskDetails);
                         this.OS = providerSettings.OSDetails == null ? null : providerSettings.OSDetails.OsType;
                         this.FabricObjectId = providerSettings.SourceItemId;
+                    }
+                }
+                else if (string.Compare(
+                            pi.Properties.CustomDetails.InstanceType,
+                            Constants.VMwareVirtualMachine,
+                            StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    if (pi.Properties.CustomDetails is VMwareVirtualMachineDetails)
+                    {
+                        VMwareVirtualMachineDetails providerSettings =
+                            (VMwareVirtualMachineDetails)pi.Properties.CustomDetails;
+
+                        // Set the VMWare specific properties.
+                        this.FabricSpecificVMDetails = new ASRVMWareSpecificVMDetails()
+                        {
+                            IpAddress = providerSettings.IpAddress,
+                            AgentVersion = providerSettings.AgentVersion,
+                            AgentInstalled = providerSettings.AgentInstalled,
+                            AgentGeneratedId = providerSettings.AgentGeneratedId,
+                            PoweredOn = providerSettings.PoweredOn,
+                            DiscoveryType = providerSettings.DiscoveryType
+                        };
+
+                        // Update Disk Details for VMWare.
+                        IList<InMageDiskDetails> diskDetails = providerSettings.DiskDetails;
+                        this.UpdateDiskDetails(diskDetails);
+                        this.OS = providerSettings.OsType;
                     }
                 }
             }
@@ -998,11 +1148,48 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 hd.Name = disk.VhdName;
                 this.Disks.Add(hd);
             }
-            DiskDetails OSDisk = diskDetails.SingleOrDefault(d => string.Compare(d.VhdType, "OperatingSystem", StringComparison.OrdinalIgnoreCase) == 0);
+            DiskDetails OSDisk = diskDetails.SingleOrDefault(d => string.Compare(
+                d.VhdType, Constants.OperatingSystem, StringComparison.OrdinalIgnoreCase) == 0);
             if (OSDisk != null)
             {
                 this.OSDiskId = OSDisk.VhdId;
                 this.OSDiskName = OSDisk.VhdName;
+            }
+        }
+
+        // Update Disk Details for VMWare.
+        private void UpdateDiskDetails(IList<InMageDiskDetails> diskDetails)
+        {
+            // Update all the Disks.
+            this.Disks = new List<VirtualHardDisk>();
+            foreach (var disk in diskDetails)
+            {
+                VirtualHardDisk hd = new VirtualHardDisk();
+                hd.Id = disk.DiskId;
+                hd.Name = disk.DiskName;
+
+                // Update all the Volumes in this Disk.
+                hd.Volumes = new List<Volume>();
+                foreach (var vol in disk.VolumeList)
+                {
+                    Volume v = new Volume();
+                    v.Label = vol.Label;
+                    v.Name = vol.Name;
+                    hd.Volumes.Add(v);
+                }
+                this.Disks.Add(hd);
+            }
+
+            // Update the OS Disk.
+            InMageDiskDetails OSDisk =
+                diskDetails.SingleOrDefault(d => string.Compare(
+                    d.DiskType,
+                    "OperatingSystem",
+                    StringComparison.OrdinalIgnoreCase) == 0);
+            if (OSDisk != null)
+            {
+                this.OSDiskId = OSDisk.DiskId;
+                this.OSDiskName = OSDisk.DiskName;
             }
         }
 
@@ -1020,6 +1207,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets Protection entity ID.
         /// </summary>
         public string ID { get; set; }
+
+        /// <summary>
+        /// Gets or sets protectable item type.
+        /// </summary>
+        public string Type { get; set; }
 
         /// <summary>
         /// Gets or sets fabric object ID.
@@ -1070,6 +1262,54 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets Replication protected item id.
         /// </summary>
         public string ReplicationProtectedItemId { get; set; }
+
+        /// <summary>
+        /// Gets or sets Fabric Specific Virtual Machine Details.
+        /// </summary>
+        public ASRFabricSpecificVMDetails FabricSpecificVMDetails { get; set; }
+    }
+
+    /// <summary>
+    /// Fabric Specific Virtual Machine Details.
+    /// </summary>
+    public class ASRFabricSpecificVMDetails
+    {
+    }
+
+    /// <summary>
+    /// Fabric Specific Virtual Machine Details for VMWare.
+    /// </summary>
+    public class ASRVMWareSpecificVMDetails : ASRFabricSpecificVMDetails
+    {
+        /// <summary>
+        /// Gets or sets the IP address of the VM.
+        /// </summary>
+        public string IpAddress { get; set; }
+
+        /// <summary>
+        /// Gets or sets the agent version installed on VM.
+        /// </summary>
+        public string AgentVersion { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value indicating if InMage scout agent is installed on guest.
+        /// </summary>
+        public string AgentInstalled { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ID generated by the InMage agent after it gets installed on guest.
+        /// </summary>
+        public string AgentGeneratedId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value indicating whether VM is powered on.
+        /// </summary>
+        public string PoweredOn { get; set; }
+
+        /// <summary>
+        /// Gets or sets the discovery type of the machine.
+        /// </summary>
+        public string DiscoveryType { get; set; }
     }
 
     /// <summary>
@@ -1139,7 +1379,120 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         NicDetailsList.Add(new ASRVMNicDetails(n));
                     }
                 }
-            }         
+            }
+            else if (string.Compare(
+                        rpi.Properties.ProviderSpecificDetails.InstanceType,
+                        Constants.InMageAzureV2,
+                        StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                InMageAzureV2ProviderSpecificSettings providerSpecificDetails =
+                    (InMageAzureV2ProviderSpecificSettings)rpi.Properties.ProviderSpecificDetails;
+
+                // Set the common properties specific to InMageAzureV2.
+                this.RecoveryAzureVMName = providerSpecificDetails.RecoveryAzureVMName;
+                this.RecoveryAzureVMSize = providerSpecificDetails.RecoveryAzureVMSize;
+                this.RecoveryAzureStorageAccount =
+                    providerSpecificDetails.RecoveryAzureStorageAccount;
+                this.SelectedRecoveryAzureNetworkId =
+                    providerSpecificDetails.SelectedRecoveryAzureNetworkId;
+
+                if (providerSpecificDetails.VMNics != null)
+                {
+                    this.NicDetailsList = new List<ASRVMNicDetails>();
+                    foreach (VMNicDetails n in providerSpecificDetails.VMNics)
+                    {
+                        this.NicDetailsList.Add(new ASRVMNicDetails(n));
+                    }
+                }
+
+                // Set the InMageAzureV2 specific properties.
+                ASRInMageAzureV2SpecificRPIDetails inMageAzureV2RPIDetails =
+                    new ASRInMageAzureV2SpecificRPIDetails()
+                    {
+                        IpAddress = providerSpecificDetails.IpAddress,
+                        ProcessServerId = providerSpecificDetails.ProcessServerId,
+                        MasterTargetId = providerSpecificDetails.MasterTargetId,
+                        OSType = providerSpecificDetails.OSType,
+                        OSDiskId = providerSpecificDetails.OSDiskId,
+                        VHDName = providerSpecificDetails.VHDName,
+                        MultiVmGroupId = providerSpecificDetails.MultiVmGroupId,
+                        MultiVmGroupName = providerSpecificDetails.MultiVmGroupName,
+                        AgentVersion = providerSpecificDetails.AgentVersion,
+                        DiscoveryType = providerSpecificDetails.DiscoveryType,
+                        LastHeartbeat = providerSpecificDetails.LastHeartbeat,
+                        ProtectionStage = providerSpecificDetails.ProtectionStage,
+                        RecoveryAzureLogStorageAccountId =
+                                providerSpecificDetails.RecoveryAzureLogStorageAccountId
+                    };
+
+                if (providerSpecificDetails.ProtectedDisks != null)
+                {
+                    inMageAzureV2RPIDetails.ProtectedDiskDetails = new List<VirtualHardDisk>();
+                    foreach (InMageAzureV2ProtectedDiskDetails pd in providerSpecificDetails.ProtectedDisks)
+                    {
+                        inMageAzureV2RPIDetails.ProtectedDiskDetails.Add(new VirtualHardDisk()
+                        {
+                            Id = pd.DiskId,
+                            Name = pd.DiskName
+                        });
+                    }
+                }
+
+                this.ProviderSpecificRPIDetails = inMageAzureV2RPIDetails;
+            }
+            else if (string.Compare(
+                        rpi.Properties.ProviderSpecificDetails.InstanceType,
+                        Constants.InMage,
+                        StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                InMageProviderSpecificSettings providerSpecificDetails =
+                    (InMageProviderSpecificSettings)rpi.Properties.ProviderSpecificDetails;
+
+                // Set the common properties specific to InMage.
+                if (providerSpecificDetails.VMNics != null)
+                {
+                    this.NicDetailsList = new List<ASRVMNicDetails>();
+                    foreach (VMNicDetails n in providerSpecificDetails.VMNics)
+                    {
+                        this.NicDetailsList.Add(new ASRVMNicDetails(n));
+                    }
+                }
+
+                // Set the InMage specific properties.
+                ASRInMageSpecificRPIDetails inMageRPIDetails = new ASRInMageSpecificRPIDetails()
+                {
+                    IpAddress = providerSpecificDetails.IpAddress,
+                    ProcessServerId = providerSpecificDetails.ProcessServerId,
+                    MasterTargetId = providerSpecificDetails.MasterTargetId,
+                    OSType = (providerSpecificDetails.OsDetails != null) ?
+                                providerSpecificDetails.OsDetails.OSType : null,
+                    OSDiskId = (providerSpecificDetails.OsDetails != null) ?
+                                providerSpecificDetails.OsDetails.OSVhdId : null,
+                    VHDName = (providerSpecificDetails.OsDetails != null) ?
+                                providerSpecificDetails.OsDetails.VhdName : null,
+                    MultiVmGroupId = providerSpecificDetails.MultiVmGroupId,
+                    MultiVmGroupName = providerSpecificDetails.MultiVmGroupName,
+                    AgentVersion = providerSpecificDetails.AgentDetails.AgentVersion,
+                    DiscoveryType = providerSpecificDetails.DiscoveryType,
+                    LastHeartbeat = providerSpecificDetails.LastHeartbeat,
+                    ProtectionStage = providerSpecificDetails.ProtectionStage
+                };
+
+                if (providerSpecificDetails.ProtectedDisks != null)
+                {
+                    inMageRPIDetails.ProtectedDiskDetails = new List<VirtualHardDisk>();
+                    foreach (InMageProtectedDiskDetails d in providerSpecificDetails.ProtectedDisks)
+                    {
+                        inMageRPIDetails.ProtectedDiskDetails.Add(new VirtualHardDisk()
+                        {
+                            Id = d.DiskId,
+                            Name = d.DiskName
+                        });
+                    }
+                }
+
+                this.ProviderSpecificRPIDetails = inMageRPIDetails;
+            }
         }
 
         /// <summary>
@@ -1238,11 +1591,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public string ProtectionStateDescription { get; set; }
 
         /// <summary>
-        /// Gets or sets Provider Specific Details
-        /// </summary>
-        public ReplicationProviderSpecificSettings ProviderSpecificDetails { get; set; }
-
-        /// <summary>
         /// Gets or sets Recovery Fabric Friendly Name
         /// </summary>
         public string RecoveryFabricFriendlyName { get; set; }
@@ -1305,7 +1653,166 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Nic Details of the Virtual machine.
         /// </summary>
-        public List<ASRVMNicDetails> NicDetailsList { get; set; } 
+        public List<ASRVMNicDetails> NicDetailsList { get; set; }
+
+        /// <summary>
+        /// Gets or sets Provider specific Replication Protected Item Details.
+        /// </summary>
+        public ASRProviderSpecificRPIDetails ProviderSpecificRPIDetails { get; set; }
+    }
+
+    /// <summary>
+    /// Provider Specific Replication Protected Item Details.
+    /// </summary>
+    public class ASRProviderSpecificRPIDetails
+    {
+    }
+
+    /// <summary>
+    /// InMageAzureV2 Specific Replication Protected Item Details.
+    /// </summary>
+    public class ASRInMageAzureV2SpecificRPIDetails : ASRProviderSpecificRPIDetails
+    {
+        /// <summary>
+        /// Gets or sets Source IP address.
+        /// </summary>
+        public string IpAddress { get; set; }
+
+        /// <summary>
+        /// Process Server Id.
+        /// </summary>
+        public string ProcessServerId { get; set; }
+
+        /// <summary>
+        /// Master Target Id.
+        /// </summary>
+        public string MasterTargetId { get; set; }
+
+        /// <summary>
+        /// OS Type.
+        /// </summary>
+        public string OSType { get; set; }
+
+        /// <summary>
+        /// OS Disk Id.
+        /// </summary>
+        public string OSDiskId { get; set; }
+
+        /// <summary>
+        /// VHD Name.
+        /// </summary>
+        public string VHDName { get; set; }
+
+        /// <summary>
+        /// Multi VM Group Id.
+        /// </summary>
+        public string MultiVmGroupId { get; set; }
+
+        /// <summary>
+        /// Multi VM Group Name.
+        /// </summary>
+        public string MultiVmGroupName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the agent version.
+        /// </summary>
+        public string AgentVersion { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value indicating the discovery type of the machine.
+        /// </summary>
+        public string DiscoveryType { get; set; }
+
+        /// <summary>
+        /// Gets or sets Last heartbeat received from the source server.
+        /// </summary>
+        public DateTime? LastHeartbeat { get; set; }
+
+        /// <summary>
+        /// Gets or sets Protection stage.
+        /// </summary>
+        public string ProtectionStage { get; set; }
+
+        /// <summary>
+        /// Recovery Azure Log Storage Account Id.
+        /// </summary>
+        public string RecoveryAzureLogStorageAccountId { get; set; }
+
+        /// <summary>
+        /// Gets or sets Protected Disk Details of the Virtual machine.
+        /// </summary>
+        public List<VirtualHardDisk> ProtectedDiskDetails { get; set; }
+    }
+
+    /// <summary>
+    /// InMage Specific Replication Protected Item Details.
+    /// </summary>
+    public class ASRInMageSpecificRPIDetails : ASRProviderSpecificRPIDetails
+    {
+        /// <summary>
+        /// Gets or sets Source IP address.
+        /// </summary>
+        public string IpAddress { get; set; }
+
+        /// <summary>
+        /// Process Server Id.
+        /// </summary>
+        public string ProcessServerId { get; set; }
+
+        /// <summary>
+        /// Master Target Id.
+        /// </summary>
+        public string MasterTargetId { get; set; }
+
+        /// <summary>
+        /// OS Type.
+        /// </summary>
+        public string OSType { get; set; }
+
+        /// <summary>
+        /// OS Disk Id.
+        /// </summary>
+        public string OSDiskId { get; set; }
+
+        /// <summary>
+        /// VHD Name.
+        /// </summary>
+        public string VHDName { get; set; }
+
+        /// <summary>
+        /// Multi VM Group Id.
+        /// </summary>
+        public string MultiVmGroupId { get; set; }
+
+        /// <summary>
+        /// Multi VM Group Name.
+        /// </summary>
+        public string MultiVmGroupName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the agent version.
+        /// </summary>
+        public string AgentVersion { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value indicating the discovery type of the machine.
+        /// </summary>
+        public string DiscoveryType { get; set; }
+
+        /// <summary>
+        /// Gets or sets Last heartbeat received from the source server.
+        /// </summary>
+        public DateTime? LastHeartbeat { get; set; }
+
+        /// <summary>
+        /// Gets or sets Protection stage.
+        /// </summary>
+        public string ProtectionStage { get; set; }
+
+        /// <summary>
+        /// Gets or sets Protected Disk Details of the Virtual machine.
+        /// </summary>
+        public List<VirtualHardDisk> ProtectedDiskDetails { get; set; }
     }
 
     /// <summary>
@@ -1330,13 +1837,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             this.ProtectionContainerId = Utilities.GetValueFromArmId(pi.Id, ARMResourceTypeConstants.ReplicationProtectionContainers);
             this.Name = pi.Name;
             this.FriendlyName = pi.Properties.FriendlyName;
-            this.ProtectionStatus = pi.Properties.ProtectionStatus;   
+            this.ProtectionStatus = pi.Properties.ProtectionStatus;
             if (pi.Properties.CustomDetails != null)
             {
                 if (0 == string.Compare(
-                    pi.Properties.CustomDetails.InstanceType,
-                    "HyperVVirtualMachine",
-                    StringComparison.OrdinalIgnoreCase))
+                        pi.Properties.CustomDetails.InstanceType,
+                        Constants.HyperVVirtualMachine,
+                        StringComparison.OrdinalIgnoreCase))
                 {
                     if (pi.Properties.CustomDetails is HyperVVirtualMachineDetails)
                     {
@@ -1349,8 +1856,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         this.FabricObjectId = providerSettings.SourceItemId;
                     }
 
-                }                
-            } 
+                }
+            }
         }
 
         /// <summary>
@@ -2172,6 +2679,31 @@ namespace Microsoft.Azure.Commands.SiteRecovery
 
         /// <summary>
         /// Gets or sets the name.
+        /// </summary>
+        [DataMember]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the List of Volumes.
+        /// </summary>
+        [DataMember]
+        public List<Volume> Volumes { get; set; }
+    }
+
+    /// <summary>
+    /// Volume details in the Disk.
+    /// </summary>
+    [DataContract(Namespace = "http://schemas.microsoft.com/windowsazure")]
+    public class Volume
+    {
+        /// <summary>
+        /// Gets or sets the Volume Label.
+        /// </summary>
+        [DataMember]
+        public string Label { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Volume Name.
         /// </summary>
         [DataMember]
         public string Name { get; set; }

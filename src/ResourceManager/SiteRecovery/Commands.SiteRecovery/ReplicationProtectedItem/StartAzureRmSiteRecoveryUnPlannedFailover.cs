@@ -62,6 +62,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets Recovery Plan object.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByRPObject, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzureAndVMwareToVMwareRP, Mandatory = true, ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
         public ASRRecoveryPlan RecoveryPlan { get; set; }
 
@@ -76,6 +77,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets Replication Protected Item.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByRPIObject, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzureAndVMwareToVMwareRPI, Mandatory = true, ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
         public ASRReplicationProtectedItem ReplicationProtectedItem { get; set; }
 
@@ -95,16 +97,39 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Data encryption certificate file path for failover of Protected Item.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.ByRPObject)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByPEObject)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByRPIObject)]
         [ValidateNotNullOrEmpty]
         public string DataEncryptionPrimaryCertFile { get; set; }
 
         /// <summary>
         /// Gets or sets Data encryption certificate file path for failover of Protected Item.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.ByRPObject)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByPEObject)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByRPIObject)]
         [ValidateNotNullOrEmpty]
         public string DataEncryptionSecondaryCertFile { get; set; }
+
+        /// <summary> 
+        /// Gets or sets Recovery Point object. 
+        /// </summary> 
+        [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzureAndVMwareToVMwareRPI)]
+        [ValidateNotNullOrEmpty]
+        public ASRRecoveryPoint RecoveryPoint { get; set; }
+
+        /// <summary> 
+        /// Gets or sets Recovery Tag for the Recovery Point Type. 
+        /// </summary> 
+        [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzureAndVMwareToVMwareRPI)]
+        [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzureAndVMwareToVMwareRP)]
+        [ValidateNotNullOrEmpty]
+        [ValidateSet(
+            Constants.RecoveryTagLatest,
+            Constants.RecoveryTagLatestAvailable,
+            Constants.RecoveryTagLatestAvailableApplicationConsistent)]
+        public string RecoveryTag { get; set; }
 
         #endregion Parameters
 
@@ -137,12 +162,14 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     this.StartPEUnplannedFailover();
                     break;
                 case ASRParameterSets.ByRPIObject:
-                    this.protectionContainerName = 
+                case ASRParameterSets.VMwareToAzureAndVMwareToVMwareRPI:
+                    this.protectionContainerName =
                         Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationProtectionContainers);
                     this.fabricName = Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationFabrics);
                     this.StartRPIUnplannedFailover();
                     break;
                 case ASRParameterSets.ByRPObject:
+                case ASRParameterSets.VMwareToAzureAndVMwareToVMwareRP:
                     this.StartRpUnplannedFailover();
                     break;
             }
@@ -226,10 +253,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 Properties = unplannedFailoverInputProperties
             };
 
+            // Validate the Replication Provider.
             if (0 == string.Compare(
-                this.ReplicationProtectedItem.ReplicationProvider,
-                Constants.HyperVReplicaAzure,
-                StringComparison.OrdinalIgnoreCase))
+                    this.ReplicationProtectedItem.ReplicationProvider,
+                    Constants.HyperVReplicaAzure,
+                    StringComparison.OrdinalIgnoreCase))
             {
                 if (this.Direction == Constants.PrimaryToRecovery)
                 {
@@ -240,6 +268,99 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         VaultLocation = this.GetCurrentVaultLocation()
                     };
                     input.Properties.ProviderSpecificDetails = failoverInput;
+                }
+            }
+            else if (string.Compare(
+                        this.ReplicationProtectedItem.ReplicationProvider,
+                        Constants.InMageAzureV2,
+                        StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Validate if the Replication Protection Item is part of any Replication Group.
+                Guid guidResult;
+                bool parseFlag = Guid.TryParse(
+                    ((ASRInMageAzureV2SpecificRPIDetails)
+                        this.ReplicationProtectedItem.ProviderSpecificRPIDetails).MultiVmGroupName,
+                        out guidResult);
+                if (parseFlag == false ||
+                    guidResult == Guid.Empty ||
+                    (string.Compare(
+                        ((ASRInMageAzureV2SpecificRPIDetails)
+                            this.ReplicationProtectedItem.ProviderSpecificRPIDetails).MultiVmGroupName,
+                        ((ASRInMageAzureV2SpecificRPIDetails)
+                            this.ReplicationProtectedItem.ProviderSpecificRPIDetails).MultiVmGroupId) != 0))
+                {
+                    // Replication Group was created at the time of Protection.
+                    throw new InvalidOperationException(
+                        string.Format(
+                            Properties.Resources.UnsupportedReplicationProtectionActionForUnplannedFailover.ToString(),
+                            this.ReplicationProtectedItem.ReplicationProvider));
+                }
+
+                // Validate the Direction as PrimaryToRecovery.
+                if (this.Direction == Constants.PrimaryToRecovery)
+                {
+                    // Set the InMageAzureV2 Provider specific input in the Unplanned Failover Input.
+                    var failoverInput = new InMageAzureV2FailoverProviderInput()
+                    {
+                        VaultLocation = this.GetCurrentVaultLocation(),
+                        RecoveryPointId = this.RecoveryPoint != null ? this.RecoveryPoint.ID : null
+                    };
+                    input.Properties.ProviderSpecificDetails = failoverInput;
+                }
+                else
+                {
+                    // RecoveryToPrimary Direction is Invalid for InMageAzureV2.
+                    new ArgumentException(Properties.Resources.InvalidDirectionForVMWareToAzure);
+                }
+            }
+            else if (string.Compare(
+                        this.ReplicationProtectedItem.ReplicationProvider,
+                        Constants.InMage,
+                        StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                // Validate if the Replication Protection Item is part of any Replication Group.
+                Guid guidResult;
+                bool parseFlag = Guid.TryParse(
+                    (((ASRInMageSpecificRPIDetails)
+                        this.ReplicationProtectedItem.ProviderSpecificRPIDetails).MultiVmGroupName),
+                        out guidResult);
+                if (parseFlag == false ||
+                    guidResult == Guid.Empty ||
+                    (string.Compare(
+                        ((ASRInMageSpecificRPIDetails)
+                            this.ReplicationProtectedItem.ProviderSpecificRPIDetails).MultiVmGroupName,
+                        ((ASRInMageSpecificRPIDetails)
+                            this.ReplicationProtectedItem.ProviderSpecificRPIDetails).MultiVmGroupId) != 0))
+                {
+                    // Replication Group was created at the time of Protection.
+                    throw new InvalidOperationException(
+                        string.Format(
+                            Properties.Resources.UnsupportedReplicationProtectionActionForUnplannedFailover.ToString(),
+                            this.ReplicationProtectedItem.ReplicationProvider));
+                }
+
+                // Validate the Direction as PrimaryToRecovery.
+                if (this.Direction == Constants.PrimaryToRecovery)
+                {
+                    // Set the Recovery Point Types for InMage.
+                    var recoveryPointType =
+                        (this.RecoveryPoint != null) ? InMageRecoveryTag.Custom.ToString() :
+                            (this.RecoveryTag == Constants.RecoveryTagLatestAvailableApplicationConsistent) ?
+                                InMageRecoveryTag.LatestTag.ToString() :
+                                InMageRecoveryTag.LatestTime.ToString();
+
+                    // Set the InMage Provider specific input in the Unplanned Failover Input.
+                    var failoverInput = new InMageFailoverProviderInput()
+                    {
+                        RecoveryPointType = recoveryPointType,
+                        RecoveryPointId = this.RecoveryPoint != null ? this.RecoveryPoint.ID : null
+                    };
+                    input.Properties.ProviderSpecificDetails = failoverInput;
+                }
+                else
+                {
+                    // RecoveryToPrimary Direction is Invalid for InMage.
+                    new ArgumentException(Properties.Resources.InvalidDirectionForAzureToVMWare);
                 }
             }
 
@@ -274,6 +395,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
 
             foreach (string replicationProvider in rp.RecoveryPlan.Properties.ReplicationProviders)
             {
+                // Validate the Replication Provider.
                 if (0 == string.Compare(
                     replicationProvider,
                     Constants.HyperVReplicaAzure,
@@ -289,6 +411,61 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                             VaultLocation = this.GetCurrentVaultLocation()
                         };
                         recoveryPlanUnplannedFailoverInputProperties.ProviderSpecificDetails.Add(recoveryPlanHyperVReplicaAzureFailoverInput);
+                    }
+                }
+                else if (string.Compare(
+                            replicationProvider,
+                            Constants.InMageAzureV2,
+                            StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    // Check if the Direction is PrimaryToRecovery.
+                    if (this.Direction == Constants.PrimaryToRecovery)
+                    {
+                        // Set the Recovery Point Types for InMage.
+                        var recoveryPointType =
+                            (this.RecoveryTag == Constants.RecoveryTagLatestAvailableApplicationConsistent) ?
+                                InMageAzureV2RecoveryTag.LatestApplicationConsistent.ToString() :
+                                    (this.RecoveryTag == Constants.RecoveryTagLatestAvailable) ?
+                                        InMageAzureV2RecoveryTag.LatestProcessed.ToString() :
+                                        InMageAzureV2RecoveryTag.Latest.ToString();
+
+                        // Create the InMageAzureV2 Provider specific input.
+                        var recoveryPlanInMageAzureV2FailoverInput = new RecoveryPlanInMageAzureV2FailoverInput()
+                        {
+                            InstanceType = replicationProvider,
+                            VaultLocation = this.GetCurrentVaultLocation(),
+                            RecoveryPointType = recoveryPointType
+                        };
+
+                        // Add the InMageAzureV2 Provider specific input in the Planned Failover Input.
+                        recoveryPlanUnplannedFailoverInputProperties.ProviderSpecificDetails.Add(
+                            recoveryPlanInMageAzureV2FailoverInput);
+                    }
+                }
+                else if (string.Compare(
+                            replicationProvider,
+                            Constants.InMage,
+                            StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    // Check if the Direction is RecoveryToPrimary.
+                    if (this.Direction == Constants.RecoveryToPrimary)
+                    {
+                        // Set the Recovery Point Types for InMage.
+                        var recoveryPointType =
+                            (this.RecoveryTag == Constants.RecoveryTagLatestAvailableApplicationConsistent) ?
+                                InMageRecoveryTag.LatestTag.ToString() :
+                                InMageRecoveryTag.LatestTime.ToString();
+
+                        // Create the InMage Provider specific input.
+                        var recoveryPlanInMageFailoverInput = new RecoveryPlanInMageFailoverInput()
+                        {
+                            InstanceType = replicationProvider,
+                            RecoveryPointType = recoveryPointType
+                        };
+
+                        // Add the InMage Provider specific input in the Planned Failover Input.
+                        recoveryPlanUnplannedFailoverInputProperties.ProviderSpecificDetails.Add(
+                            recoveryPlanInMageFailoverInput);
                     }
                 }
             }

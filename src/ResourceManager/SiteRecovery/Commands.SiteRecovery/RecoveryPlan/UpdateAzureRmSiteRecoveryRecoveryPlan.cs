@@ -110,6 +110,14 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                             {
                                 VmId = ((HyperVReplica2012ReplicationDetails)item.Properties.ProviderSpecificDetails).VmId;
                             }
+                            else if (item.Properties.ProviderSpecificDetails.GetType() == typeof(InMageAzureV2ProviderSpecificSettings))
+                            {
+                                VmId = ((InMageAzureV2ProviderSpecificSettings)item.Properties.ProviderSpecificDetails).VmId;
+                            }
+                            else if (item.Properties.ProviderSpecificDetails.GetType() == typeof(InMageProviderSpecificSettings))
+                            {
+                                VmId = ((InMageProviderSpecificSettings)item.Properties.ProviderSpecificDetails).VmId;
+                            }
 
                             newItem.VirtualMachineId = VmId;
 

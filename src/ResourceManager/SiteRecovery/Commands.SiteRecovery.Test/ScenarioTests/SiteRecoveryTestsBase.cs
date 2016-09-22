@@ -13,6 +13,7 @@
 // ----------------------------------------------------------------------------------
 
 using Microsoft.Azure.Commands.Common.Authentication;
+using Microsoft.Azure.Management.RecoveryServices;
 using Microsoft.Azure.Management.SiteRecovery;
 using Microsoft.Azure.Management.SiteRecoveryVault;
 using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
@@ -37,13 +38,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Test.ScenarioTests
     {
         private EnvironmentSetupHelper helper;
         protected string vaultSettingsFilePath;
+        protected string vaultSettingsV2AFilePath;
         private ASRVaultCreds asrVaultCreds = null;
 
         public SiteRecoveryManagementClient SiteRecoveryMgmtClient { get; private set; }
-        public SiteRecoveryVaultManagementClient RecoveryServicesMgmtClient { get; private set; }
+        public SiteRecoveryVaultManagementClient SiteRecoveryVaultMgmtClient { get; private set; }
+        public RecoveryServicesManagementClient RecoveryServicesMgmtClient { get; private set; }
 
         protected SiteRecoveryTestsBase()
         {
+            // General Vault Settings.
             this.vaultSettingsFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ScenarioTests\\vaultSettings.VaultCredentials");
 
             if (File.Exists(this.vaultSettingsFilePath))
@@ -75,8 +79,22 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Test.ScenarioTests
             {
                 throw new FileNotFoundException(
                     string.Format(
-                        "Vault settings file not found at '{0}', please pass the file downloaded from portal",
+                        "Vault settings file not found at '{0}', please save the file downloaded from portal",
                         this.vaultSettingsFilePath));
+            }
+
+            // V2A Vault Settings.
+            this.vaultSettingsV2AFilePath =
+                Path.Combine(
+                    AppDomain.CurrentDomain.BaseDirectory,
+                    "ScenarioTests\\vaultSettingsV2A.VaultCredentials");
+
+            if (!File.Exists(this.vaultSettingsV2AFilePath))
+            {
+                throw new FileNotFoundException(
+                    string.Format(
+                        "Vault settings file not found at '{0}', please save the file downloaded from portal",
+                        this.vaultSettingsV2AFilePath));
             }
 
             helper = new EnvironmentSetupHelper();
@@ -84,10 +102,14 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Test.ScenarioTests
 
         protected void SetupManagementClients(String scenario)
         {
-            RecoveryServicesMgmtClient = GetSiteRecoveryVaultManagementClient(scenario);
+            SiteRecoveryVaultMgmtClient = GetSiteRecoveryVaultManagementClient(scenario);
             SiteRecoveryMgmtClient = GetSiteRecoveryManagementClient(scenario);
+            RecoveryServicesMgmtClient = GetRecoveryServicesManagementClient(scenario);
 
-            helper.SetupManagementClients(RecoveryServicesMgmtClient, SiteRecoveryMgmtClient);
+            helper.SetupManagementClients(
+                SiteRecoveryVaultMgmtClient,
+                SiteRecoveryMgmtClient,
+                RecoveryServicesMgmtClient);
         }
 
         protected void RunPowerShellTest(String scenario, params string[] scripts)
@@ -125,6 +147,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Test.ScenarioTests
             return GetServiceClient<SiteRecoveryManagementClient>(scenario);
         }
 
+        private RecoveryServicesManagementClient GetRecoveryServicesManagementClient(String scenario)
+        {
+            return GetServiceClient<RecoveryServicesManagementClient>(scenario);
+        }
+
         public T GetServiceClient<T>(String scenario) where T : class
         {
             var factory = (TestEnvironmentFactory)new CSMTestEnvironmentFactory();
@@ -146,6 +173,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Test.ScenarioTests
                     resourceType = "SiteRecoveryVault";
                     resourceName = "ReleaseVault";
                     resourceGroupName = "ReleaseResourceGroup";
+                    break;
+
+                case Constants.NewModelV2A:
+                    resourceNamespace = "Microsoft.RecoveryServices";
+                    resourceType = "Vaults";
+                    resourceName = "IbizaV2ADemo";
+                    resourceGroupName = "IbizaV2ARG";
                     break;
 
                 default:
@@ -178,7 +212,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Test.ScenarioTests
                 }
                 return GetRSMServiceClient<T>(factory, client);
             }
-            else
+            else if (typeof(T) == typeof(SiteRecoveryManagementClient))
             {
                 SiteRecoveryManagementClient client;
 
@@ -192,7 +226,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Test.ScenarioTests
                         credentials,
                         testEnvironment.BaseUri);
                 }
-
                 else
                 {
                     client = new SiteRecoveryManagementClient(
@@ -202,7 +235,25 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Test.ScenarioTests
                         resourceType,
                         credentials);
                 }
+                return GetSRMServiceClient<T>(factory, client);
+            }
+            else // RecoveryServicesManagementClient
+            {
+                RecoveryServicesManagementClient client;
 
+                if (testEnvironment.UsesCustomUri())
+                {
+                    client = new RecoveryServicesManagementClient(
+                        resourceNamespace,
+                        credentials,
+                        testEnvironment.BaseUri);
+                }
+                else
+                {
+                    client = new RecoveryServicesManagementClient(
+                        resourceNamespace,
+                        credentials);
+                }
                 return GetSRMServiceClient<T>(factory, client);
             }
 
@@ -249,6 +300,48 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Test.ScenarioTests
         }
 
         public static T GetSRMServiceClient<T>(TestEnvironmentFactory factory, SiteRecoveryManagementClient client) where T : class
+        {
+            TestEnvironment testEnvironment = factory.GetTestEnvironment();
+
+            HttpMockServer instance;
+            try
+            {
+                instance = HttpMockServer.CreateInstance();
+            }
+            catch (ApplicationException)
+            {
+                HttpMockServer.Initialize("TestEnvironment", "InitialCreation");
+                instance = HttpMockServer.CreateInstance();
+            }
+            T obj2 = typeof(T).GetMethod("WithHandler", new Type[1]
+            {
+                typeof (DelegatingHandler)
+            }).Invoke((object)client, new object[1]
+            {
+                (object) instance
+            }) as T;
+
+            if (HttpMockServer.Mode == HttpRecorderMode.Record)
+            {
+                HttpMockServer.Variables[TestEnvironment.SubscriptionIdKey] = testEnvironment.SubscriptionId;
+            }
+
+            if (HttpMockServer.Mode == HttpRecorderMode.Playback)
+            {
+                PropertyInfo property1 = typeof(T).GetProperty("LongRunningOperationInitialTimeout", typeof(int));
+                PropertyInfo property2 = typeof(T).GetProperty("LongRunningOperationRetryTimeout", typeof(int));
+                if (property1 != (PropertyInfo)null && property2 != (PropertyInfo)null)
+                {
+                    property1.SetValue((object)obj2, (object)0);
+                    property2.SetValue((object)obj2, (object)0);
+                }
+            }
+            return obj2;
+        }
+
+        public static T GetSRMServiceClient<T>(
+            TestEnvironmentFactory factory,
+            RecoveryServicesManagementClient client) where T : class
         {
             TestEnvironment testEnvironment = factory.GetTestEnvironment();
 
