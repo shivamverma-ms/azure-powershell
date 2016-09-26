@@ -77,6 +77,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.ByRPObject, Mandatory = true, ValueFromPipeline = true)]
         [Parameter(ParameterSetName = ASRParameterSets.ByRPObjectWithVMNetwork, Mandatory = true, ValueFromPipeline = true)]
         [Parameter(ParameterSetName = ASRParameterSets.ByRPObjectWithAzureVMNetworkId, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByRPObjectWithAzureVMNetworkIdA2A, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByRPObjectA2A, Mandatory = true, ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
         public ASRRecoveryPlan RecoveryPlan { get; set; }
 
@@ -86,6 +88,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.ByPEObject, Mandatory = true, ValueFromPipeline = true)]
         [Parameter(ParameterSetName = ASRParameterSets.ByPEObjectWithVMNetwork, Mandatory = true, ValueFromPipeline = true)]
         [Parameter(ParameterSetName = ASRParameterSets.ByPEObjectWithAzureVMNetworkId, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByPEObjectWithAzureVMNetworkIdA2A, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByPEObjectA2A, Mandatory = true, ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
         public ASRReplicationProtectedItem ReplicationProtectedItem { get; set; }
 
@@ -99,7 +103,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Network.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.ByRPObjectWithVMNetwork, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByRPObjectWithVMNetwork, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.ByPEObjectWithVMNetwork, Mandatory = true)]
         public ASRNetwork VMNetwork { get; set; }
 
@@ -112,8 +116,10 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Network.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.ByRPObjectWithAzureVMNetworkId, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByRPObjectWithAzureVMNetworkId, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.ByPEObjectWithAzureVMNetworkId, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByRPObjectWithAzureVMNetworkIdA2A, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByPEObjectWithAzureVMNetworkIdA2A, Mandatory = true)]
         public string AzureVMNetworkId { get; set; }
 
         /// <summary>
@@ -136,6 +142,18 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [Parameter]
         [ValidateNotNullOrEmpty]
         public ASRRecoveryPoint RecoveryPoint { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use recovery cloud service or 
+        /// create new cloud service for test failover.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.ByRPObjectA2A, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByPEObjectA2A, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByRPObjectWithAzureVMNetworkIdA2A, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByPEObjectWithAzureVMNetworkIdA2A, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        [ValidateSet(Constants.UseRecoveryCloudService, Constants.AutoCreateCloudService)]
+        public string CloudServiceCreationOption { get; set; }
 
         #endregion Parameters
 
@@ -172,11 +190,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 //    break;
                 case ASRParameterSets.ByPEObjectWithAzureVMNetworkId:
                 case ASRParameterSets.ByRPObjectWithAzureVMNetworkId:
+                case ASRParameterSets.ByPEObjectWithAzureVMNetworkIdA2A:
+                case ASRParameterSets.ByRPObjectWithAzureVMNetworkIdA2A:
                     this.networkType = "VmNetworkAsInput";
                     this.networkId = this.AzureVMNetworkId;
                     break;
                 case ASRParameterSets.ByPEObject:
                 case ASRParameterSets.ByRPObject:
+                case ASRParameterSets.ByPEObjectA2A:
+                case ASRParameterSets.ByRPObjectA2A:
                     this.networkType = "NoNetworkAttachAsInput";
                     this.networkId = null;
                     break;
@@ -184,7 +206,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
 
             if (this.ParameterSetName == ASRParameterSets.ByRPObject ||
                 this.ParameterSetName == ASRParameterSets.ByRPObjectWithVMNetwork ||
-                this.ParameterSetName == ASRParameterSets.ByRPObjectWithAzureVMNetworkId)
+                this.ParameterSetName == ASRParameterSets.ByRPObjectWithAzureVMNetworkId ||
+                this.ParameterSetName == ASRParameterSets.ByRPObjectWithAzureVMNetworkIdA2A ||
+                this.ParameterSetName == ASRParameterSets.ByRPObjectA2A)
             {
                 this.StartRpTestFailover();
             }
@@ -243,7 +267,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             {
                 var failoverInput = new A2AFailoverProviderInput()
                 {
-                    RecoveryPointId = this.RecoveryPoint != null ? this.RecoveryPoint.ID : null
+                    RecoveryPointId = this.RecoveryPoint != null ? this.RecoveryPoint.ID : null,
+                    CloudServiceCreationOption = this.CloudServiceCreationOption
                 };
 
                 input.Properties.ProviderSpecificDetails = failoverInput;

@@ -397,6 +397,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Keep.
         /// </summary>
         public const string Keep = "Keep";
+
+        /// <summary>
+        /// Represents use of recovery cloud service provided by user for test failover.
+        /// </summary>
+        public const string UseRecoveryCloudService = "UseRecoveryCloudService";
+
+        /// <summary>
+        /// Represents autocreation of cloud service for test failover.
+        /// </summary>
+        public const string AutoCreateCloudService = "AutoCreateCloudService";
     }
 
      /// <summary>
