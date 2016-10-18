@@ -288,25 +288,5 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Handle ARS Vault.
         /// </summary>
         internal const string ARSVault = "AzureRecoveryServicesVault";
-
-        /// <summary>
-        /// When RP Object along with azure network ID for A2A provider is passed to the command.
-        /// </summary>
-        internal const string ByRPObjectWithAzureVMNetworkIdA2A = "ByRPObjectWithAzureVMNetworkIdA2A";
-
-        /// <summary>
-        /// When PE Object along with azure network ID for A2A provider is passed to the command.
-        /// </summary>
-        internal const string ByPEObjectWithAzureVMNetworkIdA2A = "ByPEObjectWithAzureVMNetworkIdA2A";
-
-        /// <summary>
-        /// When only RP Object with A2A provider is passed to the command.
-        /// </summary>
-        internal const string ByRPObjectA2A = "ByRPObjectA2A";
-
-        /// <summary>
-        /// When only PE Object with A2A provider is passed to the command.
-        /// </summary>
-        internal const string ByPEObjectA2A = "ByPEObjectA2A";
     }
 }
