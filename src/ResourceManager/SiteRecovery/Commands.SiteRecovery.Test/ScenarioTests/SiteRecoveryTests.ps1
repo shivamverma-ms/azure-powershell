@@ -591,14 +591,24 @@ function Test-SiteRecoveryNewModelV2ATestSingleVM
 	Assert-NotNull($rpi)
 	Assert-NotNull($rpi.Name)
 
+	WaitForIRCompletion -VM $rpi
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
+
+	# todo: Resource group update #
 	# Modify Replicated Protected Item
 	$currentJob = Set-AzureRmSiteRecoveryReplicationProtectedItem -ReplicationProtectedItem $rpi -Name $pi.FriendlyName -Size Basic_A2 -PrimaryNic $rpi.NicDetailsList[0].NicId -RecoveryNetworkId $network -RecoveryNicSubnetName $subnet
 	WaitForJobCompletion -JobId $currentJob.Name
 	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
 	
 	# Get Recovery Points
-	$recPtList = Get-AzureRmSiteRecoveryRecoveryPoint -ReplicationProtectedItem $rpi 
+	$recPtList = Get-AzureRmSiteRecoveryRecoveryPoint -ReplicationProtectedItem $rpi
 	Assert-NotNull($recPtList)
+
+	while ( $recPtList.Count -lt 5) {
+		Start-Sleep -s 300
+		$recPtList = Get-AzureRmSiteRecoveryRecoveryPoint -ReplicationProtectedItem $rpi
+	}
+
 	Assert-True { $recPtList.Count -gt 0 }
 	foreach($recPt in $recPtList)
 	{
@@ -611,13 +621,15 @@ function Test-SiteRecoveryNewModelV2ATestSingleVM
 
 	# Replication Protection Items - Test Failover
 	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
-	$currentJob = Start-AzureRmSiteRecoveryTestFailoverJob -ReplicationProtectedItem $rpi -AzureVMNetworkId $network -Direction PrimaryToRecovery -RecoveryPoint $recPtList[0]	$currentJob = Get-AzureRmSiteRecoveryJob -State Suspended
+	$currentJob = Start-AzureRmSiteRecoveryTestFailoverJob -ReplicationProtectedItem $rpi -AzureVMNetworkId $network -Direction PrimaryToRecovery -RecoveryPoint $recPtList[-1]
+	WaitForJobCompletion -JobId $currentJob.Name
+	$currentJob = Get-AzureRmSiteRecoveryJob -State Suspended
 	$currentJob = Resume-AzureRmSiteRecoveryJob -Job $currentJob
 	WaitForJobCompletion -JobId $currentJob.Name
 	
 	# Replication Protection Items - Unplanned Failover
 	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
-	$currentJob = Start-AzureRmSiteRecoveryUnplannedFailoverJob -ReplicationProtectedItem $rpi -Direction PrimaryToRecovery -PerformSourceSideActions -RecoveryPoint $recPtList[0]
+	$currentJob = Start-AzureRmSiteRecoveryUnplannedFailoverJob -ReplicationProtectedItem $rpi -Direction PrimaryToRecovery -PerformSourceSideActions -RecoveryPoint $recPtList[-1]
 	WaitForJobCompletion -JobId $currentJob.Name
 	
 	# Replication Protection Items - Commit
