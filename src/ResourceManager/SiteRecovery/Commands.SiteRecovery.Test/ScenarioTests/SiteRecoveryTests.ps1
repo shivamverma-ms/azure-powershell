@@ -641,6 +641,13 @@ function Test-SiteRecoveryNewModelV2ATestSingleVM
 	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
 	$currentJob = Update-AzureRmSiteRecoveryProtectionDirection -ReplicationProtectedItem $rpi -Direction RecoveryToPrimary -ProcessServer $fabric.FabricSpecificDetails.ProcessServers[0] -MasterTarget $fabric.FabricSpecificDetails.MasterTargetServers[0] -Account $fabric.FabricSpecificDetails.RunAsAccounts[1] -DataStore $fabric.FabricSpecificDetails.MasterTargetServers[0].DataStores[0].SymbolicName -RetentionVolume $fabric.FabricSpecificDetails.MasterTargetServers[0].RetentionVolumes[1].VolumeName -ProtectionContainerMapping $pcm2
 	WaitForJobCompletion -JobId $currentJob.Name
+
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
+	Assert-NotNull($rpi)
+	Assert-NotNull($rpi.Name)
+
+	WaitForIRCompletion -VM $rpi
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
 	
 	# Replication Protection Items - Failback (Unplanned Failover)
 	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
@@ -654,8 +661,15 @@ function Test-SiteRecoveryNewModelV2ATestSingleVM
 	
 	# Replication Protection Items - Reprotect
 	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
-	$currentJob = Update-AzureRmSiteRecoveryProtectionDirection -ReplicationProtectedItem $rpi -Direction RecoveryToPrimary -ProcessServer $fabric.FabricSpecificDetails.ProcessServers[0] -Account $fabric.FabricSpecificDetails.RunAsAccounts[1] -ProtectionContainerMapping $pcm1 -RecoveryAzureStorageAccountId null
+	$currentJob = Update-AzureRmSiteRecoveryProtectionDirection -ReplicationProtectedItem $rpi -Direction RecoveryToPrimary -ProcessServer $fabric.FabricSpecificDetails.ProcessServers[0] -Account $fabric.FabricSpecificDetails.RunAsAccounts[1] -ProtectionContainerMapping $pcm1 -RecoveryAzureStorageAccountId $null
 	WaitForJobCompletion -JobId $currentJob.Name
+
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
+	Assert-NotNull($rpi)
+	Assert-NotNull($rpi.Name)
+
+	WaitForIRCompletion -VM $rpi
+	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
 	
 	###############
 	### CLEANUP ###
@@ -914,21 +928,21 @@ function Test-SiteRecoveryVCenterTest
 	WaitForJobCompletion -JobId $job.Name
 
 	# Enumerate specific vCenter
-	$vcenter=Get-AzureRmSiteRecoveryVCenter -Fabric $fabric -Name $vcenterName
+	$vcenter=Get-AzureRmSiteRecoveryVCenterServer -Fabric $fabric -Name $vcenterName
 	Assert-NotNull($vcenter)
 	Assert-NotNull($vcenter.Name)
 	Assert-NotNull($vcenter.ID)
 
     #update vCenter credentials
-    $job=Update-AzureRmSiteRecoveryVCenter -VCenter $vcenter -Account $fabric.FabricSpecificDetails.RunAsAccounts[1].AccountId
+    $job=Update-AzureRmSiteRecoveryVCenterServer -VCenter $vcenter -Account $fabric.FabricSpecificDetails.RunAsAccounts[1].AccountId
     Assert-NotNull($job)
 	WaitForJobCompletion -JobId $job.Name
 
 	# Remove specific vCenter
-	$job = Remove-AzureRmSiteRecoveryVCenter -VCenter $vcenter
+	$job = Remove-AzureRmSiteRecoveryVCenterServer -VCenter $vcenter
 	Assert-NotNull($job)
 	WaitForJobCompletion -JobId $job.Name
-	$vcenter =  Get-AzureRmSiteRecoveryVCenter -Fabric $fabric | Where-Object {$_.Name -eq $vcenterName}
+	$vcenter =  Get-AzureRmSiteRecoveryVCenterServer -Fabric $fabric | Where-Object {$_.Name -eq $vcenterName}
 	Assert-Null($vcenter)
 }
 

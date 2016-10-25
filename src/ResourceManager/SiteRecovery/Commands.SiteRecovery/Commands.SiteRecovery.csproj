@@ -215,10 +215,10 @@
     <Compile Include="Vault\GetAzureSiteRecoveryVaultSettingsFile.cs" />
     <Compile Include="Vault\ImportAzureSiteRecoveryVaultSettingsFile.cs" />
     <Compile Include="Vault\NewAzureSiteRecoveryVault.cs" />
-    <Compile Include="VCenter\GetAzureRmSiteRecoveryVCenter.cs" />
-    <Compile Include="VCenter\NewAzureRmSiteRecoveryVCenter.cs" />
-    <Compile Include="VCenter\RemoveAzureRmSiteRecoveryVCenter.cs" />
-    <Compile Include="VCenter\UpdateAzureRmSiteRecoveryVCenter.cs" />
+    <Compile Include="VCenter\GetAzureRmSiteRecoveryVCenterServer.cs" />
+    <Compile Include="VCenter\NewAzureRmSiteRecoveryVCenterServer.cs" />
+    <Compile Include="VCenter\RemoveAzureRmSiteRecoveryVCenterServer.cs" />
+    <Compile Include="VCenter\UpdateAzureRmSiteRecoveryVCenterServer.cs" />
     <Compile Include="VM\GetAzureSiteRecoveryVM.cs" />
     <Compile Include="VM\SetAzureSiteRecoveryVM.cs" />
   </ItemGroup>

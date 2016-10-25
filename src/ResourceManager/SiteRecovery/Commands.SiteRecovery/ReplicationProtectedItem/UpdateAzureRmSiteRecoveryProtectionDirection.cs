@@ -92,7 +92,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzureRPI, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.VMwareToVMwareRPI, Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        public ProcessServer ProcessServer { get; set; }
+        public ASRProcessServer ProcessServer { get; set; }
 
         /// <summary>
         /// Gets or sets Master Target Server.

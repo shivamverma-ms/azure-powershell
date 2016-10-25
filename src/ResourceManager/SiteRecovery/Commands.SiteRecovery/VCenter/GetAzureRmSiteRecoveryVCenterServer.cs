@@ -23,10 +23,10 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     /// <summary>
     /// Retrieves Azure Site Recovery vCenter server.
     /// </summary>
-    [Cmdlet(VerbsCommon.Get, "AzureRmSiteRecoveryVCenter",
+    [Cmdlet(VerbsCommon.Get, "AzureRmSiteRecoveryVCenterServer",
         DefaultParameterSetName = ASRParameterSets.Default)]
     [OutputType(typeof(IEnumerable<ASRVCenter>))]
-    public class GetAzureRmSiteRecoveryVCenter : SiteRecoveryCmdletBase
+    public class GetAzureRmSiteRecoveryVCenterServer : SiteRecoveryCmdletBase
     {
         #region Parameters
         /// <summary>

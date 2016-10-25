@@ -21,9 +21,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     /// <summary>
     /// Removes the Azure Site Recovery vCenter.
     /// </summary>
-    [Cmdlet(VerbsCommon.Remove, "AzureRmSiteRecoveryVCenter")]
+    [Cmdlet(VerbsCommon.Remove, "AzureRmSiteRecoveryVCenterServer")]
     [OutputType(typeof(IEnumerable<ASRJob>))]
-    public class RemoveAzureRmSiteRecoveryVCenter : SiteRecoveryCmdletBase
+    public class RemoveAzureRmSiteRecoveryVCenterServer : SiteRecoveryCmdletBase
     {
         #region Parameters
 

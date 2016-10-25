@@ -22,9 +22,10 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     /// <summary>
     /// Updates the Azure Site Recovery VCenter.
     /// </summary>
-    [Cmdlet(VerbsData.Update, "AzureRmSiteRecoveryVCenter", DefaultParameterSetName = ASRParameterSets.Default)]
+    [Cmdlet(VerbsData.Update, "AzureRmSiteRecoveryVCenterServer",
+        DefaultParameterSetName = ASRParameterSets.Default)]
     [OutputType(typeof(IEnumerable<ASRJob>))]
-    public class UpdateAzureRmSiteRecoveryVCenter : SiteRecoveryCmdletBase
+    public class UpdateAzureRmSiteRecoveryVCenterServer : SiteRecoveryCmdletBase
     {
         #region Parameters
 
@@ -34,6 +35,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.Default, Mandatory = true, ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
         public ASRVCenter VCenter { get; set; }
+
+        /// <summary>
+        /// Gets or sets ip address or hostname of the vCenter.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.Default, Mandatory = false)]
+        [ValidateNotNullOrEmpty]
+        public string Server { get; set; }
 
         /// <summary>
         /// Gets or sets the port number.
@@ -77,6 +85,12 @@ namespace Microsoft.Azure.Commands.SiteRecovery
 
             UpdateVCenterProperties updateVCenterProperties =
                 new UpdateVCenterProperties();
+
+            if (!string.IsNullOrEmpty(this.Server))
+            {
+                Utilities.ValidateIpOrHostName(this.Server);
+                updateVCenterProperties.IpAddress = this.Server;
+            }
 
             if (this.Port.HasValue)
             {

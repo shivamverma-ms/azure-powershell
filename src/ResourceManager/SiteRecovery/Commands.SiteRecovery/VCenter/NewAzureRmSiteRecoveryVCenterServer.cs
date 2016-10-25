@@ -22,10 +22,10 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     /// <summary>
     /// Retrieves Azure Site Recovery vCenter.
     /// </summary>
-    [Cmdlet(VerbsCommon.New, "AzureRmSiteRecoveryVCenter",
+    [Cmdlet(VerbsCommon.New, "AzureRmSiteRecoveryVCenterServer",
         DefaultParameterSetName = ASRParameterSets.Default)]
     [OutputType(typeof(IEnumerable<ASRJob>))]
-    public class NewAzureRmSiteRecoveryVCenter : SiteRecoveryCmdletBase
+    public class NewAzureRmSiteRecoveryVCenterServer : SiteRecoveryCmdletBase
     {
         #region Parameters
 
@@ -104,7 +104,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             createVCenterProperties.IpAddress = this.Server;
             createVCenterProperties.Port = this.Port.ToString();
             createVCenterProperties.ProcessServerId = this.ProcessServerId;
-                ////RecoveryServicesClient.GetInbuiltProcessServer(vmwareFabricDetails);
             createVCenterProperties.RunAsAccountId = this.AccountId;
 
             createvCenterInput.Properties = createVCenterProperties;
