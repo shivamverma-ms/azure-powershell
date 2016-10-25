@@ -36,7 +36,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets all Azure Site Recovery Network mappings.
         /// </summary>
-        /// <returns>Network mappings list response</returns>
+        /// <returns>Network mappings list response.</returns>
         public NetworkMappingsListResponse GetAzureSiteRecoveryNetworkMappings()
         {
             return this.GetSiteRecoveryClient()
@@ -45,42 +45,92 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         }
 
         /// <summary>
+        /// Gets all Azure Site Recovery Network mappings for the specified primary network.
+        /// </summary>
+        /// <param name="primaryFabricName">Primary fabric name.</param>
+        /// <param name="primaryNetworkName">Primary network name.</param>
+        /// <returns>Network mappings list response.</returns>
+        public NetworkMappingsListResponse GetAzureSiteRecoveryNetworkMappings(
+            string primaryFabricName,
+            string primaryNetworkName)
+        {
+            return this.GetSiteRecoveryClient()
+                .NetworkMapping
+                .List(primaryFabricName,primaryNetworkName, this.GetRequestHeaders());
+        }
+
+        /// <summary>
+        /// Gets Azure Site Recovery Network mapping for the specified network and resource name.
+        /// </summary>
+        /// <param name="primaryFabricName">Primary fabric name.</param>
+        /// <param name="primaryNetworkName">Primary network name.</param>
+        /// <param name="mappingName">Mapping ARM resource name.</param>
+        /// <returns>Network mappings list response.</returns>
+        public NetworkMappingResponse GetAzureSiteRecoveryNetworkMappings(
+            string primaryFabricName,
+            string primaryNetworkName,
+            string mappingName)
+        {
+            return this.GetSiteRecoveryClient()
+                .NetworkMapping
+                .Get(primaryFabricName, primaryNetworkName, mappingName, this.GetRequestHeaders());
+        }
+
+        /// <summary>
         /// Creates a new Azure Site Recovery Network mapping.
         /// </summary>
-        /// <param name="primaryFabricName">Primary fabric name</param>
-        /// <param name="primaryNetworkName">Primary network name</param>
-        /// <param name="mappingName">Mapping name</param>
-        /// <param name="recoveryFabricName">Recovery fabric name</param>
-        /// <param name="recoveryNetworkId">Recovery network id</param>
-        /// <returns>Long running operation response</returns>
+        /// <param name="primaryFabricName">Primary fabric name.</param>
+        /// <param name="primaryNetworkName">Primary network name.</param>
+        /// <param name="mappingName">Mapping name.</param>
+        /// <param name="input">Input data to be passed as request body.</param>
+        /// <returns>Long running operation response.</returns>
         public LongRunningOperationResponse NewAzureSiteRecoveryNetworkMapping(
             string primaryFabricName,
             string primaryNetworkName,
             string mappingName,
-            string recoveryFabricName,
-            string recoveryNetworkId)
+            CreateNetworkMappingInput input)
         {
-            CreateNetworkMappingInput input = new CreateNetworkMappingInput();
-            input.RecoveryFabricName = recoveryFabricName;
-            input.RecoveryNetworkId = recoveryNetworkId;
-
             return this.GetSiteRecoveryClient()
                 .NetworkMapping
                 .BeginCreating(
-                primaryFabricName,
-                primaryNetworkName,
-                mappingName,
-                input,
-                this.GetRequestHeaders());
+                    primaryFabricName,
+                    primaryNetworkName,
+                    mappingName,
+                    input,
+                    this.GetRequestHeaders());
+        }
+
+        /// <summary>
+        /// Updates an existing Azure Site Recovery Network mapping.
+        /// </summary>
+        /// <param name="primaryFabricName">Primary fabric name.</param>
+        /// <param name="primaryNetworkName">Primary network name.</param>
+        /// <param name="mappingName">Mapping name.</param>
+        /// <param name="input">Input data to be passed as request body.</param>
+        /// <returns>Long running operation response.</returns>
+        public LongRunningOperationResponse UpdateAzureSiteRecoveryNetworkMapping(
+            string primaryFabricName,
+            string primaryNetworkName,
+            string mappingName,
+            UpdateNetworkMappingInput input)
+        {
+            return this.GetSiteRecoveryClient()
+                .NetworkMapping
+                .BeginUpdating(
+                    primaryFabricName,
+                    primaryNetworkName,
+                    mappingName,
+                    input,
+                    this.GetRequestHeaders());
         }
 
         /// <summary>
         /// Removes Azure Site Recovery Network Mapping.
         /// </summary>
-        /// <param name="primaryFabricName">Primary fabric name</param>
-        /// <param name="primaryNetworkName">Primary network name</param>
-        /// <param name="mappingName">mapping name</param>
-        /// <returns>Long running operation response</returns>
+        /// <param name="primaryFabricName">Primary fabric name.</param>
+        /// <param name="primaryNetworkName">Primary network name.</param>
+        /// <param name="mappingName">mapping name.</param>
+        /// <returns>Long running operation response.</returns>
         public LongRunningOperationResponse RemoveAzureSiteRecoveryNetworkMapping(
             string primaryFabricName,
             string primaryNetworkName,
@@ -89,10 +139,10 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             return this.GetSiteRecoveryClient()
                 .NetworkMapping
                 .BeginDeleting(
-                primaryFabricName,
-                primaryNetworkName,
-                mappingName,
-                this.GetRequestHeaders());
+                    primaryFabricName,
+                    primaryNetworkName,
+                    mappingName,
+                    this.GetRequestHeaders());
         }
     }
 }

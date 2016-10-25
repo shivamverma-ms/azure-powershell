@@ -318,6 +318,21 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public const string VMware = "VMware";
 
         /// <summary>
+        /// Represents AzureToAzure string constant.
+        /// </summary>
+        public const string AzureToAzureFabric = "AzureToAzure";
+
+        /// <summary>
+        /// Represents VmmToAzureFabric string constant.
+        /// </summary>
+        public const string VmmToAzureFabric = "VmmToAzure";
+
+        /// <summary>
+        /// Represents VmmToVmmFabric string constant.
+        /// </summary>
+        public const string VmmToVmmFabric = "VmmToVmm";
+
+        /// <summary>
         /// Nic Selection Type - NotSelected
         /// </summary>
         public const string NotSelected = "NotSelected";
@@ -468,6 +483,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Virtual Networks
         /// </summary>
         public const string VirtualNetworks = "virtualNetworks";
+
+        /// <summary>
+        /// Azure Network.
+        /// </summary>
+        public const string AzureNetwork = "azureNetwork";
 
         /// <summary>
         /// Recovery provider resource name.

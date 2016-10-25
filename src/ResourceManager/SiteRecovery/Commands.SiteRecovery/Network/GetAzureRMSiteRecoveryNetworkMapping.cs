@@ -27,38 +27,47 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     [OutputType(typeof(IEnumerable<ASRNetworkMapping>))]
     public class GetAzureRmSiteRecoveryNetworkMapping : SiteRecoveryCmdletBase
     {
-        /// <summary>
-        /// holds Network Mappings
-        /// </summary>
-        private NetworkMappingsListResponse networkMappingsListResponse;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        string primaryServerName = string.Empty;
-        string recoveryServerName = string.Empty;
-
         #region Parameters
+
+        /// <summary>
+        /// Gets or sets name of the network mapping.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.ByNetworkObjectWithName, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithName, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        public string Name { get; set; }
+
         /// <summary>
         /// Gets or sets Primary Fabric object.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true, ValueFromPipeline = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterpriseLegacy, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzureLegacy, Mandatory = true, ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
         public ASRFabric PrimaryFabric { get; set; }
 
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true, ValueFromPipeline = true)]
+        [ValidateNotNullOrEmpty]
+        public ASRFabric PrimaryAzureFabric { get; set; }
         /// <summary>
         /// Gets or sets Recovery Fabric object.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterpriseLegacy, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public ASRFabric RecoveryFabric { get; set; }
 
         /// <summary>
         /// Gets or sets switch parameter. On passing, command sets target as Azure.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzureLegacy, Mandatory = true)]
         public SwitchParameter Azure { get; set; }
+
+        /// <summary>
+        /// Gets or sets primary network object.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.ByNetworkObject, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByNetworkObjectWithName, Mandatory = true, ValueFromPipeline = true)]
+        [ValidateNotNullOrEmpty]
+        public ASRNetwork PrimaryNetwork { get; set; }
 
         #endregion Parameters
 
@@ -69,30 +78,52 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         {
             base.ExecuteSiteRecoveryCmdlet();
 
-            networkMappingsListResponse =
-                    RecoveryServicesClient
-                    .GetAzureSiteRecoveryNetworkMappings();
-
             switch (this.ParameterSetName)
             {
-                case ASRParameterSets.EnterpriseToEnterprise:
-                    this.FilterE2EMappings();
+                case ASRParameterSets.EnterpriseToEnterpriseLegacy:
+                    this.GetEnterpriseToEnterpriseNetworkMappingLegacy();
                     break;
-                case ASRParameterSets.EnterpriseToAzure:
-                    this.FilterE2AMappings();
+                case ASRParameterSets.EnterpriseToAzureLegacy:
+                    this.GetEnterpriseToAzureNetworkMappingLegacy();
+                    break;
+                case ASRParameterSets.ByNetworkObject:
+                    this.GetNetworkMappingsByPrimaryNetwork();
+                    break;
+                case ASRParameterSets.ByNetworkObjectWithName:
+                    this.GetNetworkMappingsByPrimaryNetworkAndName();
+                    break;
+                case ASRParameterSets.AzureToAzure:
+                    this.GetAzureToAzureNetworkMappings();
+                    break;
+                case ASRParameterSets.AzureToAzureWithName:
+                    this.GetAzureToAzureNetworkMappingByName();
                     break;
                 case ASRParameterSets.Default:
-                    WriteNetworkMappings(networkMappingsListResponse.NetworkMappingsList);
+                    this.WriteWarningWithTimestamp(
+                    string.Format(Properties.Resources.ParameterSetForScenarioWillBeModifiedSoon,
+                        "{}",
+                        "enumerating all network pairs",
+                        "either of {PrimaryNetwork(mandatory), Name(optional)} or"+
+                        " {PrimaryAzureFabric(mandatory), Name(optional)}"
+                        ));
+                    this.WriteNetworkMappings(GetAllNetworkMappings());
                     break;
             }
         }
 
         /// <summary>
-        /// Filter Enterprise to Enterprise Network mappings
+        /// Filter Enterprise to Enterprise Network mappings.
         /// </summary>
-        private void FilterE2EMappings()
-        {              
-            foreach (NetworkMapping networkMapping in networkMappingsListResponse.NetworkMappingsList)
+        private void GetEnterpriseToEnterpriseNetworkMappingLegacy()
+        {
+            string upcomingParameterSet = "{PrimaryNetwork(mandatory), Name(optional)}";
+            this.WriteWarningWithTimestamp(
+                    string.Format(Properties.Resources.ParameterSetForScenarioWillBeModifiedSoon,
+                        "{PrimaryFabric(mandatory), RecoveryFabric(mandatory)}",
+                        "listing VMM networks paired with other VMM Networks",
+                        upcomingParameterSet));
+
+            foreach (NetworkMapping networkMapping in GetAllNetworkMappings())
             {
                 string primaryFabricName = Utilities.GetValueFromArmId(networkMapping.Id, ARMResourceTypeConstants.ReplicationFabrics);
 
@@ -113,9 +144,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Filter Enterprise to Azure Network mappings
         /// </summary>
-        private void FilterE2AMappings()
+        private void GetEnterpriseToAzureNetworkMappingLegacy()
         {
-            foreach (NetworkMapping networkMapping in networkMappingsListResponse.NetworkMappingsList)
+            string upcomingParameterSet = "{PrimaryNetwork(mandatory), Name(optional)";
+            this.WriteWarningWithTimestamp(
+                    string.Format(Properties.Resources.ParameterSetForScenarioWillBeModifiedSoon,
+                        "{PrimaryFabric(mandatory), Azure(mandatory)}",
+                        "listing VMM networks paired with azure networks",
+                        upcomingParameterSet));
+
+            foreach (NetworkMapping networkMapping in GetAllNetworkMappings())
             {
                 string primaryFabricName = Utilities.GetValueFromArmId(networkMapping.Id, ARMResourceTypeConstants.ReplicationFabrics);
 
@@ -125,6 +163,122 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     this.WriteNetworkMapping(networkMapping);
                 }
             }
+        }
+
+        /// <summary>
+        /// Get Enterprise to Enterprise and Enterprise to Azure network mappings.
+        /// This method merely mirrors the actual ARM api in terms of input and offers no 
+        /// additional filtering of result.
+        /// </summary>
+        private void GetNetworkMappingsByPrimaryNetworkAndName()
+        {
+            this.WriteNetworkMapping(
+                GetNetworkMapping(
+                    Utilities.GetValueFromArmId(
+                        this.PrimaryNetwork.ID, ARMResourceTypeConstants.ReplicationFabrics),
+                    this.PrimaryNetwork.ID,
+                    this.Name));
+        }
+
+        /// <summary>
+        /// Get Enterprise to Enterprise and Enterprise to Azure network mapping.
+        /// This method merely mirrors the actual ARM api in terms of input and retrieves the 
+        /// mapping by resource name.
+        /// </summary>
+        private void GetNetworkMappingsByPrimaryNetwork()
+        {
+            this.WriteNetworkMappings(
+                ListNetworkMappings(
+                    Utilities.GetValueFromArmId(
+                        this.PrimaryNetwork.ID, ARMResourceTypeConstants.ReplicationFabrics),
+                    this.PrimaryNetwork.ID));
+        }
+
+        /// <summary>
+        /// Lists the Azure to Azure Network mappings for the specified fabric.
+        /// </summary>
+        private void GetAzureToAzureNetworkMappings()
+        {
+            // TODO (omnishan) Verify exposed parameter names from PMs.
+            if (!string.Equals(
+                this.PrimaryAzureFabric.Type,
+                Constants.Azure,
+                StringComparison.InvariantCultureIgnoreCase))
+            {
+                this.WriteExceptionError(
+                    new InvalidOperationException("Fabric is not of type Azure."));
+            }
+
+            this.WriteNetworkMappings(
+                ListNetworkMappings(
+                    this.PrimaryAzureFabric.Name, ARMResourceTypeConstants.AzureNetwork));
+        }
+
+        /// <summary>
+        /// Get Azure to Azure Network mapping.
+        /// </summary>
+        private void GetAzureToAzureNetworkMappingByName()
+        {
+            if (!string.Equals(
+                this.PrimaryAzureFabric.Type,
+                Constants.Azure,
+                StringComparison.InvariantCultureIgnoreCase))
+            {
+                this.WriteExceptionError(
+                    new InvalidOperationException("Fabric is not of type Azure."));
+            }
+
+            this.WriteNetworkMapping(
+                GetNetworkMapping(
+                    this.PrimaryAzureFabric.FriendlyName,
+                    ARMResourceTypeConstants.AzureNetwork,
+                    this.Name));
+        }
+
+        /// <summary>
+        /// Enumerates all network mappings in the current vault.
+        /// </summary>
+        private IList<NetworkMapping> GetAllNetworkMappings()
+        {
+            NetworkMappingsListResponse networkMappingsListResponse =
+                    RecoveryServicesClient
+                    .GetAzureSiteRecoveryNetworkMappings();
+
+            return networkMappingsListResponse.NetworkMappingsList;
+        }
+
+        /// <summary>
+        /// Lists all network mappings for a given primary network.
+        /// </summary>
+        /// <param name="primaryFabricName">Primary fabric name.</param>
+        /// <param name="primaryNetworkName">Primary network name.</param>
+        private IList<NetworkMapping> ListNetworkMappings(string primaryFabricName, string primaryNetworkName)
+        {
+            NetworkMappingsListResponse networkMappingsListResponse =
+                    RecoveryServicesClient.GetAzureSiteRecoveryNetworkMappings(
+                        primaryFabricName,
+                        primaryNetworkName);
+
+            return networkMappingsListResponse.NetworkMappingsList;
+        }
+
+        /// <summary>
+        /// Gets the network mapping for a given primary network and ARM resource name.
+        /// </summary>
+        /// <param name="primaryFabricName">Primary fabric name.</param>
+        /// <param name="primaryNetworkName">Primary network name.</param>
+        /// <param name="mappingName">ARM resource name of the mapping.</param>
+        private NetworkMapping GetNetworkMapping(
+            string primaryFabricName,
+            string primaryNetworkName,
+            string mappingName)
+        {
+            NetworkMappingResponse networkMapping = 
+                RecoveryServicesClient.GetAzureSiteRecoveryNetworkMappings(
+                    primaryFabricName,
+                    primaryNetworkName,
+                    mappingName);
+            return networkMapping.NetworkMapping;
         }
 
         /// <summary>

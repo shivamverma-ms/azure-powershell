@@ -340,6 +340,12 @@ Please provide a storage account with the same location as that of the vault.</v
   <data name="CmdletWillBeDeprecatedSoon" xml:space="preserve">
     <value>Cmdlet "{0}" will be deprecated soon. Please use use cmdlet(s) "{1}" instead.</value>
   </data>
+  <data name="ParameterWillBeDeprecatedSoon" xml:space="preserve">
+    <value>Parameter "{0}" will be deprecated soon. Please use use parameter(s) "{1}" instead.</value>
+  </data>
+  <data name="ParameterSetForScenarioWillBeModifiedSoon" xml:space="preserve">
+    <value>Current parameter set "{0}" for scenario "{1}" will be deprecated soon. Please use use parameter(s) "{2}" instead.</value>
+  </data>
   <data name="ProtectionConatinerMappingNotFound" xml:space="preserve">
     <value>Protection Container Mapping "{0}" is not associated with Protection Container "{1}"</value>
   </data>

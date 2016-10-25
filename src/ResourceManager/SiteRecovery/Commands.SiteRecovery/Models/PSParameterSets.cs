@@ -220,10 +220,36 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         internal const string ByParam = "ByParam";
 
         /// <summary>
+        /// To define parameter set containing network object.
+        /// </summary>
+        internal const string ByNetworkObject = "ByNetworkObject";
+
+        /// <summary>
+        /// To define parameter set containing network object and name.
+        /// </summary>
+        internal const string ByNetworkObjectWithName = "ByNetworkObjectWithName";
+
+        /// <summary>
+        /// To define parameter set containing azure to azure operation details with ARM resource 
+        /// name.
+        /// </summary>
+        internal const string AzureToAzureWithName = "AzureToAzureWithName";
+
+        /// <summary>
+        /// Legacy Mapping between Enterprise and Enterprise.
+        /// </summary>
+        internal const string EnterpriseToEnterpriseLegacy = "EnterpriseToEnterpriseLegacy";
+
+        /// <summary>
         /// Mapping between Enterprise to Enterprise.
         /// </summary>
         internal const string EnterpriseToEnterprise = "EnterpriseToEnterprise";
 
+        /// <summary>
+        /// Legacy Mapping between Enterprise and Azure.
+        /// </summary>
+        internal const string EnterpriseToAzureLegacy = "EnterpriseToAzureLegacy";
+        
         /// <summary>
         /// Mapping between Enterprise to Azure.
         /// </summary>

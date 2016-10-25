@@ -74,53 +74,45 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             base.ExecuteSiteRecoveryCmdlet();
 
             this.targetNameOrId = this.ReplicationProtectedItem.FriendlyName;
-            this.ConfirmAction(
-                this.Force.IsPresent,
-                string.Format(Properties.Resources.DisableProtectionWarning, this.targetNameOrId),
-                string.Format(Properties.Resources.DisableProtectionWhatIfMessage, Constants.DisableProtection),
-                this.targetNameOrId,
-                () =>
+            if (!Force.IsPresent)
+            {
+                DisableProtectionInput input = new DisableProtectionInput();
+                input.Properties = new DisableProtectionInputProperties()
                 {
-                    if (!Force.IsPresent)
-                    {
-                        DisableProtectionInput input = new DisableProtectionInput();
-                        input.Properties = new DisableProtectionInputProperties()
-                        {
-                            ProviderSettings = new DisableProtectionProviderSpecificInput()
-                        };
-                        this.response =
-                            RecoveryServicesClient.DisableProtection(
-                            Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationFabrics),
-                            Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationProtectionContainers),
-                            ReplicationProtectedItem.Name,
-                            input);
-                    }
-                    else
-                    {
-                        this.response =
-                            RecoveryServicesClient.PurgeProtection(
-                            Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationFabrics),
-                            Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationProtectionContainers),
-                            ReplicationProtectedItem.Name);
-                    }
+                    ProviderSettings = new DisableProtectionProviderSpecificInput()
+                };
+                this.response =
+                    RecoveryServicesClient.DisableProtection(
+                    Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationFabrics),
+                    Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationProtectionContainers),
+                    ReplicationProtectedItem.Name,
+                    input);
+            }
+            else
+            {
+                this.response =
+                    RecoveryServicesClient.PurgeProtection(
+                    Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationFabrics),
+                    Utilities.GetValueFromArmId(this.ReplicationProtectedItem.ID, ARMResourceTypeConstants.ReplicationProtectionContainers),
+                    ReplicationProtectedItem.Name);
+            }
 
-                    jobResponse =
-                        RecoveryServicesClient
-                        .GetAzureSiteRecoveryJobDetails(PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location));
+            jobResponse =
+                RecoveryServicesClient
+                .GetAzureSiteRecoveryJobDetails(PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location));
 
-                    WriteObject(new ASRJob(jobResponse.Job));
+            WriteObject(new ASRJob(jobResponse.Job));
 
-                    if (this.WaitForCompletion.IsPresent)
-                    {
-                        this.WaitForJobCompletion(this.jobResponse.Job.Name);
+            if (this.WaitForCompletion.IsPresent)
+            {
+                this.WaitForJobCompletion(this.jobResponse.Job.Name);
 
-                        jobResponse =
-                        RecoveryServicesClient
-                        .GetAzureSiteRecoveryJobDetails(PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location));
+                jobResponse =
+                RecoveryServicesClient
+                .GetAzureSiteRecoveryJobDetails(PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location));
 
-                        WriteObject(new ASRJob(jobResponse.Job));
-                    }
-                });
+                WriteObject(new ASRJob(jobResponse.Job));
+            }
         }
 
         /// <summary>

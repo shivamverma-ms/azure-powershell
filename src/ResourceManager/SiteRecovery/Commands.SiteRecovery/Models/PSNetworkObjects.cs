@@ -148,11 +148,14 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             this.ID = networkMapping.Id;
             this.Name = networkMapping.Name;
             this.FriendlyName = networkMapping.Name;
-            this.PrimaryNetworkId = networkMapping.Id.Substring(0, networkMapping.Id.IndexOf("/replicationNetworkMappings"));
+            this.PrimaryNetworkId = networkMapping.Properties.PrimaryNetworkId;
             this.PrimaryNetworkFriendlyName = networkMapping.Properties.PrimaryNetworkFriendlyName;
+            this.PrimaryFabricFriendlyName = networkMapping.Properties.PrimaryFabricFriendlyName;
             this.RecoveryNetworkId = networkMapping.Properties.RecoveryNetworkId;
-            this.RecoveryNetworkFriendlyName = networkMapping.Properties.RecoveryNetworkFriendlyName;
-            this.PairingStatus = networkMapping.Properties.PairingStatus;
+            this.RecoveryNetworkFriendlyName =
+                networkMapping.Properties.RecoveryNetworkFriendlyName;
+            this.RecoveryFabricFriendlyName = networkMapping.Properties.RecoveryFabricFriendlyName;
+            this.PairingStatus = networkMapping.Properties.State;
         }
 
         #region Properties
@@ -182,6 +185,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public string PrimaryNetworkFriendlyName { get; set; }
 
         /// <summary>
+        /// Gets or sets primary fabric friendly name.
+        /// </summary>
+        public string PrimaryFabricFriendlyName { get; set; }
+
+        /// <summary>
         /// Gets or sets Recovery network Id.
         /// </summary>
         public string RecoveryNetworkId { get; set; }
@@ -191,6 +199,10 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         public string RecoveryNetworkFriendlyName { get; set; }
 
+        /// <summary>
+        /// Gets or sets recovery fabric friendly name.
+        /// </summary>
+        public string RecoveryFabricFriendlyName { get; set; }
         /// <summary>
         /// Gets or sets pairing status.
         /// </summary>
