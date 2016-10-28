@@ -17,10 +17,11 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
+using Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProvider;
 using Microsoft.Azure.Management.SiteRecoveryVault.Models;
 using Microsoft.Azure.Management.SiteRecovery.Models;
 using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
-using System.Web.Script.Serialization;
+using ReplicationProvider = Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProvider;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
@@ -1179,48 +1180,33 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             this.TestFailoverState = rpi.Properties.TestFailoverState;
             this.TestFailoverStateDescription = rpi.Properties.TestFailoverStateDescription;
 
-            if (0 == string.Compare(
-                    rpi.Properties.ProviderSpecificDetails.InstanceType,
-                    Constants.HyperVReplicaAzure,
-                    StringComparison.OrdinalIgnoreCase))
+            switch (rpi.Properties.ProviderSpecificDetails.InstanceType)
             {
-                HyperVReplicaAzureReplicationDetails providerSpecificDetails =
-                           (HyperVReplicaAzureReplicationDetails)rpi.Properties.ProviderSpecificDetails;
+                case Constants.HyperVReplicaAzure:
+                    var e2aProviderSpecificDetails =
+                        (HyperVReplicaAzureReplicationDetails)rpi.Properties.ProviderSpecificDetails;
 
-                RecoveryAzureVMName = providerSpecificDetails.RecoveryAzureVMName;
-                RecoveryAzureVMSize = providerSpecificDetails.RecoveryAzureVMSize;
-                RecoveryAzureStorageAccount = providerSpecificDetails.RecoveryAzureStorageAccount;
-                SelectedRecoveryAzureNetworkId = providerSpecificDetails.SelectedRecoveryAzureNetworkId;
-                if (providerSpecificDetails.VMNics != null)
-                {
-                    NicDetailsList = new List<ASRVMNicDetails>();
-                    foreach (VMNicDetails n in providerSpecificDetails.VMNics)
-                    {
-                        NicDetailsList.Add(new ASRVMNicDetails(n));
-                    }
-                }
-            }
-            else if (0 == string.Compare(
-                    rpi.Properties.ProviderSpecificDetails.InstanceType,
-                Constants.AzureToAzure,
-                StringComparison.OrdinalIgnoreCase))
-            {
-                A2AReplicationDetails providerSpecificDetails =
-                            (A2AReplicationDetails)rpi.Properties.ProviderSpecificDetails;
+                    this.RecoveryAzureVMName = e2aProviderSpecificDetails.RecoveryAzureVMName;
+                    this.RecoveryAzureVMSize = e2aProviderSpecificDetails.RecoveryAzureVMSize;
+                    this.RecoveryAzureStorageAccount = e2aProviderSpecificDetails.RecoveryAzureStorageAccount;
+                    this.SelectedRecoveryAzureNetworkId = e2aProviderSpecificDetails.SelectedRecoveryAzureNetworkId;
+                    this.NicDetailsList =
+                        e2aProviderSpecificDetails.VMNics?.ToList()
+                        .ConvertAll(nic => new ASRVMNicDetails(nic));
 
-                this.FabricObjectId = providerSpecificDetails.FabricObjectId;
-                A2ADiskDetails = new List<A2AProtectedDiskDetails>();
-                foreach (var disk in providerSpecificDetails.ProtectedDisks)
-                {
-                    A2ADiskDetails.Add(new A2AProtectedDiskDetails()
-                    {
-                        DiskUri = disk.DiskUri,
-                        PrimaryDiskAzureStorageAccountId = disk.PrimaryDiskAzureStorageAccountId,
-                        RecoveryAzureStorageAccountId = disk.RecoveryAzureStorageAccountId,
-                        PrimaryStagingAzureStorageAccountId = disk.PrimaryStagingAzureStorageAccountId,
-                        RecoveryDiskUri = disk.RecoveryDiskUri
-                    });
-                }
+                    break;
+
+                case Constants.AzureToAzure:
+                    var a2aProviderSpecificDetails =
+                        (A2AReplicationDetails)rpi.Properties.ProviderSpecificDetails;
+                    this.FabricObjectId = a2aProviderSpecificDetails.FabricObjectId;
+                    this.A2ADiskDetails = a2aProviderSpecificDetails.ProtectedDisks.ToList()
+                        .ConvertAll(disk => new ReplicationProvider.A2AProtectedDiskDetails(disk));
+
+                    this.ProviderSpecificDetails =
+                        new ASRAzureToAzureReplicationDetails(a2aProviderSpecificDetails);
+
+                    break;
             }
         }
 
@@ -1322,7 +1308,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Provider Specific Details
         /// </summary>
-        public ReplicationProviderSpecificSettings ProviderSpecificDetails { get; set; }
+        public ASRReplicationProviderSpecificSettings ProviderSpecificDetails { get; set; }
 
         /// <summary>
         /// Gets or sets Recovery Fabric Friendly Name
@@ -1397,35 +1383,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets A2A specific protected disk details.
         /// </summary>
-        public List<A2AProtectedDiskDetails> A2ADiskDetails { get; set; }
-    }
-
-    public class A2AProtectedDiskDetails
-    {
-        /// <summary>
-        /// Gets or sets the disk uri.
-        /// </summary>
-        public string DiskUri { get; set; }
-
-        /// <summary>
-        /// Gets or sets the primary disk storage account. 
-        /// </summary>
-        public string PrimaryDiskAzureStorageAccountId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the primary staging storage account.
-        /// </summary>
-        public string PrimaryStagingAzureStorageAccountId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the recovery disk storage account. 
-        /// </summary>
-        public string RecoveryAzureStorageAccountId { get; set; }
-
-        /// <summary>
-        /// Gets or sets recovery disk uri.
-        /// </summary>
-        public string RecoveryDiskUri { get; set; }
+        public List<ReplicationProvider.A2AProtectedDiskDetails> A2ADiskDetails { get; set; }
     }
 
     /// <summary>

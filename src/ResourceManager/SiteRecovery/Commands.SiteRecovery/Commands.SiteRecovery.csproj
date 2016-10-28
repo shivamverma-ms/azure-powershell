@@ -133,9 +133,15 @@
     <Compile Include="Fabrics\NewAzureRmSiteRecoveryFabric.cs" />
     <Compile Include="Fabrics\RemoveAzureRmSiteRecoveryFabric.cs" />
     <Compile Include="Job\StopAzureSiteRecoveryJob.cs" />
+    <Compile Include="Models\FabricProvider\AzureFabric\ASRInputEndpoint.cs" />
+    <Compile Include="Models\FabricProvider\AzureFabric\ASRRoleAssignment.cs" />
     <Compile Include="Models\PSConstants.cs" />
     <Compile Include="Models\PSNetworkObjects.cs" />
     <Compile Include="Models\PSRecoveryPlanObjects.cs" />
+    <Compile Include="Models\ReplicationProvider\AzureToAzure\A2AProtectedDiskDetails.cs" />
+    <Compile Include="Models\ReplicationProvider\AzureToAzure\ASRAzureToAzureReplicationDetails.cs" />
+    <Compile Include="Models\ReplicationProvider\AzureToAzure\ASRAzureToAzureVmSyncedConfigDetails.cs" />
+    <Compile Include="Models\ReplicationProvider\ASRReplicationProviderSpecificSettings.cs" />
     <Compile Include="Network\GetAzureRMSiteRecoveryNetworkLegacy.cs" />
     <Compile Include="Network\GetAzureRMSiteRecoveryNetworkMappingLegacy.cs" />
     <Compile Include="Network\GetAzureRmSiteRecoveryNetworkMapping.cs" />
@@ -259,5 +265,6 @@
       <Name>Commands.RecoveryServices</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
