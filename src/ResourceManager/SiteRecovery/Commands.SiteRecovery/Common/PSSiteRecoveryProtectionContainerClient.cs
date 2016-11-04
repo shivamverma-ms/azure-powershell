@@ -152,5 +152,25 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             return this.GetSiteRecoveryClient().ProtectionContainerMapping.BeginPurgeProtection(
                 fabricName, protectionContainerName, mappingName, this.GetRequestHeaders());
         }
+
+        /// <summary>
+        /// Switches protection from one container to another or one replication provider to
+        /// another.
+        /// </summary>
+        /// <param name="fabricName">Fabric Name.</param>
+        /// <param name="protectionContainerName">Protection Container name.</param>
+        /// <param name="input">Switch protection input.</param>
+        /// <returns>A long running operation response.</returns>
+        public LongRunningOperationResponse StartSwitchProtection(
+            string fabricName,
+            string protectionContainerName,
+            SwitchProtectionInput input)
+        {
+            return this.GetSiteRecoveryClient().ProtectionContainer.BeginSwitchProtection(
+                fabricName,
+                protectionContainerName,
+                input,
+                this.GetRequestHeaders());
+        }
     }
 }
