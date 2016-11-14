@@ -1206,6 +1206,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     this.ProviderSpecificDetails =
                         new ASRAzureToAzureReplicationDetails(a2aProviderSpecificDetails);
 
+                    this.RecoveryAzureVMName = a2aProviderSpecificDetails.RecoveryAzureVMName;
+                    this.RecoveryAzureVMSize = a2aProviderSpecificDetails.RecoveryAzureVMSize;
+                    this.SelectedRecoveryAzureNetworkId = a2aProviderSpecificDetails.SelectedRecoveryAzureNetworkId;
+                    this.NicDetailsList =
+                        a2aProviderSpecificDetails.VMNics?.ToList()
+                        .ConvertAll(nic => new ASRVMNicDetails(nic));
+
                     break;
             }
         }

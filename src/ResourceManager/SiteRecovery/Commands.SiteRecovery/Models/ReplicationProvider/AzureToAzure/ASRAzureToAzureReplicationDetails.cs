@@ -50,8 +50,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProvider
             this.RecoveryAzureVMSize = details.RecoveryAzureVMSize;
             this.RecoveryFabricLocation = details.RecoveryFabricLocation;
             this.SelectedRecoveryAzureNetworkId = details.SelectedRecoveryAzureNetworkId;
-            this.VmSyncedConfigDetails =
-                new ASRAzureToAzureVmSyncedConfigDetails(details.VmSyncedConfigDetails);
+            if (details.VmSyncedConfigDetails != null)
+            {
+                this.VmSyncedConfigDetails =
+                    new ASRAzureToAzureVmSyncedConfigDetails(details.VmSyncedConfigDetails);
+            }
         }
 
         /// <summary>

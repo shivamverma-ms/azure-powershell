@@ -152,6 +152,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 string.IsNullOrEmpty(this.Size) &&
                 string.IsNullOrEmpty(this.PrimaryNic) &&
                 string.IsNullOrEmpty(this.RecoveryNetworkId) &&
+                string.IsNullOrEmpty(this.RecoveryAvailabilitySetId) &&
                 string.IsNullOrEmpty(this.LicenseType))
             {
                 this.WriteWarning(Properties.Resources.ArgumentsMissingForUpdateVmProperties.ToString());
@@ -342,6 +343,58 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     RecoveryCloudServiceId = this.RecoveryCloudServiceId,
                     RecoveryResourceGroupId = this.RecoveryResourceGroupId
                 };
+
+                A2AReplicationDetails providerSpecificDetails = (A2AReplicationDetails)replicationProtectedItemResponse.ReplicationProtectedItem.Properties.ProviderSpecificDetails;
+
+                if (!string.IsNullOrEmpty(this.PrimaryNic))
+                {
+                    if (providerSpecificDetails.VMNics != null)
+                    {
+                        vMNicDetailsToBeUpdated = providerSpecificDetails.VMNics.SingleOrDefault(
+                            n => string.Compare(n.NicId, this.PrimaryNic, StringComparison.OrdinalIgnoreCase) == 0);
+                        if (vMNicDetailsToBeUpdated != null)
+                        {
+                            VMNicInputDetails vMNicInputDetails = new VMNicInputDetails();
+
+                            vMNicInputDetails.NicId = this.PrimaryNic;
+                            vMNicInputDetails.RecoveryVMSubnetName = this.RecoveryNicSubnetName;
+                            vMNicInputDetails.ReplicaNicStaticIPAddress = this.RecoveryNicStaticIPAddress;
+                            vMNicInputDetails.SelectionType = string.IsNullOrEmpty(this.NicSelectionType) ? Constants.SelectedByUser : this.NicSelectionType;
+                            vMNicInputDetailsList.Add(vMNicInputDetails);
+
+                            IEnumerable<VMNicDetails> vMNicDetailsListRemaining = providerSpecificDetails.VMNics.Where(
+                                n => string.Compare(n.NicId, this.PrimaryNic, StringComparison.OrdinalIgnoreCase) != 0);
+                            foreach (VMNicDetails nDetails in vMNicDetailsListRemaining)
+                            {
+                                vMNicInputDetails = new VMNicInputDetails();
+
+                                vMNicInputDetails.NicId = nDetails.NicId;
+                                vMNicInputDetails.RecoveryVMSubnetName = nDetails.RecoveryVMSubnetName;
+                                vMNicInputDetails.ReplicaNicStaticIPAddress = nDetails.ReplicaNicStaticIPAddress;
+                                vMNicInputDetails.SelectionType = nDetails.SelectionType;
+                                vMNicInputDetailsList.Add(vMNicInputDetails);
+                            }
+                        }
+                        else
+                        {
+                            throw new PSInvalidOperationException(Properties.Resources.NicNotFoundInVMForUpdateVmProperties);
+                        }
+                    }
+                }
+                else
+                {
+                    VMNicInputDetails vMNicInputDetails;
+                    foreach (VMNicDetails nDetails in providerSpecificDetails.VMNics)
+                    {
+                        vMNicInputDetails = new VMNicInputDetails();
+
+                        vMNicInputDetails.NicId = nDetails.NicId;
+                        vMNicInputDetails.RecoveryVMSubnetName = nDetails.RecoveryVMSubnetName;
+                        vMNicInputDetails.ReplicaNicStaticIPAddress = nDetails.ReplicaNicStaticIPAddress;
+                        vMNicInputDetails.SelectionType = nDetails.SelectionType;
+                        vMNicInputDetailsList.Add(vMNicInputDetails);
+                    }
+                }
             }
 
             UpdateReplicationProtectedItemInputProperties updateReplicationProtectedItemInputProperties =
