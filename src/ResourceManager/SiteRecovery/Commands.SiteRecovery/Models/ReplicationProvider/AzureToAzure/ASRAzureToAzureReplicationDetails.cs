@@ -50,6 +50,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProvider
             this.RecoveryAzureVMSize = details.RecoveryAzureVMSize;
             this.RecoveryFabricLocation = details.RecoveryFabricLocation;
             this.SelectedRecoveryAzureNetworkId = details.SelectedRecoveryAzureNetworkId;
+            this.RecoveryAvailabilitySet = details.RecoveryAvailabilitySet;
             if (details.VmSyncedConfigDetails != null)
             {
                 this.VmSyncedConfigDetails =
@@ -112,6 +113,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProvider
         /// Selected recovery azure network id.
         /// </summary>
         public string SelectedRecoveryAzureNetworkId { get; set; }
+
+        /// <summary>
+        /// Recovery availability set.
+        /// </summary>
+        public string RecoveryAvailabilitySet { get; set; }
 
         /// <summary>
         /// Synced configuration details of the virtual machine.
