@@ -46,6 +46,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProvider
                 details.ProtectedDisks.ToList()
                 .ConvertAll(disk => new A2AProtectedDiskDetails(disk));
             this.RecoveryAzureResourceGroupId = details.RecoveryAzureResourceGroupId;
+            this.RecoveryAzureCloudService = details.RecoveryCloudService;
             this.RecoveryAzureVMName = details.RecoveryAzureVMName;
             this.RecoveryAzureVMSize = details.RecoveryAzureVMSize;
             this.RecoveryFabricLocation = details.RecoveryFabricLocation;
@@ -93,6 +94,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProvider
         /// Recovery azure resource group id.
         /// </summary>
         public string RecoveryAzureResourceGroupId { get; set; }
+
+        /// <summary>
+        /// Recovery azure cloud service.
+        /// </summary>
+        public string RecoveryAzureCloudService { get; set; }
 
         /// <summary>
         /// Recovery azure vm name.
