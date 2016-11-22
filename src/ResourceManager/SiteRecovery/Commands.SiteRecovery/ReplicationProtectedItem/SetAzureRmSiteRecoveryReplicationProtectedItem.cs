@@ -346,6 +346,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
 
                 A2AReplicationDetails providerSpecificDetails = (A2AReplicationDetails)replicationProtectedItemResponse.ReplicationProtectedItem.Properties.ProviderSpecificDetails;
 
+                if (string.IsNullOrEmpty(this.RecoveryNetworkId))
+                {
+                    vmRecoveryNetworkId = providerSpecificDetails.SelectedRecoveryAzureNetworkId;
+                }
+
                 if (!string.IsNullOrEmpty(this.PrimaryNic))
                 {
                     if (providerSpecificDetails.VMNics != null)
