@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Azure.Management.SiteRecovery.Models;
@@ -56,6 +57,12 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProvider
             {
                 this.VmSyncedConfigDetails =
                     new ASRAzureToAzureVmSyncedConfigDetails(details.VmSyncedConfigDetails);
+            }
+            this.MonitoringJobType = details.MonitoringJobType;
+            this.MonitoringPercentageCompletion = details.MonitoringPercentageCompletion;
+            if (details.LastHeartbeat != null)
+            {
+                this.LastHeartbeat = details.LastHeartbeat.Value.ToLocalTime();
             }
         }
 
@@ -129,5 +136,22 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProvider
         /// Synced configuration details of the virtual machine.
         /// </summary>
         public ASRAzureToAzureVmSyncedConfigDetails VmSyncedConfigDetails { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of the monitoring job. The progress is contained in
+        /// MonitoringPercentageCompletion property.
+        /// </summary>
+        public string MonitoringJobType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the percentage of the monitoring job. The type of the monitoring job
+        /// is defined by MonitoringJobType property.
+        /// </summary>
+        public int? MonitoringPercentageCompletion { get; set; }
+
+        /// <summary>
+        /// Gets or sets the last heartbeat received from the source server.
+        /// </summary>
+        public DateTime? LastHeartbeat { get; set; }
     }
 }

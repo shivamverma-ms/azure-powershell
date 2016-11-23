@@ -40,6 +40,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProvider
             this.PrimaryStagingAzureStorageAccountId = disk.PrimaryStagingAzureStorageAccountId;
             this.RecoveryAzureStorageAccountId = disk.RecoveryAzureStorageAccountId;
             this.RecoveryDiskUri = disk.RecoveryDiskUri;
+            this.ResyncRequired = disk.ResyncRequired;
+            this.MonitoringPercentageCompletion = disk.MonitoringPercentageCompletion;
+            this.MonitoringJobType = disk.MonitoringJobType;
+            this.DataPendingInStagingStorageAccountInMB = disk.DataPendingInStagingStorageAccountInMB;
+            this.DataPendingAtSourceAgentInMB = disk.DataPendingAtSourceAgentInMB;
         }
 
         /// <summary>
@@ -66,5 +71,32 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProvider
         /// Gets or sets recovery disk uri.
         /// </summary>
         public string RecoveryDiskUri { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether resync is required for this disk.
+        /// </summary>
+        public bool ResyncRequired { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of the monitoring job. The progress is contained in
+        /// MonitoringPercentageCompletion property.
+        /// </summary>
+        public string MonitoringJobType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the percentage of the monitoring job. The type of the monitoring job
+        /// is defined by MonitoringJobType property.
+        /// </summary>
+        public int? MonitoringPercentageCompletion { get; set; }
+
+        /// <summary>
+        /// Gets or sets the data pending for replication in MB at staging account.
+        /// </summary>
+        public double DataPendingInStagingStorageAccountInMB { get; set; }
+
+        /// <summary>
+        /// Gets or sets the data pending at source virtual machine in MB.
+        /// </summary>
+        public double DataPendingAtSourceAgentInMB { get; set; }
     }
 }
