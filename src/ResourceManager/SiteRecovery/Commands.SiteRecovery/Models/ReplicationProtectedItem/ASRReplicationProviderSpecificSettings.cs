@@ -14,7 +14,7 @@
 
 using Microsoft.Azure.Management.SiteRecovery.Models;
 
-namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProvider
+namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProtectedItem
 {
     /// <summary>
     /// Replication provider specific entity details.

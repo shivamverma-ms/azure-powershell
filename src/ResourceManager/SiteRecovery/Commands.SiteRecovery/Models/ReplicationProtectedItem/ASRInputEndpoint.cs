@@ -15,7 +15,7 @@
 using System.Text;
 using Microsoft.Azure.Management.SiteRecovery.Models;
 
-namespace Microsoft.Azure.Commands.SiteRecovery.Models.FabricProvider
+namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProtectedItem
 {
     /// <summary>
     /// Azure VM input endpoint details.

@@ -14,10 +14,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Azure.Commands.SiteRecovery.Models.FabricProvider;
 using Microsoft.Azure.Management.SiteRecovery.Models;
 
-namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProvider
+namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProtectedItem
 {
     /// <summary>
     /// Azure to Azure VM synced configuration details.

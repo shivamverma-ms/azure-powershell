@@ -14,26 +14,26 @@
 
 using SDK = Microsoft.Azure.Management.SiteRecovery.Models;
 
-namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProvider
+namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProtectedItem
 {
     /// <summary>
     /// AzureToAzure replication provider specific protected disk details.
     /// </summary>
-    public class A2AProtectedDiskDetails
+    public class ASRAzureToAzureProtectedDiskDetails
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="A2AProtectedDiskDetails" />
+        /// Initializes a new instance of the <see cref="ASRAzureToAzureProtectedDiskDetails" />
         /// class.
         /// </summary>
-        public A2AProtectedDiskDetails()
+        public ASRAzureToAzureProtectedDiskDetails()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="A2AProtectedDiskDetails" />
+        /// Initializes a new instance of the <see cref="ASRAzureToAzureProtectedDiskDetails" />
         /// class.
         /// </summary>
-        public A2AProtectedDiskDetails(SDK.A2AProtectedDiskDetails disk)
+        public ASRAzureToAzureProtectedDiskDetails(SDK.A2AProtectedDiskDetails disk)
         {
             this.DiskUri = disk.DiskUri;
             this.PrimaryDiskAzureStorageAccountId = disk.PrimaryDiskAzureStorageAccountId;

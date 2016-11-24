@@ -17,11 +17,11 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
-using Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProvider;
+using Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProtectedItem;
 using Microsoft.Azure.Management.SiteRecoveryVault.Models;
 using Microsoft.Azure.Management.SiteRecovery.Models;
 using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
-using ReplicationProvider = Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProvider;
+using ProtectedItem = Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProtectedItem;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
@@ -1180,31 +1180,26 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             this.TestFailoverState = rpi.Properties.TestFailoverState;
             this.TestFailoverStateDescription = rpi.Properties.TestFailoverStateDescription;
 
-            switch (rpi.Properties.ProviderSpecificDetails.InstanceType)
+            if (rpi.Properties.ProviderSpecificDetails is HyperVReplicaAzureReplicationDetails)
             {
-                case Constants.HyperVReplicaAzure:
-                    var e2aProviderSpecificDetails =
+                var e2aProviderSpecificDetails =
                         (HyperVReplicaAzureReplicationDetails)rpi.Properties.ProviderSpecificDetails;
 
-                    this.RecoveryAzureVMName = e2aProviderSpecificDetails.RecoveryAzureVMName;
-                    this.RecoveryAzureVMSize = e2aProviderSpecificDetails.RecoveryAzureVMSize;
-                    this.RecoveryAzureStorageAccount = e2aProviderSpecificDetails.RecoveryAzureStorageAccount;
-                    this.SelectedRecoveryAzureNetworkId = e2aProviderSpecificDetails.SelectedRecoveryAzureNetworkId;
-                    this.NicDetailsList =
-                        e2aProviderSpecificDetails.VMNics?.ToList()
-                        .ConvertAll(nic => new ASRVMNicDetails(nic));
-
-                    break;
-
-                case Constants.AzureToAzure:
-                    var a2aProviderSpecificDetails =
+                this.RecoveryAzureVMName = e2aProviderSpecificDetails.RecoveryAzureVMName;
+                this.RecoveryAzureVMSize = e2aProviderSpecificDetails.RecoveryAzureVMSize;
+                this.RecoveryAzureStorageAccount = e2aProviderSpecificDetails.RecoveryAzureStorageAccount;
+                this.SelectedRecoveryAzureNetworkId = e2aProviderSpecificDetails.SelectedRecoveryAzureNetworkId;
+                this.NicDetailsList =
+                    e2aProviderSpecificDetails.VMNics?.ToList()
+                    .ConvertAll(nic => new ASRVMNicDetails(nic));
+            }
+            else if (rpi.Properties.ProviderSpecificDetails is A2AReplicationDetails)
+            {
+                var a2aProviderSpecificDetails =
                         (A2AReplicationDetails)rpi.Properties.ProviderSpecificDetails;
-                    this.FabricObjectId = a2aProviderSpecificDetails.FabricObjectId;
-                    this.A2ADiskDetails = a2aProviderSpecificDetails.ProtectedDisks.ToList()
-                        .ConvertAll(disk => new ReplicationProvider.A2AProtectedDiskDetails(disk));
-
-                    this.ProviderSpecificDetails =
-                        new ASRAzureToAzureReplicationDetails(a2aProviderSpecificDetails);
+                this.FabricObjectId = a2aProviderSpecificDetails.FabricObjectId;
+                this.A2ADiskDetails = a2aProviderSpecificDetails.ProtectedDisks.ToList()
+                    .ConvertAll(disk => new ProtectedItem.ASRAzureToAzureProtectedDiskDetails(disk));
 
                     this.RecoveryAzureVMName = a2aProviderSpecificDetails.RecoveryAzureVMName;
                     this.RecoveryAzureVMSize = a2aProviderSpecificDetails.RecoveryAzureVMSize;
@@ -1212,8 +1207,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     this.NicDetailsList =
                         a2aProviderSpecificDetails.VMNics?.ToList()
                         .ConvertAll(nic => new ASRVMNicDetails(nic));
-
-                    break;
+                    this.ProviderSpecificDetails =
+                        new ASRAzureToAzureReplicationDetails(a2aProviderSpecificDetails);
             }
         }
 
@@ -1390,7 +1385,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets A2A specific protected disk details.
         /// </summary>
-        public List<ReplicationProvider.A2AProtectedDiskDetails> A2ADiskDetails { get; set; }
+        public List<ProtectedItem.ASRAzureToAzureProtectedDiskDetails> A2ADiskDetails { get; set; }
     }
 
     /// <summary>

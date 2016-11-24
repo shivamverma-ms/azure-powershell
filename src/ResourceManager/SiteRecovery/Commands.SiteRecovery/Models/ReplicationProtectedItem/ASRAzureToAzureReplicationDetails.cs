@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Azure.Management.SiteRecovery.Models;
 
-namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProvider
+namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProtectedItem
 {
     /// <summary>
     /// AzureToAzure replication provider specific entity details.
@@ -29,7 +29,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProvider
         /// </summary>
         public ASRAzureToAzureReplicationDetails()
         {
-            this.ProtectedDisks = new List<A2AProtectedDiskDetails>();
+            this.ProtectedDisks = new List<ASRAzureToAzureProtectedDiskDetails>();
+            this.VmSyncedConfigDetails = new ASRAzureToAzureVmSyncedConfigDetails();
         }
 
         /// <summary>
@@ -45,7 +46,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProvider
             this.PrimaryFabricLocation = details.PrimaryFabricLocation;
             this.ProtectedDisks =
                 details.ProtectedDisks.ToList()
-                .ConvertAll(disk => new A2AProtectedDiskDetails(disk));
+                .ConvertAll(disk => new ASRAzureToAzureProtectedDiskDetails(disk));
             this.RecoveryAzureResourceGroupId = details.RecoveryAzureResourceGroupId;
             this.RecoveryAzureCloudService = details.RecoveryCloudService;
             this.RecoveryAzureVMName = details.RecoveryAzureVMName;
@@ -67,7 +68,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProvider
         }
 
         /// <summary>
-        //     Optional. Fabric object ARM Id.
+        /// Fabric object ARM Id.
         /// </summary>
         public string FabricObjectId { get; set; }
 
@@ -95,7 +96,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProvider
         /// <summary>
         /// List of disk specific details.
         /// </summary>
-        public List<A2AProtectedDiskDetails> ProtectedDisks { get; set; }
+        public List<ASRAzureToAzureProtectedDiskDetails> ProtectedDisks { get; set; }
 
         /// <summary>
         /// Recovery azure resource group id.
