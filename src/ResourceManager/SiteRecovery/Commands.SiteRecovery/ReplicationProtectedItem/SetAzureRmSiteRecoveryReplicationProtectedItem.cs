@@ -153,6 +153,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 string.IsNullOrEmpty(this.PrimaryNic) &&
                 string.IsNullOrEmpty(this.RecoveryNetworkId) &&
                 string.IsNullOrEmpty(this.RecoveryAvailabilitySetId) &&
+                string.IsNullOrEmpty(this.RecoveryResourceGroupId) &&
                 string.IsNullOrEmpty(this.LicenseType))
             {
                 this.WriteWarning(Properties.Resources.ArgumentsMissingForUpdateVmProperties.ToString());
