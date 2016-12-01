@@ -270,6 +270,25 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         }
 
         /// <summary>
+        /// Repair replication (resync).
+        /// </summary>
+        /// <param name="fabricName">Fabric name.</param>
+        /// <param name="protectionContainerName">Protection container name.</param>
+        /// <param name="replicationProtectedItemName">Virtual machine name.</param>
+        /// <returns>Job response</returns>
+        public LongRunningOperationResponse Resync(
+            string fabricName,
+            string protectionContainerName,
+            string replicationProtectedItemName)
+        {
+            return this.GetSiteRecoveryClient().ReplicationProtectedItem.BeginRepairReplication(
+                fabricName,
+                protectionContainerName,
+                replicationProtectedItemName,
+                this.GetRequestHeaders());
+        }
+
+        /// <summary>
         /// Write Protection Entities
         /// </summary>
         /// <param name="protectableItems">List of protectable items</param>
