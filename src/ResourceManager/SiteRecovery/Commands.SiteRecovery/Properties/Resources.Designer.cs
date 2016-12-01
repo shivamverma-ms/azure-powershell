@@ -225,6 +225,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid netwok mapping details..
+        /// </summary>
+        internal static string InvalidNetworkMappingDetails {
+            get {
+                return ResourceManager.GetString("InvalidNetworkMappingDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Parameter Set.
         /// </summary>
         internal static string InvalidParameterSet {
@@ -329,6 +338,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Properties {
         internal static string NetworkArgumentsMissingForUpdateVmProperties {
             get {
                 return ResourceManager.GetString("NetworkArgumentsMissingForUpdateVmProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Network mapping details not found..
+        /// </summary>
+        internal static string NetworkMappingNotFound {
+            get {
+                return ResourceManager.GetString("NetworkMappingNotFound", resourceCulture);
             }
         }
         

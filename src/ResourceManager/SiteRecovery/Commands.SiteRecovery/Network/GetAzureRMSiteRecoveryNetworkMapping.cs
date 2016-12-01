@@ -46,6 +46,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public ASRFabric PrimaryFabric { get; set; }
 
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithName, Mandatory = true, ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
         public ASRFabric PrimaryAzureFabric { get; set; }
         /// <summary>
@@ -103,7 +104,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     string.Format(Properties.Resources.ParameterSetForScenarioWillBeModifiedSoon,
                         "{}",
                         "enumerating all network pairs",
-                        "either of {PrimaryNetwork(mandatory), Name(optional)} or"+
+                        "either of {PrimaryNetwork(mandatory), Name(optional)} or" +
                         " {PrimaryAzureFabric(mandatory), Name(optional)}"
                         ));
                     this.WriteNetworkMappings(GetAllNetworkMappings());
@@ -273,7 +274,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             string primaryNetworkName,
             string mappingName)
         {
-            NetworkMappingResponse networkMapping = 
+            NetworkMappingResponse networkMapping =
                 RecoveryServicesClient.GetAzureSiteRecoveryNetworkMappings(
                     primaryFabricName,
                     primaryNetworkName,
@@ -287,7 +288,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <param name="networkMappings">List of Network mappings</param>
         private void WriteNetworkMappings(IList<NetworkMapping> networkMappings)
         {
-            this.WriteObject(networkMappings.Select(nm => new ASRNetworkMapping(nm)), true);
+            this.WriteObject(
+                networkMappings.Select(mapping => new ASRNetworkMapping(mapping)), true);
         }
 
         /// <summary>

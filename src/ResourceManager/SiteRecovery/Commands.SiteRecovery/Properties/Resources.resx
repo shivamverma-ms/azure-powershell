@@ -370,4 +370,10 @@ Please provide a storage account with the same location as that of the vault.</v
   <data name="InvalidRecoveryAzureStorageAccountId" xml:space="preserve">
     <value>Please pass a valid RecoveryAzureStorageAccountId as input.</value>
   </data>
+  <data name="NetworkMappingNotFound" xml:space="preserve">
+    <value>Network mapping details not found.</value>
+  </data>
+  <data name="InvalidNetworkMappingDetails" xml:space="preserve">
+    <value>Invalid netwok mapping details.</value>
+  </data>
 </root>

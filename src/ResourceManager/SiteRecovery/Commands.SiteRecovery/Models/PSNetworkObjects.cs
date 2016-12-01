@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
+using System.Text;
 using Microsoft.Azure.Management.SiteRecovery.Models;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
@@ -156,6 +157,35 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 networkMapping.Properties.RecoveryNetworkFriendlyName;
             this.RecoveryFabricFriendlyName = networkMapping.Properties.RecoveryFabricFriendlyName;
             this.PairingStatus = networkMapping.Properties.State;
+            this.FabricSpecificNetworkMappingDetails = 
+                FabricSpecificNetworkMappingDetails.Load(networkMapping);
+        }
+
+        /// <summary>
+        /// Returns a string representation of the object.
+        /// </summary>
+        /// <returns>Returns a string representing the object.</returns>
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Id: " + this.ID);
+            sb.AppendLine("Name: " + this.Name);
+            sb.AppendLine("FriendlyName: " + this.FriendlyName);
+            sb.AppendLine("PrimaryNetworkId: " + this.PrimaryNetworkId);
+            sb.AppendLine("PrimaryNetworkFriendlyName: " + this.PrimaryNetworkFriendlyName);
+            sb.AppendLine("PrimaryFabricFriendlyName: " + this.PrimaryFabricFriendlyName);
+            sb.AppendLine("RecoveryNetworkId: " + this.RecoveryNetworkId);
+            sb.AppendLine("RecoveryNetworkFriendlyName: " + this.RecoveryNetworkFriendlyName);
+            sb.AppendLine("RecoveryFabricFriendlyName: " + this.RecoveryFabricFriendlyName);
+            sb.AppendLine("PairingStatus: " + this.PairingStatus);
+
+            string fabricSpecificDetails = this.FabricSpecificNetworkMappingDetails.ToString();
+            if (!string.IsNullOrEmpty(fabricSpecificDetails))
+            {
+                sb.AppendLine(fabricSpecificDetails);
+            }
+
+            return sb.ToString();
         }
 
         #region Properties
@@ -203,10 +233,165 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets recovery fabric friendly name.
         /// </summary>
         public string RecoveryFabricFriendlyName { get; set; }
+
         /// <summary>
         /// Gets or sets pairing status.
         /// </summary>
         public string PairingStatus { get; set; }
+
+        /// <summary>
+        /// Fabric specific network mapping details.
+        /// </summary>
+        public FabricSpecificNetworkMappingDetails FabricSpecificNetworkMappingDetails { get; set; }
+        #endregion
+    }
+
+    /// <summary>
+    /// Fabric specific details
+    /// </summary>
+    public abstract class FabricSpecificNetworkMappingDetails
+    {
+        /// <summary>
+        /// Loads fabric specific details for network mapping.
+        /// </summary>
+        /// <param name="networkMapping">Network mapping response from API.</param>
+        /// <returns></returns>
+        public static FabricSpecificNetworkMappingDetails Load(NetworkMapping networkMapping)
+        {
+            switch (networkMapping.Properties.FabricSpecificSettings.InstanceType)
+            {
+                case Constants.AzureToAzureFabric:
+                    return ASRAzureToAzureNetworkMappingDetails.LoadFabricDetails(networkMapping);
+                case Constants.VmmToAzureFabric:
+                    return ASRVmmToAzureNetworkMappingDetails.LoadFabricDetails(networkMapping);
+                case Constants.VmmToVmmFabric:
+                    return ASRVmmToVmmNetworkMappingDetails.LoadFabricDetails(networkMapping);
+                default:
+                    throw new InvalidOperationException(
+                        Properties.Resources.NetworkMappingNotFound);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Vmm to Vmm specific properties for network mapping.
+    /// </summary>
+    public class ASRVmmToVmmNetworkMappingDetails : FabricSpecificNetworkMappingDetails
+    {
+        /// <summary>
+        /// Returns a string representation of the object.
+        /// </summary>
+        /// <returns>Returns a string representing the object.</returns>
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Loads e2e specific details for network mapping.
+        /// </summary>
+        /// <param name="networkMapping">Network mapping response from API.</param>
+        /// <returns></returns>
+        public static FabricSpecificNetworkMappingDetails LoadFabricDetails(NetworkMapping networkMapping)
+        {
+            var e2ESpecificDetails =
+                networkMapping.Properties.FabricSpecificSettings as VmmToVmmNetworkMappingSettings;
+            if (e2ESpecificDetails == null)
+            {
+                throw new InvalidOperationException(
+                    Properties.Resources.InvalidNetworkMappingDetails);
+            }
+
+            return new ASRVmmToVmmNetworkMappingDetails();
+        }
+    }
+
+    /// <summary>
+    /// Vmm to Azure specific properties for network mapping.
+    /// </summary>
+    public class ASRVmmToAzureNetworkMappingDetails : FabricSpecificNetworkMappingDetails
+    {
+        /// <summary>
+        /// Returns a string representation of the object.
+        /// </summary>
+        /// <returns>Returns a string representing the object.</returns>
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Loads e2a specific details for network mapping.
+        /// </summary>
+        /// <param name="networkMapping">Network mapping response from API.</param>
+        /// <returns></returns>
+        public static FabricSpecificNetworkMappingDetails LoadFabricDetails(NetworkMapping networkMapping)
+        {
+            var e2ASpecificDetails =
+                networkMapping.Properties.FabricSpecificSettings as VmmToAzureNetworkMappingSettings;
+            if (e2ASpecificDetails == null)
+            {
+                throw new InvalidOperationException(
+                    Properties.Resources.InvalidNetworkMappingDetails);
+            }
+
+            return new ASRVmmToAzureNetworkMappingDetails();
+        }
+    }
+
+    /// <summary>
+    /// Azure to Azure specific properties for network mapping.
+    /// </summary>
+    public class ASRAzureToAzureNetworkMappingDetails : FabricSpecificNetworkMappingDetails
+    {
+        /// <summary>
+        /// Returns a string representation of the object.
+        /// </summary>
+        /// <returns>Returns a string representing the object.</returns>
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("PrimaryNetworkLocation: " + this.PrimaryNetworkLocation);
+            sb.AppendLine("RecoveryNetworkLocation: " + this.RecoveryNetworkLocation);
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Loads a2a specific details for network mapping.
+        /// </summary>
+        /// <param name="networkMapping">Network mapping response from API.</param>
+        /// <returns></returns>
+        public static FabricSpecificNetworkMappingDetails LoadFabricDetails(NetworkMapping networkMapping)
+        {
+            var a2ASpecificDetails =
+                networkMapping.Properties.FabricSpecificSettings as AzureToAzureNetworkMappingSettings;
+            if (a2ASpecificDetails == null)
+            {
+                throw new InvalidOperationException(
+                    Properties.Resources.InvalidNetworkMappingDetails);
+            }
+
+            return new ASRAzureToAzureNetworkMappingDetails
+            {
+                PrimaryNetworkLocation = a2ASpecificDetails.PrimaryFabricLocation,
+                RecoveryNetworkLocation = a2ASpecificDetails.RecoveryFabricLocation
+            };
+        }
+
+        #region Azure to Azure network mapping specific properties
+
+        /// <summary>
+        /// Gets or sets primary network location.
+        /// </summary>
+        public string PrimaryNetworkLocation { get; set; }
+
+        /// <summary>
+        /// Gets or sets recovery network location.
+        /// </summary>
+        public string RecoveryNetworkLocation { get; set; }
+
         #endregion
     }
 }
