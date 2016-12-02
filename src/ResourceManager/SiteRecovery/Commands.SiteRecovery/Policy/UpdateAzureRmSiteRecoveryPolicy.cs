@@ -42,7 +42,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         private string replicaDeletion { get; set; }
         private string recoveryAzureStorageAccountId { get; set; }
         private string encryption { get; set; }
-        private int recoveryPointThresholdInMinutes { get; set; }
         private int recoveryPointHistory { get; set; }
         private int crashConsistentFrequencyInMinutes { get; set; }
         private int appConsistentFrequencyInMinutes { get; set; }
@@ -160,12 +159,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             Constants.Enable,
             Constants.Disable)]
         public string Encryption { get; set; }
-
-        /// <summary>
-        /// Gets or sets Recovery point threshold in minutes.
-        /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
-        public int RecoveryPointThresholdInMinutes { get; set; }
 
         /// <summary>
         /// Gets or sets Recovery point history.
@@ -411,17 +404,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             this.recoveryPointHistory = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.RecoveryPointHistory)) ?
                 this.RecoveryPointHistory :
                 replicationProviderSettings.RecoveryPointHistory;
-            this.recoveryPointThresholdInMinutes = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.RecoveryPointThresholdInMinutes)) ?
-                this.RecoveryPointThresholdInMinutes :
-                replicationProviderSettings.RecoveryPointThresholdInMinutes;
-            
+
             var a2aPolicyCreationInput = new A2APolicyCreationInput()
             {
                 AppConsistentFrequencyInMinutes = this.appConsistentFrequencyInMinutes,
                 CrashConsistentFrequencyInMinutes = this.crashConsistentFrequencyInMinutes,
                 MultiVmSyncStatus = this.multiVmSyncStatus,
-                RecoveryPointHistory = this.recoveryPointHistory,
-                RecoveryPointThresholdInMinutes = this.recoveryPointThresholdInMinutes
+                RecoveryPointHistory = this.recoveryPointHistory
             };
 
             var updatePolicyProperties = new UpdatePolicyProperties()

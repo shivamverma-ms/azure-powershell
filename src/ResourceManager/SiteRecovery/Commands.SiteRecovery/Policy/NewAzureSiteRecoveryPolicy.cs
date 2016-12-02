@@ -166,12 +166,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery
          */
 
         /// <summary>
-        /// Gets or sets Recovery point threshold in minutes.
-        /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
-        public int RecoveryPointThresholdInMinutes { get; set; }
-
-        /// <summary>
         /// Gets or sets Recovery point history.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
@@ -382,8 +376,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 MultiVmSyncStatus = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.MultiVmSyncStatus)) ?
                         this.MultiVmSyncStatus :
                         Constants.Disable,
-                RecoveryPointHistory = this.RecoveryPointHistory,
-                RecoveryPointThresholdInMinutes = this.RecoveryPointThresholdInMinutes
+                RecoveryPointHistory = this.RecoveryPointHistory
             };
 
             var createPolicyInputProperties = new CreatePolicyInputProperties()
