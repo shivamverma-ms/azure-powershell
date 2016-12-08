@@ -111,6 +111,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\PSSiteRecoveryEventClient.cs" />
     <Compile Include="Common\PSSiteRecoveryNetworkClient.cs" />
     <Compile Include="Common\PSSiteRecoveryNetworkMappingClient.cs" />
     <Compile Include="Common\PSSiteRecoveryClient.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="Fabrics\NewAzureRmSiteRecoveryFabric.cs" />
     <Compile Include="Fabrics\RemoveAzureRmSiteRecoveryFabric.cs" />
     <Compile Include="Job\StopAzureSiteRecoveryJob.cs" />
+    <Compile Include="Models\PsEvent.cs" />
     <Compile Include="Models\ReplicationProtectedItem\ASRInputEndpoint.cs" />
     <Compile Include="Models\ReplicationProtectedItem\ASRRoleAssignment.cs" />
     <Compile Include="Models\PSConstants.cs" />
@@ -158,6 +160,7 @@
     <Compile Include="RecoveryPlan\EditAzureRmSiteRecoveryRecoveryPlan.cs" />
     <Compile Include="RecoveryPlan\NewAzureRmSiteRecoveryRecoveryPlan.cs" />
     <Compile Include="RecoveryPoint\GetAzureRmSiteRecoveryRecoveryPoint.cs" />
+    <Compile Include="ReplicationProtectedItem\GetAzureRmSiteRecoveryEvent.cs" />
     <Compile Include="ReplicationProtectedItem\GetAzureRmSiteRecoveryReplicationProtectedItem.cs" />
     <Compile Include="ReplicationProtectedItem\NewAzureRmSiteRecoveryReplicationProtectedItem.cs" />
     <Compile Include="ReplicationProtectedItem\StartAzureRmSiteRecoveryResyncReplication.cs" />
