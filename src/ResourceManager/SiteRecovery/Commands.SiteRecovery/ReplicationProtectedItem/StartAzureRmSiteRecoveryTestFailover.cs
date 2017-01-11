@@ -149,6 +149,12 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [ValidateSet(Constants.UseRecoveryCloudService, Constants.AutoCreateCloudService)]
         public string CloudServiceCreationOption { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the test failover cleanup is to be skipped.
+        /// </summary>
+        [Parameter]
+        public SwitchParameter SkipTestFailoverCleanup { get; set; }
+
         #endregion Parameters
 
         /// <summary>
@@ -219,7 +225,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 FailoverDirection = this.Direction,
                 NetworkId = this.networkId,
                 NetworkType = this.networkType,
-                ProviderSpecificDetails = new ProviderSpecificFailoverInput()
+                ProviderSpecificDetails = new ProviderSpecificFailoverInput(),
+                SkipTestFailoverCleanup = this.SkipTestFailoverCleanup.IsPresent.ToString()
             };
 
             var input = new TestFailoverInput()
@@ -289,7 +296,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 FailoverDirection = this.Direction,
                 NetworkId = this.networkId,
                 NetworkType = this.networkType,
-                ProviderSpecificDetails = new List<RecoveryPlanProviderSpecificFailoverInput>()
+                ProviderSpecificDetails = new List<RecoveryPlanProviderSpecificFailoverInput>(),
+                SkipTestFailoverCleanup = this.SkipTestFailoverCleanup.IsPresent.ToString()
             };
 
             foreach (string replicationProvider in rp.RecoveryPlan.Properties.ReplicationProviders)

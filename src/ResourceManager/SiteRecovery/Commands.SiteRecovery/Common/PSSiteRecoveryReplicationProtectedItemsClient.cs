@@ -209,6 +209,28 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         }
 
         /// <summary>
+        /// Starts Test Failover Cleanup.
+        /// </summary>
+        /// <param name="fabricName">Fabric Name.</param>
+        /// <param name="protectionContainerName">Protection Conatiner Name.</param>
+        /// <param name="replicationProtectedItemName">Replication Protected Item.</param>
+        /// <param name="input">Input for Test failover cleanup.</param>
+        /// <returns>Job Response.</returns>
+        public LongRunningOperationResponse StartAzureSiteRecoveryTestFailoverCleanup(
+            string fabricName,
+            string protectionContainerName,
+            string replicationProtectedItemName,
+            TestFailoverCleanupInput input)
+        {
+            return this.GetSiteRecoveryClient().ReplicationProtectedItem.BeginTestFailoverCleanup(
+                fabricName,
+                protectionContainerName,
+                replicationProtectedItemName,
+                input,
+                this.GetRequestHeaders());
+        }
+
+        /// <summary>
         /// Start applying Recovery Point.
         /// </summary>
         /// <param name="fabricName">Fabric Name.</param>

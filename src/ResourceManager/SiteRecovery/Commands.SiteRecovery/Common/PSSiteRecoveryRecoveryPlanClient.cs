@@ -105,6 +105,20 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         }
 
         /// <summary>
+        /// Starts Azure Site Recovery test failover cleanup.
+        /// </summary>
+        /// <param name="recoveryPlanName">Recovery Plan Name.</param>
+        /// <param name="input">Recovery Plan Test Failover cleanup input.</param>
+        /// <returns>Job response</returns>
+        public LongRunningOperationResponse StartAzureSiteRecoveryTestFailoverCleanup(string recoveryPlanName, RecoveryPlanTestFailoverCleanupInput input)
+        {
+            return this.GetSiteRecoveryClient().RecoveryPlan.BeginTestFailoverCleanup(
+                recoveryPlanName,
+                input,
+                this.GetRequestHeaders());
+        }
+
+        /// <summary>
         /// Remove Azure Site Recovery recovery plan.
         /// </summary>
         /// <param name="recoveryPlanName">Recovery Plan Name</param>
