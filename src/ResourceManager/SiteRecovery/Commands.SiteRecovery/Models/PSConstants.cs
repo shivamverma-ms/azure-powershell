@@ -422,9 +422,29 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Represents autocreation of cloud service for test failover.
         /// </summary>
         public const string AutoCreateCloudService = "AutoCreateCloudService";
+
+        /// <summary>
+        /// Latest recovery point type.
+        /// </summary>
+        public const string Latest = "Latest";
+
+        /// <summary>
+        /// Latest processed recovery point type.
+        /// </summary>
+        public const string LatestProcessed = "LatestProcessed";
+
+        /// <summary>
+        /// Latest application consistent recovery point type.
+        /// </summary>
+        public const string LatestApplicationConsistent = "LatestApplicationConsistent";
+
+        /// <summary>
+        /// Latest crash consistent recovery point type.
+        /// </summary>
+        public const string LatestCrashConsistent = "LatestCrashConsistent";
     }
 
-     /// <summary>
+    /// <summary>
     /// ARM Resource Type Constants
     /// </summary>
     public static class ARMResourceTypeConstants

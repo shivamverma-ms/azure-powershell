@@ -138,6 +138,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public ASRRecoveryPoint RecoveryPoint { get; set; }
 
         /// <summary>
+        /// Gets or Sets recovery point type.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        [ValidateSet(
+            Constants.Latest,
+            Constants.LatestProcessed)]
+        public string RecoveryPointType { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether to use recovery cloud service or 
         /// create new cloud service for test failover.
         /// </summary>
@@ -300,6 +310,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 SkipTestFailoverCleanup = this.SkipTestFailoverCleanup.IsPresent.ToString()
             };
 
+            if (this.Direction != Constants.PrimaryToRecovery)
+            {
+                new ArgumentException(Properties.Resources.UnsupportedDirectionForTFO);// Throw Unsupported Direction Exception
+            }
+
             foreach (string replicationProvider in rp.RecoveryPlan.Properties.ReplicationProviders)
             {
                 if (0 == string.Compare(
@@ -307,21 +322,30 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     Constants.HyperVReplicaAzure,
                     StringComparison.OrdinalIgnoreCase))
                 {
-                    if (this.Direction == Constants.PrimaryToRecovery)
+                    var recoveryPlanHyperVReplicaAzureFailoverInput = new RecoveryPlanHyperVReplicaAzureFailoverInput()
                     {
-                        var recoveryPlanHyperVReplicaAzureFailoverInput = new RecoveryPlanHyperVReplicaAzureFailoverInput()
-                        {
-                            InstanceType = replicationProvider,
-                            PrimaryKekCertificatePfx = primaryKekCertpfx,
-                            SecondaryKekCertificatePfx = secondaryKekCertpfx,
-                            VaultLocation = this.GetCurrentVaultLocation()
-                        };
-                        recoveryPlanTestFailoverInputProperties.ProviderSpecificDetails.Add(recoveryPlanHyperVReplicaAzureFailoverInput);
-                    }
-                    else
+                        InstanceType = replicationProvider,
+                        PrimaryKekCertificatePfx = primaryKekCertpfx,
+                        SecondaryKekCertificatePfx = secondaryKekCertpfx,
+                        VaultLocation = this.GetCurrentVaultLocation()
+                    };
+                    recoveryPlanTestFailoverInputProperties.ProviderSpecificDetails.Add(recoveryPlanHyperVReplicaAzureFailoverInput);
+                }
+
+                else if (0 == string.Compare(
+                    replicationProvider,
+                    Constants.AzureToAzure,
+                    StringComparison.OrdinalIgnoreCase))
+                {
+                    var recoveryPlanA2AFailoverInput = new RecoveryPlanA2AFailoverInput()
                     {
-                        new ArgumentException(Properties.Resources.UnsupportedDirectionForTFO);// Throw Unsupported Direction Exception
-                    }
+                        InstanceType = replicationProvider,
+                        RecoveryPointType =
+                            string.IsNullOrEmpty(this.RecoveryPointType) ?
+                            Constants.Latest :
+                            this.RecoveryPointType
+                    };
+                    recoveryPlanTestFailoverInputProperties.ProviderSpecificDetails.Add(recoveryPlanA2AFailoverInput);
                 }
             }
 
