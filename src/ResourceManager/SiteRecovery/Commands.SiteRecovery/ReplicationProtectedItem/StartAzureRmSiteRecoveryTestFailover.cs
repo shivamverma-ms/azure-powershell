@@ -13,13 +13,10 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using System.Linq;
-using System.Management.Automation;
-using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
-using Microsoft.Azure.Management.SiteRecovery.Models;
-using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 using System.Collections.Generic;
 using System.IO;
+using System.Management.Automation;
+using Microsoft.Azure.Management.SiteRecovery.Models;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
@@ -144,7 +141,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [ValidateNotNullOrEmpty]
         [ValidateSet(
             Constants.Latest,
-            Constants.LatestProcessed)]
+            Constants.LatestProcessed,
+            Constants.LatestApplicationConsistent,
+            Constants.LatestCrashConsistent)]
         public string RecoveryPointType { get; set; }
 
         /// <summary>
@@ -343,7 +342,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         RecoveryPointType =
                             string.IsNullOrEmpty(this.RecoveryPointType) ?
                             Constants.Latest :
-                            this.RecoveryPointType
+                            this.RecoveryPointType,
+                        CloudServiceCreationOption =
+                        string.IsNullOrEmpty(this.CloudServiceCreationOption) ?
+                            Constants.UseRecoveryCloudService :
+                            this.CloudServiceCreationOption
                     };
                     recoveryPlanTestFailoverInputProperties.ProviderSpecificDetails.Add(recoveryPlanA2AFailoverInput);
                 }

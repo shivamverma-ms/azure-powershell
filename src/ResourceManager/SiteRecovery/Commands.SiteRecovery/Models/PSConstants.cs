@@ -374,6 +374,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public const string ResourceManager = "ResourceManager";
 
         /// <summary>
+        /// Classic compute namespace.
+        /// </summary>
+        public const string ClassicCompute = "Microsoft.ClassicCompute";
+
+        /// <summary>
+        /// Compute namespace.
+        /// </summary>
+        public const string Compute = "Microsoft.Compute";
+
+        /// <summary>
         /// Group Type: Shutdown
         /// </summary>
         public const string Shutdown = "Shutdown";

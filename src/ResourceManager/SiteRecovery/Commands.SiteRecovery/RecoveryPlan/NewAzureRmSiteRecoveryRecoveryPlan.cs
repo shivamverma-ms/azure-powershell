@@ -13,11 +13,8 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using System.ComponentModel;
 using System.Management.Automation;
 using Microsoft.Azure.Management.SiteRecovery.Models;
-using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
-using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
@@ -189,6 +186,24 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 else if (replicationProtectedItemResponse.ReplicationProtectedItem.Properties.ProviderSpecificDetails.GetType() == typeof(HyperVReplica2012ReplicationDetails))
                 {
                     VmId = ((HyperVReplica2012ReplicationDetails)replicationProtectedItemResponse.ReplicationProtectedItem.Properties.ProviderSpecificDetails).VmId;
+                }
+                else if (replicationProtectedItemResponse.ReplicationProtectedItem.Properties.ProviderSpecificDetails.GetType() == typeof(A2AReplicationDetails))
+                {
+                    A2AReplicationDetails a2aReplicationDetails =
+                        ((A2AReplicationDetails)replicationProtectedItemResponse
+                        .ReplicationProtectedItem
+                        .Properties
+                        .ProviderSpecificDetails);
+                    if(a2aReplicationDetails.FabricObjectId.Contains(Constants.ClassicCompute))
+                    {
+                        createRecoveryPlanInputProperties.FailoverDeploymentModel =
+                            Constants.Classic;
+                    }
+                    else if (a2aReplicationDetails.FabricObjectId.Contains(Constants.Compute))
+                    {
+                        createRecoveryPlanInputProperties.FailoverDeploymentModel =
+                            Constants.Compute;
+                    }
                 }
 
                 RecoveryPlanProtectedItem recoveryPlanProtectedItem = new RecoveryPlanProtectedItem();

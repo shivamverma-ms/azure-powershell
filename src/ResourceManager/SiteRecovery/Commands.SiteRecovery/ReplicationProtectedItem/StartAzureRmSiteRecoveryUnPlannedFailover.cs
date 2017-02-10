@@ -13,14 +13,10 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using System.Linq;
-using System.Diagnostics;
-using System.Management.Automation;
-using System.Threading;
-using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
-using Microsoft.Azure.Management.SiteRecovery.Models;
 using System.Collections.Generic;
 using System.IO;
+using System.Management.Automation;
+using Microsoft.Azure.Management.SiteRecovery.Models;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
@@ -109,6 +105,27 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [Parameter]
         [ValidateNotNullOrEmpty]
         public ASRRecoveryPoint RecoveryPoint { get; set; }
+
+        /// <summary>
+        /// Gets or Sets recovery point type.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        [ValidateSet(
+            Constants.Latest,
+            Constants.LatestProcessed,
+            Constants.LatestApplicationConsistent,
+            Constants.LatestCrashConsistent)]
+        public string RecoveryPointType { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use recovery cloud service or 
+        /// create new cloud service for test failover.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        [ValidateSet(Constants.UseRecoveryCloudService, Constants.AutoCreateCloudService)]
+        public string CloudServiceCreationOption { get; set; }
 
         #endregion Parameters
 
@@ -239,6 +256,26 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         };
                         recoveryPlanUnplannedFailoverInputProperties.ProviderSpecificDetails.Add(recoveryPlanHyperVReplicaAzureFailoverInput);
                     }
+                }
+
+                else if (0 == string.Compare(
+                    replicationProvider,
+                    Constants.AzureToAzure,
+                    StringComparison.OrdinalIgnoreCase))
+                {
+                    var recoveryPlanA2AFailoverInput = new RecoveryPlanA2AFailoverInput()
+                    {
+                        InstanceType = replicationProvider,
+                        RecoveryPointType =
+                            string.IsNullOrEmpty(this.RecoveryPointType) ?
+                            Constants.Latest :
+                            this.RecoveryPointType,
+                        CloudServiceCreationOption =
+                        string.IsNullOrEmpty(this.CloudServiceCreationOption) ?
+                            Constants.UseRecoveryCloudService :
+                            this.CloudServiceCreationOption
+                    };
+                    recoveryPlanUnplannedFailoverInputProperties.ProviderSpecificDetails.Add(recoveryPlanA2AFailoverInput);
                 }
             }
 

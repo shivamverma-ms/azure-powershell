@@ -1209,6 +1209,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         .ConvertAll(nic => new ASRVMNicDetails(nic));
                     this.ProviderSpecificDetails =
                         new ASRAzureToAzureReplicationDetails(a2aProviderSpecificDetails);
+                this.ProtectionState = a2aProviderSpecificDetails.VmProtectionState;
+                this.ProtectionStateDescription =
+                    a2aProviderSpecificDetails.VmProtectionStateDescription;
             }
         }
 
