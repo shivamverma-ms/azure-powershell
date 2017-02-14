@@ -157,6 +157,7 @@
     <None Include="SessionRecords\Microsoft.Azure.Commands.SiteRecovery.Test.ScenarioTests.SiteRecoveryTests\NewModelE2ETest.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="SessionRecords\Microsoft.Azure.Commands.SiteRecovery.Test.ScenarioTests.SiteRecoveryTests\NewModelV2ATestSingleVM.json" />
     <None Include="SessionRecords\Microsoft.Azure.Commands.SiteRecovery.Test.ScenarioTests.SiteRecoveryTests\TestAssociateProfile.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -345,14 +345,21 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         ProfileId = this.ProtectionContainerMapping.PolicyId,
                         DiskExclusionInput = new InMageDiskExclusionInput()
                         {
-                            VolumeOptions = (this.ExcludeVolumeLabels != null) ?
-                                new List<InMageVolumeExclusionOptions>() : null,
+                            VolumeOptions = new List<InMageVolumeExclusionOptions>(),
                             DiskSignatureOptions = (this.ExcludeDiskSignatures != null) ?
-                                new List<InMageDiskSignatureExclusionOptions>() : null
+                                new List<InMageDiskSignatureExclusionOptions>() : null,
                         },
                         DisksToInclude = (this.IncludeDiskIds != null) ?
                             new List<string>(this.IncludeDiskIds) : null
                     };
+
+                    // excluding the azure temporary storage.
+                    reprotectInput.DiskExclusionInput.VolumeOptions.Add(new InMageVolumeExclusionOptions
+                    {
+                        VolumeLabel = Constants.TemporaryStorage,
+                        OnlyExcludeIfSingleVolume = Constants.Yes
+                    });
+
                     input.Properties.ProviderSpecificDetails = reprotectInput;
 
                     // Update the Disk Exclusion Input.

@@ -480,6 +480,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Recovery Tag for Latest Available Application Consistent Recovery Point.
         /// </summary>
         public const string RecoveryTagLatestAvailableApplicationConsistent = "LatestAvailableApplicationConsistent";
+
+        /// <summary>
+        /// Azure VM temporary disk name, to be excluded as part of switch protection.
+        /// </summary>
+        public const string TemporaryStorage = "Temporary Storage";
     }
 
     /// <summary>

@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
 using Microsoft.Azure.Management.SiteRecovery.Models;
 using System.Diagnostics.CodeAnalysis;
 
@@ -48,6 +49,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             this.FabricArmResourceName = server.Properties.FabricArmResourceName;
             this.ProcessServerId = server.Properties.ProcessServerId;
             this.AccountId = server.Properties.RunAsAccountId;
+            this.DiscoveryStatus = server.Properties.DiscoveryStatus;
+            this.LastHeartbeat = server.Properties.LastHeartbeat;
         }
 
         #region Properties
@@ -90,6 +93,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets run as account id.
         /// </summary>
         public string AccountId { get; set; }
+
+        /// <summary>
+        /// vCenter discovery status.
+        /// </summary>
+        public string DiscoveryStatus { get; set; }
+
+        /// <summary>
+        /// Last time vCenter synced with the service.
+        /// </summary>
+        public DateTime? LastHeartbeat { get; set; }
         #endregion
     }
 }

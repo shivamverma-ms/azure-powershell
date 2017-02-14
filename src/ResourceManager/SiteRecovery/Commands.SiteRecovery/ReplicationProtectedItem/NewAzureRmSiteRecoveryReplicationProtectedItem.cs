@@ -124,7 +124,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzure)]
         [ValidateNotNullOrEmpty]
-        public string RecoveryAzureLogStorageAccountId { get; set; }
+        public string CacheStorageAccount { get; set; }
 
         /// <summary>
         /// Gets or sets Replication Group Name.
@@ -275,6 +275,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         StringComparison.OrdinalIgnoreCase) == 0)
             {
                 // Create the InMageAzureV2 Provider specific input.
+                // (todo: prmyaka) Add Resource group.
                 InMageAzureV2EnableProtectionInput providerSettings =
                     new InMageAzureV2EnableProtectionInput()
                     {
@@ -286,7 +287,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                             this.RecoveryAzureStorageAccountId, ARMResourceTypeConstants.Subscriptions) : null,
                         TargetAzureNetworkId = this.RecoveryAzureNetworkId,
                         TargetAzureSubnetId = this.RecoveryAzureSubnetId,
-                        LogStorageAccountId = this.RecoveryAzureLogStorageAccountId,
+                        LogStorageAccountId = this.CacheStorageAccount,
                         MultiVmGroupName = this.ReplicationGroupName,
                         MultiVmGroupId = this.ReplicationGroupName,
                         TargetAzureVmName = this.ProtectableItem.FriendlyName,

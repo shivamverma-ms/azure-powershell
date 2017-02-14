@@ -76,7 +76,26 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             }
             catch (Exception ex)
             {
-                this.HandleException(ex);
+                if (ex.Message.Contains("An item with the same key has already been added"))
+                {
+                    while (true)
+                    {
+                        try
+                        {
+                            base.ExecuteCmdlet();
+                            ExecuteSiteRecoveryCmdlet();
+                            break;
+                        }
+                        catch (Exception exe)
+                        {
+                            // todo
+                        }
+                    }
+                }
+                else
+                {
+                    this.HandleException(ex);
+                }
             }
         }
 

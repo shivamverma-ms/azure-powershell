@@ -178,8 +178,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Test.ScenarioTests
                 case Constants.NewModelV2A:
                     resourceNamespace = "Microsoft.RecoveryServices";
                     resourceType = "Vaults";
-                    resourceName = "IbizaV2ADemo";
-                    resourceGroupName = "IbizaV2ARG";
+                    resourceName = "V2A-GQL-Vault";
+                    resourceGroupName = "V2A-Resource";
                     break;
 
                 default:
