@@ -123,6 +123,22 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public string RecoveryCloudServiceId { get; set; }
 
         /// <summary>
+        /// Gets or sets Recovery Resource Group Id V1.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure)]
+        [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure)]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryV1ResourceGroupId { get; set; }
+
+        /// <summary>
+        /// Gets or sets Recovery Resource Group Id V2.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure)]
+        [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure)]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryV2ResourceGroupId { get; set; }
+
+        /// <summary>
         /// Gets or sets Recovery Availability Set Id.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
@@ -255,6 +271,18 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 if (RecoveryAzureStorageAccountId != null)
                 {
                     providerSettings.TargetStorageAccountId = RecoveryAzureStorageAccountId;
+                }
+
+                // TODO: need to be refactored before release
+                if (RecoveryV1ResourceGroupId != null)
+                {
+                    providerSettings.TargetAzureV1ResourceGroupId = RecoveryV1ResourceGroupId;
+                }
+
+                // TODO: need to be refactored before release
+                if (RecoveryV2ResourceGroupId != null)
+                {
+                    providerSettings.TargetAzureV2ResourceGroupId = RecoveryV2ResourceGroupId;
                 }
 
                 input.Properties.ProviderSpecificDetails = providerSettings;

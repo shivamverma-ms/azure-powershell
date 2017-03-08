@@ -104,6 +104,20 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public string RecoveryResourceGroupId { get; set; }
 
         /// <summary>
+        /// Gets or sets Recovery Resource Group Id V1.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryV1ResourceGroupId { get; set; }
+
+        /// <summary>
+        /// Gets or sets Recovery Resource Group Id V2.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryV2ResourceGroupId { get; set; }
+
+        /// <summary>
         /// Gets or sets the target availability set ARM Id (for V2).
         /// </summary>
         [Parameter]
@@ -155,6 +169,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 string.IsNullOrEmpty(this.RecoveryAvailabilitySetId) &&
                 string.IsNullOrEmpty(this.RecoveryResourceGroupId) &&
                 string.IsNullOrEmpty(this.RecoveryCloudServiceId) &&
+                string.IsNullOrEmpty(this.RecoveryV1ResourceGroupId) &&
+                string.IsNullOrEmpty(this.RecoveryV2ResourceGroupId) &&
                 string.IsNullOrEmpty(this.LicenseType))
             {
                 this.WriteWarning(Properties.Resources.ArgumentsMissingForUpdateVmProperties.ToString());
@@ -181,7 +197,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             {
                 providerSpecificInput = new HyperVReplicaAzureUpdateReplicationProtectedItemInput()
                 {
-                    RecoveryAzureV2ResourceGroupId = this.RecoveryResourceGroupId
+                    RecoveryAzureV1ResourceGroupId = this.RecoveryV1ResourceGroupId,
+                    RecoveryAzureV2ResourceGroupId = this.RecoveryV2ResourceGroupId
                 };
 
                 HyperVReplicaAzureReplicationDetails providerSpecificDetails =
@@ -260,9 +277,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             }
             else if (0 == string.Compare(provider, Constants.InMageAzureV2, StringComparison.OrdinalIgnoreCase))
             {
+                // TODO: need to be refactored before release
                 providerSpecificInput = new InMageAzureV2UpdateReplicationProtectedItemInput()
                 {
-                    RecoveryAzureV2ResourceGroupId = this.RecoveryResourceGroupId
+                    RecoveryAzureV1ResourceGroupId = this.RecoveryV1ResourceGroupId,
+                    RecoveryAzureV2ResourceGroupId = this.RecoveryV2ResourceGroupId
                 };
 
                 InMageAzureV2ProviderSpecificSettings providerSpecificDetails =
