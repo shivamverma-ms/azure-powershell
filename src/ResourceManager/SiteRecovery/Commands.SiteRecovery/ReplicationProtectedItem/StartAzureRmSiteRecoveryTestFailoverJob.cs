@@ -262,7 +262,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 FailoverDirection = this.Direction,
                 NetworkId = this.networkId,
                 NetworkType = this.networkType,
-                ProviderSpecificDetails = new ProviderSpecificFailoverInput()
+                ProviderSpecificDetails = new ProviderSpecificFailoverInput(),
+                SkipTestFailoverCleanup = bool.TrueString.ToString()
             };
 
             var input = new TestFailoverInput()
@@ -329,7 +330,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 FailoverDirection = this.Direction,
                 NetworkId = this.networkId,
                 NetworkType = this.networkType,
-                ProviderSpecificDetails = new ProviderSpecificFailoverInput()
+                ProviderSpecificDetails = new ProviderSpecificFailoverInput(),
+                SkipTestFailoverCleanup = bool.TrueString.ToString()
             };
 
             var input = new TestFailoverInput()
@@ -441,7 +443,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 FailoverDirection = this.Direction,
                 NetworkId = this.networkId,
                 NetworkType = this.networkType,
-                ProviderSpecificDetails = new List<RecoveryPlanProviderSpecificFailoverInput>()
+                ProviderSpecificDetails = new List<RecoveryPlanProviderSpecificFailoverInput>(),
+                SkipTestFailoverCleanup = bool.TrueString.ToString()
             };
 
             foreach (string replicationProvider in rp.RecoveryPlan.Properties.ReplicationProviders)

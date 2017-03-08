@@ -586,12 +586,13 @@ function Test-SiteRecoveryNewModelV2ATestSingleVM
 	Assert-NotNull($pi.Name)
 
 	# Create and Get Replication Protected Item
+	$resourcegroupid = "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/V2A-Resource"
 	$storage = "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/Default-Storage-WestUS/providers/Microsoft.ClassicStorage/storageAccounts/hikewalrstoragewestus"
 	$network = "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/Default-Networking/providers/Microsoft.ClassicNetwork/virtualNetworks/ExpressRouteVNet-WUS-1"
 	$subnet = "TenantSubnet"
 	$rpiName = "V2A-w2K12-653"
 	
-	$currentJob = New-AzureRmSiteRecoveryReplicationProtectedItem -ProtectableItem $pi -Name $pi.Name -ProtectionContainerMapping $pcm1 -ProcessServer $fabric.FabricSpecificDetails.ProcessServers[0] -Account $fabric.FabricSpecificDetails.RunAsAccounts[1] -RecoveryAzureStorageAccountId $storage -RecoveryAzureNetworkId $network -RecoveryAzureSubnetId $subnet
+	$currentJob = New-AzureRmSiteRecoveryReplicationProtectedItem -ProtectableItem $pi -Name $pi.Name -ProtectionContainerMapping $pcm1 -ProcessServer $fabric.FabricSpecificDetails.ProcessServers[0] -Account $fabric.FabricSpecificDetails.RunAsAccounts[1] -RecoveryResourceGroupId $resourcegroupid -RecoveryAzureStorageAccountId $storage -RecoveryAzureNetworkId $network -RecoveryAzureSubnetId $subnet
 	WaitForJobCompletion -JobId $currentJob.Name
 	$rpi = Get-AzureRmSiteRecoveryReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $rpiName
 	Assert-NotNull($rpi)

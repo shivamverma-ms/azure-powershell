@@ -55,8 +55,10 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             string recoveryNetworkId)
         {
             CreateNetworkMappingInput input = new CreateNetworkMappingInput();
-            input.RecoveryFabricName = recoveryFabricName;
-            input.RecoveryNetworkId = recoveryNetworkId;
+            input.Properties = new CreateNetworkMappingInputProperties();
+            /// todo : While merging this input needs to be properly created for other providers
+            input.Properties.RecoveryFabricName = recoveryFabricName;
+            input.Properties.RecoveryNetworkId = recoveryNetworkId;
 
             return this.GetSiteRecoveryClient()
                 .NetworkMapping

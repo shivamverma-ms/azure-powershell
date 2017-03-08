@@ -72,6 +72,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzure, Mandatory = true)]
         [ValidateNotNullOrEmpty]
+        public string RecoveryResourceGroupId { get; set; }
+
+        /// <summary>
+        /// Gets or sets Recovery Azure Storage Account Name of the Policy for E2A, B2A and V2A scenarios.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzure, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
         public string RecoveryAzureStorageAccountId { get; set; }
 
         /// <summary>
@@ -281,7 +290,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     {
                         ProcessServerId = this.ProcessServer.Id,
                         MasterTargetId = this.ProcessServer.Id, // Assumption: PS and MT are same.
-                        RunAsAccountId = this.Account.AccountId,
+                        RunAsAccountId = this.Account.AccountId,                        
                         StorageAccountId = this.RecoveryAzureStorageAccountId,
                         StorageSubscriptionId = (this.RecoveryAzureStorageAccountId != null) ? Utilities.GetValueFromArmId(
                             this.RecoveryAzureStorageAccountId, ARMResourceTypeConstants.Subscriptions) : null,
@@ -295,6 +304,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         DisksToInclude = (this.IncludeDiskIds != null) ?
                             new List<string>(this.IncludeDiskIds) : null
                     };
+
+                string deploymentType = Utilities.GetValueFromArmId(RecoveryAzureStorageAccountId, ARMResourceTypeConstants.Providers);
+                if (deploymentType.ToLower().Contains(Constants.Classic.ToLower()))
+                {
+                    providerSettings.TargetAzureV1ResourceGroupId = this.RecoveryResourceGroupId;
+                }
+                else
+                {
+                    providerSettings.TargetAzureV2ResourceGroupId = this.RecoveryResourceGroupId;
+                }
 
                 // Check if the Replication Group Name is valid.
                 if (this.ReplicationGroupName != null)

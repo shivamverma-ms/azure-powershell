@@ -70,17 +70,17 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public string Port { get; set; }
 
         /// <summary>
-        /// Gets or sets Name of the Server.
+        /// Gets name of the Server.
         /// </summary>
         public string Name { get;}
 
         /// <summary>
-        /// Gets or sets Server ID.
+        /// Gets Server ID.
         /// </summary>
         public string ID { get;}
 
         /// <summary>
-        /// Gets or sets the Fabric arm resoure name.
+        /// Gets the Fabric arm resoure name.
         /// </summary>
         public string FabricArmResourceName { get;}
 

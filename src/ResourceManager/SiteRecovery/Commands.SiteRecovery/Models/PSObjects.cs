@@ -1391,6 +1391,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 // Set the common properties specific to InMageAzureV2.
                 this.RecoveryAzureVMName = providerSpecificDetails.RecoveryAzureVMName;
                 this.RecoveryAzureVMSize = providerSpecificDetails.RecoveryAzureVMSize;
+                this.RecoveryResourceGroupId =
+                    providerSpecificDetails.RecoveryAzureResourceGroupId;
                 this.RecoveryAzureStorageAccount =
                     providerSpecificDetails.RecoveryAzureStorageAccount;
                 this.SelectedRecoveryAzureNetworkId =
@@ -1644,6 +1646,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets Recovery Azure Storage Account of the Virtual machine.
         /// </summary>
         public string RecoveryAzureStorageAccount { get; set; }
+
+        /// <summary>
+        /// Gets or sets Recovery Azure Storage Account of the Virtual machine.
+        /// </summary>
+        public string RecoveryResourceGroupId { get; set; }
 
         /// <summary>
         /// Gets or sets Selected Recovery Azure Network Id of the Virtual machine.

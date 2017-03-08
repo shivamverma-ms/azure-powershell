@@ -69,6 +69,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         [Parameter]
         [ValidateNotNullOrEmpty]
+        public string RecoveryResourceGroupId { get; set; }
+
+        /// <summary>
+        /// Gets or sets Recovery Azure Network Id
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
         public string RecoveryNicSubnetName { get; set; }
 
         /// <summary>
@@ -131,6 +138,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 string.IsNullOrEmpty(this.Size) &&
                 string.IsNullOrEmpty(this.PrimaryNic) &&
                 string.IsNullOrEmpty(this.RecoveryNetworkId) &&
+                string.IsNullOrEmpty(this.RecoveryResourceGroupId) &&
                 string.IsNullOrEmpty(this.LicenseType))
             {
                 this.WriteWarning(Properties.Resources.ArgumentsMissingForUpdateVmProperties.ToString());
@@ -148,10 +156,12 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             string vmName = this.Name;
             string vmSize = this.Size;
             string vmRecoveryNetworkId = this.RecoveryNetworkId;
+            string vmRecoveryResourceGroupId = this.RecoveryResourceGroupId;
             string licenseType = this.LicenseType;
             List<VMNicInputDetails> vMNicInputDetailsList = new List<VMNicInputDetails>();
             VMNicDetails vMNicDetailsToBeUpdated;
-
+            
+            UpdateReplicationProtectedItemProviderInput providerSpecificInput = new UpdateReplicationProtectedItemProviderInput();
             if (0 == string.Compare(provider, Constants.HyperVReplicaAzure, StringComparison.OrdinalIgnoreCase))
             {
                 HyperVReplicaAzureReplicationDetails providerSpecificDetails =
@@ -175,6 +185,27 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 if (string.IsNullOrEmpty(this.LicenseType))
                 {
                     licenseType = providerSpecificDetails.LicenseType;
+                }
+
+                if (string.IsNullOrEmpty(this.RecoveryResourceGroupId))
+                {
+                    vmRecoveryResourceGroupId = providerSpecificDetails.RecoveryAzureResourceGroupId;
+                }
+
+                string deploymentType = Utilities.GetValueFromArmId(providerSpecificDetails.RecoveryAzureStorageAccount, ARMResourceTypeConstants.Providers);
+                if (deploymentType.ToLower().Contains(Constants.Classic.ToLower()))
+                {
+                    providerSpecificInput = new InMageAzureV2UpdateReplicationProtectedItemInput()
+                    {
+                        RecoveryAzureV1ResourceGroupId = vmRecoveryResourceGroupId
+                    };
+                }
+                else
+                {
+                    providerSpecificInput = new InMageAzureV2UpdateReplicationProtectedItemInput()
+                    {
+                        RecoveryAzureV2ResourceGroupId = this.RecoveryResourceGroupId
+                    };
                 }
 
                 if (!string.IsNullOrEmpty(this.PrimaryNic))
@@ -253,6 +284,27 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     licenseType = providerSpecificDetails.LicenseType;
                 }
 
+                if (string.IsNullOrEmpty(this.RecoveryResourceGroupId))
+                {
+                    vmRecoveryResourceGroupId = providerSpecificDetails.RecoveryAzureResourceGroupId;
+                }
+
+                string deploymentType = Utilities.GetValueFromArmId(providerSpecificDetails.RecoveryAzureStorageAccount, ARMResourceTypeConstants.Providers);
+                if (deploymentType.ToLower().Contains(Constants.Classic.ToLower()))
+                {
+                    providerSpecificInput = new InMageAzureV2UpdateReplicationProtectedItemInput()
+                    {
+                        RecoveryAzureV1ResourceGroupId = vmRecoveryResourceGroupId
+                    };
+                }
+                else
+                {
+                    providerSpecificInput = new InMageAzureV2UpdateReplicationProtectedItemInput()
+                    {
+                        RecoveryAzureV2ResourceGroupId = this.RecoveryResourceGroupId
+                    };
+                }                
+
                 if (!string.IsNullOrEmpty(this.PrimaryNic))
                 {
                     if (providerSpecificDetails.VMNics != null)
@@ -311,7 +363,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     RecoveryAzureVMSize = vmSize,
                     SelectedRecoveryAzureNetworkId = vmRecoveryNetworkId,
                     VmNics = vMNicInputDetailsList,
-                    LicenseType = licenseType
+                    LicenseType = licenseType,
+                    ProviderSpecificDetails = providerSpecificInput
                 };
 
             UpdateReplicationProtectedItemInput input = new UpdateReplicationProtectedItemInput()
