@@ -276,6 +276,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 };
 
                 input.Properties.ProviderSpecificDetails = failoverInput;
+                input.Properties.SkipTestFailoverCleanup = true.ToString();
             }
 
             LongRunningOperationResponse response =
