@@ -194,15 +194,19 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         .ReplicationProtectedItem
                         .Properties
                         .ProviderSpecificDetails);
-                    if(a2aReplicationDetails.FabricObjectId.Contains(Constants.ClassicCompute))
+                    if(a2aReplicationDetails.FabricObjectId.IndexOf(
+                        Constants.ClassicCompute,
+                        StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         createRecoveryPlanInputProperties.FailoverDeploymentModel =
                             Constants.Classic;
                     }
-                    else if (a2aReplicationDetails.FabricObjectId.Contains(Constants.Compute))
+                    else if (a2aReplicationDetails.FabricObjectId.IndexOf(
+                        Constants.Compute,
+                        StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         createRecoveryPlanInputProperties.FailoverDeploymentModel =
-                            Constants.Compute;
+                            Constants.ResourceManager;
                     }
                 }
 
