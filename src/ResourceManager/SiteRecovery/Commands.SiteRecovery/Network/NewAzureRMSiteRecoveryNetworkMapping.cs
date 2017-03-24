@@ -288,7 +288,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             {
                 Properties = new CreateNetworkMappingInputProperties
                 {
-                    RecoveryFabricName = this.RecoveryFabric.FriendlyName,
+                    RecoveryFabricName = this.RecoveryFabric.Name,
                     RecoveryNetworkId = this.RecoveryAzureNetworkId,
                     FabricSpecificDetails = new AzureToAzureCreateNetworkMappingInput()
                     {
@@ -300,7 +300,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             LongRunningOperationResponse response =
                 RecoveryServicesClient
                 .NewAzureSiteRecoveryNetworkMapping(
-                    this.PrimaryFabric.FriendlyName,
+                    this.PrimaryFabric.Name,
                     ARMResourceTypeConstants.AzureNetwork,
                     this.Name,
                     input);

@@ -231,7 +231,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
 
             this.WriteNetworkMapping(
                 GetNetworkMapping(
-                    this.PrimaryAzureFabric.FriendlyName,
+                    this.PrimaryAzureFabric.Name,
                     ARMResourceTypeConstants.AzureNetwork,
                     this.Name));
         }
