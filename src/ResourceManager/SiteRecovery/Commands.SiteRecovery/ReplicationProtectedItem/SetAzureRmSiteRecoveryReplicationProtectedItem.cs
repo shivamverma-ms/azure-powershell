@@ -106,6 +106,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             Constants.LicenseTypeWindowsServer)]
         public string LicenseType { get; set; }
 
+        // <summary>
+        /// Gets or sets the target availability set ARM Id (for V2).
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryAvailabilitySetId { get; set; }
+
         #endregion Parameters
 
         /// <summary>
@@ -138,6 +145,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 string.IsNullOrEmpty(this.Size) &&
                 string.IsNullOrEmpty(this.PrimaryNic) &&
                 string.IsNullOrEmpty(this.RecoveryNetworkId) &&
+                this.RecoveryAvailabilitySetId != null &&
                 string.IsNullOrEmpty(this.RecoveryResourceGroupId) &&
                 string.IsNullOrEmpty(this.LicenseType))
             {
@@ -158,6 +166,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             string vmRecoveryNetworkId = this.RecoveryNetworkId;
             string vmRecoveryResourceGroupId = this.RecoveryResourceGroupId;
             string licenseType = this.LicenseType;
+            string availabilitySetId = this.RecoveryAvailabilitySetId;
             List<VMNicInputDetails> vMNicInputDetailsList = new List<VMNicInputDetails>();
             VMNicDetails vMNicDetailsToBeUpdated;
             
@@ -187,6 +196,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     licenseType = providerSpecificDetails.LicenseType;
                 }
 
+                if (string.IsNullOrEmpty(this.RecoveryAvailabilitySetId))
+                {
+                    availabilitySetId = providerSpecificDetails.RecoveryAvailabilitySetId;
+                }
+
                 if (string.IsNullOrEmpty(this.RecoveryResourceGroupId))
                 {
                     vmRecoveryResourceGroupId = providerSpecificDetails.RecoveryAzureResourceGroupId;
@@ -204,7 +218,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 {
                     providerSpecificInput = new InMageAzureV2UpdateReplicationProtectedItemInput()
                     {
-                        RecoveryAzureV2ResourceGroupId = this.RecoveryResourceGroupId
+                        RecoveryAzureV2ResourceGroupId = vmRecoveryResourceGroupId
                     };
                 }
 
@@ -282,6 +296,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 if (string.IsNullOrEmpty(this.LicenseType))
                 {
                     licenseType = providerSpecificDetails.LicenseType;
+                }
+
+                if (string.IsNullOrEmpty(this.RecoveryAvailabilitySetId))
+                {
+                    availabilitySetId = providerSpecificDetails.RecoveryAvailabilitySetId;
                 }
 
                 if (string.IsNullOrEmpty(this.RecoveryResourceGroupId))
@@ -364,6 +383,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     SelectedRecoveryAzureNetworkId = vmRecoveryNetworkId,
                     VmNics = vMNicInputDetailsList,
                     LicenseType = licenseType,
+                    RecoveryAvailabilitySetId = availabilitySetId,
                     ProviderSpecificDetails = providerSpecificInput
                 };
 
