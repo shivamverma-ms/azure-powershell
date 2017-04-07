@@ -209,16 +209,20 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 string deploymentType = Utilities.GetValueFromArmId(providerSpecificDetails.RecoveryAzureStorageAccount, ARMResourceTypeConstants.Providers);
                 if (deploymentType.ToLower().Contains(Constants.Classic.ToLower()))
                 {
-                    providerSpecificInput = new InMageAzureV2UpdateReplicationProtectedItemInput()
+                    providerSpecificInput = new HyperVReplicaAzureUpdateReplicationProtectedItemInput()
                     {
-                        RecoveryAzureV1ResourceGroupId = vmRecoveryResourceGroupId
+                        RecoveryAzureV1ResourceGroupId = vmRecoveryResourceGroupId,
+                        RecoveryAzureV2ResourceGroupId = null,
+                        UseManagedDisks = null
                     };
                 }
                 else
                 {
-                    providerSpecificInput = new InMageAzureV2UpdateReplicationProtectedItemInput()
+                    providerSpecificInput = new HyperVReplicaAzureUpdateReplicationProtectedItemInput()
                     {
-                        RecoveryAzureV2ResourceGroupId = vmRecoveryResourceGroupId
+                        RecoveryAzureV2ResourceGroupId = vmRecoveryResourceGroupId,
+                        RecoveryAzureV1ResourceGroupId = null,
+                        UseManagedDisks = null
                     };
                 }
 
@@ -313,14 +317,18 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 {
                     providerSpecificInput = new InMageAzureV2UpdateReplicationProtectedItemInput()
                     {
-                        RecoveryAzureV1ResourceGroupId = vmRecoveryResourceGroupId
+                        RecoveryAzureV1ResourceGroupId = vmRecoveryResourceGroupId,
+                        RecoveryAzureV2ResourceGroupId = null,
+                        UseManagedDisks = null
                     };
                 }
                 else
                 {
                     providerSpecificInput = new InMageAzureV2UpdateReplicationProtectedItemInput()
                     {
-                        RecoveryAzureV2ResourceGroupId = this.RecoveryResourceGroupId
+                        RecoveryAzureV2ResourceGroupId = vmRecoveryResourceGroupId,
+                        RecoveryAzureV1ResourceGroupId = null,
+                        UseManagedDisks = null
                     };
                 }                
 
