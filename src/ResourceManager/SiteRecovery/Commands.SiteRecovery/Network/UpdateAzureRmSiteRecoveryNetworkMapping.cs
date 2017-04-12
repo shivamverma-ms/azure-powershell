@@ -162,11 +162,20 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             // Verify whether the subscription is associated with the account or not.
             // Check if the Azure VM Network is associated with the Subscription or not.
 
+            string primaryFabricName =
+                Utilities.GetValueFromArmId(
+                    this.Mapping.ID,
+                    ARMResourceTypeConstants.ReplicationFabrics);
+            string recoveryFabricName =
+                Utilities.GetValueFromArmId(
+                    this.Mapping.RecoveryFabricId,
+                    ARMResourceTypeConstants.ReplicationFabrics);
+
             UpdateNetworkMappingInput input = new UpdateNetworkMappingInput
             {
                 Properties = new UpdateNetworkMappingInputProperties
                 {
-                    RecoveryFabricName = this.Mapping.RecoveryFabricFriendlyName,
+                    RecoveryFabricName = recoveryFabricName,
                     RecoveryNetworkId = this.RecoveryAzureNetworkId,
                     FabricSpecificDetails = new AzureToAzureUpdateNetworkMappingInput
                     {
@@ -177,7 +186,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             LongRunningOperationResponse response =
                 RecoveryServicesClient
                 .UpdateAzureSiteRecoveryNetworkMapping(
-                    this.Mapping.PrimaryFabricFriendlyName,
+                    primaryFabricName,
                     ARMResourceTypeConstants.AzureNetwork,
                     this.Mapping.Name,
                     input);

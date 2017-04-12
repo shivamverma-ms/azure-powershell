@@ -156,6 +156,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             this.RecoveryNetworkFriendlyName =
                 networkMapping.Properties.RecoveryNetworkFriendlyName;
             this.RecoveryFabricFriendlyName = networkMapping.Properties.RecoveryFabricFriendlyName;
+            this.RecoveryFabricId = networkMapping.Properties.RecoveryFabricArmId;
             this.PairingStatus = networkMapping.Properties.State;
             this.FabricSpecificNetworkMappingDetails = 
                 FabricSpecificNetworkMappingDetails.Load(networkMapping);
@@ -177,6 +178,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             sb.AppendLine("RecoveryNetworkId: " + this.RecoveryNetworkId);
             sb.AppendLine("RecoveryNetworkFriendlyName: " + this.RecoveryNetworkFriendlyName);
             sb.AppendLine("RecoveryFabricFriendlyName: " + this.RecoveryFabricFriendlyName);
+            sb.AppendLine("RecoveryFabricId: " + this.RecoveryFabricId);
             sb.AppendLine("PairingStatus: " + this.PairingStatus);
 
             string fabricSpecificDetails = this.FabricSpecificNetworkMappingDetails.ToString();
@@ -233,6 +235,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets recovery fabric friendly name.
         /// </summary>
         public string RecoveryFabricFriendlyName { get; set; }
+
+        /// <summary>
+        /// Gets or sets recovery fabric ARM id.
+        /// </summary>
+        public string RecoveryFabricId { get; set; }
 
         /// <summary>
         /// Gets or sets pairing status.

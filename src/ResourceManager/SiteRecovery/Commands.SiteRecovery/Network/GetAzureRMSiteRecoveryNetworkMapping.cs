@@ -177,7 +177,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 GetNetworkMapping(
                     Utilities.GetValueFromArmId(
                         this.PrimaryNetwork.ID, ARMResourceTypeConstants.ReplicationFabrics),
-                    this.PrimaryNetwork.ID,
+                    this.PrimaryNetwork.Name,
                     this.Name));
         }
 
@@ -192,7 +192,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 ListNetworkMappings(
                     Utilities.GetValueFromArmId(
                         this.PrimaryNetwork.ID, ARMResourceTypeConstants.ReplicationFabrics),
-                    this.PrimaryNetwork.ID));
+                    this.PrimaryNetwork.Name));
         }
 
         /// <summary>
