@@ -1212,6 +1212,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 this.ProtectionState = a2aProviderSpecificDetails.VmProtectionState;
                 this.ProtectionStateDescription =
                     a2aProviderSpecificDetails.VmProtectionStateDescription;
+                this.RecoveryFabricObjectId = a2aProviderSpecificDetails.RecoveryFabricObjectId;
+                this.TestFailoverRecoveryFabricObjectId =
+                    a2aProviderSpecificDetails.TestFailoverRecoveryFabricObjectId;
             }
         }
 
@@ -1389,6 +1392,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets A2A specific protected disk details.
         /// </summary>
         public List<ProtectedItem.ASRAzureToAzureProtectedDiskDetails> A2ADiskDetails { get; set; }
+
+        /// <summary>
+        /// Gets or sets the recovery fabric object Id.
+        /// </summary>
+        public string RecoveryFabricObjectId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the test failover fabric object Id.
+        /// </summary>
+        public string TestFailoverRecoveryFabricObjectId { get; set; }
     }
 
     /// <summary>
@@ -1602,7 +1615,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             this.ID = recoveryPoint.Id;
             this.Name = recoveryPoint.Name;
             this.Type = recoveryPoint.Type;
-            this.RecoveryPointTime = recoveryPoint.Properties.RecoveryPointTime;
+            var recoveryPointLocalTime = recoveryPoint.Properties.RecoveryPointTime.ToLocalTime();
+            this.RecoveryPointTime = string.Format(
+                "{0} {1}",
+                recoveryPointLocalTime.ToLongDateString(),
+                recoveryPointLocalTime.ToLongTimeString());
             this.RecoveryPointType = recoveryPoint.Properties.RecoveryPointType;
         }
 
@@ -1624,7 +1641,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Recovery Point Time.
         /// </summary>
-        public DateTime RecoveryPointTime { get; set; }
+        public string RecoveryPointTime { get; set; }
 
         /// <summary>
         /// Gets or sets Recovery Point Type.
