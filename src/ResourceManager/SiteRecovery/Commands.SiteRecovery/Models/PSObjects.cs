@@ -2303,4 +2303,25 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [DataMember]
         public string RecoveryNicStaticIPAddress { get; set; }
     }
+
+    /// <summary>
+    /// Azure VM disk details required for AzureToAzure protection.
+    /// </summary>
+    public class ASRAzureToAzureDiskDetails
+    {
+        /// <summary>
+        /// Gets or sets the disk uri.
+        /// </summary>
+        public string DiskUri { get; set; }
+
+        /// <summary>
+        /// Gets or sets the primary staging storage account.
+        /// </summary>
+        public string PrimaryStagingAzureStorageAccountId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the recovery disk storage account. 
+        /// </summary>
+        public string RecoveryAzureStorageAccountId { get; set; }
+    }
 }

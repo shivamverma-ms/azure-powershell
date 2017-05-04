@@ -261,6 +261,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         internal const string AzureToAzure = "AzureToAzure";
 
         /// <summary>
+        /// To define Azure to Azure parameter set with an ability to provide disk level inputs to
+        /// support multiple storage acoount.
+        /// </summary>
+        internal const string AzureToAzureWithMultipleStorageAccount =
+            "AzureToAzureWithMultipleStorageAccount";
+
+        /// <summary>
         /// Mapping between HyperV Site to Azure.
         /// </summary>
         internal const string HyperVSiteToAzure = "HyperVSiteToAzure";

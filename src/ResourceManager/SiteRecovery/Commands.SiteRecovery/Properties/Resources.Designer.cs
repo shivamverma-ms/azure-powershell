@@ -243,11 +243,38 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please pass a valid PrimaryStagingAzureStorageAccountId as input..
+        /// </summary>
+        internal static string InvalidPrimaryStagingAzureStorageAccountId {
+            get {
+                return ResourceManager.GetString("InvalidPrimaryStagingAzureStorageAccountId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please pass a valid PrimaryStagingAzureStorageAccountId as input for disk URI &quot;{0}&quot;..
+        /// </summary>
+        internal static string InvalidPrimaryStagingAzureStorageAccountIdDiskInput {
+            get {
+                return ResourceManager.GetString("InvalidPrimaryStagingAzureStorageAccountIdDiskInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please pass a valid RecoveryAzureStorageAccountId as input..
         /// </summary>
         internal static string InvalidRecoveryAzureStorageAccountId {
             get {
                 return ResourceManager.GetString("InvalidRecoveryAzureStorageAccountId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please pass a valid RecoveryAzureStorageAccountId as input for disk URI &quot;{0}&quot;..
+        /// </summary>
+        internal static string InvalidRecoveryAzureStorageAccountIdDiskInput {
+            get {
+                return ResourceManager.GetString("InvalidRecoveryAzureStorageAccountIdDiskInput", resourceCulture);
             }
         }
         
