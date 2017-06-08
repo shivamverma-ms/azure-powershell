@@ -592,7 +592,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             this.Name = policy.Name;
             this.FriendlyName = policy.Properties.FriendlyName;
             this.Type = policy.Type;
-            this.ReplicationProvider = policy.Properties.ProviderSpecificDetails.InstanceType;
+            
+            if(policy.Properties.ProviderSpecificDetails != null)
+            {
+                this.ReplicationProvider = policy.Properties.ProviderSpecificDetails.InstanceType;
+            }
 
             if (policy.Properties.ProviderSpecificDetails.InstanceType == Constants.HyperVReplica2012)
             {
