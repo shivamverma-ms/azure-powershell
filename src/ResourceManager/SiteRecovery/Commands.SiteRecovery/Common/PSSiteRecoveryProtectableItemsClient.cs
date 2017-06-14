@@ -12,9 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using Microsoft.Azure.Management.SiteRecovery;
 using Microsoft.Azure.Management.SiteRecovery.Models;
-using System.Collections.Generic;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
@@ -37,7 +38,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 .GetSiteRecoveryClient()
                 .ProtectableItem.List(fabricName, protectionContainerName, null, null, null, this.GetRequestHeaders());
             protectableItems.AddRange(response.ProtectableItems);
-            while (response.NextLink != null)
+            while(response.NextLink != null)
             {
                 response = this
                     .GetSiteRecoveryClient()

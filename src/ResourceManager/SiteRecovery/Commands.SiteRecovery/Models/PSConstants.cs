@@ -12,7 +12,13 @@
 //// limitations under the License.
 //// ----------------------------------------------------------------------------------
 
+using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
+using System.Text;
+using Microsoft.Azure.Commands.SiteRecovery;
+using Microsoft.Azure.Management.SiteRecovery.Models;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
@@ -114,32 +120,12 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Represents Optimize value ForDowntime.
         /// </summary>
-        public const string ForDownTime = "ForDownTime";
+        public const string ForDowntime = "ForDownTime";
 
         /// <summary>
         /// Represents Optimize value for Synchronization.
         /// </summary>
         public const string ForSynchronization = "ForSynchronization";
-
-        /// <summary>
-        /// Represents Yes.
-        /// </summary>
-        public const string Yes = "Yes";
-
-        /// <summary>
-        /// Represents No.
-        /// </summary>
-        public const string No = "No";
-
-        /// <summary>
-        /// Represents RecoveryVmCreationOption value for CreateVmIfNotFound in failback.
-        /// </summary>
-        public const string CreateVmIfNotFound = "CreateVmIfNotFound";
-
-        /// <summary>
-        /// Represents RecoveryVmCreationOption value for NoAction in failback.
-        /// </summary>
-        public const string NoAction = "NoAction";
 
         /// <summary>
         /// Represents primary location.
@@ -165,6 +151,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Represents HyperVReplica string constant.
         /// </summary>
         public const string HyperVReplicaAzure = "HyperVReplicaAzure";
+
+        /// <summary>
+        /// Represents AzureToAzure string constant.
+        /// </summary>
+        public const string AzureToAzure = "A2A";
 
         /// <summary>
         /// Represents InMageAzureV2 string constant.
@@ -317,9 +308,29 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public const string HyperVSite = "HyperVSite";
 
         /// <summary>
+        /// FabricType - Azure.
+        /// </summary>
+        public const string Azure = "Azure";
+
+        /// <summary>
         /// FabricType - VMware.
         /// </summary>
         public const string VMware = "VMware";
+
+        /// <summary>
+        /// Represents AzureToAzure string constant.
+        /// </summary>
+        public const string AzureToAzureFabric = "AzureToAzure";
+
+        /// <summary>
+        /// Represents VmmToAzureFabric string constant.
+        /// </summary>
+        public const string VmmToAzureFabric = "VmmToAzure";
+
+        /// <summary>
+        /// Represents VmmToVmmFabric string constant.
+        /// </summary>
+        public const string VmmToVmmFabric = "VmmToVmm";
 
         /// <summary>
         /// Nic Selection Type - NotSelected
@@ -363,6 +374,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public const string ResourceManager = "ResourceManager";
 
         /// <summary>
+        /// Classic compute namespace.
+        /// </summary>
+        public const string ClassicCompute = "Microsoft.ClassicCompute";
+
+        /// <summary>
+        /// Compute namespace.
+        /// </summary>
+        public const string Compute = "Microsoft.Compute";
+
+        /// <summary>
         /// Group Type: Shutdown
         /// </summary>
         public const string Shutdown = "Shutdown";
@@ -391,6 +412,46 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Disable.
         /// </summary>
         public const string Disable = "Disable";
+
+        /// <summary>
+        /// Remove.
+        /// </summary>
+        public const string Remove = "Remove";
+
+        /// <summary>
+        /// Keep.
+        /// </summary>
+        public const string Keep = "Keep";
+
+        /// <summary>
+        /// Represents use of recovery cloud service provided by user for test failover.
+        /// </summary>
+        public const string UseRecoveryCloudService = "UseRecoveryCloudService";
+
+        /// <summary>
+        /// Represents autocreation of cloud service for test failover.
+        /// </summary>
+        public const string AutoCreateCloudService = "AutoCreateCloudService";
+
+        /// <summary>
+        /// Latest recovery point type.
+        /// </summary>
+        public const string Latest = "Latest";
+
+        /// <summary>
+        /// Latest processed recovery point type.
+        /// </summary>
+        public const string LatestProcessed = "LatestProcessed";
+
+        /// <summary>
+        /// Latest application consistent recovery point type.
+        /// </summary>
+        public const string LatestApplicationConsistent = "LatestApplicationConsistent";
+
+        /// <summary>
+        /// Latest crash consistent recovery point type.
+        /// </summary>
+        public const string LatestCrashConsistent = "LatestCrashConsistent";
     }
 
     /// <summary>
@@ -442,7 +503,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Replication Protected Items
         /// </summary>
         public const string ReplicationProtectedItems = "replicationProtectedItems";
-
+        
         /// <summary>
         /// Replication Networks
         /// </summary>
@@ -452,6 +513,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Virtual Networks
         /// </summary>
         public const string VirtualNetworks = "virtualNetworks";
+
+        /// <summary>
+        /// Azure Network.
+        /// </summary>
+        public const string AzureNetwork = "azureNetwork";
 
         /// <summary>
         /// Recovery provider resource name.

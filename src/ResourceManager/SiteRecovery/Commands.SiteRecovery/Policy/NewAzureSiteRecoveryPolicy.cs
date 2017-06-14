@@ -12,10 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Management.SiteRecovery.Models;
 using System;
 using System.ComponentModel;
 using System.Management.Automation;
+using Microsoft.Azure.Management.SiteRecovery.Models;
+using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
+using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
+using System.Collections.Generic;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
@@ -37,6 +40,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
         public string Name { get; set; }
 
         /// <summary>
@@ -44,11 +48,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         [ValidateSet(
             Constants.HyperVReplica2012R2,
             Constants.HyperVReplica2012,
-            Constants.HyperVReplicaAzure)]
+            Constants.HyperVReplicaAzure,
+            Constants.AzureToAzure)]
         public string ReplicationProvider { get; set; }
 
         /// <summary>
@@ -154,6 +160,39 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             Constants.Disable)]
         public string Encryption { get; set; }
 
+        /* TODO: SriramVu:
+         * Revise the mandatory inputs for A2A prameterset and use defaults if req.
+         * Check out the possible allowed values (if any) and use ValidateSet.
+         */
+
+        /// <summary>
+        /// Gets or sets Recovery point history.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
+        public int RecoveryPointHistory { get; set; }
+
+        /// <summary>
+        /// Gets or sets Crash consistent frequency in minutes.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
+        public int CrashConsistentFrequencyInMinutes { get; set; }
+
+        /// <summary>
+        /// Gets or sets App consistent frequency in minutes.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
+        public int AppConsistentFrequencyInMinutes { get; set; }
+
+        /// <summary>
+        /// Gets or sets EnableMultiVmSync parameter.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [DefaultValue(Constants.Disable)]
+        [ValidateSet(
+            Constants.Enable,
+            Constants.Disable)]
+        public string MultiVmSyncStatus { get; set; }
+
         #endregion Parameters
 
         /// <summary>
@@ -170,6 +209,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     break;
                 case ASRParameterSets.EnterpriseToAzure:
                     this.EnterpriseToAzurePolicyObject();
+                    break;
+                case ASRParameterSets.AzureToAzure:
+                    this.CreateAzureToAzurePolicy();
                     break;
             }
         }
@@ -202,15 +244,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         (ushort)((string.Compare(this.Authentication, Constants.AuthenticationTypeKerberos, StringComparison.OrdinalIgnoreCase) == 0) ? 1 : 2),
                     ApplicationConsistentSnapshotFrequencyInHours = this.ApplicationConsistentSnapshotFrequencyInHours,
                     Compression = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.Compression)) ?
-                         this.Compression :
-                         Constants.Disable,
+                        this.Compression :
+                        Constants.Disable,
                     InitialReplicationMethod =
                      (string.Compare(this.ReplicationMethod, Constants.OnlineReplicationMethod, StringComparison.OrdinalIgnoreCase) == 0) ? "OverNetwork" : "Offline",
                     OnlineReplicationStartTime = this.ReplicationStartTime,
                     RecoveryPoints = this.RecoveryPoints,
                     ReplicaDeletion = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.ReplicaDeletion)) ?
-                         this.ReplicaDeletion :
-                         Constants.NotRequired,
+                        this.ReplicaDeletion :
+                        Constants.NotRequired,
                     ReplicationPort = this.ReplicationPort
                 };
 
@@ -223,15 +265,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         (ushort)((string.Compare(this.Authentication, Constants.AuthenticationTypeKerberos, StringComparison.OrdinalIgnoreCase) == 0) ? 1 : 2),
                     ApplicationConsistentSnapshotFrequencyInHours = this.ApplicationConsistentSnapshotFrequencyInHours,
                     Compression = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.Compression)) ?
-                         this.Compression :
-                         Constants.Disable,
+                        this.Compression :
+                        Constants.Disable,
                     InitialReplicationMethod =
                      (string.Compare(this.ReplicationMethod, Constants.OnlineReplicationMethod, StringComparison.OrdinalIgnoreCase) == 0) ? "OverNetwork" : "Offline",
                     OnlineReplicationStartTime = this.ReplicationStartTime,
                     RecoveryPoints = this.RecoveryPoints,
                     ReplicaDeletion = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.ReplicaDeletion)) ?
-                         this.ReplicaDeletion :
-                         Constants.NotRequired,
+                        this.ReplicaDeletion :
+                        Constants.NotRequired,
                     ReplicationFrequencyInSeconds = replicationFrequencyInSeconds,
                     ReplicationPort = this.ReplicationPort
                 };
@@ -275,8 +317,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 ApplicationConsistentSnapshotFrequencyInHours =
                     this.ApplicationConsistentSnapshotFrequencyInHours,
                 Encryption = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.Encryption)) ?
-                     this.Encryption :
-                     Constants.Disable,
+                        this.Encryption :
+                        Constants.Disable,
                 OnlineIrStartTime = this.ReplicationStartTime,
                 RecoveryPointHistoryDuration = this.RecoveryPoints,
                 ReplicationInterval = replicationFrequencyInSeconds
@@ -307,6 +349,54 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             JobResponse jobResponse =
                 RecoveryServicesClient
                 .GetAzureSiteRecoveryJobDetails(PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location));
+
+            WriteObject(new ASRJob(jobResponse.Job));
+        }
+
+        /// <summary>
+        /// Creates an A2A Policy.
+        /// </summary>
+        private void CreateAzureToAzurePolicy()
+        {
+            if (string.Compare(
+                this.ReplicationProvider,
+                Constants.AzureToAzure,
+                StringComparison.OrdinalIgnoreCase) != 0)
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                    Properties.Resources.IncorrectReplicationProvider,
+                    this.ReplicationProvider));
+            }
+
+            var a2aPolicyCreationInput = new A2APolicyCreationInput()
+            {
+                AppConsistentFrequencyInMinutes = this.AppConsistentFrequencyInMinutes,
+                CrashConsistentFrequencyInMinutes = this.CrashConsistentFrequencyInMinutes,
+                MultiVmSyncStatus = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.MultiVmSyncStatus)) ?
+                        this.MultiVmSyncStatus :
+                        Constants.Disable,
+                RecoveryPointHistory = this.RecoveryPointHistory
+            };
+
+            var createPolicyInputProperties = new CreatePolicyInputProperties()
+            {
+                ProviderSpecificInput = a2aPolicyCreationInput
+            };
+
+            var createPolicyInput = new CreatePolicyInput()
+            {
+                Properties = createPolicyInputProperties
+            };
+
+            LongRunningOperationResponse response =
+                RecoveryServicesClient.CreatePolicy(this.Name, createPolicyInput);
+
+            string jobId = PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location);
+
+            JobResponse jobResponse =
+                RecoveryServicesClient
+                .GetAzureSiteRecoveryJobDetails(jobId);
 
             WriteObject(new ASRJob(jobResponse.Job));
         }

@@ -77,6 +77,41 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         }
 
         /// <summary>
+        /// Create protection container.
+        /// </summary>
+        /// <param name="fabricName">Fabric Name.</param>
+        /// <param name="protectionContainerName">Protection Container name.</param>
+        /// <param name="input">Creation input.</param>
+        /// <returns>A long running operation response.</returns>
+        public LongRunningOperationResponse CreateProtectionContainer(
+            string fabricName,
+            string protectionContainerName,
+            CreateProtectionContainerInput input)
+        {
+            return this.GetSiteRecoveryClient().ProtectionContainer.BeginCreating(
+                fabricName,
+                protectionContainerName,
+                input,
+                this.GetRequestHeaders());
+        }
+
+        /// <summary>
+        /// Remove protection container.
+        /// </summary>
+        /// <param name="fabricName">Fabric Name.</param>
+        /// <param name="protectionContainerName">Protection Container name.</param>
+        /// <returns>A long running operation response.</returns>
+        public LongRunningOperationResponse RemoveProtectionContainer(
+            string fabricName,
+            string protectionContainerName)
+        {
+            return this.GetSiteRecoveryClient().ProtectionContainer.BeginDeleting(
+                fabricName,
+                protectionContainerName,
+                this.GetRequestHeaders());
+        }
+
+        /// <summary>
         /// Pair Cloud
         /// </summary>
         /// <param name="fabricName">Fabric Name</param>
@@ -116,6 +151,26 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         {
             return this.GetSiteRecoveryClient().ProtectionContainerMapping.BeginPurgeProtection(
                 fabricName, protectionContainerName, mappingName, this.GetRequestHeaders());
+        }
+
+        /// <summary>
+        /// Switches protection from one container to another or one replication provider to
+        /// another.
+        /// </summary>
+        /// <param name="fabricName">Fabric Name.</param>
+        /// <param name="protectionContainerName">Protection Container name.</param>
+        /// <param name="input">Switch protection input.</param>
+        /// <returns>A long running operation response.</returns>
+        public LongRunningOperationResponse StartSwitchProtection(
+            string fabricName,
+            string protectionContainerName,
+            SwitchProtectionInput input)
+        {
+            return this.GetSiteRecoveryClient().ProtectionContainer.BeginSwitchProtection(
+                fabricName,
+                protectionContainerName,
+                input,
+                this.GetRequestHeaders());
         }
     }
 }

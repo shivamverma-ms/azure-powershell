@@ -12,12 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Management.SiteRecovery.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Azure.Management.SiteRecovery.Models;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
@@ -46,14 +47,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets friendly name of classification.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.ByFabricObject, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.ByObject, Mandatory = true, ValueFromPipeline = true)]
         public ASRFabric Fabric { get; set; }
-
-        /// <summary>
-        /// Gets or sets friendly name of classification.
-        /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.ByServerObject, Mandatory = true, ValueFromPipeline = true)]
-        public ASRServer Server { get; set; }
         #endregion
 
         /// <summary>
@@ -89,12 +84,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                             StringComparison.InvariantCultureIgnoreCase))
                         .ToList();
                     break;
-                case ASRParameterSets.ByServerObject:
-                    this.WriteWarningWithTimestamp(Properties.Resources.ParameterSetWillBeDeprecatedSoon);
-                    storageClassifications = storageClassifications.Where(item =>
-                        item.GetFabricId().ToLower().Equals(this.Fabric.ID.ToLower())).ToList();
-                    break;
-                case ASRParameterSets.ByFabricObject:
+                case ASRParameterSets.ByObject:
                     storageClassifications = storageClassifications.Where(item =>
                         item.GetFabricId().ToLower().Equals(this.Fabric.ID.ToLower())).ToList();
                     break;

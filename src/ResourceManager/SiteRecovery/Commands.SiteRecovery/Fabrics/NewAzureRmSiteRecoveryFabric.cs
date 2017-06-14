@@ -44,8 +44,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.Default, Mandatory = false)]
         [ValidateNotNullOrEmpty]
         [ValidateSet(
-            Constants.HyperVSite)]
+            Constants.HyperVSite,
+            Constants.Azure)]
         public string Type { get; set; }
+
+        /// <summary>
+        /// Gets or Sets the Fabric type
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.Default, Mandatory = false)]
+        [ValidateNotNullOrEmpty]
+        public string Location { get; set; }
 
         #endregion Parameters
 
@@ -56,10 +64,35 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         {
             base.ExecuteSiteRecoveryCmdlet();
 
-            string fabricType = string.IsNullOrEmpty(this.Type)? FabricProviders.HyperVSite : this.Type;
+            FabricCreationInputProperties fabricCreationInputProperties = new FabricCreationInputProperties();
+
+            if (!string.IsNullOrEmpty(this.Type) &&
+                string.Compare(this.Type, Constants.Azure, StringComparison.OrdinalIgnoreCase) == 0 &&
+                string.IsNullOrEmpty(this.Location))
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                    Properties.Resources.LocationNotSpecifiedForAzureFabric));
+            }
+
+            if (!string.IsNullOrEmpty(this.Type) &&
+                string.Compare(this.Type, Constants.Azure, StringComparison.OrdinalIgnoreCase) == 0 &&
+                !string.IsNullOrEmpty(this.Location))
+            {
+                fabricCreationInputProperties.CustomDetails = new AzureFabricCreationInput()
+                {
+                    // TODO : (AvRai) Validate that passed location is a valid Azure locations.
+                    Location = this.Location
+                };
+            }
+
+            FabricCreationInput fabricCreationInput = new FabricCreationInput()
+            {
+                Properties = fabricCreationInputProperties
+            };
 
             LongRunningOperationResponse response =
-             RecoveryServicesClient.CreateAzureSiteRecoveryFabric(this.Name, fabricType);
+             RecoveryServicesClient.CreateAzureSiteRecoveryFabric(this.Name, fabricCreationInput);
 
             JobResponse jobResponse =
                 RecoveryServicesClient

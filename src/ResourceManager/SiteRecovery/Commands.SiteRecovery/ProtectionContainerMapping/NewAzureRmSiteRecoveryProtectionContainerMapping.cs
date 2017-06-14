@@ -80,6 +80,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 case ASRParameterSets.EnterpriseToEnterprise:
                     this.EnterpriseToEnterpriseAssociation();
                     break;
+                ////case ASRParameterSets.AzureToAzure:
+                ////    this.EnterpriseToEnterpriseAssociation();
+                ////    break;
             }
         }
 
@@ -88,12 +91,18 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         private void EnterpriseToEnterpriseAssociation()
         {
+            // TODO: SriramVu: Same parameter set can be used for both E2E and A2A - update 
+            // methods and validations.
+
             if (string.Compare(
                 this.Policy.ReplicationProvider,
                 Constants.HyperVReplica2012,
                 StringComparison.OrdinalIgnoreCase) != 0 && string.Compare(
                 this.Policy.ReplicationProvider,
                 Constants.HyperVReplica2012R2,
+                StringComparison.OrdinalIgnoreCase) != 0 && string.Compare(
+                this.Policy.ReplicationProvider,
+                Constants.AzureToAzure,
                 StringComparison.OrdinalIgnoreCase) != 0)
             {
                 throw new InvalidOperationException(
@@ -123,6 +132,25 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             }
 
             Associate(Constants.AzureContainer);
+        }
+
+        /// <summary>
+        /// Associates Policy with Azure based protection containers
+        /// </summary>
+        private void AzureToAzureAssociation()
+        {
+            if (string.Compare(
+                this.Policy.ReplicationProvider,
+                Constants.AzureToAzure,
+                StringComparison.OrdinalIgnoreCase) != 0)
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                    Properties.Resources.IncorrectReplicationProvider,
+                    this.Policy.ReplicationProvider));
+            }
+
+            Associate(this.RecoveryProtectionContainer.ID);
         }
 
         /// <summary>

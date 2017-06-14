@@ -12,12 +12,13 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
 using System;
 using System.IO;
 using System.Management.Automation;
 using System.Runtime.Serialization;
 using System.Xml;
+using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
+using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {

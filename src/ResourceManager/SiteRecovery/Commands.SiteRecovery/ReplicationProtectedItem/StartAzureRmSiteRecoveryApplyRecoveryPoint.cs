@@ -56,7 +56,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         #region Parameters
 
         /// <summary>
-        /// Gets or sets Recovery Plan object.
+        /// Gets or sets Recovery Point object.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.ByPEObject, Mandatory = true)]
         [ValidateNotNullOrEmpty]
@@ -143,6 +143,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     VaultLocation = this.GetCurrentVaultLocation()
                 };
                 input.Properties.ProviderSpecificDetails = hyperVReplicaAzureApplyRecoveryPointInput;
+            }
+            else if (string.Compare(
+               this.ReplicationProtectedItem.ReplicationProvider,
+               Constants.AzureToAzure,
+               StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                input.Properties.ProviderSpecificDetails = new A2AApplyRecoveryPointInput();
             }
 
             LongRunningOperationResponse response =

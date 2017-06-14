@@ -12,7 +12,6 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System;
 using Microsoft.Azure.Management.SiteRecovery;
 using Microsoft.Azure.Management.SiteRecovery.Models;
 
@@ -24,24 +23,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     public partial class PSRecoveryServicesClient
     {
         /// <summary>
-        /// Update Azure VM Properties
+        /// Gets Azure Site Recovery Events.
         /// </summary>
-        /// <param name="fabricName">Fabric Name</param>
-        /// <param name="protectionContainerName">Protection Container Name</param>
-        /// <param name="replicationProtectedItemName">Replication Protected Item</param>
-        /// <param name="input">Update Replication Protected Item Input</param>
-        /// <returns></returns>
-        public LongRunningOperationResponse UpdateVmProperties(string fabricName, 
-            string protectionContainerName, 
-            string replicationProtectedItemName, 
-            UpdateReplicationProtectedItemInput input)
+        /// <param name="shouldSignRequest">Boolean indicating if the request should be signed ACIK</param>
+        /// <returns>Server list response</returns>
+        public EventListResponse GetAzureSiteRecoveryEvent(bool shouldSignRequest = true)
         {
-            return this.GetSiteRecoveryClient().ReplicationProtectedItem.BeginUpdateProtection(
-                fabricName,
-                protectionContainerName,
-                replicationProtectedItemName,
-                input,
-                this.GetRequestHeaders());
+            return this.GetSiteRecoveryClient().Events.List(
+                null,
+                this.GetRequestHeaders(shouldSignRequest));
         }
     }
 }

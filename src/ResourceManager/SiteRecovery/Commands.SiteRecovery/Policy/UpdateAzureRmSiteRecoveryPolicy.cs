@@ -26,7 +26,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     /// <summary>
     /// Updates Azure Site Recovery Policy.
     /// </summary>
-    [Cmdlet(VerbsData.Update, "AzureRmSiteRecoveryPolicy", DefaultParameterSetName = ASRParameterSets.Default)]
+    [Cmdlet(VerbsData.Update, "AzureRmSiteRecoveryPolicy", DefaultParameterSetName = ASRParameterSets.EnterpriseToAzure)]
     public class UpdateAzureRmSiteRecoveryPolicy : SiteRecoveryCmdletBase
     {
         #region Private
@@ -42,6 +42,10 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         private string replicaDeletion { get; set; }
         private string recoveryAzureStorageAccountId { get; set; }
         private string encryption { get; set; }
+        private int recoveryPointHistory { get; set; }
+        private int crashConsistentFrequencyInMinutes { get; set; }
+        private int appConsistentFrequencyInMinutes { get; set; }
+        private string multiVmSyncStatus { get; set; }
 
         #endregion Private
 
@@ -50,13 +54,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Name of the Policy.
         /// </summary>
-        [Parameter(Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true, ValueFromPipeline = true)]
         public ASRPolicy Policy { get; set; }
 
         /// <summary>
         /// Gets or sets a value for Replication Method of the Policy.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise)]
         [ValidateNotNullOrEmpty]
         [ValidateSet(
             Constants.OnlineReplicationMethod,
@@ -66,7 +72,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Replication Frequency of the Policy in seconds.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         [ValidateSet(
             Constants.Thirty,
@@ -77,21 +84,23 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Recovery Points of the Policy.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise)]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure)]
         [ValidateNotNullOrEmpty]
         public int RecoveryPoints { get; set; }
 
         /// <summary>
         /// Gets or sets Application Consistent Snapshot Frequency of the Policy in hours.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise)]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure)]
         [ValidateNotNullOrEmpty]
         public int ApplicationConsistentSnapshotFrequencyInHours { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether Compression needs to be Enabled on the Policy.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise)]
         [ValidateNotNullOrEmpty]
         [ValidateSet(
             Constants.Enable,
@@ -101,14 +110,14 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets the Replication Port of the Policy.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public ushort ReplicationPort { get; set; }
 
         /// <summary>
         /// Gets or sets the Replication Port of the Policy.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise)]
         [ValidateNotNullOrEmpty]
         [ValidateSet(
             Constants.AuthenticationTypeCertificate,
@@ -118,7 +127,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Replication Start time of the Policy.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise)]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure)]
         [ValidateNotNullOrEmpty]
         public TimeSpan? ReplicationStartTime { get; set; }
 
@@ -126,7 +136,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets a value indicating whether Replica should be Deleted on 
         /// disabling protection of a protection entity protected by the Policy.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToEnterprise)]
         [ValidateNotNullOrEmpty]
         [ValidateSet(
             Constants.Required,
@@ -136,19 +146,47 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Recovery Azure Storage Account Name of the Policy for E2A scenarios.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure)]
         [ValidateNotNullOrEmpty]
         public string RecoveryAzureStorageAccountId { get; set; }
 
         /// <summary>
         /// Gets or sets Encrypt parameter. On passing, data will be encrypted.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.EnterpriseToAzure)]
         [ValidateNotNullOrEmpty]
         [ValidateSet(
             Constants.Enable,
             Constants.Disable)]
         public string Encryption { get; set; }
+
+        /// <summary>
+        /// Gets or sets Recovery point history.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        public int RecoveryPointHistory { get; set; }
+
+        /// <summary>
+        /// Gets or sets Crash consistent frequency in minutes.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        public int CrashConsistentFrequencyInMinutes { get; set; }
+
+        /// <summary>
+        /// Gets or sets App consistent frequency in minutes.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        public int AppConsistentFrequencyInMinutes { get; set; }
+
+        /// <summary>
+        /// Gets or sets EnableMultiVmSync parameter.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [DefaultValue(Constants.Disable)]
+        [ValidateSet(
+            Constants.Enable,
+            Constants.Disable)]
+        public string MultiVmSyncStatus { get; set; }
 
         #endregion Parameters
 
@@ -159,14 +197,17 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         {
             base.ExecuteSiteRecoveryCmdlet();
 
-            if (string.Compare(this.Policy.ReplicationProvider, Constants.HyperVReplica2012, StringComparison.OrdinalIgnoreCase) == 0 ||
-                string.Compare(this.Policy.ReplicationProvider, Constants.HyperVReplica2012R2, StringComparison.OrdinalIgnoreCase) == 0)
+            switch (this.ParameterSetName)
             {
-                this.EnterpriseToEnterprisePolicyObject();
-            }
-            else if (string.Compare(this.Policy.ReplicationProvider, Constants.HyperVReplicaAzure, StringComparison.OrdinalIgnoreCase) == 0)
-            {
-                this.EnterpriseToAzurePolicyObject();
+                case ASRParameterSets.EnterpriseToEnterprise:
+                    this.EnterpriseToEnterprisePolicyObject();
+                    break;
+                case ASRParameterSets.EnterpriseToAzure:
+                    this.EnterpriseToAzurePolicyObject();
+                    break;
+                case ASRParameterSets.AzureToAzure:
+                    this.UpdateAzureToAzurePolicy();
+                    break;
             }
         }
 
@@ -293,7 +334,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 replicationProviderSettings.ActiveStorageAccountId;
             this.encryption = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.Encryption)) ?
                 this.Encryption :
-                ((string.Compare(replicationProviderSettings.Encryption, "Disabled", StringComparison.OrdinalIgnoreCase) == 0) ? Constants.Disable : Constants.Enable);
+                replicationProviderSettings.Encryption;
 
             var hyperVReplicaAzurePolicyInput = new HyperVReplicaAzurePolicyInput()
             {
@@ -329,6 +370,67 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             JobResponse jobResponse =
                 RecoveryServicesClient
                 .GetAzureSiteRecoveryJobDetails(PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location));
+
+            WriteObject(new ASRJob(jobResponse.Job));
+        }
+
+        /// <summary>
+        /// Updates an A2A Policy.
+        /// </summary>
+        private void UpdateAzureToAzurePolicy()
+        {
+            if (string.Compare(
+                this.Policy.ReplicationProvider,
+                Constants.AzureToAzure,
+                StringComparison.OrdinalIgnoreCase) != 0)
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                    Properties.Resources.IncorrectReplicationProvider,
+                    this.Policy.ReplicationProvider));
+            }
+
+            var replicationProviderSettings = this.Policy.ReplicationProviderSettings as ASRAzureToAzurePolicyDetails;
+
+            this.appConsistentFrequencyInMinutes = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.AppConsistentFrequencyInMinutes)) ?
+                this.AppConsistentFrequencyInMinutes :
+                replicationProviderSettings.AppConsistentFrequencyInMinutes;
+            this.crashConsistentFrequencyInMinutes = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.CrashConsistentFrequencyInMinutes)) ?
+                this.CrashConsistentFrequencyInMinutes :
+                replicationProviderSettings.CrashConsistentFrequencyInMinutes;
+            this.multiVmSyncStatus = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.MultiVmSyncStatus)) ?
+                this.MultiVmSyncStatus :
+                replicationProviderSettings.MultiVmSyncStatus;
+            this.recoveryPointHistory = this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.RecoveryPointHistory)) ?
+                this.RecoveryPointHistory :
+                replicationProviderSettings.RecoveryPointHistory;
+
+            var a2aPolicyCreationInput = new A2APolicyCreationInput()
+            {
+                AppConsistentFrequencyInMinutes = this.appConsistentFrequencyInMinutes,
+                CrashConsistentFrequencyInMinutes = this.crashConsistentFrequencyInMinutes,
+                MultiVmSyncStatus = this.multiVmSyncStatus,
+                RecoveryPointHistory = this.recoveryPointHistory
+            };
+
+            var updatePolicyProperties = new UpdatePolicyProperties()
+            {
+                ReplicationProviderSettings = a2aPolicyCreationInput
+            };
+
+            var updatePolicyInput = new UpdatePolicyInput()
+            {
+                Properties = updatePolicyProperties
+            };
+
+            LongRunningOperationResponse response =
+                RecoveryServicesClient.UpdatePolicy(this.Policy.Name, updatePolicyInput);
+
+            string jobId = PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location);
+
+            JobResponse jobResponse =
+                RecoveryServicesClient
+                .GetAzureSiteRecoveryJobDetails(jobId);
 
             WriteObject(new ASRJob(jobResponse.Job));
         }

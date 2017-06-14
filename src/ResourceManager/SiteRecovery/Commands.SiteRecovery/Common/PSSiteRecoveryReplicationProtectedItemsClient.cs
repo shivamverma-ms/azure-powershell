@@ -12,11 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
+using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Azure.Management.SiteRecovery;
 using Microsoft.Azure.Management.SiteRecovery.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
@@ -94,7 +95,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <param name="replicationProtectedItemName">Virtual Machine ID or Replication group Id</param>
         /// <param name="input">Enable protection input.</param>
         /// <returns>Job response</returns>
-        public LongRunningOperationResponse EnableProtection(string fabricName,
+        public LongRunningOperationResponse EnableProtection(
+            string fabricName,
             string protectionContainerName,
             string replicationProtectedItemName,
             EnableProtectionInput input)
@@ -207,6 +209,28 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         }
 
         /// <summary>
+        /// Starts Test Failover Cleanup.
+        /// </summary>
+        /// <param name="fabricName">Fabric Name.</param>
+        /// <param name="protectionContainerName">Protection Conatiner Name.</param>
+        /// <param name="replicationProtectedItemName">Replication Protected Item.</param>
+        /// <param name="input">Input for Test failover cleanup.</param>
+        /// <returns>Job Response.</returns>
+        public LongRunningOperationResponse StartAzureSiteRecoveryTestFailoverCleanup(
+            string fabricName,
+            string protectionContainerName,
+            string replicationProtectedItemName,
+            TestFailoverCleanupInput input)
+        {
+            return this.GetSiteRecoveryClient().ReplicationProtectedItem.BeginTestFailoverCleanup(
+                fabricName,
+                protectionContainerName,
+                replicationProtectedItemName,
+                input,
+                this.GetRequestHeaders());
+        }
+
+        /// <summary>
         /// Start applying Recovery Point.
         /// </summary>
         /// <param name="fabricName">Fabric Name.</param>
@@ -264,6 +288,25 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 protectionContainerName,
                 replicationProtectedItemName,
                 input,
+                this.GetRequestHeaders());
+        }
+
+        /// <summary>
+        /// Repair replication (resync).
+        /// </summary>
+        /// <param name="fabricName">Fabric name.</param>
+        /// <param name="protectionContainerName">Protection container name.</param>
+        /// <param name="replicationProtectedItemName">Virtual machine name.</param>
+        /// <returns>Job response</returns>
+        public LongRunningOperationResponse Resync(
+            string fabricName,
+            string protectionContainerName,
+            string replicationProtectedItemName)
+        {
+            return this.GetSiteRecoveryClient().ReplicationProtectedItem.BeginRepairReplication(
+                fabricName,
+                protectionContainerName,
+                replicationProtectedItemName,
                 this.GetRequestHeaders());
         }
 

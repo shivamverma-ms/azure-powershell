@@ -12,6 +12,7 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
 using Microsoft.Azure.Management.SiteRecovery;
 using Microsoft.Azure.Management.SiteRecovery.Models;
 
@@ -21,7 +22,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
     /// Recovery services convenience client.
     /// </summary>
     public partial class PSRecoveryServicesClient
-    {
+    {       
         /// <summary>
         /// Gets Azure Site Recovery Plans.
         /// </summary>
@@ -98,6 +99,20 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public LongRunningOperationResponse StartAzureSiteRecoveryTestFailover(string recoveryPlanName, RecoveryPlanTestFailoverInput input)
         {
             return this.GetSiteRecoveryClient().RecoveryPlan.BeginTestFailover(
+                recoveryPlanName,
+                input,
+                this.GetRequestHeaders());
+        }
+
+        /// <summary>
+        /// Starts Azure Site Recovery test failover cleanup.
+        /// </summary>
+        /// <param name="recoveryPlanName">Recovery Plan Name.</param>
+        /// <param name="input">Recovery Plan Test Failover cleanup input.</param>
+        /// <returns>Job response</returns>
+        public LongRunningOperationResponse StartAzureSiteRecoveryTestFailoverCleanup(string recoveryPlanName, RecoveryPlanTestFailoverCleanupInput input)
+        {
+            return this.GetSiteRecoveryClient().RecoveryPlan.BeginTestFailoverCleanup(
                 recoveryPlanName,
                 input,
                 this.GetRequestHeaders());

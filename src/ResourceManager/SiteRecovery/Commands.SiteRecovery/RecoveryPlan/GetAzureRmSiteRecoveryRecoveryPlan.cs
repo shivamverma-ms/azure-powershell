@@ -12,12 +12,14 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Management.SiteRecovery.Models;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using System.Management.Automation;
+using Microsoft.Azure.Management.SiteRecovery.Models;
+using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
+using Newtonsoft.Json;
+using System.IO;
 using Hyak.Common;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
@@ -70,7 +72,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 case ASRParameterSets.Default:
                     this.GetAll();
                     break;
-            }
+            }           
         }
 
         /// <summary>
@@ -164,7 +166,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 throw new DirectoryNotFoundException(string.Format(Properties.Resources.DirectoryNotFound, System.IO.Path.GetDirectoryName(this.Path)));
             }
 
-            string fullFileName = this.Path;
+            string fullFileName = this.Path; 
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(@fullFileName, false))
             {
                 string json = JsonConvert.SerializeObject(recoveryPlan, Formatting.Indented);
@@ -180,7 +182,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         {
             IList<ASRRecoveryPlan> asrRecoveryPlans = new List<ASRRecoveryPlan>();
 
-            foreach (RecoveryPlan recoveryPlan in recoveryPlanList)
+            foreach(RecoveryPlan recoveryPlan in recoveryPlanList)
             {
                 var replicationProtectedItemListResponse = RecoveryServicesClient.GetAzureSiteRecoveryReplicationProtectedItemInRP(recoveryPlan.Name);
                 asrRecoveryPlans.Add(new ASRRecoveryPlan(recoveryPlan, replicationProtectedItemListResponse.ReplicationProtectedItems));

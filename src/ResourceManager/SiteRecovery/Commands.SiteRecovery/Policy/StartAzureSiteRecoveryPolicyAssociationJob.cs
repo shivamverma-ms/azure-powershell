@@ -12,9 +12,12 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Management.SiteRecovery.Models;
 using System;
 using System.Management.Automation;
+using Microsoft.Azure.Management.SiteRecovery.Models;
+using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
+using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -137,7 +140,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             };
 
             string targetProtectionContainerName;
-            if (string.Compare(targetProtectionContainerId, Constants.AzureContainer, StringComparison.OrdinalIgnoreCase) == 0)
+            if( string.Compare(targetProtectionContainerId, Constants.AzureContainer, StringComparison.OrdinalIgnoreCase) == 0 )
             {
                 targetProtectionContainerName = Constants.AzureContainer;
             }
@@ -148,11 +151,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
 
             HashAlgorithm algorithm = new SHA256CryptoServiceProvider();
             byte[] hashedBytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(this.PrimaryProtectionContainer.Name + targetProtectionContainerName));
-            string hashedCloudNames = BitConverter.ToString(hashedBytes).ToLower().Replace("-", string.Empty);
+            string hashedCloudNames =  BitConverter.ToString(hashedBytes).ToLower().Replace("-", string.Empty);
 
             string mappingName = string.Format("ContainerMapping_{0}_{1}", this.Policy.Name.ToLower(), hashedCloudNames);
             LongRunningOperationResponse response = RecoveryServicesClient.ConfigureProtection(
-                Utilities.GetValueFromArmId(this.PrimaryProtectionContainer.ID, ARMResourceTypeConstants.ReplicationFabrics),
+                Utilities.GetValueFromArmId(this.PrimaryProtectionContainer.ID, ARMResourceTypeConstants.ReplicationFabrics), 
                 this.PrimaryProtectionContainer.Name, mappingName, input);
 
             JobResponse jobResponse =

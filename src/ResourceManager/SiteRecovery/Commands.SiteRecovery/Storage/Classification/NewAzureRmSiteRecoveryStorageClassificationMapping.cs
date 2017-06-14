@@ -12,9 +12,10 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Azure.Management.SiteRecovery.Models;
 using System;
+using System.Collections.Generic;
 using System.Management.Automation;
+using Microsoft.Azure.Management.SiteRecovery.Models;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
@@ -56,9 +57,12 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         {
             base.ExecuteSiteRecoveryCmdlet();
 
-            string mappingName = string.IsNullOrEmpty(this.Name) ?
-                string.Format("StrgMap_{0}_{1}_{2}", PrimaryStorageClassification.Name, RecoveryStorageClassification.Name, Guid.NewGuid()) :
-                this.Name;
+            string armName = !string.IsNullOrEmpty(Name) ? this.Name :
+                string.Format(
+                    "StrgMap_{0}_{1}_{2}",
+                    PrimaryStorageClassification.Name,
+                    RecoveryStorageClassification.Name,
+                    Guid.NewGuid());
 
             var props = new StorageClassificationMappingInputProperties()
             {
@@ -74,7 +78,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 RecoveryServicesClient.MapStorageClassification(
                 PrimaryStorageClassification,
                 input,
-                mappingName);
+                armName);
 
             JobResponse jobResponse =
                 RecoveryServicesClient.GetAzureSiteRecoveryJobDetails(

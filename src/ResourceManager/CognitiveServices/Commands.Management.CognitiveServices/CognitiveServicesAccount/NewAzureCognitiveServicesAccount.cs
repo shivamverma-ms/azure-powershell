@@ -106,7 +106,7 @@ namespace Microsoft.Azure.Commands.Management.CognitiveServices
                     else
                     {
                         bool yesToAll = false, noToAll = false;
-                        if (!ShouldContinue(Resources.NewAccount_Notice, "Notice", true, ref yesToAll, ref noToAll))
+                        if (!ShouldContinue(Resources.NewAccount_Notice, "Notice", ref yesToAll, ref noToAll))
                         {
                             return;
                         }

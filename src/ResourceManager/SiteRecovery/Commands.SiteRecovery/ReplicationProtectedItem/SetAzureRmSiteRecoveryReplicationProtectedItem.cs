@@ -90,6 +90,41 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public string NicSelectionType { get; set; }
 
         /// <summary>
+        /// Gets or sets the target cloud service ARM Id (for V1).
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryCloudServiceId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the target resource group ARM Id (for V2).
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryResourceGroupId { get; set; }
+
+        /// <summary>
+        /// Gets or sets Recovery Resource Group Id V1.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryV1ResourceGroupId { get; set; }
+
+        /// <summary>
+        /// Gets or sets Recovery Resource Group Id V2.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryV2ResourceGroupId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the target availability set ARM Id (for V2).
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryAvailabilitySetId { get; set; }
+
+        /// <summary>
         /// Gets or sets LicenseType for
         /// HUB https://azure.microsoft.com/en-in/pricing/hybrid-use-benefit/
         /// </summary>
@@ -119,7 +154,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
 
             // Check for Replication Provider type HyperVReplicaAzure/InMageAzureV2
             if (0 != string.Compare(provider, Constants.HyperVReplicaAzure, StringComparison.OrdinalIgnoreCase) &&
-                0 != string.Compare(provider, Constants.InMageAzureV2, StringComparison.OrdinalIgnoreCase))
+                0 != string.Compare(provider, Constants.InMageAzureV2, StringComparison.OrdinalIgnoreCase) &&
+                0 != string.Compare(provider, Constants.AzureToAzure, StringComparison.OrdinalIgnoreCase))
             {
                 this.WriteWarning(Properties.Resources.UnsupportedReplicationProvidedForUpdateVmProperties.ToString());
                 return;
@@ -130,6 +166,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 string.IsNullOrEmpty(this.Size) &&
                 string.IsNullOrEmpty(this.PrimaryNic) &&
                 string.IsNullOrEmpty(this.RecoveryNetworkId) &&
+                string.IsNullOrEmpty(this.RecoveryAvailabilitySetId) &&
+                string.IsNullOrEmpty(this.RecoveryResourceGroupId) &&
+                string.IsNullOrEmpty(this.RecoveryCloudServiceId) &&
+                string.IsNullOrEmpty(this.RecoveryV1ResourceGroupId) &&
+                string.IsNullOrEmpty(this.RecoveryV2ResourceGroupId) &&
                 string.IsNullOrEmpty(this.LicenseType))
             {
                 this.WriteWarning(Properties.Resources.ArgumentsMissingForUpdateVmProperties.ToString());
@@ -150,9 +191,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             string licenseType = this.LicenseType;
             List<VMNicInputDetails> vMNicInputDetailsList = new List<VMNicInputDetails>();
             VMNicDetails vMNicDetailsToBeUpdated;
+            UpdateReplicationProtectedItemProviderInput providerSpecificInput = new UpdateReplicationProtectedItemProviderInput();
 
             if (0 == string.Compare(provider, Constants.HyperVReplicaAzure, StringComparison.OrdinalIgnoreCase))
             {
+                providerSpecificInput = new HyperVReplicaAzureUpdateReplicationProtectedItemInput()
+                {
+                    RecoveryAzureV1ResourceGroupId = this.RecoveryV1ResourceGroupId,
+                    RecoveryAzureV2ResourceGroupId = this.RecoveryV2ResourceGroupId
+                };
+
                 HyperVReplicaAzureReplicationDetails providerSpecificDetails =
                     (HyperVReplicaAzureReplicationDetails)replicationProtectedItemResponse.ReplicationProtectedItem.Properties.ProviderSpecificDetails;
 
@@ -229,6 +277,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             }
             else if (0 == string.Compare(provider, Constants.InMageAzureV2, StringComparison.OrdinalIgnoreCase))
             {
+                // TODO: need to be refactored before release
+                providerSpecificInput = new InMageAzureV2UpdateReplicationProtectedItemInput()
+                {
+                    RecoveryAzureV1ResourceGroupId = this.RecoveryV1ResourceGroupId,
+                    RecoveryAzureV2ResourceGroupId = this.RecoveryV2ResourceGroupId
+                };
+
                 InMageAzureV2ProviderSpecificSettings providerSpecificDetails =
                     (InMageAzureV2ProviderSpecificSettings)replicationProtectedItemResponse.ReplicationProtectedItem.Properties.ProviderSpecificDetails;
 
@@ -302,6 +357,71 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     }
                 }
             }
+            if (0 == string.Compare(provider, Constants.AzureToAzure, StringComparison.OrdinalIgnoreCase))
+            {
+                providerSpecificInput = new A2AUpdateReplicationProtectedItemInput()
+                {
+                    RecoveryCloudServiceId = this.RecoveryCloudServiceId,
+                    RecoveryResourceGroupId = this.RecoveryResourceGroupId
+                };
+
+                A2AReplicationDetails providerSpecificDetails = (A2AReplicationDetails)replicationProtectedItemResponse.ReplicationProtectedItem.Properties.ProviderSpecificDetails;
+
+                if (string.IsNullOrEmpty(this.RecoveryNetworkId))
+                {
+                    vmRecoveryNetworkId = providerSpecificDetails.SelectedRecoveryAzureNetworkId;
+                }
+
+                if (!string.IsNullOrEmpty(this.PrimaryNic))
+                {
+                    if (providerSpecificDetails.VMNics != null)
+                    {
+                        vMNicDetailsToBeUpdated = providerSpecificDetails.VMNics.SingleOrDefault(
+                            n => string.Compare(n.NicId, this.PrimaryNic, StringComparison.OrdinalIgnoreCase) == 0);
+                        if (vMNicDetailsToBeUpdated != null)
+                        {
+                            VMNicInputDetails vMNicInputDetails = new VMNicInputDetails();
+
+                            vMNicInputDetails.NicId = this.PrimaryNic;
+                            vMNicInputDetails.RecoveryVMSubnetName = this.RecoveryNicSubnetName;
+                            vMNicInputDetails.ReplicaNicStaticIPAddress = this.RecoveryNicStaticIPAddress;
+                            vMNicInputDetails.SelectionType = string.IsNullOrEmpty(this.NicSelectionType) ? Constants.SelectedByUser : this.NicSelectionType;
+                            vMNicInputDetailsList.Add(vMNicInputDetails);
+
+                            IEnumerable<VMNicDetails> vMNicDetailsListRemaining = providerSpecificDetails.VMNics.Where(
+                                n => string.Compare(n.NicId, this.PrimaryNic, StringComparison.OrdinalIgnoreCase) != 0);
+                            foreach (VMNicDetails nDetails in vMNicDetailsListRemaining)
+                            {
+                                vMNicInputDetails = new VMNicInputDetails();
+
+                                vMNicInputDetails.NicId = nDetails.NicId;
+                                vMNicInputDetails.RecoveryVMSubnetName = nDetails.RecoveryVMSubnetName;
+                                vMNicInputDetails.ReplicaNicStaticIPAddress = nDetails.ReplicaNicStaticIPAddress;
+                                vMNicInputDetails.SelectionType = nDetails.SelectionType;
+                                vMNicInputDetailsList.Add(vMNicInputDetails);
+                            }
+                        }
+                        else
+                        {
+                            throw new PSInvalidOperationException(Properties.Resources.NicNotFoundInVMForUpdateVmProperties);
+                        }
+                    }
+                }
+                else
+                {
+                    VMNicInputDetails vMNicInputDetails;
+                    foreach (VMNicDetails nDetails in providerSpecificDetails.VMNics)
+                    {
+                        vMNicInputDetails = new VMNicInputDetails();
+
+                        vMNicInputDetails.NicId = nDetails.NicId;
+                        vMNicInputDetails.RecoveryVMSubnetName = nDetails.RecoveryVMSubnetName;
+                        vMNicInputDetails.ReplicaNicStaticIPAddress = nDetails.ReplicaNicStaticIPAddress;
+                        vMNicInputDetails.SelectionType = nDetails.SelectionType;
+                        vMNicInputDetailsList.Add(vMNicInputDetails);
+                    }
+                }
+            }
 
             UpdateReplicationProtectedItemInputProperties updateReplicationProtectedItemInputProperties =
                 new UpdateReplicationProtectedItemInputProperties()
@@ -310,7 +430,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     RecoveryAzureVMSize = vmSize,
                     SelectedRecoveryAzureNetworkId = vmRecoveryNetworkId,
                     VmNics = vMNicInputDetailsList,
-                    LicenseType = licenseType
+                    RecoveryAvailabilitySetId = this.RecoveryAvailabilitySetId,
+                    LicenseType = licenseType,
+                    ProviderSpecificDetails = providerSpecificInput
                 };
 
             UpdateReplicationProtectedItemInput input = new UpdateReplicationProtectedItemInput()
