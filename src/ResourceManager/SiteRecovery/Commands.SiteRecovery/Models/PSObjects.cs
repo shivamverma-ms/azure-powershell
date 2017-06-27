@@ -2336,13 +2336,34 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public string DiskUri { get; set; }
 
         /// <summary>
-        /// Gets or sets the primary staging storage account.
+        /// Gets or sets the primary staging storage account ARM Id.
         /// </summary>
         public string PrimaryStagingAzureStorageAccountId { get; set; }
 
         /// <summary>
-        /// Gets or sets the recovery disk storage account. 
+        /// Gets or sets the recovery disk storage account ARM Id. 
         /// </summary>
         public string RecoveryAzureStorageAccountId { get; set; }
+    }
+
+    /// <summary>
+    /// Azure VM managed disk details required for AzureToAzure protection.
+    /// </summary>
+    public class ASRAzureToAzureManagedDiskDetails
+    {
+        /// <summary>
+        /// Gets or sets the disk managed disk ARM Id.
+        /// </summary>
+        public string DiskId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the primary staging storage account ARM Id.
+        /// </summary>
+        public string PrimaryStagingAzureStorageAccountId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the recovery resource group ARM Id. 
+        /// </summary>
+        public string RecoveryAzureResourceGroupId { get; set; }
     }
 }

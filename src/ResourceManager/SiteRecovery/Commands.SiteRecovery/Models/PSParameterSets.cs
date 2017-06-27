@@ -261,6 +261,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
 		internal const string AzureToAzure = "AzureToAzure";
 
 		/// <summary>
+		/// To define Azure to Azure for managed disk parameter set.
+		/// </summary>
+		internal const string AzureToAzureManagedDisk = "AzureToAzureManagedDisk";
+
+		/// <summary>
 		/// To define Azure to Azure parameter set with an ability to provide disk level inputs to
 		/// support multiple storage acoount.
 		/// </summary>

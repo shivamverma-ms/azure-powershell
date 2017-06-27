@@ -56,12 +56,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Replication Protected Item.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
-            Mandatory = true,
-            ValueFromPipeline = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithMultipleStorageAccount,
-            Mandatory = true,
-            ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithMultipleStorageAccount, Mandatory = true, ValueFromPipeline = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk, Mandatory = true, ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
         public ASRReplicationProtectedItem ReplicationProtectedItem { get; set; }
 
@@ -95,6 +92,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public List<ASRAzureToAzureDiskDetails> AzureVmDiskDetails { get; set; }
 
         /// <summary>
+        /// Gets or sets list of managed disks to be replicated.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        public List<ASRAzureToAzureManagedDiskDetails> AzureVmManagedDiskDetails { get; set; }
+
+        /// <summary>
         /// Gets or sets Staging storage account.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
@@ -106,6 +110,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithMultipleStorageAccount)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk)]
         [ValidateNotNullOrEmpty]
         public string RecoveryResourceGroupId { get; set; }
 
@@ -122,6 +127,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithMultipleStorageAccount)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk)]
         [ValidateNotNullOrEmpty]
         public string RecoveryAvailabilitySetId { get; set; }
 
@@ -149,6 +155,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             switch (this.ParameterSetName)
             {
                 case ASRParameterSets.AzureToAzure:
+                case ASRParameterSets.AzureToAzureManagedDisk:
                     if (policyInstanceType != Constants.AzureToAzure)
                     {
                         throw new PSArgumentException(
@@ -202,6 +209,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     RecoveryContainerId =
                         this.ProtectionContainerMapping.TargetProtectionContainerId,
                     VmDisks = new List<A2AVmDiskInputDetails>(),
+                    VmManagedDisks = new List<A2AVmManagedDiskInputDetails>(),
                     RecoveryResourceGroupId = this.RecoveryResourceGroupId,
                     RecoveryCloudServiceId = this.RecoveryCloudServiceId,
                     RecoveryAvailabilitySetId = this.RecoveryAvailabilitySetId
@@ -214,68 +222,101 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         this.protectionContainerName,
                         this.ReplicationProtectedItem.Name);
 
-
-                if (this.AzureVmDiskDetails == null || this.AzureVmDiskDetails.Count == 0)
+                if (this.AzureVmManagedDiskDetails != null)
                 {
-                    if (string.IsNullOrEmpty(this.PrimaryStagingAzureStorageAccountId))
-                    {
-                        throw new ArgumentException(
-                            Properties.Resources.InvalidPrimaryStagingAzureStorageAccountId);
-                    }
-
-                    if (this.fabricFriendlyName !=
-                        this.ProtectionContainerMapping.TargetFabricFriendlyName &&
-                        RecoveryAzureStorageAccountId == null)
-                    {
-                        throw new ArgumentException(
-                            Properties.Resources.InvalidRecoveryAzureStorageAccountId);
-                    }
-
-                    foreach (var disk in ((A2AReplicationDetails)replicationProtectedItemResponse
-                        .ReplicationProtectedItem.Properties.ProviderSpecificDetails)
-                        .ProtectedDisks)
-                    {
-                        a2aSwitchInput.VmDisks.Add(new A2AVmDiskInputDetails
-                        {
-                            DiskUri = disk.RecoveryDiskUri,
-                            RecoveryAzureStorageAccountId =
-                                this.fabricFriendlyName ==
-                                    this.ProtectionContainerMapping.TargetFabricFriendlyName &&
-                                this.RecoveryAzureStorageAccountId == null ?
-                                    disk.PrimaryDiskAzureStorageAccountId :
-                                    this.RecoveryAzureStorageAccountId,
-                            PrimaryStagingAzureStorageAccountId =
-                                this.PrimaryStagingAzureStorageAccountId,
-                        });
-                    }
-                }
-                else
-                {
-                    foreach (ASRAzureToAzureDiskDetails disk in this.AzureVmDiskDetails)
+                    foreach (ASRAzureToAzureManagedDiskDetails disk in this.AzureVmManagedDiskDetails)
                     {
                         if (string.IsNullOrEmpty(disk.PrimaryStagingAzureStorageAccountId))
                         {
                             throw new PSArgumentException(
                                 string.Format(
                                     Properties.Resources.InvalidPrimaryStagingAzureStorageAccountIdDiskInput,
-                                    disk.DiskUri));
+                                    disk.DiskId));
                         }
 
-                        if (string.IsNullOrEmpty(disk.RecoveryAzureStorageAccountId))
+                        if (string.IsNullOrEmpty(disk.RecoveryAzureResourceGroupId))
                         {
                             throw new PSArgumentException(
                                 string.Format(
                                     Properties.Resources.InvalidRecoveryAzureStorageAccountIdDiskInput,
-                                    disk.DiskUri));
+                                    disk.DiskId));
                         }
 
-                        a2aSwitchInput.VmDisks.Add(new A2AVmDiskInputDetails
+                        a2aSwitchInput.VmManagedDisks.Add(new A2AVmManagedDiskInputDetails
                         {
-                            DiskUri = disk.DiskUri,
-                            RecoveryAzureStorageAccountId = disk.RecoveryAzureStorageAccountId,
+                            DiskId = disk.DiskId,
+                            RecoveryResourceGroupId =
+                                    disk.RecoveryAzureResourceGroupId,
                             PrimaryStagingAzureStorageAccountId =
-                                disk.PrimaryStagingAzureStorageAccountId
+                                    disk.PrimaryStagingAzureStorageAccountId,
                         });
+                    }
+                }
+                else
+                {
+
+                    if (this.AzureVmDiskDetails == null || this.AzureVmDiskDetails.Count == 0)
+                    {
+                        if (string.IsNullOrEmpty(this.PrimaryStagingAzureStorageAccountId))
+                        {
+                            throw new ArgumentException(
+                                Properties.Resources.InvalidPrimaryStagingAzureStorageAccountId);
+                        }
+
+                        if (this.fabricFriendlyName !=
+                            this.ProtectionContainerMapping.TargetFabricFriendlyName &&
+                            RecoveryAzureStorageAccountId == null)
+                        {
+                            throw new ArgumentException(
+                                Properties.Resources.InvalidRecoveryAzureStorageAccountId);
+                        }
+
+                        foreach (var disk in ((A2AReplicationDetails)replicationProtectedItemResponse
+                            .ReplicationProtectedItem.Properties.ProviderSpecificDetails)
+                            .ProtectedDisks)
+                        {
+                            a2aSwitchInput.VmDisks.Add(new A2AVmDiskInputDetails
+                            {
+                                DiskUri = disk.RecoveryDiskUri,
+                                RecoveryAzureStorageAccountId =
+                                    this.fabricFriendlyName ==
+                                        this.ProtectionContainerMapping.TargetFabricFriendlyName &&
+                                    this.RecoveryAzureStorageAccountId == null ?
+                                        disk.PrimaryDiskAzureStorageAccountId :
+                                        this.RecoveryAzureStorageAccountId,
+                                PrimaryStagingAzureStorageAccountId =
+                                    this.PrimaryStagingAzureStorageAccountId,
+                            });
+                        }
+                    }
+                    else
+                    {
+                        foreach (ASRAzureToAzureDiskDetails disk in this.AzureVmDiskDetails)
+                        {
+                            if (string.IsNullOrEmpty(disk.PrimaryStagingAzureStorageAccountId))
+                            {
+                                throw new PSArgumentException(
+                                    string.Format(
+                                        Properties.Resources.InvalidPrimaryStagingAzureStorageAccountIdDiskInput,
+                                        disk.DiskUri));
+                            }
+
+                            if (string.IsNullOrEmpty(disk.RecoveryAzureStorageAccountId))
+                            {
+                                throw new PSArgumentException(
+                                    string.Format(
+                                        Properties.Resources.InvalidRecoveryAzureStorageAccountIdDiskInput,
+                                        disk.DiskUri));
+                            }
+
+                            a2aSwitchInput.VmDisks.Add(new A2AVmDiskInputDetails
+                            {
+                                DiskUri = disk.DiskUri,
+                                RecoveryAzureStorageAccountId = disk.RecoveryAzureStorageAccountId,
+                                PrimaryStagingAzureStorageAccountId =
+                                    disk.PrimaryStagingAzureStorageAccountId
+                            });
+                        }
                     }
                 }
 

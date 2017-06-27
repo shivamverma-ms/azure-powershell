@@ -90,6 +90,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets Azure VM ARM ID.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string AzureVmId { get; set; }
 
@@ -100,11 +101,18 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [ValidateNotNullOrEmpty]
         public List<ASRAzureToAzureDiskDetails> AzureVmDiskDetails { get; set; }
 
+        /// <summary>
+        /// Gets or sets list of managed disks to be replicated.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        public List<ASRAzureToAzureManagedDiskDetails> AzureVmManagedDiskDetails { get; set; }
 
         /// <summary>
         /// Gets or sets Recovery Resource Group Id.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string RecoveryResourceGroupId { get; set; }
 
@@ -135,6 +143,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets Recovery Availability Set Id.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk)]
         [ValidateNotNullOrEmpty]
         public string RecoveryAvailabilitySetId { get; set; }
 
@@ -184,6 +193,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     break;
 
                 case ASRParameterSets.AzureToAzure:
+                case ASRParameterSets.AzureToAzureManagedDisk:
                     if (policyInstanceType != Constants.AzureToAzure)
                     {
                         throw new PSArgumentException(
@@ -203,7 +213,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             {
                 PolicyId = this.ProtectionContainerMapping.PolicyId,
                 ProtectableItemId =
-                    0 == string.Compare(this.ParameterSetName, ASRParameterSets.AzureToAzure, StringComparison.OrdinalIgnoreCase) ?
+                    0 == string.Compare(this.ParameterSetName, ASRParameterSets.AzureToAzure, StringComparison.OrdinalIgnoreCase) ||
+                    0 == string.Compare(this.ParameterSetName, ASRParameterSets.AzureToAzureManagedDisk, StringComparison.OrdinalIgnoreCase) ?
                     string.Empty :
                     this.ProtectableItem.ID,
                 ProviderSpecificDetails = enableProtectionProviderSpecificInput
@@ -237,7 +248,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
 
                 if (string.IsNullOrWhiteSpace(this.OS))
                 {
-                    providerSettings.OSType = ((string.Compare(this.ProtectableItem.OS, Constants.OSWindows, StringComparison.OrdinalIgnoreCase) == 0) || 
+                    providerSettings.OSType = ((string.Compare(this.ProtectableItem.OS, Constants.OSWindows, StringComparison.OrdinalIgnoreCase) == 0) ||
                         (string.Compare(this.ProtectableItem.OS, Constants.OSLinux) == 0)) ? this.ProtectableItem.OS : Constants.OSWindows;
                 }
                 else
@@ -281,11 +292,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 input.Properties.ProviderSpecificDetails = providerSettings;
             }
             /* A2A */
-            else if (0 ==
-                string.Compare(
-                    this.ParameterSetName,
-                    ASRParameterSets.AzureToAzure,
-                    StringComparison.OrdinalIgnoreCase))
+            else if (0 == string.Compare(this.ParameterSetName, ASRParameterSets.AzureToAzure, StringComparison.OrdinalIgnoreCase) ||
+                0 == string.Compare(this.ParameterSetName, ASRParameterSets.AzureToAzureManagedDisk, StringComparison.OrdinalIgnoreCase))
             {
                 var providerSettings = new A2AEnableProtectionInput()
                 {
@@ -293,39 +301,73 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     RecoveryContainerId =
                         this.ProtectionContainerMapping.TargetProtectionContainerId,
                     VmDisks = new List<A2AVmDiskInputDetails>(),
+                    VmManagedDisks = new List<A2AVmManagedDiskInputDetails>(),
                     RecoveryResourceGroupId = this.RecoveryResourceGroupId,
                     RecoveryCloudServiceId = this.RecoveryCloudServiceId,
                     RecoveryAvailabilitySetId = this.RecoveryAvailabilitySetId
                 };
 
-                foreach (ASRAzureToAzureDiskDetails disk in this.AzureVmDiskDetails)
+                if (this.AzureVmDiskDetails != null)
                 {
-                    if (string.IsNullOrEmpty(disk.PrimaryStagingAzureStorageAccountId))
+                    foreach (ASRAzureToAzureDiskDetails disk in this.AzureVmDiskDetails)
                     {
-                        throw new PSArgumentException(
-                            string.Format(
-                                Properties.Resources.InvalidPrimaryStagingAzureStorageAccountIdDiskInput,
-                                disk.DiskUri));
-                    }
+                        if (string.IsNullOrEmpty(disk.PrimaryStagingAzureStorageAccountId))
+                        {
+                            throw new PSArgumentException(
+                                string.Format(
+                                    Properties.Resources.InvalidPrimaryStagingAzureStorageAccountIdDiskInput,
+                                    disk.DiskUri));
+                        }
 
-                    if (string.IsNullOrEmpty(disk.RecoveryAzureStorageAccountId))
-                    {
-                        throw new PSArgumentException(
-                            string.Format(
-                                Properties.Resources.InvalidRecoveryAzureStorageAccountIdDiskInput,
-                                disk.DiskUri));
-                    }
+                        if (string.IsNullOrEmpty(disk.RecoveryAzureStorageAccountId))
+                        {
+                            throw new PSArgumentException(
+                                string.Format(
+                                    Properties.Resources.InvalidRecoveryAzureStorageAccountIdDiskInput,
+                                    disk.DiskUri));
+                        }
 
-                    providerSettings.VmDisks.Add(new A2AVmDiskInputDetails
+                        providerSettings.VmDisks.Add(new A2AVmDiskInputDetails
                         {
                             DiskUri = disk.DiskUri,
                             RecoveryAzureStorageAccountId =
-                                disk.RecoveryAzureStorageAccountId,
+                                    disk.RecoveryAzureStorageAccountId,
                             PrimaryStagingAzureStorageAccountId =
-                                disk.PrimaryStagingAzureStorageAccountId,
+                                    disk.PrimaryStagingAzureStorageAccountId,
                         });
+                    }
                 }
 
+                if (this.AzureVmManagedDiskDetails != null)
+                {
+                    foreach (ASRAzureToAzureManagedDiskDetails disk in this.AzureVmManagedDiskDetails)
+                    {
+                        if (string.IsNullOrEmpty(disk.PrimaryStagingAzureStorageAccountId))
+                        {
+                            throw new PSArgumentException(
+                                string.Format(
+                                    Properties.Resources.InvalidPrimaryStagingAzureStorageAccountIdDiskInput,
+                                    disk.DiskId));
+                        }
+
+                        if (string.IsNullOrEmpty(disk.RecoveryAzureResourceGroupId))
+                        {
+                            throw new PSArgumentException(
+                                string.Format(
+                                    Properties.Resources.InvalidRecoveryAzureStorageAccountIdDiskInput,
+                                    disk.DiskId));
+                        }
+
+                        providerSettings.VmManagedDisks.Add(new A2AVmManagedDiskInputDetails
+                        {
+                            DiskId = disk.DiskId,
+                            RecoveryResourceGroupId =
+                                    disk.RecoveryAzureResourceGroupId,
+                            PrimaryStagingAzureStorageAccountId =
+                                    disk.PrimaryStagingAzureStorageAccountId,
+                        });
+                    }
+                }
                 input.Properties.ProviderSpecificDetails = providerSettings;
             }
 
