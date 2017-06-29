@@ -361,10 +361,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         providerSettings.VmManagedDisks.Add(new A2AVmManagedDiskInputDetails
                         {
                             DiskId = disk.DiskId,
-                            RecoveryResourceGroupId =
-                                    disk.RecoveryAzureResourceGroupId,
-                            PrimaryStagingAzureStorageAccountId =
-                                    disk.PrimaryStagingAzureStorageAccountId,
+                            RecoveryResourceGroupId = disk.RecoveryAzureResourceGroupId,
+                            PrimaryStagingAzureStorageAccountId = disk.PrimaryStagingAzureStorageAccountId,
                         });
                     }
                 }

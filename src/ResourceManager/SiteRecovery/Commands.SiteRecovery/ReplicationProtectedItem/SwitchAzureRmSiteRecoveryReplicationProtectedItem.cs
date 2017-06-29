@@ -155,6 +155,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             switch (this.ParameterSetName)
             {
                 case ASRParameterSets.AzureToAzure:
+                case ASRParameterSets.AzureToAzureWithMultipleStorageAccount:
                 case ASRParameterSets.AzureToAzureManagedDisk:
                     if (policyInstanceType != Constants.AzureToAzure)
                     {
@@ -245,10 +246,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         a2aSwitchInput.VmManagedDisks.Add(new A2AVmManagedDiskInputDetails
                         {
                             DiskId = disk.DiskId,
-                            RecoveryResourceGroupId =
-                                    disk.RecoveryAzureResourceGroupId,
-                            PrimaryStagingAzureStorageAccountId =
-                                    disk.PrimaryStagingAzureStorageAccountId,
+                            RecoveryResourceGroupId = disk.RecoveryAzureResourceGroupId,
+                            PrimaryStagingAzureStorageAccountId = disk.PrimaryStagingAzureStorageAccountId,
                         });
                     }
                 }
