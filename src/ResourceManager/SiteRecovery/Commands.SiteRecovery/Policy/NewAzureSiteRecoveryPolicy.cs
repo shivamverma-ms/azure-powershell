@@ -174,7 +174,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets Crash consistent frequency in minutes.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
+        [Parameter(DontShow = true, ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = false )]
+        [ValidateNotNullOrEmpty]
+        [DefaultValue(5)]
         public int CrashConsistentFrequencyInMinutes { get; set; }
 
         /// <summary>
