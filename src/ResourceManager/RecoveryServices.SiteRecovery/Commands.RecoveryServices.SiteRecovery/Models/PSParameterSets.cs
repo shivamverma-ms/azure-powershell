@@ -30,6 +30,16 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         internal const string AddReplicationProtectedItems = "AddReplicationProtectedItems";
 
         /// <summary>
+        ///     Add recovery services provider using customer AAD.
+        /// </summary>
+        internal const string AddRspWithCustomerAad = "AddRspWithCustomerAad";
+
+        /// <summary>
+        ///     Add recovery services provider using Recovery Services AAD.
+        /// </summary>
+        internal const string AddRspWithRsAad = "AddRspWithRsAad";
+
+        /// <summary>
         ///     To append group to RP.
         /// </summary>
         internal const string AppendGroup = "AppendGroup";

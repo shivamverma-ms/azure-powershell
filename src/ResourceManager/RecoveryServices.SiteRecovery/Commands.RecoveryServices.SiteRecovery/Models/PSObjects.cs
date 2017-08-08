@@ -111,6 +111,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                              0 ? true : false;
             this.FabricType = provider.Properties.FabricType;
             this.Type = provider.Type;
+            this.DraIdentifier = provider.Properties.DraIdentifier;
+            this.IdentityDetails = provider.Properties.IdentityDetails; 
         }
 
         #region Properties
@@ -159,6 +161,16 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         ///     Gets or sets Server version.
         /// </summary>
         public string ServerVersion { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the internal identifier for the provider.
+        /// </summary>
+        public string DraIdentifier { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the identity details for the provider.
+        /// </summary>
+        public IdentityInformation IdentityDetails { get; set; }
 
         #endregion
     }

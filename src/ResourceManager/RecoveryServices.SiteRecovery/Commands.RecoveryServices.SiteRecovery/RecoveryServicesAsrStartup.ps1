@@ -39,6 +39,7 @@
     "New-ASRRP" = "New-AzureRmRecoveryServicesAsrRecoveryPlan";
     "New-ASRRecoveryPlan" = "New-AzureRmRecoveryServicesAsrRecoveryPlan";
     "New-ASRReplicationProtectedItem" = "New-AzureRmRecoveryServicesAsrReplicationProtectedItem";
+    "New-ASRServicesProvider" = "New-AzureRmRecoveryServicesAsrServicesProvider";
     "New-ASRStorageClassificationMapping" = "New-AzureRmRecoveryServicesAsrStorageClassificationMapping";
     "Remove-ASRFabric" = "Remove-AzureRmRecoveryServicesAsrFabric";
     "Remove-ASRNetworkMapping" = "Remove-AzureRmRecoveryServicesAsrNetworkMapping";

@@ -24,6 +24,28 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
     public partial class PSRecoveryServicesClient
     {
         /// <summary>
+        ///     Creates Azure Site Recovery Provider.
+        /// </summary>
+        /// <param name="input">Recovery Services Providers creation input</param>
+        /// <returns>Long operation response</returns>
+        public PSSiteRecoveryLongRunningOperation CreateAzureSiteRecoveryProvider(
+            string fabricName,
+            string providerName,
+            AddRecoveryServicesProviderInput input)
+        {
+            var op = this.GetSiteRecoveryClient()
+                .ReplicationRecoveryServicesProviders.BeginCreateWithHttpMessagesAsync(
+                    fabricName,
+                    providerName,
+                    input,
+                    this.GetRequestHeaders(true))
+                .GetAwaiter()
+                .GetResult();
+            var result = Mapper.Map<PSSiteRecoveryLongRunningOperation>(op);
+            return result;
+        }
+
+        /// <summary>
         ///     Gets Azure Site Recovery Providers.
         /// </summary>
         /// <param name="fabricId">Fabric ID</param>

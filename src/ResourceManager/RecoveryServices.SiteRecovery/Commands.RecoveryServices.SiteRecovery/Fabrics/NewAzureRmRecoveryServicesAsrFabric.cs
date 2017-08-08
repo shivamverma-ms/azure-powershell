@@ -46,7 +46,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             ParameterSetName = ASRParameterSets.Default,
             Mandatory = false)]
         [ValidateNotNullOrEmpty]
-        [ValidateSet(Constants.HyperVSite)]
+        [ValidateSet(FabricProviders.HyperVSite, FabricProviders.VMware)]
         public string Type { get; set; }
 
         /// <summary>
@@ -66,13 +66,20 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 var input = new FabricCreationInput();
                 input.Properties = new FabricCreationInputProperties();
 
-                input.Properties.CustomDetails = new FabricSpecificCreationInput();
+                switch (fabricType)
+                {
+                    case FabricProviders.VMware:
+                        input.Properties.CustomDetails = new VMwareV2FabricCreationInput();
+                        break;
+
+                    default:
+                        input.Properties.CustomDetails = new FabricSpecificCreationInput();
+                        break;
+                }
 
                 var response = this.RecoveryServicesClient.CreateAzureSiteRecoveryFabric(
                     this.Name,
                     input);
-
-                this.WriteObject(response);
 
                 var jobResponse = this.RecoveryServicesClient.GetAzureSiteRecoveryJobDetails(
                     PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location));

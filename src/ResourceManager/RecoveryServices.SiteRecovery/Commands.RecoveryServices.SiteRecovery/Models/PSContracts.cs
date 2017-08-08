@@ -110,6 +110,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// </summary>
         public const string Azure = "Azure";
 
+        /// <summary>
+        ///     InMage server type.
+        /// </summary>
+        public const string ConfigurationServer = "ConfigurationServer";
+
         /// <summary>
         ///     HyperVSite server type.
         /// </summary>
@@ -121,14 +126,14 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public const string Other = "Other";
 
         /// <summary>
-        ///     InMage server type.
-        /// </summary>
-        public const string VCenter = "VCenter";
-
-        /// <summary>
         ///     VMM server type.
         /// </summary>
         public const string VMM = "VMM";
+
+        /// <summary>
+        ///     VMware server type.
+        /// </summary>
+        public const string VMware = "VMwareV2";
     }
 
     /// <summary>
