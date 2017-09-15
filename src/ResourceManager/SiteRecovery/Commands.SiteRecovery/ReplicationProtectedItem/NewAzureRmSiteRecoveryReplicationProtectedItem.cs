@@ -117,6 +117,13 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public string RecoveryResourceGroupId { get; set; }
 
         /// <summary>
+        /// Gets or sets Multi VM group name.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [ValidateNotNullOrEmpty]
+        public string MultiVmGroupName { get; set; }
+
+        /// <summary>
         /// Gets or sets Recovery Cloud Service Id.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
@@ -304,7 +311,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     VmManagedDisks = new List<A2AVmManagedDiskInputDetails>(),
                     RecoveryResourceGroupId = this.RecoveryResourceGroupId,
                     RecoveryCloudServiceId = this.RecoveryCloudServiceId,
-                    RecoveryAvailabilitySetId = this.RecoveryAvailabilitySetId
+                    RecoveryAvailabilitySetId = this.RecoveryAvailabilitySetId,
+                    MultiVmGroupName = this.MultiVmGroupName
                 };
 
                 if (this.AzureVmDiskDetails != null)

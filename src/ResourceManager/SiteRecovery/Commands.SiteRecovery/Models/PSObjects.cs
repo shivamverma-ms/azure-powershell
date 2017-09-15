@@ -1219,6 +1219,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 this.RecoveryFabricObjectId = a2aProviderSpecificDetails.RecoveryFabricObjectId;
                 this.TestFailoverRecoveryFabricObjectId =
                     a2aProviderSpecificDetails.TestFailoverRecoveryFabricObjectId;
+                this.MultiVmGroupId = a2aProviderSpecificDetails.MultiVmGroupId;
+                this.MultiVmGroupName = a2aProviderSpecificDetails.MultiVmGroupName;
             }
         }
 
@@ -1406,6 +1408,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets the test failover fabric object Id.
         /// </summary>
         public string TestFailoverRecoveryFabricObjectId { get; set; }
+
+        /// <summary>
+        /// Gets or sets Multi vm group name.
+        /// </summary>
+        public string MultiVmGroupName { get; set; }
+
+        /// <summary>
+        /// Gets or sets Multi vm group id.
+        /// </summary>
+        public string MultiVmGroupId { get; set; }
     }
 
     /// <summary>
