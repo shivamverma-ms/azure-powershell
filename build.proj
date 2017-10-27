@@ -197,7 +197,7 @@
     	Condition=" '$(SkipHelp)' == 'false' "/>
     <CallTarget Targets="BuildSetupTest"/>
     <CallTarget Targets="CodeSignBinaries" Condition=" '$(CodeSign)' == 'true' " />	
-	  <CallTarget Targets="BuildSetup" Condition=" '$(SkipHelp)' == 'false' "/>
+	  <CallTarget Targets="BuildSetup" Condition=" '$(SkipHelp)' == 'true' "/>
 	  <CallTarget Targets="CodeSignInstaller"
       Condition=" '$(CodeSign)' == 'true' and '$(Scope)' == 'all'" />
 	  <Message Importance="high" Text="Running Static Analyser" />
