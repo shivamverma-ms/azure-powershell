@@ -385,4 +385,7 @@ Please provide a storage account with the same location as that of the vault.</v
   <data name="InvalidPrimaryStagingAzureStorageAccountIdDiskInput" xml:space="preserve">
     <value>Please pass a valid PrimaryStagingAzureStorageAccountId as input for disk URI "{0}".</value>
   </data>
+  <data name="String1" xml:space="preserve">
+    <value>XML is malformed or file is empty, exception details: {0}</value>
+  </data>
 </root>

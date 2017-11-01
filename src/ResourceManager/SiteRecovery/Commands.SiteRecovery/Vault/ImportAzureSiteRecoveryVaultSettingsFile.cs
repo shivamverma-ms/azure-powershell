@@ -17,8 +17,9 @@ using System.IO;
 using System.Management.Automation;
 using System.Runtime.Serialization;
 using System.Xml;
+using Microsoft.Azure.Commands.SiteRecovery.Properties;
 using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
-using Properties = Microsoft.Azure.Commands.SiteRecovery.Properties;
+using Microsoft.WindowsAzure.Commands.Common;
 
 namespace Microsoft.Azure.Commands.SiteRecovery
 {
@@ -50,64 +51,111 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         {
             base.ExecuteSiteRecoveryCmdlet();
 
-            this.WriteVerbose("Vault Settings File path: " + this.Path);
-
-            ASRVaultCreds asrVaultCreds = null;
-
-            if (File.Exists(this.Path))
+            if (this.ShouldProcess(
+                "Vault Setting file",
+                VerbsData.Import))
             {
-                try
+                this.WriteVerbose("Vault Settings File path: " + this.Path);
+
+                ASRVaultCreds asrVaultCreds = null;
+
+                if (File.Exists(this.Path))
                 {
-                    var serializer = new DataContractSerializer(typeof(ASRVaultCreds));
-                    using (var s = new FileStream(
-                        this.Path,
-                        FileMode.Open,
-                        FileAccess.Read,
-                        FileShare.Read))
+                    try
                     {
-                        asrVaultCreds = (ASRVaultCreds)serializer.ReadObject(s);
+                        if (FileUtilities.DataStore.ReadFileAsText(this.Path).ToLower().Contains("<asrvaultcreds"))
+                        {
+                            asrVaultCreds = ReadAcsASRVaultCreds();
+                        }
+                        else
+                        {
+                            asrVaultCreds = ReadAadASRVaultCreds();
+                        }
+                    }
+                    catch (XmlException xmlException)
+                    {
+                        throw new XmlException(
+                            string.Format(
+                                Resources.InvalidXml,
+                                xmlException));
+                    }
+                    catch (SerializationException serializationException)
+                    {
+                        throw new SerializationException(
+                            string.Format(
+                                Resources.InvalidXml,
+                                serializationException));
                     }
                 }
-                catch (XmlException xmlException)
+                else
                 {
-                    throw new XmlException(
-                        string.Format(Properties.Resources.InvalidXml, xmlException));
+                    throw new FileNotFoundException(
+                        Resources.VaultSettingFileNotFound,
+                        this.Path);
                 }
-                catch (SerializationException serializationException)
+
+                // Validate required parameters taken from the Vault settings file.
+                if (string.IsNullOrEmpty(asrVaultCreds.ResourceName))
                 {
-                    throw new SerializationException(
-                        string.Format(Properties.Resources.InvalidXml, serializationException));
+                    throw new ArgumentException(
+                        Resources.ResourceNameNullOrEmpty,
+                        asrVaultCreds.ResourceName);
                 }
-            }
-            else
-            {
-                throw new FileNotFoundException(
-                    Properties.Resources.VaultSettingFileNotFound,
-                    this.Path);
-            }
 
-            // Validate required parameters taken from the Vault settings file.
-            if (string.IsNullOrEmpty(asrVaultCreds.ResourceName))
-            {
-                throw new ArgumentException(
-                    Properties.Resources.ResourceNameNullOrEmpty,
-                    asrVaultCreds.ResourceName);
-            }
+                if (string.IsNullOrEmpty(asrVaultCreds.ResourceGroupName))
+                {
+                    throw new ArgumentException(
+                        Resources.CloudServiceNameNullOrEmpty,
+                        asrVaultCreds.ResourceGroupName);
+                }
 
-            if (string.IsNullOrEmpty(asrVaultCreds.ResourceGroupName))
-            {
-                throw new ArgumentException(
-                    Properties.Resources.CloudServiceNameNullOrEmpty,
+                Utilities.UpdateCurrentVaultContext(asrVaultCreds);
+
+                this.RecoveryServicesClient.ValidateVaultSettings(
+                    asrVaultCreds.ResourceName,
                     asrVaultCreds.ResourceGroupName);
+
+                this.WriteObject(new ASRVaultSettings(asrVaultCreds));
             }
+        }
 
-            Utilities.UpdateCurrentVaultContext(asrVaultCreds);
+        private ASRVaultCreds ReadAcsASRVaultCreds()
+        {
+            ASRVaultCreds asrVaultCreds;
+            var serializer = new DataContractSerializer(typeof(ASRVaultCreds));
+            using (var s = new FileStream(
+                this.Path,
+                FileMode.Open,
+                FileAccess.Read,
+                FileShare.Read))
+            {
+                asrVaultCreds = (ASRVaultCreds)serializer.ReadObject(s);
+            }
+            return asrVaultCreds;
+        }
 
-            RecoveryServicesClient.ValidateVaultSettings(
-                asrVaultCreds.ResourceName,
-                asrVaultCreds.ResourceGroupName);
-
-            this.WriteObject(new ASRVaultSettings(asrVaultCreds));
+        private ASRVaultCreds ReadAadASRVaultCreds()
+        {
+            ASRVaultCreds asrVaultCreds;
+            var serializer = new DataContractSerializer(typeof(RSVaultAsrCreds));
+            using (var s = new FileStream(
+                this.Path,
+                FileMode.Open,
+                FileAccess.Read,
+                FileShare.Read))
+            {
+                RSVaultAsrCreds aadCreds = (RSVaultAsrCreds)serializer.ReadObject(s);
+                asrVaultCreds = new ASRVaultCreds();
+                asrVaultCreds.ChannelIntegrityKey = aadCreds.ChannelIntegrityKey;
+                asrVaultCreds.ResourceGroupName = aadCreds.VaultDetails.ResourceGroup;
+                asrVaultCreds.Version = aadCreds.Version;
+                asrVaultCreds.SiteId = aadCreds.SiteId;
+                asrVaultCreds.SiteName = aadCreds.SiteName;
+                asrVaultCreds.ResourceNamespace = aadCreds.VaultDetails.ProviderNamespace;
+                asrVaultCreds.ARMResourceType = aadCreds.VaultDetails.ResourceType;
+                asrVaultCreds.ResourceName = aadCreds.VaultDetails.ResourceName;
+            }
+            return asrVaultCreds;
         }
     }
 }
