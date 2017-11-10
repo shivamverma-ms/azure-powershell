@@ -340,6 +340,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         internal const string ForSite = "ForSite";
 
         /// <summary>
+        ///     Hyper-V fabric.
+        /// </summary>
+        internal const string HyperVFabric = "HyperVFabric";
+
+        /// <summary>
         ///     Mapping between HyperV Site to Azure.
         /// </summary>
         internal const string HyperVSiteToAzure = "HyperVSiteToAzure";
@@ -363,5 +368,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         ///     Remove replication protected items from RP
         /// </summary>
         internal const string RemoveReplicationProtectedItems = "RemoveReplicationProtectedItems";
+
+        /// <summary>
+        ///     VMwareV2 fabric.
+        /// </summary>
+        internal const string VMwareV2Fabric = "VMwareV2Fabric";
     }
 }

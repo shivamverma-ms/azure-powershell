@@ -12,7 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
+using System;
 using System.Management.Automation;
+using Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.Properties;
 using Microsoft.Azure.Management.RecoveryServices.SiteRecovery.Models;
 
 namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
@@ -30,24 +32,72 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
     public class NewAzureRmRecoveryServicesAsrFabric : SiteRecoveryCmdletBase
     {
         /// <summary>
-        ///     Gets or sets the name of the fabric to be created
+        ///     Gets or sets the name of the fabric to be created.
         /// </summary>
         [Parameter(
             ParameterSetName = ASRParameterSets.Default,
+            Mandatory = true,
+            HelpMessage = "Name of the fabric to be created")]
+        [Parameter(
+            ParameterSetName = ASRParameterSets.HyperVFabric,
+            Mandatory = true,
+            HelpMessage = "Name of the fabric to be created")]
+        [Parameter(
+            ParameterSetName = ASRParameterSets.VMwareV2Fabric,
             Mandatory = true,
             HelpMessage = "Name of the fabric to be created")]
         [ValidateNotNullOrEmpty]
         public string Name { get; set; }
 
         /// <summary>
-        ///     Gets or Sets the Fabric type
+        ///     Gets or sets the fabric type.
+        ///     This parameter will be deprecated soon. Type will be decided based on the
+        ///     switch parameters from now on. Introduce a new switch in case new fabric type is
+        ///     needed.
         /// </summary>
         [Parameter(
             ParameterSetName = ASRParameterSets.Default,
             Mandatory = false)]
-        [ValidateNotNullOrEmpty]
-        [ValidateSet(FabricProviders.HyperVSite, FabricProviders.VMware)]
+        [ValidateSet(FabricProviders.HyperVSite)]
+        [Obsolete("To create a Hyper-V fabric, use the command with HyperV switch parameter.",
+            false)]
         public string Type { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the HyperV switch parameter.
+        /// </summary>
+        [Parameter(
+            ParameterSetName = ASRParameterSets.HyperVFabric,
+            Mandatory = true)]
+        public SwitchParameter HyperV { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the VMwareV2 switch parameter.
+        /// </summary>
+        [Parameter(
+            ParameterSetName = ASRParameterSets.VMwareV2Fabric,
+            Mandatory = true)]
+        public SwitchParameter VMwareV2 { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the Key Vault URL.
+        /// </summary>
+        [Parameter(
+            ParameterSetName = ASRParameterSets.VMwareV2Fabric,
+            Mandatory = true,
+            HelpMessage = "The URL of the key vault to be associated with the fabric")]
+        [ValidateNotNullOrEmpty]
+        public string KeyVaultUrl { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the Key Vault ARM Id.
+        /// </summary>
+        [Parameter(
+            ParameterSetName = ASRParameterSets.VMwareV2Fabric,
+            Mandatory = true,
+            HelpMessage ="The ARM Id of the key vault to be associated with the fabric")]
+        [ValidateNotNullOrEmpty]
+        public string KeyVaultResourceId { get; set; }
 
         /// <summary>
         ///     ProcessRecord of the command.
@@ -60,21 +110,22 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 this.Name,
                 VerbsCommon.New))
             {
-                var fabricType = string.IsNullOrEmpty(this.Type) ? FabricProviders.HyperVSite
-                    : this.Type;
-
-                var input = new FabricCreationInput();
-                input.Properties = new FabricCreationInputProperties();
-
-                switch (fabricType)
+                var input = new FabricCreationInput()
                 {
-                    case FabricProviders.VMware:
-                        input.Properties.CustomDetails = new VMwareV2FabricCreationInput();
-                        break;
+                    Properties = new FabricCreationInputProperties()
+                };
 
-                    default:
-                        input.Properties.CustomDetails = new FabricSpecificCreationInput();
-                        break;
+                if (this.VMwareV2.IsPresent)
+                {
+                    input.Properties.CustomDetails = new VMwareV2FabricCreationInput
+                    {
+                        KeyVaultUrl = this.KeyVaultUrl,
+                        KeyVaultResourceArmId = this.KeyVaultResourceId
+                    };
+                }
+                else
+                {
+                    input.Properties.CustomDetails = new FabricSpecificCreationInput();
                 }
 
                 var response = this.RecoveryServicesClient.CreateAzureSiteRecoveryFabric(

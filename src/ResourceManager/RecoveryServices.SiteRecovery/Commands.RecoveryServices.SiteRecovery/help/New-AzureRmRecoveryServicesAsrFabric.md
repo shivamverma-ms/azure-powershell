@@ -49,11 +49,69 @@ Specifies the Azure Site Recovery Fabric Type.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: Default
 Aliases: 
 Accepted values: HyperVSite
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -HyperV
+Specifies Hyper-V fabric type.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: HyperV
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+
+### -VMwareV2
+Specifies VMwareV2 fabric type.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: VMwareV2
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+
+### -KeyVaultUrl
+Specifies the Azure Site Recovery Fabric Key Vault URL.
+
+```yaml
+Type: String
+Parameter Sets: VMwareV2
+Aliases: 
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -KeyVaultResourceId
+Specifies the Azure Site Recovery Fabric Key Vault ARM Id.
+
+```yaml
+Type: String
+Parameter Sets: VMwareV2
+Aliases: 
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
