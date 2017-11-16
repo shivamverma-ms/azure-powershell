@@ -441,8 +441,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices
                             ResourceName = this.Vault.Name,
                             ResourceId = aadDetails.ResourceId.Value,
                             Location = Vault.Location,
-                            ResourceType = RecoveryServicesVaultType,
-                            ProviderNamespace = PSRecoveryServicesClient.ProductionRpNamespace
+                            ResourceType = resourceType,
+                            ProviderNamespace = resourceProviderNamespace
                         },
                         ManagementCert = CertUtils.SerializeCert(cert, X509ContentType.Pfx),
                         Version = VaultCredentialVersionAad,
