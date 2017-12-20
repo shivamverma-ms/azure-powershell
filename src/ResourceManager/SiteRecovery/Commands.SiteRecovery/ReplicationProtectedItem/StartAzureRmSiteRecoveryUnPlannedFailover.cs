@@ -127,6 +127,15 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         [ValidateSet(Constants.UseRecoveryCloudService, Constants.AutoCreateCloudService)]
         public string CloudServiceCreationOption { get; set; }
 
+        /// <summary>
+        /// Gets or Sets recovery point type.
+        [Parameter(ParameterSetName = ASRParameterSets.ByRPObject)]
+        [ValidateNotNullOrEmpty]
+        [ValidateSet(
+            Constants.UseMultiVmSyncRecoveryPoint,
+            Constants.UsePerVmRecoveryPoint)]
+        public string MultiVmSyncPointOption { get; set; }
+
         #endregion Parameters
 
         /// <summary>
@@ -273,7 +282,9 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         CloudServiceCreationOption =
                         string.IsNullOrEmpty(this.CloudServiceCreationOption) ?
                             Constants.UseRecoveryCloudService :
-                            this.CloudServiceCreationOption
+                            this.CloudServiceCreationOption,
+                        MultiVmSyncPointOption = string.IsNullOrEmpty(this.MultiVmSyncPointOption) ?
+                            Constants.UseMultiVmSyncRecoveryPoint : this.MultiVmSyncPointOption
                     };
                     recoveryPlanUnplannedFailoverInputProperties.ProviderSpecificDetails.Add(recoveryPlanA2AFailoverInput);
                 }

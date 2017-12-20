@@ -1637,6 +1637,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 recoveryPointLocalTime.ToLongDateString(),
                 recoveryPointLocalTime.ToLongTimeString());
             this.RecoveryPointType = recoveryPoint.Properties.RecoveryPointType;
+
+            if(recoveryPoint.Properties.ProviderSpecificDetails is A2ARecoveryPointDetails)
+            {
+                ProviderSpecificDetails = new ASRA2ARecoveryPointDetails(recoveryPoint.Properties.ProviderSpecificDetails as A2ARecoveryPointDetails);
+            }
         }
 
         /// <summary>
@@ -1663,6 +1668,45 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets Recovery Point Type.
         /// </summary>
         public string RecoveryPointType { get; set; }
+
+        /// <summary>
+        /// Gets or sets provider specific details.
+        /// </summary>
+        ASRProviderSpecificRecoveryPointDetails ProviderSpecificDetails { get; set; }
+    }
+
+    public class ASRProviderSpecificRecoveryPointDetails
+    {
+
+    }
+
+    /// <summary>
+    /// A2A provider specific recovery point details.
+    /// </summary>
+    public class ASRA2ARecoveryPointDetails : ASRProviderSpecificRecoveryPointDetails
+    {
+        private string _recoveryPointSyncType;
+
+        /// <summary>
+        /// Gets or sets the value indicating whether the recovery
+        /// point is multi VM consistent.
+        /// </summary>
+        public string RecoveryPointSyncType
+        {
+            get { return this._recoveryPointSyncType; }
+            set { this._recoveryPointSyncType = value; }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the A2ARecoveryPointDetails class.
+        /// </summary>
+        public ASRA2ARecoveryPointDetails(A2ARecoveryPointDetails a2aRecoveryPointDetails)
+        {
+            if (a2aRecoveryPointDetails != null)
+            {
+                this.RecoveryPointSyncType = a2aRecoveryPointDetails.RecoveryPointSyncType;
+            }
+        }
     }
 
     /// <summary>

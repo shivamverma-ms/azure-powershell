@@ -452,6 +452,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Latest crash consistent recovery point type.
         /// </summary>
         public const string LatestCrashConsistent = "LatestCrashConsistent";
+
+        /// <summary>
+        /// Use multi VM sync recovery points.
+        /// </summary>
+        public const string UseMultiVmSyncRecoveryPoint = "UseMultiVmSyncRecoveryPoint";
+
+        /// <summary>
+        /// Use individual VM's recovery points.
+        /// </summary>
+        public const string UsePerVmRecoveryPoint = "UsePerVmRecoveryPoint";
     }
 
     /// <summary>
