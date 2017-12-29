@@ -1672,7 +1672,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets provider specific details.
         /// </summary>
-        ASRProviderSpecificRecoveryPointDetails ProviderSpecificDetails { get; set; }
+        public ASRProviderSpecificRecoveryPointDetails ProviderSpecificDetails { get; set; }
     }
 
     public class ASRProviderSpecificRecoveryPointDetails
