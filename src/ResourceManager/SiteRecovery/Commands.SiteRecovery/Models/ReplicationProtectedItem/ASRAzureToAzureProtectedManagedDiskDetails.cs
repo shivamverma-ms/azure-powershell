@@ -19,32 +19,34 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProtectedItem
     /// <summary>
     /// AzureToAzure replication provider specific protected disk details.
     /// </summary>
-    public class ASRAzureToAzureProtectedDiskDetails
+    public class ASRAzureToAzureProtectedManagedDiskDetails
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ASRAzureToAzureProtectedDiskDetails" />
+        /// Initializes a new instance of the <see cref="ASRAzureToAzureProtectedManagedDiskDetails" />
         /// class.
         /// </summary>
-        public ASRAzureToAzureProtectedDiskDetails()
+        public ASRAzureToAzureProtectedManagedDiskDetails()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ASRAzureToAzureProtectedDiskDetails" />
+        /// Initializes a new instance of the <see cref="ASRAzureToAzureProtectedManagedDiskDetails" />
         /// class.
         /// </summary>
-        public ASRAzureToAzureProtectedDiskDetails(SDK.A2AProtectedDiskDetails disk)
+        public ASRAzureToAzureProtectedManagedDiskDetails(SDK.A2AProtectedManagedDiskDetails disk)
         {
             if (disk == null)
             {
                 return;
             }
 
-            this.DiskUri = disk.DiskUri;
-            this.PrimaryDiskAzureStorageAccountId = disk.PrimaryDiskAzureStorageAccountId;
+            this.DiskId = disk.DiskId;
+            this.PrimaryDiskAzureStorageAccountId = disk.PrimaryStagingAzureStorageAccountId;
             this.PrimaryStagingAzureStorageAccountId = disk.PrimaryStagingAzureStorageAccountId;
-            this.RecoveryAzureStorageAccountId = disk.RecoveryAzureStorageAccountId;
-            this.RecoveryDiskUri = disk.RecoveryDiskUri;
+            this.RecoveryResourceGroupId = disk.RecoveryResourceGroupId;
+            this.RecoveryDiskId = disk.RecoveryDiskId;
+            this.RecoveryReplicaDiskAccountType = disk.RecoveryReplicaDiskAccountType;
+            this.RecoveryTargetDiskAccountType = disk.RecoveryTargetDiskAccountType;
             this.ResyncRequired = disk.ResyncRequired;
             this.MonitoringPercentageCompletion = disk.MonitoringPercentageCompletion;
             this.MonitoringJobType = disk.MonitoringJobType;
@@ -55,7 +57,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProtectedItem
         /// <summary>
         /// Gets or sets the disk uri.
         /// </summary>
-        public string DiskUri { get; set; }
+        public string DiskId { get; set; }
 
         /// <summary>
         /// Gets or sets the primary disk storage account. 
@@ -68,15 +70,25 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProtectedItem
         public string PrimaryStagingAzureStorageAccountId { get; set; }
 
         /// <summary>
-        /// Gets or sets the recovery disk storage account. 
+        /// Gets or sets the recovery resource group Id. 
         /// </summary>
-        public string RecoveryAzureStorageAccountId { get; set; }
+        public string RecoveryResourceGroupId { get; set; }
 
         /// <summary>
         /// Gets or sets recovery disk uri.
         /// </summary>
-        public string RecoveryDiskUri { get; set; }
+        public string RecoveryDiskId { get; set; }
 
+        /// <summary>
+        /// Gets or sets recovery replica disk account type.
+        /// </summary>
+        public string RecoveryReplicaDiskAccountType { get; set; }
+
+        /// <summary>
+        /// Gets or sets recovery target disk account type.
+        /// </summary>
+        public string RecoveryTargetDiskAccountType { get; set; }
+        
         /// <summary>
         /// Gets or sets a value indicating whether resync is required for this disk.
         /// </summary>

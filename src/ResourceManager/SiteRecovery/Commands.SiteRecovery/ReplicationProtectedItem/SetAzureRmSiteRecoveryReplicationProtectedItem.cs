@@ -125,6 +125,21 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public string RecoveryAvailabilitySetId { get; set; }
 
         /// <summary>
+        /// Gets or sets Recovery boot diagnostic Azure Storage Account Id. Will be used for A2A scenario.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryBootDiagStorageAccountId { get; set; }
+
+
+        /// <summary>
+        /// Gets or sets Recovery boot diagnostic Azure Storage Account Id. Will be used for A2A scenario.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public List<ASRAzureToAzureManagedDiskDetails> ManagedDiskUpdateDetails { get; set; }
+
+        /// <summary>
         /// Gets or sets LicenseType for
         /// HUB https://azure.microsoft.com/en-in/pricing/hybrid-use-benefit/
         /// </summary>
@@ -171,6 +186,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                 string.IsNullOrEmpty(this.RecoveryCloudServiceId) &&
                 string.IsNullOrEmpty(this.RecoveryV1ResourceGroupId) &&
                 string.IsNullOrEmpty(this.RecoveryV2ResourceGroupId) &&
+                string.IsNullOrEmpty(this.RecoveryBootDiagStorageAccountId) &&
                 string.IsNullOrEmpty(this.LicenseType))
             {
                 this.WriteWarning(Properties.Resources.ArgumentsMissingForUpdateVmProperties.ToString());
@@ -359,10 +375,27 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             }
             if (0 == string.Compare(provider, Constants.AzureToAzure, StringComparison.OrdinalIgnoreCase))
             {
+
+                List<A2AVmManagedDiskUpdateDetails> mdUpdateDetails = new List<A2AVmManagedDiskUpdateDetails>();
+                if (this.ManagedDiskUpdateDetails != null)
+                {
+                    foreach (var mdUpdateDisk in this.ManagedDiskUpdateDetails)
+                    {
+                        mdUpdateDetails.Add(new A2AVmManagedDiskUpdateDetails()
+                        {
+                            DiskId = mdUpdateDisk.DiskId,
+                            RecoveryReplicaDiskAccountType = mdUpdateDisk.RecoveryReplicaDiskType,
+                            RecoveryTargetDiskAccountType = mdUpdateDisk.RecoveryTargetDiskType
+                        });
+                    }
+                }
+
                 providerSpecificInput = new A2AUpdateReplicationProtectedItemInput()
                 {
                     RecoveryCloudServiceId = this.RecoveryCloudServiceId,
-                    RecoveryResourceGroupId = this.RecoveryResourceGroupId
+                    RecoveryResourceGroupId = this.RecoveryResourceGroupId,
+                    RecoveryBootDiagStorageAccountId = this.RecoveryBootDiagStorageAccountId,
+                    ManagedDiskUpdateDetails = mdUpdateDetails
                 };
 
                 A2AReplicationDetails providerSpecificDetails = (A2AReplicationDetails)replicationProtectedItemResponse.ReplicationProtectedItem.Properties.ProviderSpecificDetails;

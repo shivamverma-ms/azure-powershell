@@ -108,6 +108,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public const string New = "New";
 
         /// <summary>
+        /// Represents standard disk type.
+        /// </summary>
+        public const string StandardDiskType = "Standard";
+
+        /// <summary>
+        /// Represents premium disk type.
+        /// </summary>
+        public const string PremiumDiskType = "Premium";
+
+        /// <summary>
         /// Represents direction primary to secondary.
         /// </summary>
         public const string PrimaryToRecovery = "PrimaryToRecovery";
