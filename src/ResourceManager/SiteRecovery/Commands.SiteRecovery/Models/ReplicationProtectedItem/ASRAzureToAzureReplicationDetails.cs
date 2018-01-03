@@ -30,6 +30,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProtectedItem
         public ASRAzureToAzureReplicationDetails()
         {
             this.ProtectedDisks = new List<ASRAzureToAzureProtectedDiskDetails>();
+            this.ProtectedManagedDisks = new List<ASRAzureToAzureProtectedManagedDiskDetails>();
             this.VmSyncedConfigDetails = new ASRAzureToAzureVmSyncedConfigDetails();
         }
 
@@ -44,10 +45,12 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProtectedItem
             this.MultiVmGroupName = details.MultiVmGroupName;
             this.OSType = details.OSType;
             this.PrimaryFabricLocation = details.PrimaryFabricLocation;
-            this.ProtectedDisks =
-                details.ProtectedDisks.ToList()
+            this.ProtectedDisks = details.ProtectedDisks.ToList()
                 .ConvertAll(disk => new ASRAzureToAzureProtectedDiskDetails(disk));
+            this.ProtectedManagedDisks = details.ProtectedManagedDisks.ToList()
+                .ConvertAll(disk => new ASRAzureToAzureProtectedManagedDiskDetails(disk));
             this.RecoveryAzureResourceGroupId = details.RecoveryAzureResourceGroupId;
+            this.RecoveryAzureBootDiagStorageAccountId = details.RecoveryBootDiagStorageAccountId;
             this.RecoveryAzureCloudService = details.RecoveryCloudService;
             this.RecoveryAzureVMName = details.RecoveryAzureVMName;
             this.RecoveryAzureVMSize = details.RecoveryAzureVMSize;
@@ -99,9 +102,19 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProtectedItem
         public List<ASRAzureToAzureProtectedDiskDetails> ProtectedDisks { get; set; }
 
         /// <summary>
+        /// List of managed disk specific details.
+        /// </summary>
+        public List<ASRAzureToAzureProtectedManagedDiskDetails> ProtectedManagedDisks { get; set; }
+
+        /// <summary>
         /// Recovery azure resource group id.
         /// </summary>
         public string RecoveryAzureResourceGroupId { get; set; }
+
+        /// <summary>
+        /// Recovery boot diag storage account id.
+        /// </summary>
+        public string RecoveryAzureBootDiagStorageAccountId { get; set; }
 
         /// <summary>
         /// Recovery azure cloud service.

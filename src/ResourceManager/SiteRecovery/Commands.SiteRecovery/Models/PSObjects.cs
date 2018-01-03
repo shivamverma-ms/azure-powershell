@@ -1206,12 +1206,17 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     .ConvertAll(disk => new ProtectedItem.ASRAzureToAzureProtectedDiskDetails(disk));
 
                     this.RecoveryAzureVMName = a2aProviderSpecificDetails.RecoveryAzureVMName;
-                    this.RecoveryAzureVMSize = a2aProviderSpecificDetails.RecoveryAzureVMSize;
-                    this.SelectedRecoveryAzureNetworkId = a2aProviderSpecificDetails.SelectedRecoveryAzureNetworkId;
-                    this.NicDetailsList =
-                        a2aProviderSpecificDetails.VMNics?.ToList()
-                        .ConvertAll(nic => new ASRVMNicDetails(nic));
-                    this.ProviderSpecificDetails =
+                this.A2AManagedDiskDetails = a2aProviderSpecificDetails.ProtectedManagedDisks.ToList()
+                    .ConvertAll(disk => new ProtectedItem.ASRAzureToAzureProtectedManagedDiskDetails(disk));
+
+                this.RecoveryAzureVMName = a2aProviderSpecificDetails.RecoveryAzureVMName;
+                this.RecoveryAzureVMSize = a2aProviderSpecificDetails.RecoveryAzureVMSize;
+                this.RecoveryAzureBootDiagStorageAccount = a2aProviderSpecificDetails.RecoveryBootDiagStorageAccountId;
+                this.SelectedRecoveryAzureNetworkId = a2aProviderSpecificDetails.SelectedRecoveryAzureNetworkId;
+                this.NicDetailsList =
+                    a2aProviderSpecificDetails.VMNics?.ToList()
+                    .ConvertAll(nic => new ASRVMNicDetails(nic));
+                this.ProviderSpecificDetails =
                         new ASRAzureToAzureReplicationDetails(a2aProviderSpecificDetails);
                 this.ProtectionState = a2aProviderSpecificDetails.VmProtectionState;
                 this.ProtectionStateDescription =
@@ -1380,6 +1385,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public string RecoveryAzureStorageAccount { get; set; }
 
         /// <summary>
+        /// Gets or sets Recovery Azure Boot Diag Storage Account of the Virtual machine.
+        /// </summary>
+        public string RecoveryAzureBootDiagStorageAccount { get; set; }
+
+        /// <summary>
         /// Gets or sets Selected Recovery Azure Network Id of the Virtual machine.
         /// </summary>
         public string SelectedRecoveryAzureNetworkId { get; set; }
@@ -1398,6 +1408,11 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// Gets or sets A2A specific protected disk details.
         /// </summary>
         public List<ProtectedItem.ASRAzureToAzureProtectedDiskDetails> A2ADiskDetails { get; set; }
+
+        /// <summary>
+        /// Gets or sets A2A specific managed protected disk details.
+        /// </summary>
+        public List<ProtectedItem.ASRAzureToAzureProtectedManagedDiskDetails> A2AManagedDiskDetails { get; set; }
 
         /// <summary>
         /// Gets or sets the recovery fabric object Id.
@@ -2420,6 +2435,16 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         /// <summary>
         /// Gets or sets the recovery resource group ARM Id. 
         /// </summary>
-        public string RecoveryAzureResourceGroupId { get; set; }
+        public string RecoveryResourceGroupId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the recovery resource group ARM Id. 
+        /// </summary>
+        public string RecoveryReplicaDiskType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the recovery resource group ARM Id. 
+        /// </summary>
+        public string RecoveryTargetDiskType { get; set; }
     }
 }

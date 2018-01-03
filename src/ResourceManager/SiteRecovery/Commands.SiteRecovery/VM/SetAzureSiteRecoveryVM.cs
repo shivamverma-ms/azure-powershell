@@ -89,6 +89,26 @@ namespace Microsoft.Azure.Commands.SiteRecovery
             Constants.SelectedByUser)]
         public string NicSelectionType { get; set; }
 
+        /// <summary>
+        /// Gets or sets Recovery replica disk type.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk)]
+        [ValidateSet(Constants.StandardDiskType, Constants.PremiumDiskType)]
+        public string RecoveryReplicaDiskType { get; set; }
+
+        /// <summary>
+        /// Gets or sets Recovery target disk type.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk)]
+        [ValidateSet(Constants.StandardDiskType, Constants.PremiumDiskType)]
+        public string RecoveryTargetDiskType { get; set; }
+
+        /// <summary>
+        /// Gets or sets BootDiagnosticStorageAccountId.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk)]
+        public string BootDiagnosticStorageAccountId { get; set; }
+
         #endregion Parameters
 
         /// <summary>

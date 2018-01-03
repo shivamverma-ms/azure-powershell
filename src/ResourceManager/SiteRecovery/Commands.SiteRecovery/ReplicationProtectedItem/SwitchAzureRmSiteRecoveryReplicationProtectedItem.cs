@@ -132,6 +132,12 @@ namespace Microsoft.Azure.Commands.SiteRecovery
         public string RecoveryAvailabilitySetId { get; set; }
 
         /// <summary>
+        /// Gets or sets BootDiagnosticStorageAccountId.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk)]
+        public string RecoveryBootDiagStorageAccountId { get; set; }
+
+        /// <summary>
         /// Gets or sets switch parameter. On passing, command waits till completion.
         /// </summary>
         [Parameter]
@@ -213,7 +219,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                     VmManagedDisks = new List<A2AVmManagedDiskInputDetails>(),
                     RecoveryResourceGroupId = this.RecoveryResourceGroupId,
                     RecoveryCloudServiceId = this.RecoveryCloudServiceId,
-                    RecoveryAvailabilitySetId = this.RecoveryAvailabilitySetId
+                    RecoveryAvailabilitySetId = this.RecoveryAvailabilitySetId,
+                    RecoveryBootDiagStorageAccountId = this.RecoveryBootDiagStorageAccountId
                 };
 
                 // Fetch the latest Protectable item objects
@@ -235,7 +242,7 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                                     disk.DiskId));
                         }
 
-                        if (string.IsNullOrEmpty(disk.RecoveryAzureResourceGroupId))
+                        if (string.IsNullOrEmpty(disk.RecoveryResourceGroupId))
                         {
                             throw new PSArgumentException(
                                 string.Format(
@@ -246,8 +253,10 @@ namespace Microsoft.Azure.Commands.SiteRecovery
                         a2aSwitchInput.VmManagedDisks.Add(new A2AVmManagedDiskInputDetails
                         {
                             DiskId = disk.DiskId,
-                            RecoveryResourceGroupId = disk.RecoveryAzureResourceGroupId,
+                            RecoveryResourceGroupId = disk.RecoveryResourceGroupId,
                             PrimaryStagingAzureStorageAccountId = disk.PrimaryStagingAzureStorageAccountId,
+                            RecoveryReplicaDiskAccountType = disk.RecoveryReplicaDiskType,
+                            RecoveryTargetDiskAccountType = disk.RecoveryTargetDiskType
                         });
                     }
                 }
