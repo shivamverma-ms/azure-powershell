@@ -44,7 +44,8 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProtectedItem
             this.PrimaryDiskAzureStorageAccountId = disk.PrimaryStagingAzureStorageAccountId;
             this.PrimaryStagingAzureStorageAccountId = disk.PrimaryStagingAzureStorageAccountId;
             this.RecoveryResourceGroupId = disk.RecoveryResourceGroupId;
-            this.RecoveryDiskId = disk.RecoveryDiskId;
+            this.RecoveryTargetDiskId = disk.RecoveryTargetDiskId;
+            this.RecoveryReplicaDiskId = disk.RecoveryReplicaDiskId;
             this.RecoveryReplicaDiskAccountType = disk.RecoveryReplicaDiskAccountType;
             this.RecoveryTargetDiskAccountType = disk.RecoveryTargetDiskAccountType;
             this.ResyncRequired = disk.ResyncRequired;
@@ -75,9 +76,14 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProtectedItem
         public string RecoveryResourceGroupId { get; set; }
 
         /// <summary>
-        /// Gets or sets recovery disk uri.
+        /// Gets or sets recovery target disk Id.
         /// </summary>
-        public string RecoveryDiskId { get; set; }
+        public string RecoveryTargetDiskId { get; set; }
+
+        /// <summary>
+        /// Gets or sets recovery replica disk Id.
+        /// </summary>
+        public string RecoveryReplicaDiskId { get; set; }
 
         /// <summary>
         /// Gets or sets recovery replica disk account type.
