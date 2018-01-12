@@ -41,7 +41,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProtectedItem
             }
 
             this.DiskId = disk.DiskId;
-            this.PrimaryDiskAzureStorageAccountId = disk.PrimaryStagingAzureStorageAccountId;
             this.PrimaryStagingAzureStorageAccountId = disk.PrimaryStagingAzureStorageAccountId;
             this.RecoveryResourceGroupId = disk.RecoveryResourceGroupId;
             this.RecoveryTargetDiskId = disk.RecoveryTargetDiskId;
@@ -59,11 +58,6 @@ namespace Microsoft.Azure.Commands.SiteRecovery.Models.ReplicationProtectedItem
         /// Gets or sets the disk uri.
         /// </summary>
         public string DiskId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the primary disk storage account. 
-        /// </summary>
-        public string PrimaryDiskAzureStorageAccountId { get; set; }
 
         /// <summary>
         /// Gets or sets the primary staging storage account.
