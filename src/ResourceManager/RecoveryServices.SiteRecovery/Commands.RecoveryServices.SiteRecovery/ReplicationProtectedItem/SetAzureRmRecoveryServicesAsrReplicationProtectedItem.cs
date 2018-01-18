@@ -200,7 +200,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 
                     if (string.IsNullOrEmpty(this.Name))
                     {
-                        vmName = providerSpecificDetails.RecoveryAzureVMName;
+                        vmName = providerSpecificDetails.RecoveryAzureVmName;
                     }
 
                     if (string.IsNullOrEmpty(this.Size))

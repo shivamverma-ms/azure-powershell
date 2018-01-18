@@ -1131,7 +1131,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     (HyperVReplicaAzureReplicationDetails) rpi.Properties.ProviderSpecificDetails;
 
                 this.ReplicationProvider = Constants.HyperVReplicaAzure;
-                this.RecoveryAzureVMName = providerSpecificDetails.RecoveryAzureVMName;
+                this.RecoveryAzureVMName = providerSpecificDetails.RecoveryAzureVmName;
                 this.RecoveryAzureVMSize = providerSpecificDetails.RecoveryAzureVMSize;
                 this.RecoveryAzureStorageAccount =
                     providerSpecificDetails.RecoveryAzureStorageAccount;
