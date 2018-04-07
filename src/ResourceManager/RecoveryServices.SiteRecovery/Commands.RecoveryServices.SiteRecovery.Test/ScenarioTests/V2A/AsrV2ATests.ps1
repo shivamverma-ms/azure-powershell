@@ -148,6 +148,11 @@ Site Recovery Fabric Tests New model
 function Test-SiteRecoveryFabricTest
 {
     param([string] $vaultSettingsFilePath)
+    $vaultName= "vipin1"
+    $vaultRg = "reRg"
+    Import-Module AzureRM.RecoveryServices
+    $Vault = Get-AzureRmRecoveryServicesVault -Name $vaultName -ResourceGroupName $vaultRg 
+     Get-AzureRmRecoveryServicesVaultSettingsFile -Vault $Vault
 
     # Import Azure RecoveryServices Vault Settings File
     Import-AzureRmRecoveryServicesAsrVaultSettingsFile -Path $vaultSettingsFilePath

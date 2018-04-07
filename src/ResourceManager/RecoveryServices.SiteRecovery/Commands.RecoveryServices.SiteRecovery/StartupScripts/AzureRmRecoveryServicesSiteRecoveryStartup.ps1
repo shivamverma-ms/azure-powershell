@@ -44,6 +44,7 @@
     "New-ASRNetworkMapping" = "New-AzureRmRecoveryServicesAsrNetworkMapping";
     "New-ASRPolicy" = "New-AzureRmRecoveryServicesAsrPolicy";
     "New-ASRProtectableItem" = "New-AzureRmRecoveryServicesAsrProtectableItem";
+    "New-ASRProtectionContainer" = "New-AzureRmRecoveryServicesAsrProtectionContainer";
     "New-ASRProtectionContainerMapping" = "New-AzureRmRecoveryServicesAsrProtectionContainerMapping";
     "New-ASRRecoveryPlan" = "New-AzureRmRecoveryServicesAsrRecoveryPlan";
     "New-ASRReplicationProtectedItem" = "New-AzureRmRecoveryServicesAsrReplicationProtectedItem";
@@ -53,6 +54,7 @@
     "Remove-ASRFabric" = "Remove-AzureRmRecoveryServicesAsrFabric";
     "Remove-ASRNetworkMapping" = "Remove-AzureRmRecoveryServicesAsrNetworkMapping";
     "Remove-ASRPolicy" = "Remove-AzureRmRecoveryServicesAsrPolicy";
+    "Remove-ASRProtectionContainer" = "Remove-AzureRmRecoveryServicesAsrProtectionContainer";
     "Remove-ASRProtectionContainerMapping" = "Remove-AzureRmRecoveryServicesAsrProtectionContainerMapping";
     "Remove-ASRRecoveryPlan" = "Remove-AzureRmRecoveryServicesAsrRecoveryPlan";
     "Remove-ASRReplicationProtectedItem" = "Remove-AzureRmRecoveryServicesAsrReplicationProtectedItem";
@@ -81,6 +83,7 @@
     "Start-ASRTestFailoverCleanupJob" = "Start-AzureRmRecoveryServicesAsrTestFailoverCleanupJob";
     "Start-ASRTestFailoverJob" = "Start-AzureRmRecoveryServicesAsrTestFailoverJob";
     "Start-ASRTFO" = "Start-AzureRmRecoveryServicesAsrTestFailoverJob";
+    "Start-ASRTFOCleanupJob" = "Start-AzureRmRecoveryServicesAsrTestFailoverCleanupJob";
     "Start-ASRUnplannedFailoverJob" = "Start-AzureRmRecoveryServicesAsrUnplannedFailoverJob";
     "Stop-ASRJob" = "Stop-AzureRmRecoveryServicesAsrJob";
     "Update-ASRPolicy" = "Update-AzureRmRecoveryServicesAsrPolicy";

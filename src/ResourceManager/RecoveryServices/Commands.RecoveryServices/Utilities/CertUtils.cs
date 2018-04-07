@@ -83,7 +83,9 @@ namespace Microsoft.Azure.Commands.RecoveryServices
             {
                 TakeOwnershipOfKey = true,
                 StartTime = startTime,
-                EndTime = endTime
+                EndTime = endTime,
+                SignatureAlgorithm = X509CertificateSignatureAlgorithm.RsaSha256
+
             };
 
             //// adding client authentication, -eku = 1.3.6.1.5.5.7.3.2, 

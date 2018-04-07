@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Azure.Management.RecoveryServices.SiteRecovery.Models;
+using System.Linq;
 
 namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 {
@@ -647,14 +648,120 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
     public class ASRAzureToAzureSpecificRPIDetails : ASRProviderSpecificRPIDetails
     {
         /// <summary>
+        /// Initializes a new instance of the<see cref="ASRAzureToAzureSpecificRPIDetails" /> class.
+        /// </summary>
+        public ASRAzureToAzureSpecificRPIDetails(A2AReplicationDetails details)
+        {
+            this.FabricObjectId = details.FabricObjectId;
+            this.MultiVmGroupId = details.MultiVmGroupId;
+            this.MultiVmGroupName = details.MultiVmGroupName;
+            this.OSType = details.OsType;
+            this.PrimaryFabricLocation = details.PrimaryFabricLocation;
+            this.RecoveryFabricObjectId = details.RecoveryFabricObjectId;
+            this.RecoveryAzureResourceGroupId = details.RecoveryAzureResourceGroupId;
+            this.RecoveryAzureCloudService = details.RecoveryCloudService;
+            this.RecoveryFabricLocation = details.RecoveryFabricLocation;
+            this.RecoveryAvailabilitySet = details.RecoveryAvailabilitySet;
+            this.TestFailoverRecoveryFabricObjectId = details.TestFailoverRecoveryFabricObjectId;
+            this.MonitoringJobType = details.MonitoringJobType;
+            this.MonitoringPercentageCompletion = details.MonitoringPercentageCompletion;
+            this.AgentVersion = details.AgentVersion;
+            this.LastRpoCalculatedTime = details.LastRpoCalculatedTime;
+            this.RpoInSeconds = details.RpoInSeconds;
+            this.IsReplicationAgentUpdateRequired = details.IsReplicationAgentUpdateRequired;
+            
+            if (details.LastHeartbeat != null)
+            {
+                this.LastHeartbeat = details.LastHeartbeat.Value.ToLocalTime();
+            }
+
+            if (details.ProtectedDisks != null)
+            {
+                this.A2ADiskDetails =
+                    details.ProtectedDisks.ToList()
+                    .ConvertAll(disk => new ASRAzureToAzureProtectedDiskDetails(disk));
+            }
+
+            if (details.VmSyncedConfigDetails != null)
+            {
+                this.VmSyncedConfigDetails =
+                    new ASRAzureToAzureVmSyncedConfigDetails(details.VmSyncedConfigDetails);
+            }
+
+        }
+
+        /// <summary>
+        /// Fabric object ARM Id.
+        /// </summary>
+        public string FabricObjectId { get; set; }
+
+        /// <summary>
+        /// Multi vm group Id.
+        /// </summary>
+        public string MultiVmGroupId { get; set; }
+
+        /// <summary>
+        /// Multi vm group name.
+        /// </summary>
+        public string MultiVmGroupName { get; set; }
+        /// </summary>
+
+        /// <summary>
+        /// Operating system type.
+        /// </summary>
+        public string OSType { get; set; }
+
+        /// <summary>
+        /// Primary fabric location.
+        /// </summary>
+        public string PrimaryFabricLocation { get; set; }
+
+        /// <summary>
+        /// Recovery azure resource group id.
+        /// </summary>
+        public string RecoveryAzureResourceGroupId { get; set; }
+
+        /// <summary>
+        /// Recovery azure cloud service.
+        /// </summary>
+        public string RecoveryAzureCloudService { get; set; }
+
+        /// <summary>
+        /// Recovery fabric location.
+        /// </summary>
+        public string RecoveryFabricLocation { get; set; }
+
+        /// <summary>
+        /// Recovery availability set.
+        /// </summary>
+        public string RecoveryAvailabilitySet { get; set; }
+
+        /// <summary>
+        /// Synced configuration details of the virtual machine.
+        /// </summary>
+        public ASRAzureToAzureVmSyncedConfigDetails VmSyncedConfigDetails { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of the monitoring job. The progress is contained in
+        /// MonitoringPercentageCompletion property.
+        /// </summary>
+        public string MonitoringJobType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the percentage of the monitoring job. The type of the monitoring job
+        /// is defined by MonitoringJobType property.
+        /// </summary>
+        public int? MonitoringPercentageCompletion { get; set; }
+
+        /// <summary>
+        /// Gets or sets the last heartbeat received from the source server.
+        /// </summary>
+        public DateTime? LastHeartbeat { get; set; }
+
+        /// <summary>
         /// Gets or sets A2A specific protected disk details.
         /// </summary>
         public List<ASRAzureToAzureProtectedDiskDetails> A2ADiskDetails { get; set; }
-
-        /// <summary>
-        /// Fabric Object Id of the Virtual machine(AzureVm).
-        /// </summary>
-        public string FabricObjectId { get; set; }
 
         /// <summary>
         /// Gets or sets the recovery fabric object Id.
@@ -667,14 +774,29 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public string TestFailoverRecoveryFabricObjectId { get; set; }
 
         /// <summary>
-        /// Gets or sets Multi vm group name.
+        //     Gets or sets the agent version.
         /// </summary>
-        public string MultiVmGroupName { get; set; }
+        public string AgentVersion;
 
         /// <summary>
-        /// Gets or sets Multi vm group id.
+        //  Gets or sets the time (in UTC) when the last RPO value was calculated by Protection service.
         /// </summary>
-        public string MultiVmGroupId { get; set; }
+        public DateTime? LastRpoCalculatedTime;
+
+        /// <summary>
+        //     Gets or sets the last RPO value in seconds.
+        /// </summary>
+        public long? RpoInSeconds;
+
+        /// <summary>
+        //     Gets or sets a value indicating whether replication agent update is required.
+        /// </summary>
+        public bool? IsReplicationAgentUpdateRequired;
+
+        // check do we need to expoxed these 2 (TODO)
+        // public string RecoveryFabricObjectId;  //how it is different from parent RecoveryFabricId
+        // public string LifecycleId;
+        // public string managementId;
     }
 
     /// <summary>
