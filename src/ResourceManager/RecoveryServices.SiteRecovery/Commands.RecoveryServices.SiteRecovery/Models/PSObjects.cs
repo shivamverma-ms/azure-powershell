@@ -1199,6 +1199,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     providerSpecificDetails.RecoveryAzureStorageAccount;
                 this.SelectedRecoveryAzureNetworkId =
                     providerSpecificDetails.SelectedRecoveryAzureNetworkId;
+
+                this.RecoveryResourceGroupId =
+                    providerSpecificDetails.RecoveryAzureResourceGroupId;
+
                 if (providerSpecificDetails.VmNics != null)
                 {
                     this.NicDetailsList = new List<ASRVMNicDetails>();
