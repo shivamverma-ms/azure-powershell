@@ -1183,7 +1183,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 rpi.Properties.RecoveryProtectionContainerFriendlyName;
             this.RecoveryServicesProviderId = rpi.Properties.RecoveryServicesProviderId;
             this.ReplicationHealth = rpi.Properties.ReplicationHealth;
-            this.ReplicationHealthErrors = rpi.Properties.ReplicationHealthErrors;
+            this.ReplicationHealthErrors = rpi.Properties.HealthErrors;
             this.TestFailoverState = rpi.Properties.TestFailoverState;
             this.TestFailoverStateDescription = rpi.Properties.TestFailoverStateDescription;
 
@@ -1193,7 +1193,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     (HyperVReplicaAzureReplicationDetails)rpi.Properties.ProviderSpecificDetails;
 
                 this.ReplicationProvider = Constants.HyperVReplicaAzure;
-                this.RecoveryAzureVMName = providerSpecificDetails.RecoveryAzureVMName;
+                this.RecoveryAzureVMName = providerSpecificDetails.RecoveryAzureVmName;
                 this.RecoveryAzureVMSize = providerSpecificDetails.RecoveryAzureVMSize;
                 this.RecoveryAzureStorageAccount =
                     providerSpecificDetails.RecoveryAzureStorageAccount;
@@ -1343,7 +1343,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 this.ProtectionState = a2aProviderSpecificDetails.VmProtectionState;
                 this.ProtectionStateDescription = a2aProviderSpecificDetails.VmProtectionStateDescription;
                 this.ProviderSpecificDetails = new ASRAzureToAzureSpecificRPIDetails(a2aProviderSpecificDetails);
-                if (a2aProviderSpecificDetails.VmNics != null)
+		// todo : vipin convert manageddisk object                
+		if (a2aProviderSpecificDetails.VmNics != null)
                 {
                     this.NicDetailsList =
                            a2aProviderSpecificDetails.VmNics?.ToList()

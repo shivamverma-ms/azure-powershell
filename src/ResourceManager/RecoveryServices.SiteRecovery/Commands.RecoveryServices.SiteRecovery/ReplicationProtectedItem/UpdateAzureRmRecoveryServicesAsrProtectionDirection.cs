@@ -80,6 +80,9 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter(
             ParameterSetName = ASRParameterSets.AzureToAzureWithMultipleStorageAccount,
             Mandatory = true)]
+        [Parameter(
+            ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk,
+            Mandatory = true)]
         public SwitchParameter AzureToAzure { get; set; }
 
         /// <summary>
@@ -121,6 +124,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzure, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithMultipleStorageAccount, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public ASRProtectionContainerMapping ProtectionContainerMapping { get; set; }
 
@@ -146,6 +150,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         ///     and the log storage account and recovery storage account to be used to replicate the disk.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithMultipleStorageAccount, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public ASRAzuretoAzureDiskReplicationConfig[] AzureToAzureDiskReplicationConfiguration { get; set; }
 
@@ -190,6 +195,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             ParameterSetName = ASRParameterSets.AzureToAzureWithMultipleStorageAccount,
             Mandatory = true,
             ValueFromPipeline = true)]
+        [Parameter(
+            ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk,
+            Mandatory = true,
+            ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
         public ASRReplicationProtectedItem ReplicationProtectedItem { get; set; }
 
@@ -228,6 +237,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithMultipleStorageAccount)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk)]
         [ValidateNotNullOrEmpty]
         public string RecoveryResourceGroupId { get; set; }
 
@@ -244,8 +254,17 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithMultipleStorageAccount)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk)]
         [ValidateNotNullOrEmpty]
         public string RecoveryAvailabilitySetId { get; set; }
+
+        /// <summary>
+        /// Gets or sets BootDiagnosticStorageAccountId.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithMultipleStorageAccount)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        public string RecoveryBootDiagStorageAccountId { get; set; }
 
         /// <summary>
         ///     Gets or sets retention Volume on the master target server to be used.
@@ -282,6 +301,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         break;
                     case ASRParameterSets.AzureToAzure:
                     case ASRParameterSets.AzureToAzureWithMultipleStorageAccount:
+                    case ASRParameterSets.AzureToAzureManagedDisk:
                         this.protectionContainerName = Utilities.GetValueFromArmId(
                             this.ReplicationProtectedItem.ID,
                             ARMResourceTypeConstants.ReplicationProtectionContainers);
@@ -525,7 +545,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     VmDisks = new List<A2AVmDiskInputDetails>(),
                     RecoveryResourceGroupId = this.RecoveryResourceGroupId,
                     RecoveryCloudServiceId = this.RecoveryCloudServiceId,
-                    RecoveryAvailabilitySetId = this.RecoveryAvailabilitySetId
+                    RecoveryAvailabilitySetId = this.RecoveryAvailabilitySetId,
+                    RecoveryBootDiagStorageAccountId = this.RecoveryBootDiagStorageAccountId,
                 };
 
                 // Fetch the latest Protected item objects
@@ -550,9 +571,9 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 {
                     if (fabricFriendlyName !=
                         this.ProtectionContainerMapping.TargetFabricFriendlyName &&
-                        RecoveryAzureStorageAccountId == null)
+                        this.RecoveryAzureStorageAccountId == null)
                     {
-                        throw new ArgumentException(Resources.InvalidRecoveryAzureStorageAccountId);
+                        throw new ArgumentException(string.Format(Resources.InvalidRecoveryAzureStorageAccountIdDiskInput));
                     }
 
                     foreach (var disk in ((A2AReplicationDetails)replicationProtectedItemResponse
@@ -599,6 +620,25 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                             RecoveryAzureStorageAccountId = disk.RecoveryAzureStorageAccountId,
                             PrimaryStagingAzureStorageAccountId =
                                 disk.LogStorageAccountId
+                        });
+                    }
+                }
+		// todo:: code verification ManagedDisk case
+                if (this.AzureToAzureManagedDiskReplicationConfiguration == null && 
+                    ((A2AReplicationDetails)replicationProtectedItemResponse.Properties.ProviderSpecificDetails).ProtectedManagedDisks!= null)
+                {
+                    // Passing all managedDisk data if no details is passed.
+                    foreach (var disk in ((A2AReplicationDetails)replicationProtectedItemResponse
+                        .Properties.ProviderSpecificDetails)
+                        .ProtectedManagedDisks)
+                    {
+                        a2aSwitchInput.VmManagedDisks.Add(new A2AVmManagedDiskInputDetails
+                        {
+                            DiskId = disk.DiskId,
+                            RecoveryResourceGroupId = this.RecoveryResourceGroupId,
+                            RecoveryReplicaDiskAccountType = disk.RecoveryReplicaDiskAccountType,
+                            RecoveryTargetDiskAccountType = disk.RecoveryTargetDiskAccountType,
+                            PrimaryStagingAzureStorageAccountId = disk.LogStorageAccountId,
                         });
                     }
                 }

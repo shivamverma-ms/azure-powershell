@@ -45,6 +45,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
             Mandatory = true,
             HelpMessage = "Specifies the log or cache storage account Id to be used to store replication logs.")]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string LogStorageAccountId { get; set; }
 
@@ -57,6 +58,34 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [ValidateNotNullOrEmpty]
         public string RecoveryAzureStorageAccountId { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the disk uri.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        public string DiskId { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the recovery RecoveryResourceGroupId.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryResourceGroupId { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the recovery RecoveryReplicaDiskAccountType.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryReplicaDiskAccountType { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the recovery RecoveryTargetDiskAccountType.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryTargetDiskAccountType { get; set; }
+
         #endregion Parameters
 
         /// <summary>
@@ -65,21 +94,38 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public override void ExecuteSiteRecoveryCmdlet()
         {
             base.ExecuteSiteRecoveryCmdlet();
+            ASRAzuretoAzureDiskReplicationConfig diskRelicationConfig = null;
 
-            // Creating ASRAzureToAzureDiskReplicationConfig for Disk uri
+            var entityId = this.VhdUri == null ? this.DiskId : this.VhdUri;
+            // Creating ASRAzureToAzureDiskReplicationConfig for Disk 
             if (this.ShouldProcess(
                 this.VhdUri,
                 VerbsCommon.New))
             {
-                var diskRelicationConfig = new ASRAzuretoAzureDiskReplicationConfig()
+                switch (this.ParameterSetName)
                 {
-                    VhdUri = this.VhdUri,
-                    LogStorageAccountId = this.LogStorageAccountId,
-                    RecoveryAzureStorageAccountId = this.RecoveryAzureStorageAccountId
-                };
+                    case ASRParameterSets.AzureToAzure:
+                        diskRelicationConfig = new ASRAzuretoAzureDiskReplicationConfig()
+                        {
+                            VhdUri = this.VhdUri,
+                            LogStorageAccountId = this.LogStorageAccountId,
+                            RecoveryAzureStorageAccountId = this.RecoveryAzureStorageAccountId
+                        };
+                        break;
+                    case ASRParameterSets.AzureToAzureManagedDisk:
+                        diskRelicationConfig = new ASRAzuretoAzureDiskReplicationConfig()
+                        {
+                            DiskId = this.DiskId,
+                            LogStorageAccountId = this.LogStorageAccountId,
+                            RecoveryReplicaDiskAccountType = this.RecoveryReplicaDiskAccountType,
+                            RecoveryResourceGroupId = this.RecoveryResourceGroupId,
+                            RecoveryTargetDiskAccountType = this.RecoveryTargetDiskAccountType,
+                            isManagedDisk = true
+                        };
+                        break;
+                }
                 this.WriteObject(diskRelicationConfig);
             }
-
         }
     }
 }
