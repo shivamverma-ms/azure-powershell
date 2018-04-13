@@ -613,27 +613,31 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             // will add support when compute dependency is added in common library.
             foreach (ASRAzuretoAzureDiskReplicationConfig disk in this.AzureToAzureDiskReplicationConfiguration)
             {
-		if(disk.isManaged){
-		providerSettings.VmManagedDisks.Add(new A2AVmManagedDiskInputDetails
-				    {
-				        DiskId = disk.DiskId,
-				        RecoveryResourceGroupId = disk.RecoveryResourceGroupId,
-				        PrimaryStagingAzureStorageAccountId = disk.LogStorageAccountId,
-				        RecoveryReplicaDiskAccountType = disk.RecoveryReplicaDiskAccountType,
-				        RecoveryTargetDiskAccountType = disk.RecoveryTargetDiskAccountType
-				    });
+                if (disk.IsManagedDisk)
+                {
+                    providerSettings.VmManagedDisks.Add(new A2AVmManagedDiskInputDetails
+                    {
+                        DiskId = disk.DiskId,
+                        RecoveryResourceGroupId = disk.RecoveryResourceGroupId,
+                        PrimaryStagingAzureStorageAccountId = disk.LogStorageAccountId,
+                        RecoveryReplicaDiskAccountType = disk.RecoveryReplicaDiskAccountType,
+                        RecoveryTargetDiskAccountType = disk.RecoveryTargetDiskAccountType
+                    });
 
-		}else{
-		        providerSettings.VmDisks.Add(new A2AVmDiskInputDetails
-		        {
-		            DiskUri = disk.VhdUri,
-		            RecoveryAzureStorageAccountId =
-		                    disk.RecoveryAzureStorageAccountId,
-		            PrimaryStagingAzureStorageAccountId =
-		                    disk.LogStorageAccountId,
-		        });
- 	        }
-	    }
+                }
+                else
+                {
+                    providerSettings.VmDisks.Add(new A2AVmDiskInputDetails
+                    {
+                        DiskUri = disk.VhdUri,
+                        RecoveryAzureStorageAccountId =
+                                disk.RecoveryAzureStorageAccountId,
+                        PrimaryStagingAzureStorageAccountId =
+                                disk.LogStorageAccountId,
+                    });
+                }
+            }
+
 
             input.Properties.ProviderSpecificDetails = providerSettings;
         }

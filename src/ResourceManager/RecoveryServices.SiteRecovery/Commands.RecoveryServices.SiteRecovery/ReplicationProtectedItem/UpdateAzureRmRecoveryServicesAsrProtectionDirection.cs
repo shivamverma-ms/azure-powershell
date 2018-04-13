@@ -623,9 +623,9 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         });
                     }
                 }
-		// todo:: code verification ManagedDisk case
-                if (this.AzureToAzureManagedDiskReplicationConfiguration == null && 
-                    ((A2AReplicationDetails)replicationProtectedItemResponse.Properties.ProviderSpecificDetails).ProtectedManagedDisks!= null)
+                // todo:: code verification ManagedDisk case
+                if (this.AzureToAzureDiskReplicationConfiguration == null &&
+                    ((A2AReplicationDetails)replicationProtectedItemResponse.Properties.ProviderSpecificDetails).ProtectedManagedDisks != null)
                 {
                     // Passing all managedDisk data if no details is passed.
                     foreach (var disk in ((A2AReplicationDetails)replicationProtectedItemResponse
@@ -635,10 +635,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         a2aSwitchInput.VmManagedDisks.Add(new A2AVmManagedDiskInputDetails
                         {
                             DiskId = disk.DiskId,
-                            RecoveryResourceGroupId = this.RecoveryResourceGroupId,
+                            RecoveryResourceGroupId = disk.RecoveryResourceGroupId,
                             RecoveryReplicaDiskAccountType = disk.RecoveryReplicaDiskAccountType,
                             RecoveryTargetDiskAccountType = disk.RecoveryTargetDiskAccountType,
-                            PrimaryStagingAzureStorageAccountId = disk.LogStorageAccountId,
+                            PrimaryStagingAzureStorageAccountId = this.LogStorageAccountId,
                         });
                     }
                 }

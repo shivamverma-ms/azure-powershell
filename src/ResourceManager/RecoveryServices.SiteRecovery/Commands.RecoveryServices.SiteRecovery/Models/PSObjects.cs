@@ -1343,8 +1343,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 this.ProtectionState = a2aProviderSpecificDetails.VmProtectionState;
                 this.ProtectionStateDescription = a2aProviderSpecificDetails.VmProtectionStateDescription;
                 this.ProviderSpecificDetails = new ASRAzureToAzureSpecificRPIDetails(a2aProviderSpecificDetails);
-		// todo : vipin convert manageddisk object                
-		if (a2aProviderSpecificDetails.VmNics != null)
+                // todo : vipin convert manageddisk object                
+                if (a2aProviderSpecificDetails.VmNics != null)
                 {
                     this.NicDetailsList =
                            a2aProviderSpecificDetails.VmNics?.ToList()
@@ -2197,6 +2197,31 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// Gets or sets the recovery disk storage account ARM Id. 
         /// </summary>
         public string RecoveryAzureStorageAccountId { get; set; }
+
+        /// <summary>
+        /// Gets or sets isManagedDisk. 
+        /// </summary>
+        public bool IsManagedDisk { get; set; }
+
+        /// <summary>
+        /// Gets or sets DiskId. 
+        /// </summary>
+        public string DiskId;
+
+        /// <summary>
+        /// Gets or sets RecoveryReplicaDiskAccountType. 
+        /// </summary>
+        public string RecoveryReplicaDiskAccountType;
+
+        /// <summary>
+        /// Gets or sets RecoveryResourceGroupId. 
+        /// </summary>
+        public string RecoveryResourceGroupId;
+
+        /// <summary>
+        /// Gets or sets RecoveryTargetDiskAccountType. 
+        /// </summary>
+        public string RecoveryTargetDiskAccountType;
     }
 
     /// <summary>

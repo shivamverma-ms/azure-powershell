@@ -31,6 +31,14 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         #region Parameters
 
         /// <summary>
+        ///    Switch parameter specifying that the disk replication config created for managed disk.
+        /// </summary>
+        [Parameter(
+            ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk,
+            Mandatory = true)]
+        public SwitchParameter managed { get; set; }
+
+        /// <summary>
         ///     Gets or sets the disk uri.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
@@ -120,7 +128,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                             RecoveryReplicaDiskAccountType = this.RecoveryReplicaDiskAccountType,
                             RecoveryResourceGroupId = this.RecoveryResourceGroupId,
                             RecoveryTargetDiskAccountType = this.RecoveryTargetDiskAccountType,
-                            isManagedDisk = true
+                            IsManagedDisk = true
                         };
                         break;
                 }
