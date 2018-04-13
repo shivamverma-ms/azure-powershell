@@ -495,6 +495,245 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public string PoweredOn { get; set; }
     }
 
+    //
+    // Summary:
+    //     HyperV replica 2012 replication details.
+    public class HyperVReplicaSpecificRPIDetails
+    {
+        //
+        // Summary:
+        //     Gets or sets the Last replication time.
+        [JsonProperty(PropertyName = "lastReplicatedTime")]
+        public DateTime? LastReplicatedTime { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the PE Network details.
+        [JsonProperty(PropertyName = "vmNics")]
+        public IList<VMNicDetails> VmNics { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the virtual machine Id.
+        [JsonProperty(PropertyName = "vmId")]
+        public string VmId { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the protection state for the vm.
+        [JsonProperty(PropertyName = "vmProtectionState")]
+        public string VmProtectionState { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the protection state description for the vm.
+        [JsonProperty(PropertyName = "vmProtectionStateDescription")]
+        public string VmProtectionStateDescription { get; set; }
+        //
+        // Summary:
+        //     Gets or sets VM disk details.
+        [JsonProperty(PropertyName = "vMDiskDetails")]
+        public IList<ASRHyperVReplicaDiskDetails> VMDiskDetails { get; set; }
+    }
+    //
+    // Summary:
+    //     Onprem disk details data.
+    public class ASRHyperVReplicaDiskDetails
+    {
+        //
+        // Summary:
+        //     Gets or sets the hard disk max size in MB.
+        [JsonProperty(PropertyName = "maxSizeMB")]
+        public long? MaxSizeMB { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the type of the volume.
+        [JsonProperty(PropertyName = "vhdType")]
+        public string VhdType { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the VHD Id.
+        [JsonProperty(PropertyName = "vhdId")]
+        public string VhdId { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the VHD name.
+        [JsonProperty(PropertyName = "vhdName")]
+        public string VhdName { get; set; }
+    }
+    public class ASRHyperVReplicaAzureVmDiskDetails
+        {
+            // Summary:
+            //     Gets or sets VHD type.
+            [JsonProperty(PropertyName = "vhdType")]
+            public string VhdType { get; set; }
+        
+            // Summary:
+            //     Gets or sets the VHD id.
+            [JsonProperty(PropertyName = "vhdId")]
+            public string VhdId { get; set; }
+        
+            // Summary:
+            //     Gets or sets VHD name.
+            [JsonProperty(PropertyName = "vhdName")]
+            public string VhdName { get; set; }
+        
+            // Summary:
+            //     Gets or sets max side in MB.
+            [JsonProperty(PropertyName = "maxSizeMB")]
+            public string MaxSizeMB { get; set; }
+        
+            // Summary:
+            //     Gets or sets blob uri of the Azure disk.
+            [JsonProperty(PropertyName = "targetDiskLocation")]
+            public string TargetDiskLocation { get; set; }
+        
+            // Summary:
+            //     Gets or sets the target Azure disk name.
+            [JsonProperty(PropertyName = "targetDiskName")]
+            public string TargetDiskName { get; set; }
+        
+            // Summary:
+            //     Gets or sets ordinal\LunId of the disk for the Azure VM.
+            [JsonProperty(PropertyName = "lunId")]
+            public string LunId { get; set; }
+        }
+
+    //
+    // Summary:
+    //     Disk Details.
+    public class ASRHyperVReplicaAzureOsDetails
+    {
+        //
+        // Summary:
+        //     Gets or sets VM Disk details.
+        [JsonProperty(PropertyName = "osType")]
+        public string OsType { get; set; }
+        //
+        // Summary:
+        //     Gets or sets product type.
+        [JsonProperty(PropertyName = "productType")]
+        public string ProductType { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the OSEdition.
+        [JsonProperty(PropertyName = "osEdition")]
+        public string OsEdition { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the OS Version.
+        [JsonProperty(PropertyName = "oSVersion")]
+        public string OSVersion { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the OS Major Version.
+        [JsonProperty(PropertyName = "oSMajorVersion")]
+        public string OSMajorVersion { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the OS Minor Version.
+        [JsonProperty(PropertyName = "oSMinorVersion")]
+        public string OSMinorVersion { get; set; }
+    }
+
+
+
+    /// <summary>
+    ///     InMageAzureV2 Specific Replication Protected Item Details.
+    /// </summary>
+    public class ASRHyperVReplicaAzureSpecificRPIDetails : ASRProviderSpecificRPIDetails
+    {
+
+        /// <summary>
+        ///     Gets or sets the recovery availability set Id.
+        /// <summary>
+        public string RecoveryAvailabilitySetId { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the selected option to enable RDP\SSH on target vm after failover.
+        ///     String value of {SrsDataContract.EnableRDPOnTargetOption} enum.
+        /// <summary>
+        public string EnableRDPOnTargetOption { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the CPU count of the VM on the primary side.
+        /// <summary>
+        public int? SourceVmCPUCount { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the RAM size of the VM on the primary side.
+        /// <summary>
+        public int? SourceVmRAMSizeInMB { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the operating system info.
+        /// <summary>
+        public ASRHyperVReplicaAzureOsDetails OsDetails { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the encryption info.
+        /// <summary>
+        public string Encryption { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the selected recovery azure network Id.
+        /// <summary>
+        public string SelectedRecoveryAzureNetworkId { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the protection state description for the vm.
+        /// <summary>
+        public string VmProtectionStateDescription { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the protection state for the vm.
+        /// <summary>
+        public string VmProtectionState { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the virtual machine Id.
+        /// <summary>
+        public string VmId { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the Last replication time.
+        /// </summary>
+        public DateTime? LastReplicatedTime { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the ARM id of the log storage account used for replication. This
+        ///     will be set to null if no log storage account was provided during enable protection.
+        /// </summary>
+        public string RecoveryAzureLogStorageAccountId { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the recovery Azure storage account.
+        /// </summary>
+        public string RecoveryAzureStorageAccount { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the Recovery Azure VM size.
+        /// </summary>
+        public string RecoveryAzureVMSize { get; set; }
+
+        /// <summary>
+        ///     Gets or sets recovery Azure given name.
+        /// </summary>
+        public string RecoveryAzureVMName { get; set; }
+
+        /// <summary>
+        ///     Gets or sets azure VM Disk details.
+        /// </summary>
+        public IList<ASRHyperVReplicaAzureVmDiskDetails> AzureVMDiskDetails { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether managed disks should be used during failover.
+        /// </summary>
+        public string UseManagedDisks { get; set; }
+
+        /// <summary>
+        ///     Gets or sets license Type of the VM to be used.
+        /// </summary>
+        public string LicenseType { get; set; }
+
+    }
+
     /// <summary>
     ///     InMageAzureV2 Specific Replication Protected Item Details.
     /// </summary>
