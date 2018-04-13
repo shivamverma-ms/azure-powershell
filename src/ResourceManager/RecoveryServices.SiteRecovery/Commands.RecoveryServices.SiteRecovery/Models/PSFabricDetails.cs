@@ -495,151 +495,149 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public string PoweredOn { get; set; }
     }
 
-    //
-    // Summary:
-    //     HyperV replica 2012 replication details.
+
+    /// <summary>
+    ///     HyperV replica 2012 replication details.
     public class HyperVReplicaSpecificRPIDetails
     {
-        //
-        // Summary:
-        //     Gets or sets the Last replication time.
-        [JsonProperty(PropertyName = "lastReplicatedTime")]
+
+        /// <summary>
+        ///    Gets or sets the Last replication time.
+        /// </summary>
         public DateTime? LastReplicatedTime { get; set; }
-        //
-        // Summary:
-        //     Gets or sets the PE Network details.
-        [JsonProperty(PropertyName = "vmNics")]
+
+        /// <summary>
+        ///    Gets or sets the PE Network details.
+        /// </summary>
         public IList<VMNicDetails> VmNics { get; set; }
-        //
-        // Summary:
-        //     Gets or sets the virtual machine Id.
-        [JsonProperty(PropertyName = "vmId")]
+
+        /// <summary>
+        ///    Gets or sets the virtual machine Id.
+        /// </summary>
         public string VmId { get; set; }
-        //
-        // Summary:
-        //     Gets or sets the protection state for the vm.
-        [JsonProperty(PropertyName = "vmProtectionState")]
+
+        /// <summary>
+        ///     Gets or sets the protection state for the vm.
+        /// </summary>
         public string VmProtectionState { get; set; }
-        //
-        // Summary:
-        //     Gets or sets the protection state description for the vm.
-        [JsonProperty(PropertyName = "vmProtectionStateDescription")]
+
+        /// <summary>
+        ///     Gets or sets the protection state description for the vm.
+        /// </summary>
         public string VmProtectionStateDescription { get; set; }
-        //
-        // Summary:
-        //     Gets or sets VM disk details.
-        [JsonProperty(PropertyName = "vMDiskDetails")]
+
+        /// <summary>
+        ///Gets or sets VM disk details.
+        /// </summary>
         public IList<ASRHyperVReplicaDiskDetails> VMDiskDetails { get; set; }
     }
-    //
-    // Summary:
-    //     Onprem disk details data.
+
+    /// <summary>
+    /// Onprem disk details data.
+    /// </summary>
     public class ASRHyperVReplicaDiskDetails
     {
-        //
-        // Summary:
-        //     Gets or sets the hard disk max size in MB.
-        [JsonProperty(PropertyName = "maxSizeMB")]
+
+        /// <summary>
+        ///    Gets or sets the hard disk max size in MB.
+        /// </summary>
         public long? MaxSizeMB { get; set; }
-        //
-        // Summary:
-        //     Gets or sets the type of the volume.
-        [JsonProperty(PropertyName = "vhdType")]
+
+        /// <summary>
+        ///     Gets or sets the type of the volume.
+        /// </summary>
         public string VhdType { get; set; }
-        //
-        // Summary:
-        //     Gets or sets the VHD Id.
-        [JsonProperty(PropertyName = "vhdId")]
+
+        /// <summary>
+        ///     Gets or sets the VHD Id.
+        /// </summary>
         public string VhdId { get; set; }
-        //
-        // Summary:
-        //     Gets or sets the VHD name.
-        [JsonProperty(PropertyName = "vhdName")]
+
+        /// <summary>
+        ///     Gets or sets the VHD name.
+        /// </summary>
         public string VhdName { get; set; }
     }
-    public class ASRHyperVReplicaAzureVmDiskDetails
-        {
-            // Summary:
-            //     Gets or sets VHD type.
-            [JsonProperty(PropertyName = "vhdType")]
-            public string VhdType { get; set; }
-        
-            // Summary:
-            //     Gets or sets the VHD id.
-            [JsonProperty(PropertyName = "vhdId")]
-            public string VhdId { get; set; }
-        
-            // Summary:
-            //     Gets or sets VHD name.
-            [JsonProperty(PropertyName = "vhdName")]
-            public string VhdName { get; set; }
-        
-            // Summary:
-            //     Gets or sets max side in MB.
-            [JsonProperty(PropertyName = "maxSizeMB")]
-            public string MaxSizeMB { get; set; }
-        
-            // Summary:
-            //     Gets or sets blob uri of the Azure disk.
-            [JsonProperty(PropertyName = "targetDiskLocation")]
-            public string TargetDiskLocation { get; set; }
-        
-            // Summary:
-            //     Gets or sets the target Azure disk name.
-            [JsonProperty(PropertyName = "targetDiskName")]
-            public string TargetDiskName { get; set; }
-        
-            // Summary:
-            //     Gets or sets ordinal\LunId of the disk for the Azure VM.
-            [JsonProperty(PropertyName = "lunId")]
-            public string LunId { get; set; }
-        }
 
-    //
-    // Summary:
-    //     Disk Details.
-    public class ASRHyperVReplicaAzureOsDetails
+    public class ASRHyperVReplicaAzureVmDiskDetails
     {
-        //
-        // Summary:
-        //     Gets or sets VM Disk details.
-        [JsonProperty(PropertyName = "osType")]
-        public string OsType { get; set; }
-        //
-        // Summary:
-        //     Gets or sets product type.
-        [JsonProperty(PropertyName = "productType")]
-        public string ProductType { get; set; }
-        //
-        // Summary:
-        //     Gets or sets the OSEdition.
-        [JsonProperty(PropertyName = "osEdition")]
-        public string OsEdition { get; set; }
-        //
-        // Summary:
-        //     Gets or sets the OS Version.
-        [JsonProperty(PropertyName = "oSVersion")]
-        public string OSVersion { get; set; }
-        //
-        // Summary:
-        //     Gets or sets the OS Major Version.
-        [JsonProperty(PropertyName = "oSMajorVersion")]
-        public string OSMajorVersion { get; set; }
-        //
-        // Summary:
-        //     Gets or sets the OS Minor Version.
-        [JsonProperty(PropertyName = "oSMinorVersion")]
-        public string OSMinorVersion { get; set; }
+        /// <summary>
+        ///    Gets or sets VHD type.
+        /// </summary>
+        public string VhdType { get; set; }
+
+        /// <summary>
+        ///    Gets or sets the VHD id.
+        /// </summary>
+        public string VhdId { get; set; }
+
+        /// <summary>
+        ///    Gets or sets VHD name.
+        /// </summary>
+        public string VhdName { get; set; }
+
+        /// <summary>
+        ///    Gets or sets max side in MB.
+        /// </summary>
+        public string MaxSizeMB { get; set; }
+
+        /// <summary>
+        ///    Gets or sets blob uri of the Azure disk.
+        /// </summary>
+        public string TargetDiskLocation { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the target Azure disk name.
+        /// </summary>
+        public string TargetDiskName { get; set; }
+
+        /// <summary>
+        ///     Gets or sets ordinal\LunId of the disk for the Azure VM.
+        /// </summary>
+        public string LunId { get; set; }
     }
 
+    /// <summary>
+    ///     Disk Details.
+    /// </summary>
+    public class ASRHyperVReplicaAzureOsDetails
+    {
+        /// <summary>
+        ///     Gets or sets VM Disk details.
+        /// </summary>
+        public string OsType { get; set; }
 
+        /// <summary>
+        ///  Gets or sets product type.
+        /// </summary>
+        public string ProductType { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the OSEdition.
+        /// </summary>
+        public string OsEdition { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the OS Version.
+        /// </summary>
+        public string OSVersion { get; set; }
+
+        /// <summary>
+        ///    Gets or sets the OS Major Version.
+        /// </summary>
+        public string OSMajorVersion { get; set; }
+
+        /// <summary>
+        ///    Gets or sets the OS Minor Version.
+        /// </summary>
+        public string OSMinorVersion { get; set; }
+    }
 
     /// <summary>
     ///     InMageAzureV2 Specific Replication Protected Item Details.
     /// </summary>
     public class ASRHyperVReplicaAzureSpecificRPIDetails : ASRProviderSpecificRPIDetails
     {
-
         /// <summary>
         ///     Gets or sets the recovery availability set Id.
         /// <summary>
@@ -908,7 +906,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             this.LastRpoCalculatedTime = details.LastRpoCalculatedTime;
             this.RpoInSeconds = details.RpoInSeconds;
             this.IsReplicationAgentUpdateRequired = details.IsReplicationAgentUpdateRequired;
-            
+
             if (details.LastHeartbeat != null)
             {
                 this.LastHeartbeat = details.LastHeartbeat.Value.ToLocalTime();
@@ -918,6 +916,13 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             {
                 this.A2ADiskDetails =
                     details.ProtectedDisks.ToList()
+                    .ConvertAll(disk => new ASRAzureToAzureProtectedDiskDetails(disk));
+            }
+
+            if (details.ProtectedManagedDisks != null)
+            {
+                this.A2ADiskDetails =
+                    details.ProtectedManagedDisks.ToList()
                     .ConvertAll(disk => new ASRAzureToAzureProtectedDiskDetails(disk));
             }
 

@@ -2257,7 +2257,60 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             this.MonitoringJobType = disk.MonitoringJobType;
             this.DataPendingInStagingStorageAccountInMB = disk.DataPendingInStagingStorageAccountInMB;
             this.DataPendingAtSourceAgentInMB = disk.DataPendingAtSourceAgentInMB;
+            this.DiskCapacityInBytes = disk.DiskCapacityInBytes;
+            this.DiskName = disk.DiskName;
+            this.DiskType = disk.DiskType;
+            this.managed = false;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ASRAzureToAzureProtectedDiskDetails" />
+        /// class.
+        /// </summary>
+        public ASRAzureToAzureProtectedDiskDetails(A2AProtectedManagedDiskDetails disk)
+        {
+            this.PrimaryStagingAzureStorageAccountId = disk.PrimaryStagingAzureStorageAccountId;
+            this.ResyncRequired = disk.ResyncRequired;
+            this.MonitoringPercentageCompletion = disk.MonitoringPercentageCompletion;
+            this.MonitoringJobType = disk.MonitoringJobType;
+            this.DataPendingInStagingStorageAccountInMB = disk.DataPendingInStagingStorageAccountInMB;
+            this.DataPendingAtSourceAgentInMB = disk.DataPendingAtSourceAgentInMB;
+            this.DiskCapacityInBytes = disk.DiskCapacityInBytes;
+            this.DiskName = disk.DiskName;
+            this.DiskType = disk.DiskType;
+            this.RecoveryAzureStorageAccountId = disk.RecoveryReplicaDiskAccountType;
+            this.RecoveryReplicaDiskId = disk.RecoveryReplicaDiskId;
+            this.RecoveryResourceGroupId = disk.RecoveryResourceGroupId;
+            this.RecoveryTargetDiskAccountType = disk.RecoveryTargetDiskAccountType;
+            this.RecoveryTargetDiskId = disk.RecoveryTargetDiskId;
+            this.managed = true;
+        }
+
+        /// <summary>
+        /// Gets or sets is azure vm managed disk.
+        /// </summary>
+        public bool managed { get; set; }
+
+        /// <summary>
+        /// Gets or sets the recovery replica disk id.
+        /// </summary>
+        public string RecoveryReplicaDiskId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the recovery resource group id.
+        /// </summary>
+        public string RecoveryResourceGroupId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the recovery target disk AccountType.
+        /// </summary>
+
+        public string RecoveryTargetDiskAccountType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the recovery target disk Id.
+        /// </summary>
+        public string RecoveryTargetDiskId { get; set; }
 
         /// <summary>
         /// Gets or sets the disk uri.
@@ -2278,6 +2331,22 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// Gets or sets the recovery disk storage account. 
         /// </summary>
         public string RecoveryAzureStorageAccountId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the disk capacity in bytes. 
+        /// </summary>
+
+        public long? DiskCapacityInBytes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the disk name. 
+        /// </summary>
+        public string DiskName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the diskType. 
+        /// </summary>
+        public string DiskType { get; set; }
 
         /// <summary>
         /// Gets or sets recovery disk uri.
