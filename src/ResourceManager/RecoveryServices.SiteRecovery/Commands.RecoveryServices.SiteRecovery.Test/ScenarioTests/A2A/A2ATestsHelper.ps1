@@ -16,13 +16,23 @@
 ########################## Site Recovery Tests #############################
 
 ##Default Value ##
-$seed = ""
+$seed = "1"
 function getVaultName{
     return "A2APowershellTest" + $seed;
 }
 
 function getVaultRg{
     return "A2APowershellTestRg" + $seed;
+}
+
+
+function getVaultRgLocation{
+    $locationMap = Get-AzureRmLocation| select location,displayName
+    $provider = Get-AzureRmResourceProvider -ProviderNamespace "Microsoft.RecoveryServices"
+    
+    $resourceTypes = $provider[0].ResourceTypes | Where-Object { $_.ResourceTypeName -eq "vaults"}
+    $resourceLocation = $resourceTypes.Locations[0]
+    return $resourceLocation
 }
 
 function getVaultLocation{
@@ -201,7 +211,7 @@ Function WaitForIRCompletion
 { 
     param(
         [PSObject] $affectedObjectId,
-        [int] $JobQueryWaitTimeInSeconds = 60
+        [int] $JobQueryWaitTimeInSeconds = 10
         )
         $isProcessingLeft = $true
         $IRjobs = $null

@@ -58,6 +58,8 @@ namespace RecoveryServices.SiteRecovery.Test
 
         public SubscriptionClient SubscriptionClient { get; private set; }
 
+        public Microsoft.Azure.Management.ResourceManager.ResourceManagementClient ResourceManagementRestClient { get; private set; }
+
 
         public void RunPowerShellTest(
             string scenario,
@@ -179,6 +181,7 @@ namespace RecoveryServices.SiteRecovery.Test
             RestTestFramework.MockContext context)
         {
             this.RmRestClient = this.GetRmRestClient(context);
+            this.ResourceManagementRestClient = this.GetResourceManagementClientRestClient(context);
             this.RecoveryServicesMgmtClient = this.GetRecoveryServicesManagementClient(context);
             this.SiteRecoveryMgmtClient = this.GetSiteRecoveryManagementClient(context);
             this.SubscriptionClient = this.GetSubscriptionClient(context);
@@ -186,7 +189,9 @@ namespace RecoveryServices.SiteRecovery.Test
             this.helper.SetupManagementClients(
                 this.RmRestClient,
                 this.RecoveryServicesMgmtClient,
-                this.SiteRecoveryMgmtClient);
+                this.SiteRecoveryMgmtClient,
+                this.SubscriptionClient,
+                this.ResourceManagementRestClient);
         }
 
         private RecoveryServicesClient GetRecoveryServicesManagementClient(
@@ -196,16 +201,31 @@ namespace RecoveryServices.SiteRecovery.Test
                 RestTestFramework.TestEnvironmentFactory.GetTestEnvironment());
         }
 
-        private RecoveryServicesClient GetSubscriptionClient(
+        private SubscriptionClient GetSubscriptionClient(
             RestTestFramework.MockContext context)
         {
-            return TestBase.GetServiceClient<SubscriptionClient>(this.csmTestFactory);
+            return context.GetServiceClient<SubscriptionClient>(
+                RestTestFramework.TestEnvironmentFactory.GetTestEnvironment());
         }
 
         private ResourceManagementClient GetRmRestClient(
             RestTestFramework.MockContext context)
         {
             return context.GetServiceClient<ResourceManagementClient>(
+                RestTestFramework.TestEnvironmentFactory.GetTestEnvironment());
+        }
+
+        private ResourceManagementClient GetResourceManagementClient(
+            RestTestFramework.MockContext context)
+        {
+            return context.GetServiceClient<ResourceManagementClient>(
+                RestTestFramework.TestEnvironmentFactory.GetTestEnvironment());
+        }
+
+        private Microsoft.Azure.Management.ResourceManager.ResourceManagementClient GetResourceManagementClientRestClient(
+            RestTestFramework.MockContext context)
+        {
+            return context.GetServiceClient<Microsoft.Azure.Management.ResourceManager.ResourceManagementClient>(
                 RestTestFramework.TestEnvironmentFactory.GetTestEnvironment());
         }
 

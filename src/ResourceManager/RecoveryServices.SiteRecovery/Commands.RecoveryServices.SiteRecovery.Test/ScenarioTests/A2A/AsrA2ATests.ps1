@@ -43,6 +43,7 @@ function Test-NewA2ADiskReplicationConfiguration
 #>
 function Test-NewAsrFabric {
 
+        $vaultRgLocation = getVaultRgLocation
         $vaultName = getVaultName
         $vaultLocation = getVaultLocation
         $vaultRg = getVaultRg
@@ -51,7 +52,8 @@ function Test-NewAsrFabric {
         $primaryFabricName = getPrimaryFabric
         $recoveryFabricName = getRecoveryFabric
 
-    
+        New-AzureRmResourceGroup -name $vaultRg -location $vaultRgLocation
+        [Microsoft.Azure.Test.TestUtilities]::Wait(20 * 1000)
     # vault Creation
         New-azureRmRecoveryServicesVault -ResourceGroupName $vaultRg -Name $vaultName -Location $vaultLocation
         [Microsoft.Azure.Test.TestUtilities]::Wait(20 * 1000)
@@ -63,13 +65,13 @@ function Test-NewAsrFabric {
         WaitForJobCompletion -JobId $fabJob.Name
         $fab = Get-AzureRmRecoveryServicesAsrFabric -Name $primaryFabricName
         Assert-true { $fab.name -eq $primaryFabricName }
-        Assert-AreEqual $fab.location $primaryLocation
+        Assert-AreEqual $fab.FabricSpecificDetails.Location $primaryLocation
 
-        $fabJob=  New-AzureRmRecoveryServicesAsrFabric -Azure -Name $recoveryFabricName -Location $primaryLocation
+        $fabJob=  New-AzureRmRecoveryServicesAsrFabric -Azure -Name $recoveryFabricName -Location $recoveryLocation
         WaitForJobCompletion -JobId $fabJob.Name
         $fab = Get-AzureRmRecoveryServicesAsrFabric -Name $recoveryFabricName
         Assert-true { $fab.name -eq $recoveryFabricName }
-        Assert-AreEqual $fab.location $recoveryLocation
+        Assert-AreEqual $fab.FabricSpecificDetails.Location $recoveryLocation
 }
 
 
