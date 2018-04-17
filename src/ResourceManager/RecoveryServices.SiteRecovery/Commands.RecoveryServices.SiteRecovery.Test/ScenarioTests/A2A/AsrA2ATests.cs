@@ -20,19 +20,18 @@ using Microsoft.WindowsAzure.Commands.ScenarioTest;
 
 namespace RecoveryServices.SiteRecovery.Test
 {
-    public class AsrA2ATests : AsrTestsBase
+    public class AsrA2ATests : AsrA2ATestsBase
     {
         public AsrA2ATests(
             ITestOutputHelper output)
         {
             XunitTracingInterceptor.AddToContext(new XunitTracingInterceptor(output));
-
-            this.vaultSettingsFilePath = System.IO.Path.Combine(
-                System.AppDomain.CurrentDomain.BaseDirectory,
-                "ScenarioTests\\A2A\\AsrA2A.VaultCredentials");
             this.powershellFile = System.IO.Path.Combine(
                 System.AppDomain.CurrentDomain.BaseDirectory,
                 "ScenarioTests\\A2A\\AsrA2ATests.ps1");
+            this.powershellHelperFile = System.IO.Path.Combine(
+                System.AppDomain.CurrentDomain.BaseDirectory,
+                "ScenarioTests\\A2A\\A2ATestsHelper.ps1");
             this.initialize();
         }
 
@@ -45,97 +44,9 @@ namespace RecoveryServices.SiteRecovery.Test
 
         [Fact]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
-        public void TestAsrA2ANetworkMapping()
+        public void A2ANewAsrFabric()
         {
-            this.RunPowerShellTest(
-                Constants.NewModel,
-                "Test-AsrA2ANetworkMapping -vaultSettingsFilePath \"" +
-                this.vaultSettingsFilePath +
-                "\"");
-        }
-
-        [Fact]
-        [Trait(Category.AcceptanceType, Category.CheckIn)]
-        public void TestGetAsrNetworkMapping()
-        {
-            this.RunPowerShellTest(
-                Constants.NewModel,
-                "Test-AsrA2ANetworkMapping -vaultSettingsFilePath \"" +
-                this.vaultSettingsFilePath +
-                "\"");
-        }
-
-        [Fact]
-        [Trait(Category.AcceptanceType, Category.CheckIn)]
-        public void TestNewAsrFabric()
-        {
-            this.RunPowerShellTest(
-                Constants.NewModel,
-                "Test-NewAsrFabric -vaultSettingsFilePath \"" +
-                this.vaultSettingsFilePath +
-                "\"");
-        }
-
-
-        [Fact]
-        [Trait(
-            Category.AcceptanceType,
-            Category.CheckIn)]
-        public void TestA2APolicy()
-        {
-            this.RunPowerShellTest(
-                Constants.NewModel,
-                "Test-A2ARecoveryPolicy -vaultSettingsFilePath \"" +
-                this.vaultSettingsFilePath +
-                "\"");
-        }
-
-        [Fact]
-        [Trait(
-            Category.AcceptanceType,
-            Category.CheckIn)]
-        public void TestA2AProtectionContainer()
-        {
-            this.RunPowerShellTest(
-                Constants.NewModel,
-                "Test-NewRemoveA2AProtectionContainer -vaultSettingsFilePath \"" +
-                this.vaultSettingsFilePath +
-                "\"");
-        }
-
-        [Fact]
-        [Trait(
-            Category.AcceptanceType,
-            Category.CheckIn)]
-        public void TestA2AProtectionContainerMapping()
-        {
-            this.RunPowerShellTest(
-                Constants.NewModel,
-                "Test-A2AProtectionContainerMapping -vaultSettingsFilePath \"" +
-                this.vaultSettingsFilePath +
-                "\"");
-        }
-
-        [Fact]
-        [Trait(Category.AcceptanceType, Category.CheckIn)]
-        public void TestA2AV2VmEndToEnd()
-        {
-            this.RunPowerShellTest(
-                Constants.NewModel,
-                "Test-A2AV2VmEndToEnd -vaultSettingsFilePath \"" +
-                this.vaultSettingsFilePath +
-                "\"");
-        }
-
-        [Fact]
-        [Trait(Category.AcceptanceType, Category.CheckIn)]
-        public void TestA2AV2ManagedDisk()
-        {
-            this.RunPowerShellTest(
-                Constants.NewModel,
-                "Test-A2AV2ManagedDisk -vaultSettingsFilePath \"" +
-                this.vaultSettingsFilePath +
-                "\"");
+            this.RunPowerShellTest(Constants.NewModel, "Test-NewAsrFabric");
         }
     }
 }
