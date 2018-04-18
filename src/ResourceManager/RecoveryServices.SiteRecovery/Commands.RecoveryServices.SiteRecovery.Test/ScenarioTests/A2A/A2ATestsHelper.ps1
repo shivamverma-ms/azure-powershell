@@ -16,7 +16,7 @@
 ########################## Site Recovery Tests #############################
 
 ##Default Value ##
-$seed = "7"
+$seed = "59"
 function getVaultName{
     return "A2APowershellTest" + $seed;
 }
@@ -140,6 +140,8 @@ function getRecoveryNetworkId{
           -AddressPrefix 10.0.0.0/16
     $virtualNetwork.id
 }
+
+
 ##
 
 <#

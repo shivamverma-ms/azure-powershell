@@ -16,7 +16,6 @@
 ########################## Site Recovery Tests #############################
 
 ##Default Value ##
-$seed = "14apr"
 
 <#
 .SYNOPSIS
@@ -134,7 +133,9 @@ function Test-ContainerMapping{
 }
 
 function Test-NetworkMapping{
-        
+
+    New-AzureRmVM 
+
         $primaryPolicyName = getPrimaryPolicy
         $recoveryPolicyName = getRecoveryPolicy
         
@@ -151,10 +152,11 @@ function Test-NetworkMapping{
         $recoveryLocation = getRecoveryLocation
         $primaryFabricName = getPrimaryFabric
         $recoveryFabricName = getRecoveryFabric
-        
+        $cacheAccountName = "cacheAccount"
+        $skuName = "Standard_LRS"
         
         $primaryNetworkName = "primaryNetwork"+ $primaryLocation + $seed;
-        $recoveryyNetworkName = "recoveryNetwork"+ $primaryLocation + $seed;
+        $recoveryNetworkName = "recoveryNetwork"+ $primaryLocation + $seed;
         
         $primaryResourceRGName ="primaryRG"+$seed
         $recoveryResourceRGName = "recoveryRG"+$seed
@@ -162,11 +164,18 @@ function Test-NetworkMapping{
         $primaryresourceGroup = New-AzureRmResourceGroup -name $primaryResourceRGName -location $primaryLocation -force
         $recoveryResourceGroup = New-AzureRmResourceGroup -name $recoveryResourceRGName -location $recoveryLocation -force
         
-        $virtualNetwork = New-AzureRmVirtualNetwork `
+
+        
+        $storageAccount = New-AzureRmStorageAccount -ResourceGroupName $primaryResourceRGName `
+                          -Name $cacheAccountName `
+                          -Location $primaryLocation `
+                          -SkuName $skuName
+
+    $virtualNetwork = New-AzureRmVirtualNetwork `
           -ResourceGroupName $primaryresourceGroup.ResourceGroupName `
           -Location $primaryLocation `
           -Name $primaryNetworkName `
-          -AddressPrefix 10.0.0.0/16
+          -AddressPrefix 10.0.0.0/16 -Force
          $primaryNetworkId = $virtualNetwork.id
 
         
@@ -174,8 +183,35 @@ function Test-NetworkMapping{
           -ResourceGroupName $recoveryResourceGroup.ResourceGroupName `
           -Location $recoveryLocation `
           -Name $recoveryNetworkName `
-          -AddressPrefix 10.0.0.0/16
+          -AddressPrefix 10.0.0.0/16  -Force
          $recoveryNetworkId = $virtualNetwork.id
+
+
+            $subnetName = "default"+$seed
+            $addressPrefix = "192.168.1.0/24"
+            $vnetName = "vnet"+$seed
+            $vnetAddress = "192.168.0.0/16"
+            $nicName = "myNic"+$seed
+            $secureString ='Microsfot@123'
+
+            $subnetConfig = New-AzureRmVirtualNetworkSubnetConfig -Name $subnetName -AddressPrefix $addressPrefix
+            $vnet = New-AzureRmVirtualNetwork -ResourceGroupName $primaryResourceRGName -Location $primaryLocation -Name $vnetName -AddressPrefix $vnetAddress -Subnet $subnetConfig
+  
+            $nic = New-AzureRmNetworkInterface -Name $nicName -ResourceGroupName $primaryResourceRGName -Location $primaryLocation -SubnetId $vnet.Subnets[0].Id
+  
+            $securePassword = ConvertTo-SecureString $secureString -AsPlainText -Force
+
+            $cred = New-Object System.Management.Automation.PSCredential ("azureuser", $securePassword)
+    
+            $nic = New-AzureRmNetworkInterface -Name myNic -ResourceGroupName $primaryResourceRGName -Location $primaryLocation -SubnetId $vnet.Subnets[0].Id -force
+  
+  
+            $vmConfig = New-AzureRmVMConfig -VMName "vmName" -VMSize Standard_D1 | `
+            Set-AzureRmVMOperatingSystem -Linux -ComputerName $vmName -Credential $cred | `
+            Set-AzureRmVMSourceImage -PublisherName Canonical -Offer UbuntuServer -Skus 14.04.2-LTS -Version latest| `
+            Add-AzureRmVMNetworkInterface -Id $nic.Id
+
+             New-AzureRmVM -ResourceGroupName $primaryResourceRGName -Location $primaryLocation -VM $vmConfig
 
         New-AzureRmResourceGroup -name $vaultRg -location $vaultRgLocation -force
         [Microsoft.Azure.Test.TestUtilities]::Wait(20 * 1000)
