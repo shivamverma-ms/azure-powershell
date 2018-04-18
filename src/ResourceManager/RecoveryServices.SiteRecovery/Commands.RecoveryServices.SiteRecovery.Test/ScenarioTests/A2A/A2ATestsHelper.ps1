@@ -16,7 +16,7 @@
 ########################## Site Recovery Tests #############################
 
 ##Default Value ##
-$seed = "1"
+$seed = "7"
 function getVaultName{
     return "A2APowershellTest" + $seed;
 }
@@ -106,7 +106,7 @@ function getRecoveryContainer{
 }
 
 
-function getRecoveryContainerMapping{
+function getPrimaryContainerMapping{
     return "A2APCM"+ $seed;
 }
 
@@ -126,16 +126,10 @@ function getRecoveryNetworkMapping{
 function getPrimaryNetworkId{
     param([string] $location , [string] $resourceGroup)
 
-    $primaryNetworkName = "primaryNetwork"+ $location + $seed;
-    $virtualNetwork = New-AzureRmVirtualNetwork `
-          -ResourceGroupName $resourceGroup `
-          -Location $location `
-          -Name $primaryNetworkName `
-          -AddressPrefix 10.0.0.0/16
-    $virtualNetwork.id
+    
 }
 
-function getPrimaryNetworkId{
+function getRecoveryNetworkId{
     param([string] $location , [string] $resourceGroup)
 
     $primaryNetworkName = "recoveryNetwork"+ $location + $seed;

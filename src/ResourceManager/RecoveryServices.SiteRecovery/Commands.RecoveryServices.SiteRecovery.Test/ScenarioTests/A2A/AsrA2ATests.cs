@@ -49,12 +49,21 @@ namespace RecoveryServices.SiteRecovery.Test
             this.RunPowerShellTest(Constants.NewModel, "Test-NewAsrFabric");
         }
 
-        
+
         [Fact]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void A2ATestNewContainer()
         {
             this.RunPowerShellTest(Constants.NewModel, "Test-NewContainer");
         }
+
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void A2ATestNetworkMapping()
+        {
+            this.RunPowerShellTest(Constants.NewModel, "Test-NetworkMapping");
+        }
+
     }
 }

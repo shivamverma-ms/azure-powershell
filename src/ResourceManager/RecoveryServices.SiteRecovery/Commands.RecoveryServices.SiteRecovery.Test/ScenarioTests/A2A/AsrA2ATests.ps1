@@ -43,6 +43,30 @@ function Test-NewA2ADiskReplicationConfiguration
 #>
 function Test-NewAsrFabric {
 
+        
+}
+
+
+function Test-NewContainer{
+
+        
+
+}
+
+function Test-NewPolicy{
+
+        
+}
+
+function Test-ContainerMapping{
+        $primaryPolicyName = getPrimaryPolicy
+        $recoveryPolicyName = getRecoveryPolicy
+        
+        $primaryContainerMappingName = getPrimaryContainerMapping
+        $recoveryContainerMappingName = getRecoveryContainerMapping
+        
+        $primaryContainerName = getPrimaryContainer
+        $recoveryContainerName = getRecoveryContainer
         $vaultRgLocation = getVaultRgLocation
         $vaultName = getVaultName
         $vaultLocation = getVaultLocation
@@ -52,7 +76,7 @@ function Test-NewAsrFabric {
         $primaryFabricName = getPrimaryFabric
         $recoveryFabricName = getRecoveryFabric
 
-        New-AzureRmResourceGroup -name $vaultRg -location $vaultRgLocation
+        New-AzureRmResourceGroup -name $vaultRg -location $vaultRgLocation --force
         [Microsoft.Azure.Test.TestUtilities]::Wait(20 * 1000)
     # vault Creation
         New-azureRmRecoveryServicesVault -ResourceGroupName $vaultRg -Name $vaultName -Location $vaultLocation
@@ -72,59 +96,19 @@ function Test-NewAsrFabric {
         $fab = Get-AzureRmRecoveryServicesAsrFabric -Name $recoveryFabricName
         Assert-true { $fab.name -eq $recoveryFabricName }
         Assert-AreEqual $fab.FabricSpecificDetails.Location $recoveryLocation
-}
-
-
-function Test-NewContainer{
-        $vaultName = getVaultName
-        $vaultLocation = getVaultLocation
-        $vaultRg = getVaultRg
-        $primaryLocation = getPrimaryLocation
-        $recoveryLocation = getRecoveryLocation
-        $primaryFabricName = getPrimaryFabric
-        $recoveryFabricName = getRecoveryFabric
-        $primaryContainerName = getPrimaryContainer
-        $recoveryContainerName = getRecoveryContainer
-
-        $Vault = Get-AzureRMRecoveryServicesVault -ResourceGroupName $vaultRg -Name $vaultName
-        Set-ASRVaultContext -Vault $Vault
         $pf = get-asrFabric -Name $primaryFabricName
         $rf = get-asrFabric -Name $recoveryFabricName
         
         ### AzureToAzure (Default)
-        $job = New-AzureRmRecoveryServicesAsrProtectionContainer -Name $primaryContainerName-Fabric $pf
+        $job = New-AzureRmRecoveryServicesAsrProtectionContainer -Name $primaryContainerName -Fabric $pf
         WaitForJobCompletion -JobId $Job.Name
         $pc = Get-asrProtectionContainer -name $primaryContainerName -Fabric $pf
         Assert-NotNull($pc)
         Assert-AreEqual $pc.Name $primaryContainerName
 
-        $job = New-AzureRmRecoveryServicesAsrProtectionContainer -Name $recoveryContainerName -Fabric $pf
+        $job = New-AzureRmRecoveryServicesAsrProtectionContainer -Name $recoveryContainerName -Fabric $rf
         WaitForJobCompletion -JobId $Job.Name
         $rc = Get-asrProtectionContainer -name $recoveryContainerName -Fabric $rf
-
-}
-
-function Test-NewPolicy{
-
-        $vaultName = getVaultName
-        $vaultLocation = getVaultLocation
-        $vaultRg = getVaultRg
-        $primaryLocation = getPrimaryLocation
-        $recoveryLocation = getRecoveryLocation
-        $primaryFabricName = getPrimaryFabric
-        $recoveryFabricName = getRecoveryFabric
-        $primaryContainerName = getPrimaryContainer
-        $recoveryContainerName = getRecoveryContainer
-        $primaryPolicyName = getPrimaryPolicy
-        $recoveryPolicyName = getRecoveryPolicy
-
-        $Vault = Get-AzureRMRecoveryServicesVault -ResourceGroupName $vaultRg -Name $vaultName
-        Set-ASRVaultContext -Vault $Vault
-        $pf = get-asrFabric -Name $primaryFabricName
-        $rf = get-asrFabric -Name $recoveryFabricName
-        $pc = Get-asrProtectionContainer -name $primaryContainerName -Fabric $pf
-        $rc = Get-asrProtectionContainer -name $recoveryContainerName -Fabric $rf
-
     # policy creation 
         $Job1 = New-AzureRmRecoveryServicesAsrPolicy -Name $primaryPolicyName -AzureToAzure -RecoveryPointRetentionInHours 10  -ApplicationConsistentSnapshotFrequencyInHours 5
         $Job2 = New-AzureRmRecoveryServicesAsrPolicy -Name $recoveryPolicyName -AzureToAzure -RecoveryPointRetentionInHours 10  -ApplicationConsistentSnapshotFrequencyInHours 5
@@ -133,33 +117,7 @@ function Test-NewPolicy{
 
         $pp = Get-AzureRmRecoveryServicesAsrPolicy -Name $primaryPolicyName
         $rp = Get-AzureRmRecoveryServicesAsrPolicy -Name $recoveryPolicyName
-}
 
-function Test-ContainerMapping{
-        $vaultName = getVaultName
-        $vaultLocation = getVaultLocation
-        $vaultRg = getVaultRg
-        $primaryLocation = getPrimaryLocation
-        $recoveryLocation = getRecoveryLocation
-        $primaryFabricName = getPrimaryFabric
-        $recoveryFabricName = getRecoveryFabric
-        $primaryContainerName = getPrimaryContainer
-        $recoveryContainerName = getRecoveryContainer
-        $primaryPolicyName = getPrimaryPolicy
-        $recoveryPolicyName = getRecoveryPolicy
-
-        $primaryContainerMappingName = getPrimaryContainerMapping
-        $recoveryContainerMappingName = getRecoveryContainerMapping
-
-        $Vault = Get-AzureRMRecoveryServicesVault -ResourceGroupName $vaultRg -Name $vaultName
-        Set-ASRVaultContext -Vault $Vault
-        $pf = get-asrFabric -Name $primaryFabricName
-        $rf = get-asrFabric -Name $recoveryFabricName
-        $pc = Get-asrProtectionContainer -name $primaryContainerName -Fabric $pf
-        $rc = Get-asrProtectionContainer -name $recoveryContainerName -Fabric $rf
-        $pp = Get-AzureRmRecoveryServicesAsrPolicy -Name $primaryPolicyName
-        $rp = Get-AzureRmRecoveryServicesAsrPolicy -Name $recoveryPolicyName
-        
         # Container Mapping
     
         # Create Mapping
@@ -176,6 +134,16 @@ function Test-ContainerMapping{
 }
 
 function Test-NetworkMapping{
+        
+        $primaryPolicyName = getPrimaryPolicy
+        $recoveryPolicyName = getRecoveryPolicy
+        
+        $primaryContainerMappingName = getPrimaryContainerMapping
+        $recoveryContainerMappingName = getRecoveryContainerMapping
+        
+        $primaryContainerName = getPrimaryContainer
+        $recoveryContainerName = getRecoveryContainer
+        $vaultRgLocation = getVaultRgLocation
         $vaultName = getVaultName
         $vaultLocation = getVaultLocation
         $vaultRg = getVaultRg
@@ -183,15 +151,91 @@ function Test-NetworkMapping{
         $recoveryLocation = getRecoveryLocation
         $primaryFabricName = getPrimaryFabric
         $recoveryFabricName = getRecoveryFabric
-        $primaryNetworkMappingName = getPrimaryNetworkMapping
-        $recoveryNetworkMappingName = getRecoveryNetworkMapping
-        $primaryNetworkId = getprimaryNetworkId
-        $recoveryNetworkId = getRecoveryNetworkId
+        
+        
+        $primaryNetworkName = "primaryNetwork"+ $primaryLocation + $seed;
+        $recoveryyNetworkName = "recoveryNetwork"+ $primaryLocation + $seed;
+        
+        $primaryResourceRGName ="primaryRG"+$seed
+        $recoveryResourceRGName = "recoveryRG"+$seed
+        
+        $primaryresourceGroup = New-AzureRmResourceGroup -name $primaryResourceRGName -location $primaryLocation -force
+        $recoveryResourceGroup = New-AzureRmResourceGroup -name $recoveryResourceRGName -location $recoveryLocation -force
+        
+        $virtualNetwork = New-AzureRmVirtualNetwork `
+          -ResourceGroupName $primaryresourceGroup.ResourceGroupName `
+          -Location $primaryLocation `
+          -Name $primaryNetworkName `
+          -AddressPrefix 10.0.0.0/16
+         $primaryNetworkId = $virtualNetwork.id
 
+        
+        $virtualNetwork = New-AzureRmVirtualNetwork `
+          -ResourceGroupName $recoveryResourceGroup.ResourceGroupName `
+          -Location $recoveryLocation `
+          -Name $recoveryNetworkName `
+          -AddressPrefix 10.0.0.0/16
+         $recoveryNetworkId = $virtualNetwork.id
+
+        New-AzureRmResourceGroup -name $vaultRg -location $vaultRgLocation -force
+        [Microsoft.Azure.Test.TestUtilities]::Wait(20 * 1000)
+    # vault Creation
+        New-azureRmRecoveryServicesVault -ResourceGroupName $vaultRg -Name $vaultName -Location $vaultLocation
+        [Microsoft.Azure.Test.TestUtilities]::Wait(20 * 1000)
         $Vault = Get-AzureRMRecoveryServicesVault -ResourceGroupName $vaultRg -Name $vaultName
         Set-ASRVaultContext -Vault $Vault
+    # fabric Creation    
+        ### AzureToAzure New paramset 
+        $fabJob=  New-AzureRmRecoveryServicesAsrFabric -Azure -Name $primaryFabricName -Location $primaryLocation
+        WaitForJobCompletion -JobId $fabJob.Name
+        $fab = Get-AzureRmRecoveryServicesAsrFabric -Name $primaryFabricName
+        Assert-true { $fab.name -eq $primaryFabricName }
+        Assert-AreEqual $fab.FabricSpecificDetails.Location $primaryLocation
+
+        $fabJob=  New-AzureRmRecoveryServicesAsrFabric -Azure -Name $recoveryFabricName -Location $recoveryLocation
+        WaitForJobCompletion -JobId $fabJob.Name
+        $fab = Get-AzureRmRecoveryServicesAsrFabric -Name $recoveryFabricName
+        Assert-true { $fab.name -eq $recoveryFabricName }
+        Assert-AreEqual $fab.FabricSpecificDetails.Location $recoveryLocation
         $pf = get-asrFabric -Name $primaryFabricName
         $rf = get-asrFabric -Name $recoveryFabricName
+        
+        ### AzureToAzure (Default)
+        $job = New-AzureRmRecoveryServicesAsrProtectionContainer -Name $primaryContainerName -Fabric $pf
+        WaitForJobCompletion -JobId $Job.Name
+        $pc = Get-asrProtectionContainer -name $primaryContainerName -Fabric $pf
+        Assert-NotNull($pc)
+        Assert-AreEqual $pc.Name $primaryContainerName
+
+        $job = New-AzureRmRecoveryServicesAsrProtectionContainer -Name $recoveryContainerName -Fabric $rf
+        WaitForJobCompletion -JobId $Job.Name
+        $rc = Get-asrProtectionContainer -name $recoveryContainerName -Fabric $rf
+    # policy creation 
+        $Job1 = New-AzureRmRecoveryServicesAsrPolicy -Name $primaryPolicyName -AzureToAzure -RecoveryPointRetentionInHours 10  -ApplicationConsistentSnapshotFrequencyInHours 5
+        $Job2 = New-AzureRmRecoveryServicesAsrPolicy -Name $recoveryPolicyName -AzureToAzure -RecoveryPointRetentionInHours 10  -ApplicationConsistentSnapshotFrequencyInHours 5
+        waitForJobCompletion -JobId $job1.name
+        waitForJobCompletion -JobId $job2.name
+
+        $pp = Get-AzureRmRecoveryServicesAsrPolicy -Name $primaryPolicyName
+        $rp = Get-AzureRmRecoveryServicesAsrPolicy -Name $recoveryPolicyName
+
+        # Container Mapping
+    
+        # Create Mapping
+        $pcmjob =  New-AzureRmRecoveryServicesAsrProtectionContainerMapping -Name $primaryContainerMappingName -policy $pp -PrimaryProtectionContainer $pc -RecoveryProtectionContainer $rc
+        WaitForJobCompletion -JobId $pcmjob.Name 
+
+        $pcm = Get-ASRProtectionContainerMapping -Name $primaryContainerMappingName -ProtectionContainer $pc
+        Assert-NotNull($pcm)
+        $rcmjob =  New-AzureRmRecoveryServicesAsrProtectionContainerMapping -Name $recoveryContainerMappingName -policy $rp -PrimaryProtectionContainer $rc -RecoveryProtectionContainer $pc
+        WaitForJobCompletion -JobId $rcmjob.Name 
+
+        $rcm = Get-ASRProtectionContainerMapping -Name $recoveryContainerMappingName -ProtectionContainer $rc
+        Assert-NotNull($rcm)
+
+    
+        $primaryNetworkMappingName = getPrimaryNetworkMapping
+        $recoveryNetworkMappingName = getRecoveryNetworkMapping
         $job = New-AzureRmRecoveryServicesAsrNetworkMapping -AzureToAzure -Name $primaryNetworkMappingName `
         -PrimaryFabric $pf -PrimaryAzureNetworkId $PrimaryNetworkId -RecoveryFabric $rf `
         -RecoveryAzureNetworkId $RecoveryNetworkId
@@ -338,6 +382,8 @@ function Test-AsrA2ANetworkMapping
      param([string] $vaultSettingsFilePath)
         Import-AzureRmRecoveryServicesAsrVaultSettingsFile -Path $vaultSettingsFilePath
 
+
+        
     ### ByFabricObject
         $pf = Get-ASRFabric -Name $primaryFabricName
         $rf = Get-ASRFabric -Name $recoveryFabricName

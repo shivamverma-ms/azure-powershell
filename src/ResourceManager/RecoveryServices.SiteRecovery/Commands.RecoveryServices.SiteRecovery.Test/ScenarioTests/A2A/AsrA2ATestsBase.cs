@@ -32,6 +32,7 @@ using Microsoft.WindowsAzure.Commands.Test.Utilities.Common;
 using RestTestFramework = Microsoft.Rest.ClientRuntime.Azure.TestFramework;
 using Microsoft.Azure.Commands.Common.Authentication.Abstractions;
 using Microsoft.Azure.Internal.Subscriptions;
+using Microsoft.WindowsAzure.Management.Network;
 
 namespace RecoveryServices.SiteRecovery.Test
 {
@@ -53,6 +54,8 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         public ResourceManagementClient RmRestClient { get; private set; }
+        public NetworkManagementClient NetworkManagementClient { get; private set; }
+
         public RecoveryServicesClient RecoveryServicesMgmtClient { get; private set; }
         public SiteRecoveryManagementClient SiteRecoveryMgmtClient { get; private set; }
 
@@ -185,13 +188,20 @@ namespace RecoveryServices.SiteRecovery.Test
             this.RecoveryServicesMgmtClient = this.GetRecoveryServicesManagementClient(context);
             this.SiteRecoveryMgmtClient = this.GetSiteRecoveryManagementClient(context);
             this.SubscriptionClient = this.GetSubscriptionClient(context);
+            this.NetworkManagementClient = this.GetNetworkManagementClientClient(context);
 
             this.helper.SetupManagementClients(
                 this.RmRestClient,
                 this.RecoveryServicesMgmtClient,
                 this.SiteRecoveryMgmtClient,
                 this.SubscriptionClient,
+                this.NetworkManagementClient,
                 this.ResourceManagementRestClient);
+        }
+
+        private NetworkManagementClient GetNetworkManagementClientClient(RestTestFramework.MockContext context)
+        {
+            return context.GetServiceClient<NetworkManagementClient>(RestTestFramework.TestEnvironmentFactory.GetTestEnvironment());
         }
 
         private RecoveryServicesClient GetRecoveryServicesManagementClient(
