@@ -134,8 +134,7 @@ function Test-ContainerMapping{
 
 function Test-NetworkMapping{
 
-    New-AzureRmVM 
-
+    
         $primaryPolicyName = getPrimaryPolicy
         $recoveryPolicyName = getRecoveryPolicy
         
@@ -211,7 +210,7 @@ function Test-NetworkMapping{
             Set-AzureRmVMSourceImage -PublisherName Canonical -Offer UbuntuServer -Skus 14.04.2-LTS -Version latest| `
             Add-AzureRmVMNetworkInterface -Id $nic.Id
 
-             New-AzureRmVM -ResourceGroupName $primaryResourceRGName -Location $primaryLocation -VM $vmConfig
+            New-AzureRmVM -ResourceGroupName $primaryResourceRGName -Location $primaryLocation -VM $vmConfig
 
         New-AzureRmResourceGroup -name $vaultRg -location $vaultRgLocation -force
         [Microsoft.Azure.Test.TestUtilities]::Wait(20 * 1000)

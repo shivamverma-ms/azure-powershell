@@ -34,6 +34,7 @@ using Microsoft.Azure.Commands.Common.Authentication.Abstractions;
 using Microsoft.Azure.Internal.Subscriptions;
 using Microsoft.Azure.Management.Network;
 using Microsoft.Azure.Management.Storage;
+using Microsoft.Azure.Management.Compute;
 
 namespace RecoveryServices.SiteRecovery.Test
 {
@@ -64,6 +65,7 @@ namespace RecoveryServices.SiteRecovery.Test
 
         public SubscriptionClient SubscriptionClient { get; private set; }
 
+        public ComputeManagementClient ComputeManagementClient { get; private set; }
         public Microsoft.Azure.Management.ResourceManager.ResourceManagementClient ResourceManagementRestClient { get; private set; }
 
 
@@ -158,7 +160,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 modules.Add(recoveryServicesModulePath);
                 modules.Add(helper.GetRMModulePath("AzureRM.Network.psd1"));
                 modules.Add(helper.GetRMModulePath("AzureRM.Storage.psd1"));
-                modules.Add(helper.GetRMModulePath("AzureRM.compute.psd1"));
+                modules.Add(helper.GetRMModulePath("AzureRM.Compute.psd1"));
 
                 this.helper.SetupModules(
                     AzureModule.AzureResourceManager,
@@ -196,6 +198,7 @@ namespace RecoveryServices.SiteRecovery.Test
             this.SubscriptionClient = this.GetSubscriptionClient(context);
             this.NetworkManagementClient = this.GetNetworkManagementClientClient(context);
             this.StorageClient = this.GetStorageManagementClient(context);
+            this.ComputeManagementClient = this.GetComputeManagementClient(context);
 
             this.helper.SetupManagementClients(
                 this.RmRestClient,
@@ -204,12 +207,13 @@ namespace RecoveryServices.SiteRecovery.Test
                 this.SubscriptionClient,
                 this.NetworkManagementClient,
                 this.ResourceManagementRestClient,
-                this.StorageClient);
+                this.StorageClient,
+                this.ComputeManagementClient);
         }
 
         private StorageManagementClient GetStorageManagementClient(RestTestFramework.MockContext context)
         {
-            return  context.GetServiceClient<StorageManagementClient>(RestTestFramework.TestEnvironmentFactory.GetTestEnvironment());
+            return context.GetServiceClient<StorageManagementClient>(RestTestFramework.TestEnvironmentFactory.GetTestEnvironment());
         }
 
         private NetworkManagementClient GetNetworkManagementClientClient(RestTestFramework.MockContext context)
@@ -265,6 +269,11 @@ namespace RecoveryServices.SiteRecovery.Test
         {
             return context.GetServiceClient<SiteRecoveryManagementClient>(
                 RestTestFramework.TestEnvironmentFactory.GetTestEnvironment());
+        }
+
+        private ComputeManagementClient GetComputeManagementClient(RestTestFramework.MockContext context)
+        {
+            return context.GetServiceClient<ComputeManagementClient>(RestTestFramework.TestEnvironmentFactory.GetTestEnvironment());
         }
 
         private static bool IgnoreCertificateErrorHandler(
