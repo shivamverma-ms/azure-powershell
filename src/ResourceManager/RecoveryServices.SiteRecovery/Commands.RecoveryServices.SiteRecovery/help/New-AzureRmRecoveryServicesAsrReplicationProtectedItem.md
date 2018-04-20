@@ -53,7 +53,18 @@ New-AzureRmRecoveryServicesAsrReplicationProtectedItem [-AzureToAzure]
  -AzureToAzureDiskReplicationConfiguration <ASRAzuretoAzureDiskReplicationConfig[]> -AzureVmId <String>
  -Name <String> [-RecoveryVmName <String>] -ProtectionContainerMapping <ASRProtectionContainerMapping>
  -RecoveryResourceGroupId <String> [-RecoveryCloudServiceId <String>] [-RecoveryAvailabilitySetId <String>]
- [-WaitForCompletion] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-RecoveryBootDiagStorageAccountId <String>] [-WaitForCompletion] [-DefaultProfile <IAzureContextContainer>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### AzureToAzureManagedDisk
+```
+New-AzureRmRecoveryServicesAsrReplicationProtectedItem [-AzureToAzure]
+ -AzureToAzureDiskReplicationConfiguration <ASRAzuretoAzureDiskReplicationConfig[]> -AzureVmId <String>
+ -Name <String> [-RecoveryVmName <String>] -ProtectionContainerMapping <ASRProtectionContainerMapping>
+ -RecoveryResourceGroupId <String> [-RecoveryAvailabilitySetId <String>]
+ [-RecoveryBootDiagStorageAccountId <String>] [-WaitForCompletion] [-DefaultProfile <IAzureContextContainer>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -121,7 +132,7 @@ Switch parameter to specify that the replicated item is an Azure virtual machine
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: AzureToAzure
+Parameter Sets: AzureToAzure, AzureToAzureManagedDisk
 Aliases:
 
 Required: False
@@ -136,7 +147,7 @@ Specifies the list of virtual machine disks to replicated and the cache storage 
 
 ```yaml
 Type: ASRAzuretoAzureDiskReplicationConfig[]
-Parameter Sets: AzureToAzure
+Parameter Sets: AzureToAzure, AzureToAzureManagedDisk
 Aliases:
 
 Required: True
@@ -151,7 +162,7 @@ Specifies the azure vm id to be replicated.
 
 ```yaml
 Type: String
-Parameter Sets: AzureToAzure
+Parameter Sets: AzureToAzure, AzureToAzureManagedDisk
 Aliases:
 
 Required: True
@@ -332,7 +343,7 @@ The ID of the AvailabilitySet to recover the machine to in the event of a failov
 
 ```yaml
 Type: String
-Parameter Sets: AzureToAzure
+Parameter Sets: AzureToAzure, AzureToAzureManagedDisk
 Aliases:
 
 Required: False
@@ -387,6 +398,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -RecoveryBootDiagStorageAccountId
+{{Fill RecoveryBootDiagStorageAccountId Description}}
+
+```yaml
+Type: String
+Parameter Sets: AzureToAzure, AzureToAzureManagedDisk
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -RecoveryCloudServiceId
 Specifies the resource ID of the recovery cloud service to failover this virtual machine to.
 
@@ -407,7 +433,7 @@ Specifies the ARM identifier of the resource group in which the virtual machine 
 
 ```yaml
 Type: String
-Parameter Sets: VMwareToAzure, EnterpriseToAzure, HyperVSiteToAzure, AzureToAzure
+Parameter Sets: VMwareToAzure, EnterpriseToAzure, HyperVSiteToAzure, AzureToAzure, AzureToAzureManagedDisk
 Aliases:
 
 Required: True
@@ -422,7 +448,7 @@ Name of the recovery Vm created after failover.
 
 ```yaml
 Type: String
-Parameter Sets: VMwareToAzure, EnterpriseToAzure, HyperVSiteToAzure, AzureToAzure
+Parameter Sets: VMwareToAzure, EnterpriseToAzure, HyperVSiteToAzure, AzureToAzure, AzureToAzureManagedDisk
 Aliases:
 
 Required: False

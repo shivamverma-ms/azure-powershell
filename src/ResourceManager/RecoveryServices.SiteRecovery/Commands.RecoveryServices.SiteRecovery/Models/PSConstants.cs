@@ -311,6 +311,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public const string OSWindows = "Windows";
 
         /// <summary>
+        ///     Represents Premium_LRS storage account.
+        /// </summary>
+        public const string Premium_LRS = "Premium_LRS";
+
+        /// <summary>
         ///     Represents primary location.
         /// </summary>
         public const string PrimaryLocation = "Primary";
@@ -441,6 +446,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         ///     Replication type - async.
         /// </summary>
         public const string Sync = "Sync";
+
+        /// <summary>
+        ///     Represents Premium_LRS storage account.
+        /// </summary>
+        public const string Standard_LRS = "Standard_LRS";
 
         /// <summary>
         ///     Azure VM temporary disk name, to be excluded as part of switch protection.

@@ -16,7 +16,7 @@
 ########################## Site Recovery Tests #############################
 
 ##Default Value ##
-$seed = "59"
+$seed = "98"
 function getVaultName{
     return "A2APowershellTest" + $seed;
 }

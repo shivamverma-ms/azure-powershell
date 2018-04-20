@@ -36,6 +36,28 @@ function Test-NewA2ADiskReplicationConfiguration
      Assert-True { $v.logStorageAccountId -eq $logStorageAccountId }
 }
 
+
+<#
+.SYNOPSIS
+    NewA2ADiskReplicationConfiguration creation test.
+#>
+function Test-NewA2AManagedDiskReplicationConfiguration
+{
+    $logStorageAccountId = "fdd"
+    $DiskId = "diskId"
+    $RecoveryResourceGroupId = "3"
+    $RecoveryReplicaDiskAccountType = "Premium_LRS"
+    $RecoveryTargetDiskAccountType = "Premium_LRS"
+
+    $v = New-AzureRmRecoveryServicesAsrAzureToAzureDiskReplicationConfig -managed -LogStorageAccountId $logStorageAccountId `
+         -DiskId "diskId" -RecoveryResourceGroupId  $RecoveryResourceGroupId -RecoveryReplicaDiskAccountType  $RecoveryReplicaDiskAccountType `
+         -RecoveryTargetDiskAccountType $RecoveryTargetDiskAccountType
+
+     Assert-True { $v.LogStorageAccountId -eq $LogStorageAccountId }
+     Assert-True { $v.DiskId -eq $DiskId  }
+     Assert-True { $v.RecoveryResourceGroupId -eq $RecoveryResourceGroupId }
+}
+
 <#
 .SYNOPSIS 
     Test GetAsrFabric new parametersets
@@ -74,6 +96,8 @@ function Test-ContainerMapping{
         $recoveryLocation = getRecoveryLocation
         $primaryFabricName = getPrimaryFabric
         $recoveryFabricName = getRecoveryFabric
+        $RecoveryReplicaDiskAccountType = "Premium_LRS"
+        $RecoveryTargetDiskAccountType = "Premium_LRS"
 
         New-AzureRmResourceGroup -name $vaultRg -location $vaultRgLocation --force
         [Microsoft.Azure.Test.TestUtilities]::Wait(20 * 1000)
@@ -134,7 +158,18 @@ function Test-ContainerMapping{
 
 function Test-NetworkMapping{
 
-    
+        $primaryResourceRGName ="primaryRG"+$seed
+        $primaryLocation = getPrimaryLocation
+        $skuName = "Standard_LRS"
+
+        $cacheAccountName = "caestea1ccgq" + $seed
+        $primaryresourceGroup = New-AzureRmResourceGroup -name $primaryResourceRGName -location $primaryLocation -force
+        
+        $storageAccount = New-AzureRmStorageAccount -ResourceGroupName $primaryResourceRGName `
+                          -Name $cacheAccountName `
+                          -Location $primaryLocation `
+                          -SkuName $skuName
+
         $primaryPolicyName = getPrimaryPolicy
         $recoveryPolicyName = getRecoveryPolicy
         
@@ -147,28 +182,22 @@ function Test-NetworkMapping{
         $vaultName = getVaultName
         $vaultLocation = getVaultLocation
         $vaultRg = getVaultRg
-        $primaryLocation = getPrimaryLocation
+        
         $recoveryLocation = getRecoveryLocation
         $primaryFabricName = getPrimaryFabric
         $recoveryFabricName = getRecoveryFabric
-        $cacheAccountName = "cacheAccount"
-        $skuName = "Standard_LRS"
+        
         
         $primaryNetworkName = "primaryNetwork"+ $primaryLocation + $seed;
         $recoveryNetworkName = "recoveryNetwork"+ $primaryLocation + $seed;
         
-        $primaryResourceRGName ="primaryRG"+$seed
+        
         $recoveryResourceRGName = "recoveryRG"+$seed
+        $vmName = "psTestswag"+$seed
         
         $primaryresourceGroup = New-AzureRmResourceGroup -name $primaryResourceRGName -location $primaryLocation -force
         $recoveryResourceGroup = New-AzureRmResourceGroup -name $recoveryResourceRGName -location $recoveryLocation -force
         
-
-        
-        $storageAccount = New-AzureRmStorageAccount -ResourceGroupName $primaryResourceRGName `
-                          -Name $cacheAccountName `
-                          -Location $primaryLocation `
-                          -SkuName $skuName
 
     $virtualNetwork = New-AzureRmVirtualNetwork `
           -ResourceGroupName $primaryresourceGroup.ResourceGroupName `
@@ -211,7 +240,7 @@ function Test-NetworkMapping{
             Add-AzureRmVMNetworkInterface -Id $nic.Id
 
             New-AzureRmVM -ResourceGroupName $primaryResourceRGName -Location $primaryLocation -VM $vmConfig
-
+            $vm = get-azureRmVm -Name $vmName -ResourceGroupName -ResourceGroupName $primaryResourceRGName 
         New-AzureRmResourceGroup -name $vaultRg -location $vaultRgLocation -force
         [Microsoft.Azure.Test.TestUtilities]::Wait(20 * 1000)
     # vault Creation
@@ -286,6 +315,17 @@ function Test-NetworkMapping{
         Assert-notNull { $networkMapping }
         $networkMapping= Get-AzureRmRecoveryServicesAsrNetworkMapping -PrimaryFabric $pf -Name $primaryNetworkMappingName 
         Assert-notNull { $networkMapping }
+        
+        $diskId =  $vm.StorageProfile.OsDisk.ManagedDisk.Id
+        $disk = New-AzureRmRecoveryServicesAsrAzureToAzureDiskReplicationConfig -managed -LogStorageAccountId $storageAccount.Id `
+         -DiskId $diskId -RecoveryResourceGroupId  $recoveryResourceGroup.Id -RecoveryReplicaDiskAccountType  $RecoveryReplicaDiskAccountType `
+         -RecoveryTargetDiskAccountType $RecoveryTargetDiskAccountType
+        
+        New-AzureRmRecoveryServicesAsrReplicationProtectedItem -AzureToAzure
+             -AzureToAzureDiskReplicationConfiguration $disk -AzureVmId $vmId
+             -Name $vmName -RecoveryVmName $vmName -ProtectionContainerMapping $pcm
+             -RecoveryResourceGroupId $recoveryResourceGroup.Id
+
 }
 
 function Test-RemoveNetworkMapping{

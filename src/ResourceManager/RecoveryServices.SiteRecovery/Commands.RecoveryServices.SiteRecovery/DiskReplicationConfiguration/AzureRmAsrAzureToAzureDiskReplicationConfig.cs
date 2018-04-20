@@ -85,6 +85,9 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk, Mandatory = true)]
         [ValidateNotNullOrEmpty]
+        [ValidateSet(
+            Constants.Premium_LRS,
+            Constants.Standard_LRS)]
         public string RecoveryReplicaDiskAccountType { get; set; }
 
         /// <summary>
@@ -92,6 +95,9 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk, Mandatory = true)]
         [ValidateNotNullOrEmpty]
+        [ValidateSet(
+            Constants.Premium_LRS,
+            Constants.Standard_LRS)]
         public string RecoveryTargetDiskAccountType { get; set; }
 
         #endregion Parameters

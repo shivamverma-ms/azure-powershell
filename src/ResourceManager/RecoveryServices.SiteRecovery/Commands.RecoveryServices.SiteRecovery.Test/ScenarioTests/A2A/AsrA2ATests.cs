@@ -39,9 +39,16 @@ namespace RecoveryServices.SiteRecovery.Test
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestNewA2ADiskReplicationConfig1()
         {
-            this.RunPowerShellTest(Constants.NewModel, "Test-NewA2ADiskReplicationConfiguration ");
+            this.RunPowerShellTest(Constants.NewModel, "Test-NewA2ADiskReplicationConfiguration");
         }
+        
 
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestNewA2AManagedDiskReplicationConfig()
+        {
+            this.RunPowerShellTest(Constants.NewModel, "Test-NewA2AManagedDiskReplicationConfiguration");
+        }
         [Fact]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void A2ANewAsrFabric()
