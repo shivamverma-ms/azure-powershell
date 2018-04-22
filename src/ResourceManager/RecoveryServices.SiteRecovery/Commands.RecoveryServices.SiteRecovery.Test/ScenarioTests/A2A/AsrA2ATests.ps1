@@ -161,14 +161,29 @@ function Test-NetworkMapping{
         $primaryResourceRGName ="primaryRG"+$seed
         $primaryLocation = getPrimaryLocation
         $skuName = "Standard_LRS"
+        $vaultRgLocation = getVaultRgLocation
+        $vaultName = getVaultName
+        $vaultLocation = getVaultLocation
+        $vaultRg = getVaultRg
+        
+        New-AzureRmResourceGroup -name $vaultRg -location $vaultRgLocation -force
+        [Microsoft.Azure.Test.TestUtilities]::Wait(20 * 1000)
+   
+         # vault Creation
+        New-azureRmRecoveryServicesVault -ResourceGroupName $vaultRg -Name $vaultName -Location $vaultLocation
+        [Microsoft.Azure.Test.TestUtilities]::Wait(20 * 1000)
+        $Vault = Get-AzureRMRecoveryServicesVault -ResourceGroupName $vaultRg -Name $vaultName
+        Set-ASRVaultContext -Vault $Vault
+    # fabric Creation    
 
         $cacheAccountName = "caestea1ccgq" + $seed
         $primaryresourceGroup = New-AzureRmResourceGroup -name $primaryResourceRGName -location $primaryLocation -force
         
-        $storageAccount = New-AzureRmStorageAccount -ResourceGroupName $primaryResourceRGName `
+       New-AzureRmStorageAccount -ResourceGroupName $primaryResourceRGName `
                           -Name $cacheAccountName `
                           -Location $primaryLocation `
-                          -SkuName $skuName
+                          -Type $skuName
+      $storageAccount =  Get-AzureRmStorageAccount -ResourceGroupName $primaryResourceRGName -Name $cacheAccountName 
 
         $primaryPolicyName = getPrimaryPolicy
         $recoveryPolicyName = getRecoveryPolicy
@@ -178,10 +193,7 @@ function Test-NetworkMapping{
         
         $primaryContainerName = getPrimaryContainer
         $recoveryContainerName = getRecoveryContainer
-        $vaultRgLocation = getVaultRgLocation
-        $vaultName = getVaultName
-        $vaultLocation = getVaultLocation
-        $vaultRg = getVaultRg
+        
         
         $recoveryLocation = getRecoveryLocation
         $primaryFabricName = getPrimaryFabric
@@ -198,8 +210,12 @@ function Test-NetworkMapping{
         $primaryresourceGroup = New-AzureRmResourceGroup -name $primaryResourceRGName -location $primaryLocation -force
         $recoveryResourceGroup = New-AzureRmResourceGroup -name $recoveryResourceRGName -location $recoveryLocation -force
         
-
-    $virtualNetwork = New-AzureRmVirtualNetwork `
+        $primaryresourceGroup =  Get-AzureRmResourceGroup -name $primaryResourceRGName
+        $recoveryResourceGroup = Get-AzureRmResourceGroup -name $recoveryResourceRGName
+        $RecoveryReplicaDiskAccountType = "Standard_LRS"
+        $RecoveryTargetDiskAccountType = "Standard_LRS"
+   
+     $virtualNetwork = New-AzureRmVirtualNetwork `
           -ResourceGroupName $primaryresourceGroup.ResourceGroupName `
           -Location $primaryLocation `
           -Name $primaryNetworkName `
@@ -223,32 +239,24 @@ function Test-NetworkMapping{
             $secureString ='Microsfot@123'
 
             $subnetConfig = New-AzureRmVirtualNetworkSubnetConfig -Name $subnetName -AddressPrefix $addressPrefix
-            $vnet = New-AzureRmVirtualNetwork -ResourceGroupName $primaryResourceRGName -Location $primaryLocation -Name $vnetName -AddressPrefix $vnetAddress -Subnet $subnetConfig
+            $vnet = New-AzureRmVirtualNetwork -ResourceGroupName $primaryResourceRGName -Location $primaryLocation `
+                    -Name $vnetName -AddressPrefix $vnetAddress -Subnet $subnetConfig -Force
   
-            $nic = New-AzureRmNetworkInterface -Name $nicName -ResourceGroupName $primaryResourceRGName -Location $primaryLocation -SubnetId $vnet.Subnets[0].Id
+            $nic = New-AzureRmNetworkInterface -Name $nicName -ResourceGroupName $primaryResourceRGName `
+                    -Location $primaryLocation -SubnetId $vnet.Subnets[0].Id -Force
   
             $securePassword = ConvertTo-SecureString $secureString -AsPlainText -Force
 
             $cred = New-Object System.Management.Automation.PSCredential ("azureuser", $securePassword)
     
-            $nic = New-AzureRmNetworkInterface -Name myNic -ResourceGroupName $primaryResourceRGName -Location $primaryLocation -SubnetId $vnet.Subnets[0].Id -force
-  
-  
-            $vmConfig = New-AzureRmVMConfig -VMName "vmName" -VMSize Standard_D1 | `
+            $vmConfig = New-AzureRmVMConfig -VMName $vmName -VMSize Standard_D1 | `
             Set-AzureRmVMOperatingSystem -Linux -ComputerName $vmName -Credential $cred | `
             Set-AzureRmVMSourceImage -PublisherName Canonical -Offer UbuntuServer -Skus 14.04.2-LTS -Version latest| `
             Add-AzureRmVMNetworkInterface -Id $nic.Id
 
             New-AzureRmVM -ResourceGroupName $primaryResourceRGName -Location $primaryLocation -VM $vmConfig
-            $vm = get-azureRmVm -Name $vmName -ResourceGroupName -ResourceGroupName $primaryResourceRGName 
-        New-AzureRmResourceGroup -name $vaultRg -location $vaultRgLocation -force
-        [Microsoft.Azure.Test.TestUtilities]::Wait(20 * 1000)
-    # vault Creation
-        New-azureRmRecoveryServicesVault -ResourceGroupName $vaultRg -Name $vaultName -Location $vaultLocation
-        [Microsoft.Azure.Test.TestUtilities]::Wait(20 * 1000)
-        $Vault = Get-AzureRMRecoveryServicesVault -ResourceGroupName $vaultRg -Name $vaultName
-        Set-ASRVaultContext -Vault $Vault
-    # fabric Creation    
+            $vm = get-azureRmVm -Name $vmName -ResourceGroupName $primaryResourceRGName 
+        
         ### AzureToAzure New paramset 
         $fabJob=  New-AzureRmRecoveryServicesAsrFabric -Azure -Name $primaryFabricName -Location $primaryLocation
         WaitForJobCompletion -JobId $fabJob.Name
@@ -315,16 +323,17 @@ function Test-NetworkMapping{
         Assert-notNull { $networkMapping }
         $networkMapping= Get-AzureRmRecoveryServicesAsrNetworkMapping -PrimaryFabric $pf -Name $primaryNetworkMappingName 
         Assert-notNull { $networkMapping }
-        
-        $diskId =  $vm.StorageProfile.OsDisk.ManagedDisk.Id
+   
+    
+         $diskId =  $vm.StorageProfile.OsDisk.ManagedDisk.Id
         $disk = New-AzureRmRecoveryServicesAsrAzureToAzureDiskReplicationConfig -managed -LogStorageAccountId $storageAccount.Id `
-         -DiskId $diskId -RecoveryResourceGroupId  $recoveryResourceGroup.Id -RecoveryReplicaDiskAccountType  $RecoveryReplicaDiskAccountType `
+         -DiskId $diskId -RecoveryResourceGroupId  $recoveryResourceGroup.ResourceId -RecoveryReplicaDiskAccountType  $RecoveryReplicaDiskAccountType `
          -RecoveryTargetDiskAccountType $RecoveryTargetDiskAccountType
         
-        New-AzureRmRecoveryServicesAsrReplicationProtectedItem -AzureToAzure
-             -AzureToAzureDiskReplicationConfiguration $disk -AzureVmId $vmId
-             -Name $vmName -RecoveryVmName $vmName -ProtectionContainerMapping $pcm
-             -RecoveryResourceGroupId $recoveryResourceGroup.Id
+        New-AzureRmRecoveryServicesAsrReplicationProtectedItem -AzureToAzure `
+             -AzureToAzureDiskReplicationConfiguration $disk -AzureVmId $vm.id `
+             -Name $vmName -RecoveryVmName $vmName -ProtectionContainerMapping $pcm `
+             -RecoveryResourceGroupId $recoveryResourceGroup.ResourceId
 
 }
 

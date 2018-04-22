@@ -49,7 +49,7 @@ Starts the operation of updating the replication protect item settings using the
 ## PARAMETERS
 
 ### -AzureToAzureUpdateReplicationConfiguration
-{{Fill AzureToAzureUpdateReplicationConfiguration Description}}
+Specifies the disk replication configration to be udated for replication.
 
 ```yaml
 Type: ASRAzuretoAzureDiskReplicationConfig[]
@@ -186,7 +186,7 @@ Accept wildcard characters: False
 ```
 
 ### -RecoveryBootDiagStorageAccountId
-{{Fill RecoveryBootDiagStorageAccountId Description}}
+Specifies the storage account for boot diagnostics for recovery azure VM.
 
 ```yaml
 Type: String

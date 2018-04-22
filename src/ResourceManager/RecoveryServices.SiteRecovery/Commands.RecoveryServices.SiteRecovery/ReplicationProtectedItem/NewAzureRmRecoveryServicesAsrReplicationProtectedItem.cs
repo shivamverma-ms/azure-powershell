@@ -74,9 +74,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter(
             ParameterSetName = ASRParameterSets.AzureToAzure,
             Mandatory = false)]
-        [Parameter(
-            ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk,
-            Mandatory = false)]
         public SwitchParameter AzureToAzure { get; set; }
 
         /// <summary>
@@ -107,7 +104,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         ///    and the cache storage account and recovery storage account to be used to replicate the disk.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public ASRAzuretoAzureDiskReplicationConfig[] AzureToAzureDiskReplicationConfiguration { get; set; }
 
@@ -115,7 +111,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// Gets or sets the azure vm id to be replicated.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string AzureVmId { get; set; }
 
@@ -132,7 +127,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure)]
         [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzure)]
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk)]
         [ValidateNotNullOrEmpty]
         public string RecoveryVmName { get; set; }
 
@@ -238,7 +232,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzure, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string RecoveryResourceGroupId { get; set; }
 
@@ -260,14 +253,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// Gets or sets ID of the AvailabilitySet to recover the machine to in the event of a failover.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk)]
         [ValidateNotNullOrEmpty]
         public string RecoveryAvailabilitySetId { get; set; }
 
         /// <summary>
         /// Gets or sets BootDiagnosticStorageAccountId.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk)]
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
         public string RecoveryBootDiagStorageAccountId { get; set; }
 
@@ -345,7 +336,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         break;
 
                     case ASRParameterSets.AzureToAzure:
-                    case ASRParameterSets.AzureToAzureManagedDisk:
                         if (!(policyInstanceType is A2APolicyDetails))
                         {
                             throw new PSArgumentException(
@@ -602,6 +592,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 RecoveryContainerId =
                         this.ProtectionContainerMapping.TargetProtectionContainerId,
                 VmDisks = new List<A2AVmDiskInputDetails>(),
+                VmManagedDisks = new List<A2AVmManagedDiskInputDetails>(),
                 RecoveryResourceGroupId = this.RecoveryResourceGroupId,
                 RecoveryCloudServiceId = this.RecoveryCloudServiceId,
                 RecoveryAvailabilitySetId = this.RecoveryAvailabilitySetId,

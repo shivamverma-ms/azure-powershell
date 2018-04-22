@@ -72,7 +72,7 @@ Accept wildcard characters: False
 ```
 
 ### -DiskId
-{{Fill DiskId Description}}
+Specifies the disk id of managed disk.
 
 ```yaml
 Type: String
@@ -117,12 +117,13 @@ Accept wildcard characters: False
 ```
 
 ### -RecoveryReplicaDiskAccountType
-{{Fill RecoveryReplicaDiskAccountType Description}}
+Specifies the account type of replicated managed disk.
 
 ```yaml
 Type: String
 Parameter Sets: AzureToAzureManagedDisk
 Aliases:
+Accepted values: Premium_LRS, Standard_LRS
 
 Required: True
 Position: Named
@@ -132,7 +133,7 @@ Accept wildcard characters: False
 ```
 
 ### -RecoveryResourceGroupId
-{{Fill RecoveryResourceGroupId Description}}
+Specifies the recovery resource group id for replicated managed disk.
 
 ```yaml
 Type: String
@@ -147,12 +148,13 @@ Accept wildcard characters: False
 ```
 
 ### -RecoveryTargetDiskAccountType
-{{Fill RecoveryTargetDiskAccountType Description}}
+Specifies the recovery target disk for replicated managed disk.
 
 ```yaml
 Type: String
 Parameter Sets: AzureToAzureManagedDisk
 Aliases:
+Accepted values: Premium_LRS, Standard_LRS
 
 Required: True
 Position: Named
@@ -193,7 +195,7 @@ Accept wildcard characters: False
 ```
 
 ### -managed
-{{Fill managed Description}}
+Specifies the disk details is for managed disk.
 
 ```yaml
 Type: SwitchParameter

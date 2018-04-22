@@ -175,7 +175,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 
                 var provider = replicationProtectedItemResponse.Properties.ProviderSpecificDetails;
 
-                // Check for Replication Provider type HyperVReplicaAzure/InMageAzureV2
+                // Check for Replication Provider type HyperVReplicaAzure/InMageAzureV2/A2A
                 if (!(provider is HyperVReplicaAzureReplicationDetails) &&
                     !(provider is InMageAzureV2ReplicationDetails) &&
                     !(provider is A2AReplicationDetails))
@@ -389,6 +389,18 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     {
                         managedDiskUpdateDetails = new List<A2AVmManagedDiskUpdateDetails>();
                         foreach (var managedDisk in providerSpecificDetails.ProtectedManagedDisks)
+                        {
+                            managedDiskUpdateDetails.Add(
+                                new A2AVmManagedDiskUpdateDetails(
+                                    managedDisk.DiskId,
+                                    managedDisk.RecoveryTargetDiskAccountType,
+                                    managedDisk.RecoveryReplicaDiskAccountType));
+                        }
+                    }
+                    else if (this.AzureToAzureUpdateReplicationConfiguration != null && this.AzureToAzureUpdateReplicationConfiguration[0].IsManagedDisk)
+                    {
+                        managedDiskUpdateDetails = new List<A2AVmManagedDiskUpdateDetails>();
+                        foreach (var managedDisk in this.AzureToAzureUpdateReplicationConfiguration)
                         {
                             managedDiskUpdateDetails.Add(
                                 new A2AVmManagedDiskUpdateDetails(

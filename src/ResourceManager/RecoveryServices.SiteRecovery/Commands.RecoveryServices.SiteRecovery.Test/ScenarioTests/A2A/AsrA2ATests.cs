@@ -20,40 +20,27 @@ using Microsoft.WindowsAzure.Commands.ScenarioTest;
 
 namespace RecoveryServices.SiteRecovery.Test
 {
-    public class AsrA2ATests : AsrA2ATestsBase
+    public class AsrA2ATests
     {
-        public AsrA2ATests(
-            ITestOutputHelper output)
-        {
-            XunitTracingInterceptor.AddToContext(new XunitTracingInterceptor(output));
-            this.powershellFile = System.IO.Path.Combine(
-                System.AppDomain.CurrentDomain.BaseDirectory,
-                "ScenarioTests\\A2A\\AsrA2ATests.ps1");
-            this.powershellHelperFile = System.IO.Path.Combine(
-                System.AppDomain.CurrentDomain.BaseDirectory,
-                "ScenarioTests\\A2A\\A2ATestsHelper.ps1");
-            this.initialize();
-        }
-
         [Fact]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
-        public void TestNewA2ADiskReplicationConfig1()
+        public void TestNewA2ADiskReplicationConfig()
         {
-            this.RunPowerShellTest(Constants.NewModel, "Test-NewA2ADiskReplicationConfiguration");
+            AsrA2ATestController.NewInstance.RunPsTest("Test-NewA2ADiskReplicationConfiguration");
         }
-        
+
 
         [Fact]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestNewA2AManagedDiskReplicationConfig()
         {
-            this.RunPowerShellTest(Constants.NewModel, "Test-NewA2AManagedDiskReplicationConfiguration");
+            AsrA2ATestController.NewInstance.RunPsTest("Test-NewA2AManagedDiskReplicationConfiguration");
         }
         [Fact]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void A2ANewAsrFabric()
         {
-            this.RunPowerShellTest(Constants.NewModel, "Test-NewAsrFabric");
+            AsrA2ATestController.NewInstance.RunPsTest("Test-NewAsrFabric");
         }
 
 
@@ -61,7 +48,7 @@ namespace RecoveryServices.SiteRecovery.Test
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void A2ATestNewContainer()
         {
-            this.RunPowerShellTest(Constants.NewModel, "Test-NewContainer");
+            AsrA2ATestController.NewInstance.RunPsTest("Test-NewContainer");
         }
 
 
@@ -69,7 +56,7 @@ namespace RecoveryServices.SiteRecovery.Test
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void A2ATestNetworkMapping()
         {
-            this.RunPowerShellTest(Constants.NewModel, "Test-NetworkMapping");
+            AsrA2ATestController.NewInstance.RunPsTest("Test-NetworkMapping");
         }
 
     }

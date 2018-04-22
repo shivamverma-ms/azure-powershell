@@ -72,16 +72,6 @@ Update-AzureRmRecoveryServicesAsrProtectionDirection [-AzureToAzure]
  [<CommonParameters>]
 ```
 
-### AzureToAzureManagedDisk
-```
-Update-AzureRmRecoveryServicesAsrProtectionDirection [-AzureToAzure]
- -ProtectionContainerMapping <ASRProtectionContainerMapping>
- -AzureToAzureDiskReplicationConfiguration <ASRAzuretoAzureDiskReplicationConfig[]>
- -ReplicationProtectedItem <ASRReplicationProtectedItem> [-RecoveryResourceGroupId <String>]
- [-RecoveryAvailabilitySetId <String>] [-RecoveryBootDiagStorageAccountId <String>]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
-```
-
 ### ByRPObject
 ```
 Update-AzureRmRecoveryServicesAsrProtectionDirection -RecoveryPlan <ASRRecoveryPlan> -Direction <String>
@@ -156,7 +146,7 @@ Switch parameter specifying that the replication direction being updated for rep
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: AzureToAzure, AzureToAzureWithMultipleStorageAccount, AzureToAzureManagedDisk
+Parameter Sets: AzureToAzure, AzureToAzureWithMultipleStorageAccount
 Aliases:
 
 Required: True
@@ -171,7 +161,7 @@ Specifies the list of virtual machine disks to replicated and the cache storage 
 
 ```yaml
 Type: ASRAzuretoAzureDiskReplicationConfig[]
-Parameter Sets: AzureToAzureWithMultipleStorageAccount, AzureToAzureManagedDisk
+Parameter Sets: AzureToAzureWithMultipleStorageAccount
 Aliases:
 
 Required: True
@@ -337,7 +327,7 @@ Protection containerMapping to be used for replication.
 
 ```yaml
 Type: ASRProtectionContainerMapping
-Parameter Sets: AzureToVMware, VMwareToAzure, AzureToAzure, AzureToAzureWithMultipleStorageAccount, AzureToAzureManagedDisk
+Parameter Sets: AzureToVMware, VMwareToAzure, AzureToAzure, AzureToAzureWithMultipleStorageAccount
 Aliases:
 
 Required: True
@@ -352,7 +342,7 @@ The availability set that the virtual machine should be created in upon failover
 
 ```yaml
 Type: String
-Parameter Sets: AzureToAzure, AzureToAzureWithMultipleStorageAccount, AzureToAzureManagedDisk
+Parameter Sets: AzureToAzure, AzureToAzureWithMultipleStorageAccount
 Aliases:
 
 Required: False
@@ -378,11 +368,11 @@ Accept wildcard characters: False
 ```
 
 ### -RecoveryBootDiagStorageAccountId
-{{Fill RecoveryBootDiagStorageAccountId Description}}
+Specifies the storage account for boot diagnostics for recovery azure VM.
 
 ```yaml
 Type: String
-Parameter Sets: AzureToAzure, AzureToAzureWithMultipleStorageAccount, AzureToAzureManagedDisk
+Parameter Sets: AzureToAzure, AzureToAzureWithMultipleStorageAccount
 Aliases:
 
 Required: False
@@ -427,7 +417,7 @@ Recovery resourceGroup id for protected Vm.
 
 ```yaml
 Type: String
-Parameter Sets: AzureToAzure, AzureToAzureWithMultipleStorageAccount, AzureToAzureManagedDisk
+Parameter Sets: AzureToAzure, AzureToAzureWithMultipleStorageAccount
 Aliases:
 
 Required: False
@@ -442,7 +432,7 @@ Specifies an ASR replication protected item.
 
 ```yaml
 Type: ASRReplicationProtectedItem
-Parameter Sets: ByRPIObject, AzureToVMware, VMwareToAzure, HyperVToAzure, EnterpriseToEnterprise, AzureToAzure, AzureToAzureWithMultipleStorageAccount, AzureToAzureManagedDisk
+Parameter Sets: ByRPIObject, AzureToVMware, VMwareToAzure, HyperVToAzure, EnterpriseToEnterprise, AzureToAzure, AzureToAzureWithMultipleStorageAccount
 Aliases:
 
 Required: True

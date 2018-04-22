@@ -16,7 +16,7 @@
 ########################## Site Recovery Tests #############################
 
 ##Default Value ##
-$seed = "98"
+$seed = "97"
 function getVaultName{
     return "A2APowershellTest" + $seed;
 }
@@ -27,39 +27,42 @@ function getVaultRg{
 
 
 function getVaultRgLocation{
-    $locationMap = Get-AzureRmLocation| select location,displayName
-    $provider = Get-AzureRmResourceProvider -ProviderNamespace "Microsoft.RecoveryServices"
-    
-    $resourceTypes = $provider[0].ResourceTypes | Where-Object { $_.ResourceTypeName -eq "vaults"}
-    $resourceLocation = $resourceTypes.Locations[0]
-    return $resourceLocation
+    #$locationMap = Get-AzureRmLocation| select location,displayName
+    #$provider = Get-AzureRmResourceProvider -ProviderNamespace "Microsoft.RecoveryServices"
+
+    #$resourceTypes = $provider[0].ResourceTypes | Where-Object { $_.ResourceTypeName -eq "vaults"}
+    #$resourceLocation = $resourceTypes.Locations[0]
+    #return $resourceLocation
+    return "westus";
 }
 
 function getVaultLocation{
-    $locationMap = Get-AzureRmLocation| select location,displayName
-    $provider = Get-AzureRmResourceProvider -ProviderNamespace "Microsoft.RecoveryServices"
+    #$locationMap = Get-AzureRmLocation| select location,displayName
+    #$provider = Get-AzureRmResourceProvider -ProviderNamespace "Microsoft.RecoveryServices"
     
-    $resourceTypes = $provider[0].ResourceTypes | Where-Object { $_.ResourceTypeName -eq "vaults"}
-    $resourceLocation = $resourceTypes.Locations[0]
-    foreach($location in $locationMap){
-        if($location.DisplayName -eq $resourceLocation){
-            return $location.Location
-        }
-    }
+    #$resourceTypes = $provider[0].ResourceTypes | Where-Object { $_.ResourceTypeName -eq "vaults"}
+    #$resourceLocation = $resourceTypes.Locations[0]
+    ##foreach($location in $locationMap){
+    #    if($location.DisplayName -eq $resourceLocation){
+    #        return $location.Location
+    #    }
+    #}
+    return "westus";
 }
 
 function getPrimaryLocation
 {
-    $locationMap = Get-AzureRmLocation| select location,displayName
-    $provider = Get-AzureRmResourceProvider -ProviderNamespace "Microsoft.RecoveryServices"
+    #$locationMap = Get-AzureRmLocation| select location,displayName
+    #$provider = Get-AzureRmResourceProvider -ProviderNamespace "Microsoft.RecoveryServices"
 
-    $resourceTypes = $provider[0].ResourceTypes | Where-Object { $_.ResourceTypeName -eq "vaults"}
-    $resourceLocation = $resourceTypes.Locations[1]
-    foreach($location in $locationMap){
-        if($location.DisplayName -eq $resourceLocation){
-            return $location.Location
-        }
-    }
+    #$resourceTypes = $provider[0].ResourceTypes | Where-Object { $_.ResourceTypeName -eq "vaults"}
+    #$resourceLocation = $resourceTypes.Locations[1]
+    #foreach($location in $locationMap){
+    #    if($location.DisplayName -eq $resourceLocation){
+    #        return $location.Location
+    #    }
+    #}
+    return "eastus";
 }
 
 function getRecoveryLocation{
@@ -132,11 +135,11 @@ function getPrimaryNetworkId{
 function getRecoveryNetworkId{
     param([string] $location , [string] $resourceGroup)
 
-    $primaryNetworkName = "recoveryNetwork"+ $location + $seed;
+    $recoveryNetworkName = "recoveryNetwork"+ $location + $seed;
     $virtualNetwork = New-AzureRmVirtualNetwork `
           -ResourceGroupName $resourceGroup `
           -Location $location `
-          -Name $primaryNetworkName `
+          -Name $recoveryNetworkName `
           -AddressPrefix 10.0.0.0/16
     $virtualNetwork.id
 }

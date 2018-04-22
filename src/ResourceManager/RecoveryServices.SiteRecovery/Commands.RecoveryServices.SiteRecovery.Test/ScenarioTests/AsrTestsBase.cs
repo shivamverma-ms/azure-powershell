@@ -24,7 +24,6 @@ using Microsoft.Azure.Commands.Common.Authentication;
 using Microsoft.Azure.Management.Internal.Resources;
 using Microsoft.Azure.Management.RecoveryServices;
 using Microsoft.Azure.Management.RecoveryServices.SiteRecovery;
-using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
 using Microsoft.Azure.Test;
 using Microsoft.Azure.Test.HttpRecorder;
 using Microsoft.WindowsAzure.Commands.ScenarioTest;
@@ -38,7 +37,7 @@ namespace RecoveryServices.SiteRecovery.Test
     {
         protected string vaultSettingsFilePath;
         protected string powershellFile;
-        private ASRVaultCreds asrVaultCreds;
+        private string asrVaultCreds;
         private CSMTestEnvironmentFactory csmTestFactory;
         private EnvironmentSetupHelper helper;
 
@@ -48,53 +47,7 @@ namespace RecoveryServices.SiteRecovery.Test
 
         protected void initialize()
         {
-            try
-            {
-                if (FileUtilities.DataStore.ReadFileAsText(this.vaultSettingsFilePath).ToLower().Contains("<asrvaultcreds"))
-                {
-                    var serializer1 = new DataContractSerializer(typeof(ASRVaultCreds));
-                    using (var s = new FileStream(
-                        this.vaultSettingsFilePath,
-                        FileMode.Open,
-                        FileAccess.Read,
-                        FileShare.Read))
-                    {
-                        this.asrVaultCreds = (ASRVaultCreds)serializer1.ReadObject(s);
-                    }
-                }
-                else
-                {
-                    var serializer = new DataContractSerializer(typeof(RSVaultAsrCreds));
-                    using (var s = new FileStream(
-                        this.vaultSettingsFilePath,
-                        FileMode.Open,
-                        FileAccess.Read,
-                        FileShare.Read))
-                    {
-                        RSVaultAsrCreds aadCreds = (RSVaultAsrCreds)serializer.ReadObject(s);
-                        asrVaultCreds = new ASRVaultCreds();
-                        asrVaultCreds.ChannelIntegrityKey = aadCreds.ChannelIntegrityKey;
-                        asrVaultCreds.ResourceGroupName = aadCreds.VaultDetails.ResourceGroup;
-                        asrVaultCreds.Version = "2.0";
-                        asrVaultCreds.SiteId = aadCreds.SiteId;
-                        asrVaultCreds.SiteName = aadCreds.SiteName;
-                        asrVaultCreds.ResourceNamespace = aadCreds.VaultDetails.ProviderNamespace;
-                        asrVaultCreds.ARMResourceType = aadCreds.VaultDetails.ResourceType;
-                    }
-                }
-            }
-            catch (XmlException xmlException)
-            {
-                throw new XmlException(
-                    "XML is malformed or file is empty",
-                    xmlException);
-            }
-            catch (SerializationException serializationException)
-            {
-                throw new SerializationException(
-                    "XML is malformed or file is empty",
-                    serializationException);
-            }
+
             this.helper = new EnvironmentSetupHelper();
         }
 
@@ -245,26 +198,7 @@ namespace RecoveryServices.SiteRecovery.Test
             string scenario,
             RestTestFramework.MockContext context)
         {
-            var resourceGroupName = "";
-            var resourceName = "";
-            switch (scenario)
-            {
-                case Constants.NewModel:
-                    resourceName = this.asrVaultCreds.ResourceName;
-                    resourceGroupName = this.asrVaultCreds.ResourceGroupName;
-                    break;
-
-                default:
-                    resourceName = this.asrVaultCreds.ResourceName;
-                    resourceGroupName = this.asrVaultCreds.ResourceGroupName;
-                    break;
-            }
-
-            ;
-
             var client = this.GetSiteRecoveryManagementClient(context);
-            client.ResourceGroupName = resourceGroupName;
-            client.ResourceName = resourceName;
 
             return client;
         }

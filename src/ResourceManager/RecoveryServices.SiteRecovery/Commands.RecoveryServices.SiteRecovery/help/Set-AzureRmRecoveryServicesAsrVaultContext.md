@@ -69,7 +69,7 @@ Accept wildcard characters: False
 ```
 
 ### -ResourceId
-{{Fill ResourceId Description}}
+Specifies the recoveryservices vault resource id to be set as Vault context.
 
 ```yaml
 Type: String
