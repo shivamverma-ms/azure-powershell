@@ -55,6 +55,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         internal const string AzureToAzure = "AzureToAzure";
 
         /// </summary>
+        /// Handle ASR Vault - A2A Fabric.
+        /// </summary>
+        internal const string AzureToAzureWithoutDiskDetails = "AzureToAzureWithoutDiskDetails";
+        
+        /// </summary>
         /// Handle ASR Vault - Paramset for A2a ManagedDisk.
         /// </summary>
         internal const string AzureToAzureManagedDisk = "AzureToAzureManagedDisk";

@@ -544,6 +544,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public const string AzureNetwork = "azureNetwork";
 
         /// <summary>
+        /// Compute namespace.
+        /// </summary>
+        public const string Compute = "Microsoft.Compute";
+
+        /// <summary>
         ///     Events resource name.
         /// </summary>
         public const string Events = "replicationEvents";
@@ -608,6 +613,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         ///     Recovery Services Vault
         /// </summary>
         public const string RecoveryServicesVault = "vaults";
+
+        /// <summary>
+        ///      ARM resource type for virtual machines
+        /// </summary>
+        public static string VirtualMachine = "virtualMachines";
 
         /// <summary>
         ///     Replication Fabrics
