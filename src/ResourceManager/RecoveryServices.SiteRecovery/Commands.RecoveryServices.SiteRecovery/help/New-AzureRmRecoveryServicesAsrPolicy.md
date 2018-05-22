@@ -232,22 +232,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Encryption
-Specifies if encryption should be enabled or disabled.
-
-```yaml
-Type: String
-Parameter Sets: HyperVToAzure
-Aliases:
-Accepted values: Enable, Disable
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -HyperVToAzure
 Switch parameter to specify policy is to be used to replicate Hyper-V virtual machines to Azure
 
@@ -495,6 +479,21 @@ Shows what would happen if the cmdlet runs. The cmdlet is not run.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Encryption
+Specifies if encryption should be enabled or disabled.
+
+```yaml
+Type: String
+Parameter Sets: HyperVToAzure
+Aliases:
 
 Required: False
 Position: Named
