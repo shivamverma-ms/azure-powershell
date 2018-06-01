@@ -308,7 +308,9 @@ Accept wildcard characters: False
 ```
 
 ### -RecoveryBootDiagStorageAccountId
-Specifies the storage account for boot diagnostics for recovery azure VM.```yaml
+Specifies the storage account for boot diagnostics for recovery azure VM.
+
+```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:

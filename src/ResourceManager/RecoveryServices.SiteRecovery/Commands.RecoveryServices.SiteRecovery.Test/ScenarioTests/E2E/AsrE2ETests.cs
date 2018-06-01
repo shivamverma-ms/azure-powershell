@@ -72,7 +72,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "Test-CreatePCMap -vaultSettingsFilePath \"" + this.vaultSettingsFilePath + "\"");
         }
 
-        [Fact]
+        [Fact(Skip = "Recording pending with new APi version")]
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -98,7 +98,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        [Fact(Skip = "Recording pending with new APi version")]
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
