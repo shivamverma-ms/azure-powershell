@@ -48,8 +48,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.Management.RecoveryServices.SiteRecovery, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Microsoft.Azure.Management.RecoveryServices.SiteRecovery.1.1.5-alpha\lib\net452\Microsoft.Azure.Management.RecoveryServices.SiteRecovery.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\packages\Microsoft.Azure.Management.RecoveryServices.SiteRecovery.1.1.7-preview\lib\net452\Microsoft.Azure.Management.RecoveryServices.SiteRecovery.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.ResourceManager, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

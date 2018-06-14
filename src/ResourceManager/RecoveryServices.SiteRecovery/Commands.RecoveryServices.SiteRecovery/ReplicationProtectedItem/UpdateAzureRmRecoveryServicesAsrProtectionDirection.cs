@@ -262,6 +262,34 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public ASRRetentionVolume RetentionVolume { get; set; }
 
         /// <summary>
+        /// Gets or sets DiskEncryptionVaultId.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithMultipleStorageAccount)]
+        public string DiskEncryptionVaultId { get; set; }
+
+        /// <summary>
+        /// Gets or sets DiskEncryptionSecertUrl.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithMultipleStorageAccount)]
+        public string DiskEncryptionSecertUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets KeyEncryptionKeyUrl.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithMultipleStorageAccount)]
+        public string KeyEncryptionKeyUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets KeyEncryptionVaultId.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithMultipleStorageAccount)]
+        public string KeyEncryptionVaultId { get; set; }
+
+        /// <summary>
         ///     ProcessRecord of the command.
         /// </summary>
         public override void ExecuteSiteRecoveryCmdlet()
@@ -695,6 +723,41 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     });
                 }
             }
+            a2aSwitchInput.DiskEncryptionInfo = this.A2AEncryptionDetails();
+        }
+
+        private DiskEncryptionInfo A2AEncryptionDetails()
+        {
+            // Any encryption data is present.
+            if (this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.DiskEncryptionSecertUrl)) ||
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.DiskEncryptionVaultId)) ||
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionKeyUrl)) ||
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionVaultId)))
+            {
+                DiskEncryptionInfo diskEncryptionInfo = new DiskEncryptionInfo();
+                // BEK DATA is present
+                if (this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.DiskEncryptionSecertUrl)) &&
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.DiskEncryptionVaultId)))
+                {
+                    diskEncryptionInfo.DiskEncryptionKeyInfo = new DiskEncryptionKeyInfo(this.DiskEncryptionSecertUrl, this.DiskEncryptionVaultId);
+                    // KEK Data is present in pair.
+                    if (this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionKeyUrl)) &&
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionVaultId)))
+                    {
+                        diskEncryptionInfo.KeyEncryptionKeyInfo = new KeyEncryptionKeyInfo(this.KeyEncryptionKeyUrl, this.KeyEncryptionVaultId);
+                    }
+                    else
+                    {
+                        throw new Exception("Provide Disk KeyEncryptionKeyUrl and KeyEncryptionVaultId.");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Provide Disk DiskEncryptionSecertUrl and DiskEncryptionVaultId.");
+                }
+                return diskEncryptionInfo;
+            }
+            return null;
         }
 
         /// <summary>

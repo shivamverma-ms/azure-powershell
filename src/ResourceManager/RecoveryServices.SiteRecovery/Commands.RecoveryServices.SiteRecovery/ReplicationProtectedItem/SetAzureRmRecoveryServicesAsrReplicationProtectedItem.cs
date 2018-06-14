@@ -138,9 +138,36 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         ///    Gets or sets  the list of virtual machine disks to replicated 
         ///    and the cache storage account and recovery storage account to be used to replicate the disk.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public ASRAzuretoAzureDiskReplicationConfig[] AzureToAzureUpdateReplicationConfiguration { get; set; }
+
+        /// <summary>
+        /// Gets or sets DiskEncryptionVaultId.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public string DiskEncryptionVaultId { get; set; }
+
+        /// <summary>
+        /// Gets or sets DiskEncryptionSecertUrl.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public string DiskEncryptionSecertUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets KeyEncryptionKeyUrl.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public string KeyEncryptionKeyUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets KeyEncryptionVaultId.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public string KeyEncryptionVaultId { get; set; }
 
         /// <summary>
         ///     Gets or sets if the Azure virtual machine that is created on failover should use managed disks.
@@ -415,7 +442,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         RecoveryCloudServiceId = this.RecoveryCloudServiceId,
                         RecoveryResourceGroupId = this.RecoveryResourceGroupId,
                         RecoveryBootDiagStorageAccountId = this.RecoveryBootDiagStorageAccountId,
-                        ManagedDiskUpdateDetails = managedDiskUpdateDetails
+                        ManagedDiskUpdateDetails = managedDiskUpdateDetails,
+                        DiskEncryptionInfo = this.A2AEncryptionDetails(provider)
                     };
 
                     if (!this.MyInvocation.BoundParameters.ContainsKey(
@@ -510,6 +538,49 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 throw new PSInvalidOperationException(Resources.NicNotFoundInVMForUpdateVmProperties);
             }
             return vMNicInputDetailsList;
+        }
+
+        private DiskEncryptionInfo A2AEncryptionDetails(ReplicationProviderSpecificSettings replicationProvider)
+        {
+            // Any encryption data is present.
+            if (this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.DiskEncryptionSecertUrl)) ||
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.DiskEncryptionVaultId)) ||
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionKeyUrl)) ||
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionVaultId)))
+            {
+                // Non A2A scenerio
+                if (!(replicationProvider is A2AReplicationDetails)) {
+                    throw new Exception(
+                        "DiskEncryptionSecertUrl,DiskEncryptionVaultId,KeyEncryptionKeyUrl,KeyEncryptionVaultId "+
+                        "is used for udpating Azure to Azure replication");
+                }
+                // todo :: vipin
+                A2AReplicationDetails providerSpecificDetails = (A2AReplicationDetails)replicationProvider;
+
+                DiskEncryptionInfo diskEncryptionInfo = new DiskEncryptionInfo();
+                // BEK DATA is present
+                if (this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.DiskEncryptionSecertUrl)) &&
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.DiskEncryptionVaultId)))
+                {
+                    diskEncryptionInfo.DiskEncryptionKeyInfo = new DiskEncryptionKeyInfo(this.DiskEncryptionSecertUrl, this.DiskEncryptionVaultId);
+                    // KEK Data is present in pair.
+                    if (this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionKeyUrl)) &&
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionVaultId)))
+                    {
+                        diskEncryptionInfo.KeyEncryptionKeyInfo = new KeyEncryptionKeyInfo(this.KeyEncryptionKeyUrl, this.KeyEncryptionVaultId);
+                    }
+                    else
+                    {
+                        throw new Exception("Provide Disk KeyEncryptionKeyUrl and KeyEncryptionVaultId.");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Provide Disk DiskEncryptionSecertUrl and DiskEncryptionVaultId.");
+                }
+                return diskEncryptionInfo;
+            }
+            return null;
         }
     }
 }
