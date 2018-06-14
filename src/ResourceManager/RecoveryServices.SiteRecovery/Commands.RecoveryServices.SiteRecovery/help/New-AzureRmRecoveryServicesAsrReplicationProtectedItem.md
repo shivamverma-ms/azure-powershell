@@ -203,6 +203,36 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -DiskEncryptionSecertUrl
+Specifies secret url for Azure to Azure Os disk encryption.
+
+```yaml
+Type: String
+Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DiskEncryptionVaultId
+Specifies secret keyVault Id for Azure to Azure Os disk encryption.
+
+```yaml
+Type: String
+Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -HyperVToAzure
 Switch parameter to specify the replicated item is a Hyper-V virtual machine that is being replicated to Azure.
 
@@ -224,6 +254,36 @@ The list of disks to include for replication. By default all disks are included.
 ```yaml
 Type: String[]
 Parameter Sets: VMwareToAzure, HyperVSiteToAzure
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -KeyEncryptionKeyUrl
+Specifies key Url for Azure to Azure Os disk encryption.
+
+```yaml
+Type: String
+Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -KeyEncryptionVaultId
+Specifies key keyVault Id for Azure to Azure Os disk encryption.
+
+```yaml
+Type: String
+Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
 Aliases:
 
 Required: False
@@ -424,6 +484,20 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -RecoveryBootDiagStorageAccountId
+Specifies the storage account for boot diagnostics for recovery azure VM.
+```yaml
+Type: String
+Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -RecoveryCloudServiceId
 Specifies the resource ID of the recovery cloud service to failover this virtual machine to.
 
@@ -537,80 +611,6 @@ The cmdlet is not run.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -RecoveryBootDiagStorageAccountId
-Specifies the storage account for boot diagnostics for recovery azure VM.
-```yaml
-Type: String
-Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DiskEncryptionSecertUrl
-Specifies secret url for Azure to Azure Os disk encryption.
-
-```yaml
-Type: String
-Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DiskEncryptionVaultId
-Specifies secret keyVault Id for Azure to Azure Os disk encryption.
-
-```yaml
-Type: String
-Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -KeyEncryptionKeyUrl
-Specifies key Url for Azure to Azure Os disk encryption.
-
-```yaml
-Type: String
-Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -KeyEncryptionVaultId
-Specifies key keyVault Id for Azure to Azure Os disk encryption.
-
-```yaml
-Type: String
-Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
-Aliases:
 
 Required: False
 Position: Named

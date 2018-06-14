@@ -252,6 +252,36 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -DiskEncryptionSecertUrl
+Specifies secret url for Azure to Azure Os disk encryption.
+
+```yaml
+Type: String
+Parameter Sets: AzureToAzure, AzureToAzureWithMultipleStorageAccount
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DiskEncryptionVaultId
+Specifies secret keyVault Id for Azure to Azure Os disk encryption.
+
+```yaml
+Type: String
+Parameter Sets: AzureToAzure, AzureToAzureWithMultipleStorageAccount
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -HyperVToAzure
 Reprotect a Hyper-V virtual machine after failback.
 
@@ -262,6 +292,36 @@ Aliases:
 
 Required: True
 Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -KeyEncryptionKeyUrl
+Specifies key Url for Azure to Azure Os disk encryption.
+
+```yaml
+Type: String
+Parameter Sets: AzureToAzure, AzureToAzureWithMultipleStorageAccount
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -KeyEncryptionVaultId
+Specifies key keyVault Id for Azure to Azure Os disk encryption.
+
+```yaml
+Type: String
+Parameter Sets: AzureToAzure, AzureToAzureWithMultipleStorageAccount
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -360,6 +420,21 @@ Specifies the ID of the Azure storage account to replicate to.
 ```yaml
 Type: String
 Parameter Sets: VMwareToAzure, HyperVToAzure, AzureToAzure
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RecoveryBootDiagStorageAccountId
+Specifies the storage account for boot diagnostics for recovery azure VM.
+
+```yaml
+Type: String
+Parameter Sets: AzureToAzure, AzureToAzureWithMultipleStorageAccount
 Aliases:
 
 Required: False
@@ -488,81 +563,6 @@ Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
-
-### -RecoveryBootDiagStorageAccountId
-Specifies the storage account for boot diagnostics for recovery azure VM.
-
-```yaml
-Type: String
-Parameter Sets: AzureToAzure, AzureToAzureWithMultipleStorageAccount
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-### -DiskEncryptionSecertUrl
-Specifies secret url for Azure to Azure Os disk encryption.
-
-```yaml
-Type: String
-Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DiskEncryptionVaultId
-Specifies secret keyVault Id for Azure to Azure Os disk encryption.
-
-```yaml
-Type: String
-Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -KeyEncryptionKeyUrl
-Specifies key Url for Azure to Azure Os disk encryption.
-
-```yaml
-Type: String
-Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -KeyEncryptionVaultId
-Specifies key keyVault Id for Azure to Azure Os disk encryption.
-
-```yaml
-Type: String
-Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).

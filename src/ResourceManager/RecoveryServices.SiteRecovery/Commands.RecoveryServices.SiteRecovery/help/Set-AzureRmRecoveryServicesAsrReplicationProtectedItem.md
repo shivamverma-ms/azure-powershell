@@ -18,6 +18,7 @@ Set-AzureRmRecoveryServicesAsrReplicationProtectedItem -InputObject <ASRReplicat
  [-RecoveryCloudServiceId <String>] [-RecoveryNicSubnetName <String>] [-RecoveryNicStaticIPAddress <String>]
  [-NicSelectionType <String>] [-RecoveryResourceGroupId <String>] [-LicenseType <String>]
  [-RecoveryAvailabilitySet <String>] [-RecoveryBootDiagStorageAccountId <String>]
+ [-AzureToAzureUpdateReplicationConfiguration <ASRAzuretoAzureDiskReplicationConfig[]>]
  [-DiskEncryptionVaultId <String>] [-DiskEncryptionSecertUrl <String>] [-KeyEncryptionKeyUrl <String>]
  [-KeyEncryptionVaultId <String>] [-UseManagedDisk <String>] [-DefaultProfile <IAzureContextContainer>]
  [-WhatIf] [-Confirm] [<CommonParameters>]
@@ -36,6 +37,21 @@ PS C:\> $currentJob = Set-AzureRmRecoveryServicesAsrReplicationProtectedItem -Re
 Starts the operation of updating the replication protect item settings using the specified parameters and returns the ASR job used to track the operation.
 
 ## PARAMETERS
+
+### -AzureToAzureUpdateReplicationConfiguration
+{{Fill AzureToAzureUpdateReplicationConfiguration Description}}
+
+```yaml
+Type: ASRAzuretoAzureDiskReplicationConfig[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -Confirm
 Prompts you for confirmation before running the cmdlet.
@@ -66,6 +82,36 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -DiskEncryptionSecertUrl
+Specifies secret url for Azure to Azure Os disk encryption.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DiskEncryptionVaultId
+Specifies secret keyVault Id for Azure to Azure Os disk encryption.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -InputObject
 The input object to the cmdlet: The ASR replication protected item object corresponding to the replication protected item to update.
 
@@ -78,6 +124,36 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -KeyEncryptionKeyUrl
+Specifies key Url for Azure to Azure Os disk encryption.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -KeyEncryptionVaultId
+Specifies key keyVault Id for Azure to Azure Os disk encryption.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -146,6 +222,21 @@ Accept wildcard characters: False
 
 ### -RecoveryAvailabilitySet
 Availability set for replication protected item after failover.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RecoveryBootDiagStorageAccountId
+Specifies the storage account for boot diagnostics for recovery azure VM.
 
 ```yaml
 Type: String
@@ -280,82 +371,6 @@ Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
-
-### -RecoveryBootDiagStorageAccountId
-Specifies the storage account for boot diagnostics for recovery azure VM.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DiskEncryptionSecertUrl
-Specifies secret url for Azure to Azure Os disk encryption.
-
-```yaml
-Type: String
-Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DiskEncryptionVaultId
-Specifies secret keyVault Id for Azure to Azure Os disk encryption.
-
-```yaml
-Type: String
-Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -KeyEncryptionKeyUrl
-Specifies key Url for Azure to Azure Os disk encryption.
-
-```yaml
-Type: String
-Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -KeyEncryptionVaultId
-Specifies key keyVault Id for Azure to Azure Os disk encryption.
-
-```yaml
-Type: String
-Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
