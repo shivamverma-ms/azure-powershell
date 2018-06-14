@@ -53,8 +53,9 @@ New-AzureRmRecoveryServicesAsrReplicationProtectedItem [-AzureToAzure]
  -AzureToAzureDiskReplicationConfiguration <ASRAzuretoAzureDiskReplicationConfig[]> -AzureVmId <String>
  -Name <String> [-RecoveryVmName <String>] -ProtectionContainerMapping <ASRProtectionContainerMapping>
  -RecoveryResourceGroupId <String> [-RecoveryCloudServiceId <String>] [-RecoveryAvailabilitySetId <String>]
- [-RecoveryBootDiagStorageAccountId <String>] [-WaitForCompletion] [-DefaultProfile <IAzureContextContainer>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-RecoveryBootDiagStorageAccountId <String>] [-WaitForCompletion] [-DiskEncryptionVaultId <String>]
+ [-DiskEncryptionSecertUrl <String>] [-KeyEncryptionKeyUrl <String>] [-KeyEncryptionVaultId <String>]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### AzureToAzureWithoutDiskDetails
@@ -63,7 +64,9 @@ New-AzureRmRecoveryServicesAsrReplicationProtectedItem [-AzureToAzure] -AzureVmI
  [-RecoveryVmName <String>] -ProtectionContainerMapping <ASRProtectionContainerMapping>
  [-RecoveryAzureStorageAccountId <String>] -LogStorageAccountId <String> -RecoveryResourceGroupId <String>
  [-RecoveryAvailabilitySetId <String>] [-RecoveryBootDiagStorageAccountId <String>] [-WaitForCompletion]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-DiskEncryptionVaultId <String>] [-DiskEncryptionSecertUrl <String>] [-KeyEncryptionKeyUrl <String>]
+ [-KeyEncryptionVaultId <String>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -544,6 +547,66 @@ Accept wildcard characters: False
 
 ### -RecoveryBootDiagStorageAccountId
 Specifies the storage account for boot diagnostics for recovery azure VM.
+```yaml
+Type: String
+Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DiskEncryptionSecertUrl
+Specifies secret url for Azure to Azure Os disk encryption.
+
+```yaml
+Type: String
+Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DiskEncryptionVaultId
+Specifies secret keyVault Id for Azure to Azure Os disk encryption.
+
+```yaml
+Type: String
+Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -KeyEncryptionKeyUrl
+Specifies key Url for Azure to Azure Os disk encryption.
+
+```yaml
+Type: String
+Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -KeyEncryptionVaultId
+Specifies key keyVault Id for Azure to Azure Os disk encryption.
+
 ```yaml
 Type: String
 Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails

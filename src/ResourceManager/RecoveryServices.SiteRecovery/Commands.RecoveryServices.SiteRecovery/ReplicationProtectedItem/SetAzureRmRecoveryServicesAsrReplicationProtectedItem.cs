@@ -139,6 +139,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         ///    and the cache storage account and recovery storage account to be used to replicate the disk.
         /// </summary>
         [ValidateNotNullOrEmpty]
+        [Parameter]
         public ASRAzuretoAzureDiskReplicationConfig[] AzureToAzureUpdateReplicationConfiguration { get; set; }
 
         /// <summary>
