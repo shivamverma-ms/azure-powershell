@@ -773,11 +773,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     }
                     else
                     {   // If either KeyEncryptionKeyUrl or KeyEncryptionVaultId present not both.
-                        if (!this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionKeyUrl)) ||
-                        !this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionVaultId)))
-                        {
-                            throw new Exception("Provide Disk KeyEncryptionKeyUrl and KeyEncryptionVaultId.");
-                        }
+                       // if (!this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionKeyUrl)) ||
+                      //  !this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionVaultId)))
+                       // {
+                       //     throw new Exception("Provide Disk KeyEncryptionKeyUrl and KeyEncryptionVaultId.");
+                       // }
                     }
                 }
                 else
