@@ -746,7 +746,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 }
             }
 
-            providerSettings.DiskEncryptionInfo =  this.A2AEncryptionDetailDetails();
+            providerSettings.DiskEncryptionInfo = this.A2AEncryptionDetailDetails();
 
             input.Properties.ProviderSpecificDetails = providerSettings;
         }
@@ -771,8 +771,13 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     {
                         diskEncryptionInfo.KeyEncryptionKeyInfo = new KeyEncryptionKeyInfo(this.KeyEncryptionKeyUrl, this.KeyEncryptionVaultId);
                     }
-                    else {
-                        throw new Exception("Provide Disk KeyEncryptionKeyUrl and KeyEncryptionVaultId.");
+                    else
+                    {   // If either KeyEncryptionKeyUrl or KeyEncryptionVaultId present not both.
+                        if (!this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionKeyUrl)) ||
+                        !this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionVaultId)))
+                        {
+                            throw new Exception("Provide Disk KeyEncryptionKeyUrl and KeyEncryptionVaultId.");
+                        }
                     }
                 }
                 else
