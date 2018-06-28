@@ -592,6 +592,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     populateManagedDiskInputDetails(a2aSwitchInput, replicationProtectedItemResponse);
                 }
 
+                // Add disk encryption releated values.
+                a2aSwitchInput.DiskEncryptionInfo = this.A2AEncryptionDetails();
                 input.Properties.ProviderSpecificDetails = a2aSwitchInput;
             }
 
@@ -723,7 +725,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     });
                 }
             }
-            a2aSwitchInput.DiskEncryptionInfo = this.A2AEncryptionDetails();
         }
 
         private DiskEncryptionInfo A2AEncryptionDetails()
