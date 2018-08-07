@@ -1183,7 +1183,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 rpi.Properties.RecoveryProtectionContainerFriendlyName;
             this.RecoveryServicesProviderId = rpi.Properties.RecoveryServicesProviderId;
             this.ReplicationHealth = rpi.Properties.ReplicationHealth;
-// breaking change see how can we take it.
             this.ReplicationHealthErrors = rpi.Properties.HealthErrors;
             this.TestFailoverState = rpi.Properties.TestFailoverState;
             this.TestFailoverStateDescription = rpi.Properties.TestFailoverStateDescription;
@@ -1348,7 +1347,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 this.ProtectionState = a2aProviderSpecificDetails.VmProtectionState;
                 this.ProtectionStateDescription = a2aProviderSpecificDetails.VmProtectionStateDescription;
                 this.ProviderSpecificDetails = new ASRAzureToAzureSpecificRPIDetails(a2aProviderSpecificDetails);
-                // todo : vipin convert manageddisk object                
+                
                 if (a2aProviderSpecificDetails.VmNics != null)
                 {
                     this.NicDetailsList =
@@ -2305,7 +2304,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// <summary>
         /// Gets or sets the recovery target disk AccountType.
         /// </summary>
-
         public string RecoveryTargetDiskAccountType { get; set; }
 
         /// <summary>

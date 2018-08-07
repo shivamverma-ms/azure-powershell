@@ -228,7 +228,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 Constants.NewModel,
                 "V2AUpdatePolicy -vaultSettingsFilePath \"" + this.vaultSettingsFilePath + "\"");
         }
-
+        
         [Fact]
         [Trait(
             Category.AcceptanceType,

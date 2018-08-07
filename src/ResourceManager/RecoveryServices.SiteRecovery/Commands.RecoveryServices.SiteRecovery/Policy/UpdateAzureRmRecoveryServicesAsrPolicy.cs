@@ -354,6 +354,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             {
                 ApplicationConsistentSnapshotFrequencyInHours =
                     this.applicationConsistentSnapshotFrequencyInHours,
+// encryption is removed from latest API . Service is setting the default vault internally.
+// todo :: Warning.
                 OnlineReplicationStartTime = this.replicationStartTime.ToString(),
                 RecoveryPointHistoryDuration = this.recoveryPoints,
                 ReplicationInterval = this.replicationFrequencyInSeconds

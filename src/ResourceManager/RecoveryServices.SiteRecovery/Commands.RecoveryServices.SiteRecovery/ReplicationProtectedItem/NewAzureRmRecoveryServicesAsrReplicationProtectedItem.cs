@@ -435,7 +435,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 TargetAzureVmName = string.IsNullOrEmpty(this.RecoveryVmName)
                                             ? this.ProtectableItem.FriendlyName
                                             : this.RecoveryVmName,
-                // EnableRDPOnTargetOption = Constants.NeverEnableRDPOnTargetOption,
+                EnableRdpOnTargetOption = Constants.NeverEnableRDPOnTargetOption,
                 DisksToInclude = this.IncludeDiskId != null
                                             ? this.IncludeDiskId
                                             : null
