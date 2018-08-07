@@ -37,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\Azure.Storage.Netcore.psd1" Link="Azure.Storage.Netcore.psd1">
+    <None Include="Azure.Storage.Netcore.psd1" Link="Azure.Storage.Netcore.psd1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -65,6 +65,9 @@
 
   <ItemGroup>
     <None Update="Microsoft.WindowsAzure.Commands.Storage.format.ps1xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Microsoft.WindowsAzure.Commands.Storage.generated.format.ps1xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Microsoft.WindowsAzure.Commands.Storage.types.ps1xml">

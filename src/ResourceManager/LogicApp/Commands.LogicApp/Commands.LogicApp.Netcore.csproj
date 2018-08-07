@@ -33,11 +33,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Management.Logic" Version="3.0.0" />
-    <PackageReference Include="Microsoft.Azure.Management.WebSites" Version="1.7.1-preview" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\AzureRM.LogicApp.Netcore.psd1" Link="AzureRM.LogicApp.Netcore.psd1">
+    <None Include="AzureRM.LogicApp.Netcore.psd1" Link="AzureRM.LogicApp.Netcore.psd1">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -18,6 +18,13 @@
         - Additional information about change #1
 -->
 ## Current Release
+* Updated to the latest version of the Azure ClientRuntime.
+
+## Version 4.1.5
+* Updated all help files to include full parameter types and correct input/output types.
+
+## Version 4.1.4
+* Fixed formatting of OutputType in help files
 
 ## Version 4.1.3
 * Set minimum dependency of module to PowerShell 5.0
@@ -41,7 +48,7 @@
 ## Version 4.0.0
 * Add support for online help
     - Run Get-Help with the -Online parameter to open the online help in your default Internet browser
-    
+
 ## Version 3.4.1
 
 ## Version 3.4.0

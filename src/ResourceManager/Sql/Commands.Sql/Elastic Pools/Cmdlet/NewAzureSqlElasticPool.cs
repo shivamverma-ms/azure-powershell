@@ -29,7 +29,7 @@ namespace Microsoft.Azure.Commands.Sql.ElasticPool.Cmdlet
     /// Cmdlet to create a new Azure Sql ElasticPool
     /// </summary>
     [Cmdlet(VerbsCommon.New, "AzureRmSqlElasticPool", SupportsShouldProcess = true,
-        ConfirmImpact = ConfirmImpact.Low, DefaultParameterSetName = DtuPoolParameterSet)]
+        ConfirmImpact = ConfirmImpact.Low, DefaultParameterSetName = DtuPoolParameterSet), OutputType(typeof(AzureSqlElasticPoolModel))]
     public class NewAzureSqlElasticPool : AzureSqlElasticPoolCmdletBase
     {
         /// <summary>
@@ -105,7 +105,7 @@ namespace Microsoft.Azure.Commands.Sql.ElasticPool.Cmdlet
         ///   (Available ComputeGeneration in the format of: Gen4, Gen5).
         /// </summary>
         [Parameter(ParameterSetName = VcorePoolParameterSet, Mandatory = true,
-            HelpMessage = "The compute generation for the Azure SQL Elastic Pool. e.g. 'Gen4', 'Gen5'.")]
+            HelpMessage = "The compute generation to assign.")]
         [ValidateNotNullOrEmpty]
         [PSArgumentCompleter("Gen4", "Gen5")]
         public string ComputeGeneration { get; set; }

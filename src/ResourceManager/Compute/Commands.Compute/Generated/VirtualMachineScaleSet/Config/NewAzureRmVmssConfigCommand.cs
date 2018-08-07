@@ -20,6 +20,7 @@
 // code is regenerated.
 
 using Microsoft.Azure.Commands.Compute.Automation.Models;
+using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.Compute.Models;
 using System;
 using System.Collections;
@@ -43,7 +44,7 @@ namespace Microsoft.Azure.Commands.Compute.Automation
             Mandatory = false,
             Position = 1,
             ValueFromPipelineByPropertyName = true)]
-        [ResourceManager.Common.ArgumentCompleters.LocationCompleter("Microsoft.Compute/virtualMachineScaleSets")]
+        [LocationCompleter("Microsoft.Compute/virtualMachineScaleSets")]
         public string Location { get; set; }
 
         [Parameter(
@@ -150,6 +151,10 @@ namespace Microsoft.Azure.Commands.Compute.Automation
         public SwitchParameter AutoOSUpgrade { get; set; }
 
         [Parameter(
+            Mandatory = false)]
+        public bool DisableAutoRollback { get; set; }
+
+        [Parameter(
             Mandatory = false,
             ValueFromPipelineByPropertyName = true)]
         public string HealthProbeId { get; set; }
@@ -168,6 +173,12 @@ namespace Microsoft.Azure.Commands.Compute.Automation
             Mandatory = false,
             ValueFromPipelineByPropertyName = true)]
         public string Priority { get; set; }
+
+        [Parameter(
+            Mandatory = false,
+            ValueFromPipelineByPropertyName = true)]
+        [PSArgumentCompleter("Deallocate", "Delete")]
+        public string EvictionPolicy { get; set; }
 
         [Parameter(
             Mandatory = true,
@@ -293,6 +304,19 @@ namespace Microsoft.Azure.Commands.Compute.Automation
             }
             vUpgradePolicy.AutomaticOSUpgrade = this.AutoOSUpgrade.IsPresent;
 
+            if (this.MyInvocation.BoundParameters.ContainsKey("DisableAutoRollback"))
+            {
+                if (vUpgradePolicy == null)
+                {
+                    vUpgradePolicy = new Microsoft.Azure.Management.Compute.Models.UpgradePolicy();
+                }
+                if (vUpgradePolicy.AutoOSUpgradePolicy == null)
+                {
+                    vUpgradePolicy.AutoOSUpgradePolicy = new Microsoft.Azure.Management.Compute.Models.AutoOSUpgradePolicy();
+                }
+                vUpgradePolicy.AutoOSUpgradePolicy.DisableAutoRollback = this.DisableAutoRollback;
+            }
+
             if (this.MyInvocation.BoundParameters.ContainsKey("OsProfile"))
             {
                 if (vVirtualMachineProfile == null)
@@ -383,6 +407,15 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                     vVirtualMachineProfile = new Microsoft.Azure.Management.Compute.Models.VirtualMachineScaleSetVMProfile();
                 }
                 vVirtualMachineProfile.Priority = this.Priority;
+            }
+
+            if (this.MyInvocation.BoundParameters.ContainsKey("EvictionPolicy"))
+            {
+                if (vVirtualMachineProfile == null)
+                {
+                    vVirtualMachineProfile = new Microsoft.Azure.Management.Compute.Models.VirtualMachineScaleSetVMProfile();
+                }
+                vVirtualMachineProfile.EvictionPolicy = this.EvictionPolicy;
             }
 
             if (this.AssignIdentity.IsPresent)
