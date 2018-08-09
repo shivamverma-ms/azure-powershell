@@ -97,7 +97,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     vaultExtendedInfo = this.RecoveryServicesClient
                     .GetVaultExtendedInfo(this.Vault.ResourceGroupName, this.Vault.Name);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     throw new Exception(Resources.TryDownloadingVaultFile);
                 }
