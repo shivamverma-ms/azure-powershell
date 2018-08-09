@@ -279,34 +279,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public SwitchParameter WaitForCompletion { get; set; }
 
         /// <summary>
-        /// Gets or sets DiskEncryptionVaultId.
-        /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithoutDiskDetails)]
-        public string DiskEncryptionVaultId { get; set; }
-
-        /// <summary>
-        /// Gets or sets DiskEncryptionSecertUrl.
-        /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithoutDiskDetails)]
-        public string DiskEncryptionSecertUrl { get; set; }
-
-        /// <summary>
-        /// Gets or sets KeyEncryptionKeyUrl.
-        /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithoutDiskDetails)]
-        public string KeyEncryptionKeyUrl { get; set; }
-
-        /// <summary>
-        /// Gets or sets KeyEncryptionVaultId.
-        /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithoutDiskDetails)]
-        public string KeyEncryptionVaultId { get; set; }
-
-        /// <summary>
         ///     ProcessRecord of the command.
         /// </summary>
         public override void ExecuteSiteRecoveryCmdlet()
@@ -746,48 +718,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 }
             }
 
-            providerSettings.DiskEncryptionInfo = this.A2AEncryptionDetailDetails();
-
             input.Properties.ProviderSpecificDetails = providerSettings;
         }
 
-        private DiskEncryptionInfo A2AEncryptionDetailDetails()
-        {
-            // Any encryption data is present.
-            if (this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.DiskEncryptionSecertUrl)) ||
-                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.DiskEncryptionVaultId)) ||
-                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionKeyUrl)) ||
-                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionVaultId)))
-            {
-                DiskEncryptionInfo diskEncryptionInfo = new DiskEncryptionInfo();
-                // BEK DATA is present
-                if (this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.DiskEncryptionSecertUrl)) &&
-                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.DiskEncryptionVaultId)))
-                {
-                    diskEncryptionInfo.DiskEncryptionKeyInfo = new DiskEncryptionKeyInfo(this.DiskEncryptionSecertUrl, this.DiskEncryptionVaultId);
-                    // KEK Data is present in pair.
-                    if (this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionKeyUrl)) &&
-                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionVaultId)))
-                    {
-                        diskEncryptionInfo.KeyEncryptionKeyInfo = new KeyEncryptionKeyInfo(this.KeyEncryptionKeyUrl, this.KeyEncryptionVaultId);
-                    }
-                    else
-                    {   // If either KeyEncryptionKeyUrl or KeyEncryptionVaultId present not both.
-                       // if (!this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionKeyUrl)) ||
-                      //  !this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionVaultId)))
-                       // {
-                       //     throw new Exception("Provide Disk KeyEncryptionKeyUrl and KeyEncryptionVaultId.");
-                       // }
-                    }
-                }
-                else
-                {
-                    throw new Exception("Provide Disk DiskEncryptionSecertUrl and DiskEncryptionVaultId.");
-                }
-                return diskEncryptionInfo;
-            }
-            return null;
-        }
+        
 
         /// <summary>
         ///     Writes Job.
