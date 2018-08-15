@@ -61,6 +61,7 @@ RequiredAssemblies = '.\Microsoft.Azure.Commands.RecoveryServices.Backup.Models.
     '.\Microsoft.Azure.Commands.RecoveryServices.Backup.Providers.dll', 
     '.\Microsoft.Azure.Commands.RecoveryServices.Backup.ServiceClientAdapter.dll',
     '.\Microsoft.Azure.Management.RecoveryServices.dll', 
+    '.\Microsoft.Azure.Management.RecoveryServices.siteRecovery.dll', 
     '.\Security.Cryptography.dll'
 
 # Script files (.ps1) that are run in the caller's environment prior to importing this module.
@@ -74,7 +75,8 @@ FormatsToProcess = '.\Microsoft.Azure.Commands.RecoveryServices.Backup.format.ps
 
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
 NestedModules = @('.\Microsoft.Azure.Commands.RecoveryServices.ARM.dll',
-    '.\Microsoft.Azure.Commands.RecoveryServices.Backup.dll')
+    '.\Microsoft.Azure.Commands.RecoveryServices.Backup.dll',
+	'.\Microsoft.Azure.Commands.RecoveryServices.siteRecovery.dll')
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = @()
@@ -108,7 +110,69 @@ CmdletsToExport = 'Get-AzureRmRecoveryServicesBackupProperty',
     'Restore-AzureRmRecoveryServicesBackupItem', 
     'Unregister-AzureRmRecoveryServicesBackupManagementServer', 
     'Get-AzureRmRecoveryServicesBackupRPMountScript', 
-    'Disable-AzureRmRecoveryServicesBackupRPMountScript'
+    'Disable-AzureRmRecoveryServicesBackupRPMountScript',
+	'Edit-AzureRmRecoveryServicesAsrRecoveryPlan', 
+    'Get-AzureRmRecoveryServicesAsrAlertSetting', 
+    'Get-AzureRmRecoveryServicesAsrEvent', 
+    'Get-AzureRmRecoveryServicesAsrFabric', 
+    'Get-AzureRmRecoveryServicesAsrJob', 
+    'Get-AzureRmRecoveryServicesAsrNetwork', 
+    'Get-AzureRmRecoveryServicesAsrNetworkMapping', 
+    'Get-AzureRmRecoveryServicesAsrPolicy', 
+    'Get-AzureRmRecoveryServicesAsrProtectableItem', 
+    'Get-AzureRmRecoveryServicesAsrProtectionContainer', 
+    'Get-AzureRmRecoveryServicesAsrProtectionContainerMapping', 
+    'Get-AzureRmRecoveryServicesAsrRecoveryPlan', 
+    'Get-AzureRmRecoveryServicesAsrRecoveryPoint', 
+    'Get-AzureRmRecoveryServicesAsrReplicationProtectedItem', 
+    'Get-AzureRmRecoveryServicesAsrServicesProvider', 
+    'Get-AzureRmRecoveryServicesAsrStorageClassification', 
+    'Get-AzureRmRecoveryServicesAsrStorageClassificationMapping', 
+    'Get-AzureRmRecoveryServicesAsrVaultContext', 
+    'Get-AzureRmRecoveryServicesAsrvCenter', 
+    'Import-AzureRmRecoveryServicesAsrVaultSettingsFile', 
+    'New-AzureRmRecoveryServicesAsrFabric', 
+    'New-AzureRmRecoveryServicesAsrNetworkMapping', 
+    'New-AzureRmRecoveryServicesAsrPolicy', 
+    'New-AzureRmRecoveryServicesAsrProtectableItem', 
+    'New-AzureRmRecoveryServicesAsrProtectionContainer', 
+    'New-AzureRmRecoveryServicesAsrProtectionContainerMapping', 
+    'New-AzureRmRecoveryServicesAsrRecoveryPlan', 
+    'New-AzureRmRecoveryServicesAsrReplicationProtectedItem', 
+    'New-AzureRmRecoveryServicesAsrStorageClassificationMapping', 
+    'New-AzureRmRecoveryServicesAsrvCenter', 
+    'New-AzureRmRecoveryServicesAsrAzureToAzureDiskReplicationConfig', 
+    'Remove-AzureRmRecoveryServicesAsrFabric', 
+    'Remove-AzureRmRecoveryServicesAsrNetworkMapping', 
+    'Remove-AzureRmRecoveryServicesAsrPolicy', 
+    'Remove-AzureRmRecoveryServicesAsrProtectionContainer', 
+    'Remove-AzureRmRecoveryServicesAsrProtectionContainerMapping', 
+    'Remove-AzureRmRecoveryServicesAsrRecoveryPlan', 
+    'Remove-AzureRmRecoveryServicesAsrReplicationProtectedItem', 
+    'Remove-AzureRmRecoveryServicesAsrServicesProvider', 
+    'Remove-AzureRmRecoveryServicesAsrStorageClassificationMapping', 
+    'Remove-AzureRmRecoveryServicesAsrvCenter', 
+    'Restart-AzureRmRecoveryServicesAsrJob', 
+    'Resume-AzureRmRecoveryServicesAsrJob', 
+    'Set-AzureRmRecoveryServicesAsrAlertSetting', 
+    'Set-AzureRmRecoveryServicesAsrReplicationProtectedItem', 
+    'Set-AzureRmRecoveryServicesAsrVaultContext', 
+    'Start-AzureRmRecoveryServicesAsrApplyRecoveryPoint', 
+    'Start-AzureRmRecoveryServicesAsrCommitFailoverJob', 
+    'Start-AzureRmRecoveryServicesAsrPlannedFailoverJob', 
+    'Start-AzureRmRecoveryServicesAsrResynchronizeReplicationJob', 
+    'Start-AzureRmRecoveryServicesAsrSwitchProcessServerJob', 
+    'Start-AzureRmRecoveryServicesAsrTestFailoverCleanupJob', 
+    'Start-AzureRmRecoveryServicesAsrTestFailoverJob', 
+    'Start-AzureRmRecoveryServicesAsrUnplannedFailoverJob', 
+    'Stop-AzureRmRecoveryServicesAsrJob', 
+    'Update-AzureRmRecoveryServicesAsrMobilityService', 
+    'Update-AzureRmRecoveryServicesAsrNetworkMapping', 
+    'Update-AzureRmRecoveryServicesAsrPolicy', 
+    'Update-AzureRmRecoveryServicesAsrProtectionDirection', 
+    'Update-AzureRmRecoveryServicesAsrRecoveryPlan', 
+    'Update-AzureRmRecoveryServicesAsrServicesProvider', 
+    'Update-AzureRmRecoveryServicesAsrvCenter'
 
 # Variables to export from this module
 # VariablesToExport = @()
