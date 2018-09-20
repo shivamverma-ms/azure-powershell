@@ -24,7 +24,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
     /// <summary>
     ///     Enables replication for an ASR protectable item by creating a replication protected item.
     /// </summary>
-    [Cmdlet("New", ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "RecoveryServicesAsrReplicationProtectedItem",DefaultParameterSetName = ASRParameterSets.EnterpriseToEnterprise,SupportsShouldProcess = true)]
+    [Cmdlet("New", ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "RecoveryServicesAsrReplicationProtectedItem", DefaultParameterSetName = ASRParameterSets.EnterpriseToEnterprise, SupportsShouldProcess = true)]
     [Alias("New-ASRReplicationProtectedItem")]
     [OutputType(typeof(ASRJob))]
     public class NewAzureRmRecoveryServicesAsrReplicationProtectedItem : SiteRecoveryCmdletBase
@@ -606,6 +606,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 RecoveryAvailabilitySetId = this.RecoveryAvailabilitySetId,
                 RecoveryBootDiagStorageAccountId = this.RecoveryBootDiagStorageAccountId
             };
+
+            if (!string.IsNullOrEmpty(this.RecoveryCloudServiceId))
+            {
+                providerSettings.RecoveryResourceGroupId = null;
+            }
 
             if (this.AzureToAzureDiskReplicationConfiguration == null)
             {
