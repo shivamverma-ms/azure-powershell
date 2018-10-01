@@ -537,7 +537,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
     /// </summary>
     public class ASRHyperVReplicaDiskDetails
     {
-        public ASRHyperVReplicaDiskDetails(DiskDetails diskDetails) {
+        public ASRHyperVReplicaDiskDetails(DiskDetails diskDetails)
+        {
             this.MaxSizeMB = diskDetails.MaxSizeMB;
             this.VhdId = diskDetails.VhdId;
             this.VhdName = diskDetails.VhdName;
@@ -937,18 +938,22 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 this.LastHeartbeat = details.LastHeartbeat.Value.ToLocalTime();
             }
 
-            if (details.ProtectedDisks != null)
+            if (details.ProtectedDisks != null && details.ProtectedDisks.Count > 0)
             {
                 this.A2ADiskDetails =
                     details.ProtectedDisks.ToList()
                     .ConvertAll(disk => new ASRAzureToAzureProtectedDiskDetails(disk));
             }
 
-            if (details.ProtectedManagedDisks != null)
+            if (details.ProtectedManagedDisks != null && details.ProtectedDisks.Count > 0)
             {
-                this.A2ADiskDetails =
-                    details.ProtectedManagedDisks.ToList()
-                    .ConvertAll(disk => new ASRAzureToAzureProtectedDiskDetails(disk));
+                if (this.A2ADiskDetails == null)
+                {
+                    this.A2ADiskDetails = new List<ASRAzureToAzureProtectedDiskDetails>();
+                }
+                this.A2ADiskDetails.AddRange(
+                details.ProtectedManagedDisks.ToList()
+                .ConvertAll(disk => new ASRAzureToAzureProtectedDiskDetails(disk)));
             }
 
             if (details.VmSyncedConfigDetails != null)
