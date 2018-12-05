@@ -1294,7 +1294,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         LastHeartbeat = providerSpecificDetails.LastHeartbeat,
                         ProtectionStage = providerSpecificDetails.ProtectionStage,
                         RecoveryAzureLogStorageAccountId =
-                            providerSpecificDetails.RecoveryAzureLogStorageAccountId
+                            providerSpecificDetails.RecoveryAzureLogStorageAccountId,
+                        RecoveryAvailabilitySetId = providerSpecificDetails.RecoveryAvailabilitySetId
                     };
 
                 if (providerSpecificDetails.ProtectedDisks != null)

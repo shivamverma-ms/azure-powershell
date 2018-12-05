@@ -764,6 +764,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
     public class ASRInMageAzureV2SpecificRPIDetails : ASRProviderSpecificRPIDetails
     {
         /// <summary>
+        ///     Gets or sets the recovery availability set Id.
+        /// <summary>
+        public string RecoveryAvailabilitySetId { get; set; }
+
+        /// <summary>
         ///     Gets or sets the agent version.
         /// </summary>
         public string AgentVersion { get; set; }
@@ -945,7 +950,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     .ConvertAll(disk => new ASRAzureToAzureProtectedDiskDetails(disk));
             }
 
-            if (details.ProtectedManagedDisks != null && details.ProtectedDisks.Count > 0)
+            if (details.ProtectedManagedDisks != null && details.ProtectedManagedDisks.Count > 0)
             {
                 if (this.A2ADiskDetails == null)
                 {
