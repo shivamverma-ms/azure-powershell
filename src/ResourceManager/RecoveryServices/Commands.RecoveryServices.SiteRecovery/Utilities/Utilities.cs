@@ -444,6 +444,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 return Constants.Standard_LRS;
             }
 
+            if (StorageAccountTypes.StandardSSD.Equals(storageAccountTypes))
+            {
+                return Constants.Standard_SSD;
+            }
+
             return null;
         }
 
