@@ -618,8 +618,13 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 {
                     var vmName = Utilities.GetValueFromArmId(this.AzureVmId, ARMResourceTypeConstants.VirtualMachine);
                     var vmRg = Utilities.GetValueFromArmId(this.AzureVmId, ARMResourceTypeConstants.ResourceGroups);
+                    var subscriptionId = Utilities.GetValueFromArmId(this.AzureVmId, ARMResourceTypeConstants.Subscriptions);
+                    var tempSubscriptionId = this.ComputeManagementClient.GetComputeManagementClient.SubscriptionId;
+                    this.ComputeManagementClient.GetComputeManagementClient.SubscriptionId = subscriptionId;
                     var virtualMachine = this.ComputeManagementClient.GetComputeManagementClient.
                         VirtualMachines.GetWithHttpMessagesAsync(vmRg, vmName).GetAwaiter().GetResult().Body;
+                    this.ComputeManagementClient.GetComputeManagementClient.SubscriptionId = tempSubscriptionId;
+
                     if (virtualMachine == null)
                     {
                         throw new Exception("Azure Vm not found");

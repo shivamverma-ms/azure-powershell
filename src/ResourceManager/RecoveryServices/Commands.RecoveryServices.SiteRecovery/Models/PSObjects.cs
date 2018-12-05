@@ -1243,6 +1243,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         this.NicDetailsList.Add(new ASRVMNicDetails(n));
                     }
                 }
+
+                this.ProviderSpecificDetails = new ASRHyperVReplicaAzureSpecificRPIDetails(providerSpecificDetails);
             }
             else if (rpi.Properties.ProviderSpecificDetails is HyperVReplicaReplicationDetails)
             {
@@ -1278,41 +1280,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 }
 
                 // Set the InMageAzureV2 specific properties.
-                var inMageAzureV2RPIDetails =
-                    new ASRInMageAzureV2SpecificRPIDetails
-                    {
-                        IpAddress = providerSpecificDetails.IpAddress,
-                        ProcessServerId = providerSpecificDetails.ProcessServerId,
-                        MasterTargetId = providerSpecificDetails.MasterTargetId,
-                        OSType = providerSpecificDetails.OsType,
-                        OSDiskId = providerSpecificDetails.OsDiskId,
-                        VHDName = providerSpecificDetails.VhdName,
-                        MultiVmGroupId = providerSpecificDetails.MultiVmGroupId,
-                        MultiVmGroupName = providerSpecificDetails.MultiVmGroupName,
-                        AgentVersion = providerSpecificDetails.AgentVersion,
-                        DiscoveryType = providerSpecificDetails.DiscoveryType,
-                        LastHeartbeat = providerSpecificDetails.LastHeartbeat,
-                        ProtectionStage = providerSpecificDetails.ProtectionStage,
-                        RecoveryAzureLogStorageAccountId =
-                            providerSpecificDetails.RecoveryAzureLogStorageAccountId,
-                        RecoveryAvailabilitySetId = providerSpecificDetails.RecoveryAvailabilitySetId
-                    };
-
-                if (providerSpecificDetails.ProtectedDisks != null)
-                {
-                    inMageAzureV2RPIDetails.ProtectedDiskDetails = new List<AsrVirtualHardDisk>();
-                    foreach (var pd in providerSpecificDetails.ProtectedDisks)
-                    {
-                        inMageAzureV2RPIDetails.ProtectedDiskDetails.Add(
-                            new AsrVirtualHardDisk
-                            {
-                                Id = pd.DiskId,
-                                Name = pd.DiskName
-                            });
-                    }
-                }
-
-                this.ProviderSpecificDetails = inMageAzureV2RPIDetails;
+                this.ProviderSpecificDetails = new ASRInMageAzureV2SpecificRPIDetails(providerSpecificDetails);
             }
             else if (rpi.Properties.ProviderSpecificDetails is InMageReplicationDetails)
             {
