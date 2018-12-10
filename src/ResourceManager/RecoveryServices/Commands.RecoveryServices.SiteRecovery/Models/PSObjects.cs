@@ -2260,6 +2260,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             this.DiskCapacityInBytes = disk.DiskCapacityInBytes;
             this.DiskName = disk.DiskName;
             this.DiskType = disk.DiskType;
+            this.DiskState = disk.DiskState;
             this.Managed = false;
         }
 
@@ -2278,6 +2279,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             this.DiskCapacityInBytes = disk.DiskCapacityInBytes;
             this.DiskName = disk.DiskName;
             this.DiskType = disk.DiskType;
+            this.DiskState = disk.DiskState;
             this.RecoveryReplicaDiskAccountType = disk.RecoveryReplicaDiskAccountType;
             this.RecoveryReplicaDiskId = disk.RecoveryReplicaDiskId;
             this.RecoveryResourceGroupId = disk.RecoveryResourceGroupId;
@@ -2352,6 +2354,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// Gets or sets the diskType. 
         /// </summary>
         public string DiskType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the diskState.
+        /// </summary>
+        public string DiskState { get; set; }
 
         /// <summary>
         /// Gets or sets recovery disk uri.
