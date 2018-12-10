@@ -2417,13 +2417,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 this.Tags = new Dictionary<string, string>(details.Tags);
             }
 
-            if (details.RoleAssignments != null)
-            {
-                this.RoleAssignments =
-                    details.RoleAssignments.ToList()
-                    .ConvertAll(role => new ASRRoleAssignment(role));
-            }
-
             if (details.InputEndpoints != null)
             {
                 this.InputEndpoints =

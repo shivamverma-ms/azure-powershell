@@ -404,9 +404,9 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                                             ? this.ProtectableItem.FriendlyName
                                             : this.RecoveryVmName,
                 EnableRdpOnTargetOption = Constants.NeverEnableRDPOnTargetOption,
-                DisksToInclude = this.IncludeDiskId != null
-                                            ? this.IncludeDiskId
-                                            : null
+                ////DisksToInclude = this.IncludeDiskId != null
+                ////                            ? this.IncludeDiskId
+                ////                            : null
             };
 
             var deploymentType = Utilities.GetValueFromArmId(
