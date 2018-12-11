@@ -40,28 +40,28 @@ namespace RecoveryServices.SiteRecovery.Test
             this.initialize();
         }
 
-        [Fact]
+        
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestNewA2ADiskReplicationConfig()
         {
             this.RunPowerShellTest(_logger, Constants.NewModel, "Test-NewA2ADiskReplicationConfiguration");
         }
 
-        [Fact]
+        
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestNewA2AManagedDiskReplicationConfig()
         {
             this.RunPowerShellTest(_logger, Constants.NewModel, "Test-NewA2AManagedDiskReplicationConfiguration");
         }
 
-        [Fact]
+        
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void A2ANewAsrFabric()
         {
             this.RunPowerShellTest(_logger, Constants.NewModel, "Test-NewAsrFabric");
         }
 
-        [Fact]
+        
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void A2ATestNewContainer()
         {

@@ -40,7 +40,7 @@ namespace RecoveryServices.SiteRecovery.Test
             this.initialize();
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -54,7 +54,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -66,7 +66,7 @@ namespace RecoveryServices.SiteRecovery.Test
              "Test-AsrEvent -vaultSettingsFilePath \"" + this.vaultSettingsFilePath + "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -78,7 +78,7 @@ namespace RecoveryServices.SiteRecovery.Test
              "Test-Job -vaultSettingsFilePath \"" + this.vaultSettingsFilePath + "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -90,7 +90,7 @@ namespace RecoveryServices.SiteRecovery.Test
              "Test-NotificationSettings -vaultSettingsFilePath \"" + this.vaultSettingsFilePath + "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]

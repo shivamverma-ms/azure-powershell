@@ -38,7 +38,7 @@ namespace RecoveryServices.SiteRecovery.Test
             this.initialize();
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -52,7 +52,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -66,7 +66,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -78,7 +78,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "Test-CreatePCMap -vaultSettingsFilePath \"" + this.vaultSettingsFilePath + "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -92,7 +92,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -106,7 +106,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -120,7 +120,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -134,7 +134,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -148,7 +148,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -162,7 +162,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(
            Category.AcceptanceType,
            Category.CheckIn)]
@@ -176,7 +176,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(
            Category.AcceptanceType,
            Category.CheckIn)]
@@ -190,7 +190,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -204,7 +204,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -216,7 +216,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "Test-RemovePCMap -vaultSettingsFilePath \"" + this.vaultSettingsFilePath + "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -230,7 +230,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(
              Category.AcceptanceType,
              Category.CheckIn)]
@@ -244,7 +244,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(
              Category.AcceptanceType,
              Category.CheckIn)]

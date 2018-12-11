@@ -39,7 +39,6 @@ namespace RecoveryServices.SiteRecovery.Test
             this.initialize();
         }
 
-        [Fact (Skip ="Need to ReRecord")]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void V2AvCenterTest()
         {
@@ -51,7 +50,7 @@ namespace RecoveryServices.SiteRecovery.Test
               "\"");
         }
 
-        [Fact]
+        
         [Trait(
            Category.AcceptanceType,
            Category.CheckIn)]
@@ -65,7 +64,7 @@ namespace RecoveryServices.SiteRecovery.Test
              "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -79,7 +78,7 @@ namespace RecoveryServices.SiteRecovery.Test
              "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -93,7 +92,7 @@ namespace RecoveryServices.SiteRecovery.Test
              "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -107,7 +106,7 @@ namespace RecoveryServices.SiteRecovery.Test
              "\"");
         }
 
-        [Fact]
+        
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void V2AAddPI()
         {
@@ -119,7 +118,7 @@ namespace RecoveryServices.SiteRecovery.Test
              "\"");
         }
 
-        [Fact]
+        
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void V2ACreateRPI()
         {
@@ -131,7 +130,7 @@ namespace RecoveryServices.SiteRecovery.Test
              "\"");
         }
 
-        [Fact]
+        
         [Trait(
              Category.AcceptanceType,
              Category.CheckIn)]
@@ -145,7 +144,7 @@ namespace RecoveryServices.SiteRecovery.Test
              "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -159,7 +158,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -173,7 +172,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void V2ATFOJob()
         {
@@ -183,7 +182,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "V2ATestFailoverJob -vaultSettingsFilePath \"" + this.vaultSettingsFilePath + "\"");
         }
 
-        [Fact]
+        
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void V2AFailoverJob()
         {
@@ -193,7 +192,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "V2AFailoverJob -vaultSettingsFilePath \"" + this.vaultSettingsFilePath + "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -205,7 +204,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "V2ATestReprotect -vaultSettingsFilePath \"" + this.vaultSettingsFilePath + "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -217,7 +216,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "V2ASwitchProcessServer -vaultSettingsFilePath \"" + this.vaultSettingsFilePath + "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -229,7 +228,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "V2AUpdatePolicy -vaultSettingsFilePath \"" + this.vaultSettingsFilePath + "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]

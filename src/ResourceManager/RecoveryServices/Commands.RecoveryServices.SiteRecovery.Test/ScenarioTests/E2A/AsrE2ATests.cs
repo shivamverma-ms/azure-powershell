@@ -37,7 +37,7 @@ namespace RecoveryServices.SiteRecovery.Test
             this.initialize();
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -51,7 +51,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -65,7 +65,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -79,7 +79,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -93,7 +93,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -107,7 +107,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
@@ -121,7 +121,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 "\"");
         }
 
-        [Fact]
+        
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
