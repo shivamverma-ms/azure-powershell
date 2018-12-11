@@ -119,7 +119,7 @@
     <Compile Include="RecoveryPlan\NewAzureRmRecoveryServicesAsrRecoveryPlan.cs" />
     <Compile Include="RecoveryPoint\GetAzureRmRecoveryServicesAsrRecoveryPoint.cs" />
     <Compile Include="ReplicationProtectedItem\GetAzureRmRecoveryServicesAsrReplicationProtectedItem.cs" />
-    <Compile Include="ReplicationProtectedItem\AddAzureRmRecoveryServicesAsrReplicationProtectedItemDisks.cs" />
+    <Compile Include="ReplicationProtectedItem\AddAzureRmRecoveryServicesAsrReplicationProtectedItemDisk.cs" />
     <Compile Include="ReplicationProtectedItem\NewAzureRmRecoveryServicesAsrReplicationProtectedItem.cs" />
     <Compile Include="ReplicationProtectedItem\RemoveAzureRmRecoveryServicesAsrReplicationProtectedItem.cs" />
     <Compile Include="ReplicationProtectedItem\SetAzureRmRecoveryServicesAsrReplicationProtectedItem.cs" />

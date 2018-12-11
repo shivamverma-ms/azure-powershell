@@ -5,7 +5,7 @@ online version: https://docs.microsoft.com/en-us/powershell/module/azurerm.recov
 schema: 2.0.0
 ---
 
-# Add-AzureRmRecoveryServicesAsrReplicationProtectedItemDisks
+# Add-AzureRmRecoveryServicesAsrReplicationProtectedItemDisk
 
 ## SYNOPSIS
 Adds disks to replication protected item.
@@ -13,7 +13,7 @@ Adds disks to replication protected item.
 ## SYNTAX
 
 ```
-Add-AzureRmRecoveryServicesAsrReplicationProtectedItemDisks
+Add-AzureRmRecoveryServicesAsrReplicationProtectedItemDisk
  -ReplicationProtectedItem <ASRReplicationProtectedItem>
  -AzureToAzureDiskReplicationConfiguration <ASRAzuretoAzureDiskReplicationConfig[]> [-WaitForCompletion]
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
@@ -26,7 +26,7 @@ Adds managed or unmanaged disks to current replication protected item.
 
 ### Example 1
 ```powershell
-PS C:\> Add-AzureRmRecoveryServicesAsrReplicationProtectedItemDisks -ReplicationProtectedItem $pe -AzureToAzureDiskReplicationConfiguration $disk
+PS C:\> Add-AzureRmRecoveryServicesAsrReplicationProtectedItemDisk -ReplicationProtectedItem $pe -AzureToAzureDiskReplicationConfiguration $disk
 ```
 
 Adding a disks to replication protected item via disk replication configuration.

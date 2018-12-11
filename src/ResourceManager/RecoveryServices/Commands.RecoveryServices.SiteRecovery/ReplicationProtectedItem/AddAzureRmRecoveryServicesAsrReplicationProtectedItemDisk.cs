@@ -22,10 +22,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
     /// <summary>
     /// Adds disks to replication protected item.
     /// </summary>
-    [Cmdlet("Add", ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "RecoveryServicesAsrReplicationProtectedItemDisks", DefaultParameterSetName = ASRParameterSets.EnterpriseToEnterprise, SupportsShouldProcess = true)]
-    [Alias("Add-ASRReplicationProtectedItemDisks")]
+    [Cmdlet("Add", ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "RecoveryServicesAsrReplicationProtectedItemDisk", DefaultParameterSetName = ASRParameterSets.EnterpriseToEnterprise, SupportsShouldProcess = true)]
+    [Alias("Add-ASRReplicationProtectedItemDisk")]
     [OutputType(typeof(ASRJob))]
-    public class AddAzureRmRecoveryServicesAsrReplicationProtectedItemDisks : SiteRecoveryCmdletBase
+    public class AddAzureRmRecoveryServicesAsrReplicationProtectedItemDisk : SiteRecoveryCmdletBase
     {
         [ValidateNotNullOrEmpty]
         [Parameter(Mandatory = true)]
