@@ -77,7 +77,7 @@ FunctionsToExport = @()
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport =
-               'Add-AzureRmRecoveryServicesAsrReplicationProtectedItemDisks',
+               'Add-AzureRmRecoveryServicesAsrReplicationProtectedItemDisk',
                'Edit-AzureRmRecoveryServicesAsrRecoveryPlan',
                'Get-AzureRmRecoveryServicesAsrAlertSetting', 
                'Get-AzureRmRecoveryServicesAsrEvent', 
@@ -145,7 +145,7 @@ CmdletsToExport =
 # VariablesToExport = @()
 
 # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-AliasesToExport = 'Add-ASRReplicationProtectedItemDisks', 'Edit-ASRRP', 'Edit-ASRRecoveryPlan', 'Get-ASRAlertSetting',
+AliasesToExport = 'Add-ASRReplicationProtectedItemDisk', 'Edit-ASRRP', 'Edit-ASRRecoveryPlan', 'Get-ASRAlertSetting',
                'Get-ASREvent', 'Get-ASRFabric', 'Get-ASRJob', 'Get-ASRNetwork', 
                'Get-ASRNetworkMapping', 'Get-ASRNotificationSetting', 
                'Get-ASRPolicy', 'Get-ASRProtectableItem', 
