@@ -30,13 +30,13 @@ namespace RecoveryServices.SiteRecovery.Test
         {
             _logger = new XunitTracingInterceptor(output);
             XunitTracingInterceptor.AddToContext(_logger);
-            this.vaultSettingsFilePath = Path.Combine(
+            this.VaultSettingsFilePath = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
-                "ScenarioTests\\V2A\\V2A.VaultCredentials");
-            this.powershellFile = Path.Combine(
+                "ScenarioTests", "V2A", "V2A.VaultCredentials");
+            this.PowershellFile = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
-                "ScenarioTests\\V2A\\AsrV2ATests.ps1");
-            this.initialize();
+                "ScenarioTests", "V2A", "AsrV2ATests.ps1");
+            this.Initialize();
         }
 
         [Trait(Category.AcceptanceType, Category.CheckIn)]
@@ -46,7 +46,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 _logger,
               Constants.NewModel,
               "Test-vCenter -vaultSettingsFilePath \"" +
-              this.vaultSettingsFilePath +
+              this.VaultSettingsFilePath +
               "\"");
         }
 
@@ -60,7 +60,7 @@ namespace RecoveryServices.SiteRecovery.Test
                _logger,
              Constants.NewModel,
              "Test-SiteRecoveryFabricTest -vaultSettingsFilePath \"" +
-             this.vaultSettingsFilePath +
+             this.VaultSettingsFilePath +
              "\"");
         }
 
@@ -74,7 +74,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 _logger,
              Constants.NewModel,
              "Test-PCM -vaultSettingsFilePath \"" +
-             this.vaultSettingsFilePath +
+             this.VaultSettingsFilePath +
              "\"");
         }
 
@@ -88,7 +88,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 _logger,
              Constants.NewModel,
              "Test-PC -vaultSettingsFilePath \"" +
-             this.vaultSettingsFilePath +
+             this.VaultSettingsFilePath +
              "\"");
         }
 
@@ -102,7 +102,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 _logger,
              Constants.NewModel,
              "Test-SiteRecoveryPolicy -vaultSettingsFilePath \"" +
-             this.vaultSettingsFilePath +
+             this.VaultSettingsFilePath +
              "\"");
         }
 
@@ -114,7 +114,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 _logger,
              Constants.NewModel,
              "Test-V2AAddPI -vaultSettingsFilePath \"" +
-             this.vaultSettingsFilePath +
+             this.VaultSettingsFilePath +
              "\"");
         }
 
@@ -126,7 +126,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 _logger,
              Constants.NewModel,
              "V2ACreateRPI -vaultSettingsFilePath \"" +
-             this.vaultSettingsFilePath +
+             this.VaultSettingsFilePath +
              "\"");
         }
 
@@ -140,7 +140,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 _logger,
              Constants.NewModel,
              "V2ATestResync -vaultSettingsFilePath \"" +
-             this.vaultSettingsFilePath +
+             this.VaultSettingsFilePath +
              "\"");
         }
 
@@ -154,7 +154,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 _logger,
                 Constants.NewModel,
                 "V2AUpdateMobilityService -vaultSettingsFilePath \"" +
-                this.vaultSettingsFilePath +
+                this.VaultSettingsFilePath +
                 "\"");
         }
 
@@ -168,7 +168,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 _logger,
                 Constants.NewModel,
                 "V2AUpdateServiceProvider -vaultSettingsFilePath \"" +
-                this.vaultSettingsFilePath +
+                this.VaultSettingsFilePath +
                 "\"");
         }
 
@@ -179,7 +179,7 @@ namespace RecoveryServices.SiteRecovery.Test
             this.RunPowerShellTest(
                 _logger,
                 Constants.NewModel,
-                "V2ATestFailoverJob -vaultSettingsFilePath \"" + this.vaultSettingsFilePath + "\"");
+                "V2ATestFailoverJob -vaultSettingsFilePath \"" + this.VaultSettingsFilePath + "\"");
         }
 
         
@@ -189,7 +189,7 @@ namespace RecoveryServices.SiteRecovery.Test
             this.RunPowerShellTest(
                 _logger,
                 Constants.NewModel,
-                "V2AFailoverJob -vaultSettingsFilePath \"" + this.vaultSettingsFilePath + "\"");
+                "V2AFailoverJob -vaultSettingsFilePath \"" + this.VaultSettingsFilePath + "\"");
         }
 
         
@@ -201,7 +201,7 @@ namespace RecoveryServices.SiteRecovery.Test
             this.RunPowerShellTest(
                 _logger,
                 Constants.NewModel,
-                "V2ATestReprotect -vaultSettingsFilePath \"" + this.vaultSettingsFilePath + "\"");
+                "V2ATestReprotect -vaultSettingsFilePath \"" + this.VaultSettingsFilePath + "\"");
         }
 
         
@@ -213,7 +213,7 @@ namespace RecoveryServices.SiteRecovery.Test
             this.RunPowerShellTest(
                 _logger,
                 Constants.NewModel,
-                "V2ASwitchProcessServer -vaultSettingsFilePath \"" + this.vaultSettingsFilePath + "\"");
+                "V2ASwitchProcessServer -vaultSettingsFilePath \"" + this.VaultSettingsFilePath + "\"");
         }
 
         
@@ -225,7 +225,7 @@ namespace RecoveryServices.SiteRecovery.Test
             this.RunPowerShellTest(
                 _logger,
                 Constants.NewModel,
-                "V2AUpdatePolicy -vaultSettingsFilePath \"" + this.vaultSettingsFilePath + "\"");
+                "V2AUpdatePolicy -vaultSettingsFilePath \"" + this.VaultSettingsFilePath + "\"");
         }
 
         
@@ -238,7 +238,7 @@ namespace RecoveryServices.SiteRecovery.Test
                 _logger,
                 Constants.NewModel,
                 "Test-SetRPI -vaultSettingsFilePath \"" +
-                this.vaultSettingsFilePath +
+                this.VaultSettingsFilePath +
                 "\"");
         }
     }
