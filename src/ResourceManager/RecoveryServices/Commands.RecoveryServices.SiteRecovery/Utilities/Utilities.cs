@@ -432,21 +432,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             }
         }
 
-        public static string toStorageString(this StorageAccountTypes? storageAccountTypes)
-        {
-            if (StorageAccountTypes.PremiumLRS.Equals(storageAccountTypes))
-            {
-                return Constants.Premium_LRS;
-            }
-
-            if (StorageAccountTypes.StandardLRS.Equals(storageAccountTypes))
-            {
-                return Constants.Standard_LRS;
-            }
-
-            return null;
-        }
-
         /// <summary>
         ///     Validate the email addresses.
         /// </summary>

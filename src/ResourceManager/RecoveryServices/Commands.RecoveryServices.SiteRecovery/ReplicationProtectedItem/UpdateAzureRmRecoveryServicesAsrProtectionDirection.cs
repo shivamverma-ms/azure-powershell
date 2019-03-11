@@ -554,8 +554,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 {
                     populateUnManagedDiskInputDetails(fabricFriendlyName, a2aSwitchInput, replicationProtectedItemResponse);
                 }
-                else if (this.AzureToAzureDiskReplicationConfiguration == null &&
-                  ((A2AReplicationDetails)replicationProtectedItemResponse.Properties.ProviderSpecificDetails).ProtectedManagedDisks != null)
+                else if (((A2AReplicationDetails)replicationProtectedItemResponse.Properties.ProviderSpecificDetails).ProtectedManagedDisks != null &&
+                  ((A2AReplicationDetails)replicationProtectedItemResponse.Properties.ProviderSpecificDetails).ProtectedManagedDisks.Count > 0)
                 {
                     populateManagedDiskInputDetails(a2aSwitchInput, replicationProtectedItemResponse);
                 }
@@ -593,8 +593,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 var vmRg = Utilities.GetValueFromArmId(
                     a2aReplicationDetails.RecoveryAzureResourceGroupId,
                     ARMResourceTypeConstants.ResourceGroups);
+                var subscriptionId = Utilities.GetValueFromArmId(a2aReplicationDetails.RecoveryAzureResourceGroupId, ARMResourceTypeConstants.Subscriptions);
+                var tempSubscriptionId = this.ComputeManagementClient.GetComputeManagementClient.SubscriptionId;
+                this.ComputeManagementClient.GetComputeManagementClient.SubscriptionId = subscriptionId;
                 var virtualMachine = this.ComputeManagementClient.GetComputeManagementClient.
                     VirtualMachines.GetWithHttpMessagesAsync(vmRg, vmName).GetAwaiter().GetResult().Body;
+                this.ComputeManagementClient.GetComputeManagementClient.SubscriptionId = tempSubscriptionId;
 
                 // Passing all managedDisk data if no details is passed.
                 var osDisk = virtualMachine.StorageProfile.OsDisk;
@@ -603,8 +607,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     DiskId = osDisk.ManagedDisk.Id,
                     RecoveryResourceGroupId = this.RecoveryResourceGroupId,
                     PrimaryStagingAzureStorageAccountId = this.LogStorageAccountId,
-                    RecoveryReplicaDiskAccountType = osDisk.ManagedDisk.StorageAccountType.toStorageString(),
-                    RecoveryTargetDiskAccountType = osDisk.ManagedDisk.StorageAccountType.toStorageString()
+                    RecoveryReplicaDiskAccountType = osDisk.ManagedDisk.StorageAccountType,
+                    RecoveryTargetDiskAccountType = osDisk.ManagedDisk.StorageAccountType
                 });
                 if (virtualMachine.StorageProfile.DataDisks != null)
                 {
@@ -615,8 +619,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                             DiskId = dataDisk.ManagedDisk.Id,
                             RecoveryResourceGroupId = this.RecoveryResourceGroupId,
                             PrimaryStagingAzureStorageAccountId = this.LogStorageAccountId,
-                            RecoveryReplicaDiskAccountType = dataDisk.ManagedDisk.StorageAccountType.toStorageString(),
-                            RecoveryTargetDiskAccountType = dataDisk.ManagedDisk.StorageAccountType.toStorageString()
+                            RecoveryReplicaDiskAccountType = dataDisk.ManagedDisk.StorageAccountType,
+                            RecoveryTargetDiskAccountType = dataDisk.ManagedDisk.StorageAccountType
                         });
                     }
                 }

@@ -24,7 +24,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
     /// <summary>
     ///     Enables replication for an ASR protectable item by creating a replication protected item.
     /// </summary>
-    [Cmdlet("New", ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "RecoveryServicesAsrReplicationProtectedItem",DefaultParameterSetName = ASRParameterSets.EnterpriseToEnterprise,SupportsShouldProcess = true)]
+    [Cmdlet("New", ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "RecoveryServicesAsrReplicationProtectedItem", DefaultParameterSetName = ASRParameterSets.EnterpriseToEnterprise, SupportsShouldProcess = true)]
     [Alias("New-ASRReplicationProtectedItem")]
     [OutputType(typeof(ASRJob))]
     public class NewAzureRmRecoveryServicesAsrReplicationProtectedItem : SiteRecoveryCmdletBase
@@ -607,14 +607,24 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 RecoveryBootDiagStorageAccountId = this.RecoveryBootDiagStorageAccountId
             };
 
+            if (!string.IsNullOrEmpty(this.RecoveryCloudServiceId))
+            {
+                providerSettings.RecoveryResourceGroupId = null;
+            }
+
             if (this.AzureToAzureDiskReplicationConfiguration == null)
             {
                 if (this.AzureVmId.ToLower().Contains(ARMResourceTypeConstants.Compute.ToLower()))
                 {
                     var vmName = Utilities.GetValueFromArmId(this.AzureVmId, ARMResourceTypeConstants.VirtualMachine);
                     var vmRg = Utilities.GetValueFromArmId(this.AzureVmId, ARMResourceTypeConstants.ResourceGroups);
+                    var subscriptionId = Utilities.GetValueFromArmId(this.AzureVmId, ARMResourceTypeConstants.Subscriptions);
+                    var tempSubscriptionId = this.ComputeManagementClient.GetComputeManagementClient.SubscriptionId;
+                    this.ComputeManagementClient.GetComputeManagementClient.SubscriptionId = subscriptionId;
                     var virtualMachine = this.ComputeManagementClient.GetComputeManagementClient.
                         VirtualMachines.GetWithHttpMessagesAsync(vmRg, vmName).GetAwaiter().GetResult().Body;
+                    this.ComputeManagementClient.GetComputeManagementClient.SubscriptionId = tempSubscriptionId;
+
                     if (virtualMachine == null)
                     {
                         throw new Exception("Azure Vm not found");
@@ -633,8 +643,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                             DiskId = osDisk.ManagedDisk.Id,
                             RecoveryResourceGroupId = this.RecoveryResourceGroupId,
                             PrimaryStagingAzureStorageAccountId = this.LogStorageAccountId,
-                            RecoveryReplicaDiskAccountType = osDisk.ManagedDisk.StorageAccountType.toStorageString(),
-                            RecoveryTargetDiskAccountType = osDisk.ManagedDisk.StorageAccountType.toStorageString()
+                            RecoveryReplicaDiskAccountType = osDisk.ManagedDisk.StorageAccountType,
+                            RecoveryTargetDiskAccountType = osDisk.ManagedDisk.StorageAccountType
                         });
                         if (virtualMachine.StorageProfile.DataDisks != null)
                         {
@@ -645,8 +655,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                                     DiskId = dataDisk.ManagedDisk.Id,
                                     RecoveryResourceGroupId = this.RecoveryResourceGroupId,
                                     PrimaryStagingAzureStorageAccountId = LogStorageAccountId,
-                                    RecoveryReplicaDiskAccountType = dataDisk.ManagedDisk.StorageAccountType.toStorageString(),
-                                    RecoveryTargetDiskAccountType = dataDisk.ManagedDisk.StorageAccountType.toStorageString()
+                                    RecoveryReplicaDiskAccountType = dataDisk.ManagedDisk.StorageAccountType,
+                                    RecoveryTargetDiskAccountType = dataDisk.ManagedDisk.StorageAccountType
                                 });
                             }
                         }

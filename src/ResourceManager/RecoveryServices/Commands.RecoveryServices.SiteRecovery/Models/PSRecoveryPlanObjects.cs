@@ -40,7 +40,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 
                 if (recoveryPlanGroup.EndGroupActions != null)
                 {
-                    this.EndGroupActions = recoveryPlanGroup.StartGroupActions.ToList().
+                    this.EndGroupActions = recoveryPlanGroup.EndGroupActions.ToList().
                         ConvertAll(endGroupActions => new RecoveryPlanAction_2016_08_10(endGroupActions));
                 }
 
