@@ -39,7 +39,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void FabricTests()
@@ -53,7 +53,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestCreatePolicy()
@@ -67,7 +67,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestCreatePCMap()
@@ -79,7 +79,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestEnableDR()
@@ -93,7 +93,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestMapNetwork()
@@ -107,7 +107,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestTFO()
@@ -121,7 +121,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestPlannedFailover()
@@ -135,7 +135,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestReprotect()
@@ -149,7 +149,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestUFOandFailback()
@@ -163,7 +163,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
            Category.AcceptanceType,
            Category.CheckIn)]
         public void TestEditRP()
@@ -177,7 +177,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
            Category.AcceptanceType,
            Category.CheckIn)]
         public void TestRemoveRP()
@@ -191,7 +191,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestDisableDR()
@@ -205,7 +205,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestRemovePCMap()
@@ -217,7 +217,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestRemovePolicy()
@@ -231,7 +231,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
              Category.AcceptanceType,
              Category.CheckIn)]
         public void TestRemoveNetworkPairing()
@@ -245,7 +245,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
              Category.AcceptanceType,
              Category.CheckIn)]
         public void TestRemoveFabric()

@@ -39,7 +39,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestCreatePolicy()
@@ -53,7 +53,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestCreatePCMap()
@@ -65,7 +65,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestEnableDR()
@@ -79,7 +79,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestUpdateRPI()
@@ -93,7 +93,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestTFO()
@@ -107,7 +107,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestPlannedFailover()

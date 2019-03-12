@@ -39,7 +39,7 @@ namespace RecoveryServices.SiteRecovery.Test
             this.Initialize();
         }
 
-        [Trait(Category.AcceptanceType, Category.CheckIn)]
+         [Fact][Trait(Category.AcceptanceType, Category.CheckIn)]
         public void V2AvCenterTest()
         {
             this.RunPowerShellTest(
@@ -51,7 +51,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
            Category.AcceptanceType,
            Category.CheckIn)]
         public void V2AFabricTests()
@@ -65,7 +65,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void V2APCMappingTest()
@@ -79,7 +79,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void V2APCTest()
@@ -93,7 +93,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void V2APolicyTest()
@@ -107,7 +107,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(Category.AcceptanceType, Category.CheckIn)]
+         [Fact][Trait(Category.AcceptanceType, Category.CheckIn)]
         public void V2AAddPI()
         {
             this.RunPowerShellTest(
@@ -119,7 +119,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(Category.AcceptanceType, Category.CheckIn)]
+         [Fact][Trait(Category.AcceptanceType, Category.CheckIn)]
         public void V2ACreateRPI()
         {
             this.RunPowerShellTest(
@@ -131,7 +131,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
              Category.AcceptanceType,
              Category.CheckIn)]
         public void V2ATestResync()
@@ -145,7 +145,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void V2AUpdateMS()
@@ -159,7 +159,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void V2AUpdateSP()
@@ -173,7 +173,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(Category.AcceptanceType, Category.CheckIn)]
+         [Fact][Trait(Category.AcceptanceType, Category.CheckIn)]
         public void V2ATFOJob()
         {
             this.RunPowerShellTest(
@@ -183,7 +183,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(Category.AcceptanceType, Category.CheckIn)]
+         [Fact][Trait(Category.AcceptanceType, Category.CheckIn)]
         public void V2AFailoverJob()
         {
             this.RunPowerShellTest(
@@ -193,7 +193,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void V2ATestReprotect()
@@ -205,7 +205,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void V2APSSwitch()
@@ -217,7 +217,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void V2AUpdatePolicy()
@@ -229,7 +229,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void SetRPI()

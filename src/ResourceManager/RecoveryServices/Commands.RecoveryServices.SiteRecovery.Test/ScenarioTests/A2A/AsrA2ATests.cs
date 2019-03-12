@@ -47,6 +47,7 @@ namespace RecoveryServices.SiteRecovery.Test
             this.RunPowerShellTest(_logger, Constants.NewModel, "Test-NewA2ADiskReplicationConfiguration");
         }
 
+
         [Fact]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestNewA2AManagedDiskReplicationConfig()

@@ -40,10 +40,11 @@ namespace RecoveryServices.SiteRecovery.Test
             this.Initialize();
         }
 
-        
+
+        [Fact]
         [Trait(
-            Category.AcceptanceType,
-            Category.CheckIn)]
+           Category.AcceptanceType,
+           Category.CheckIn)]
         public void EnumerationTests()
         {
             this.RunPowerShellTest(
@@ -70,10 +71,11 @@ namespace RecoveryServices.SiteRecovery.Test
              "Test-AsrEvent -vaultSettingsFilePath \"" + this.VaultSettingsFilePath + "\"");
         }
 
-        
+
+        [Fact]
         [Trait(
-            Category.AcceptanceType,
-            Category.CheckIn)]
+           Category.AcceptanceType,
+           Category.CheckIn)]
         public void V2AGetJobTest()
         {
             this.RunPowerShellTest(
@@ -82,10 +84,11 @@ namespace RecoveryServices.SiteRecovery.Test
              "Test-Job -vaultSettingsFilePath \"" + this.VaultSettingsFilePath + "\"");
         }
 
-        
+
+        [Fact]
         [Trait(
-            Category.AcceptanceType,
-            Category.CheckIn)]
+           Category.AcceptanceType,
+           Category.CheckIn)]
         public void V2AGetNotificationTest()
         {
             this.RunPowerShellTest(
@@ -94,10 +97,11 @@ namespace RecoveryServices.SiteRecovery.Test
              "Test-NotificationSettings -vaultSettingsFilePath \"" + this.VaultSettingsFilePath + "\"");
         }
 
-        
+
+        [Fact]
         [Trait(
-            Category.AcceptanceType,
-            Category.CheckIn)]
+           Category.AcceptanceType,
+           Category.CheckIn)]
         public void CIKTokenValidation()
         {
 

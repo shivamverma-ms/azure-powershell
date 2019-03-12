@@ -38,7 +38,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void FabricTests()
@@ -52,7 +52,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestCreatePolicy()
@@ -66,7 +66,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestEnableDR()
@@ -80,7 +80,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestMapNetwork()
@@ -94,7 +94,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestTFO()
@@ -108,7 +108,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestPlannedFailover()
@@ -122,7 +122,7 @@ namespace RecoveryServices.SiteRecovery.Test
         }
 
         
-        [Trait(
+         [Fact][Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
         public void TestReprotect()
