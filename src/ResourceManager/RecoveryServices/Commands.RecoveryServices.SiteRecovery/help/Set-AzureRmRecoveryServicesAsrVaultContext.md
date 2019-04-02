@@ -12,15 +12,8 @@ Sets the Recovery Services vault context to be used for subsequent Azure Site Re
 
 ## SYNTAX
 
-### AzureRecoveryServicesVault (Default)
 ```
 Set-AzureRmRecoveryServicesAsrVaultContext -Vault <ARSVault> [-DefaultProfile <IAzureContextContainer>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
-```
-
-### ByResourceId
-```
-Set-AzureRmRecoveryServicesAsrVaultContext -ResourceId <String> [-DefaultProfile <IAzureContextContainer>]
  [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -42,7 +35,7 @@ Sets the vault context to the specified Recovery Services vault for subsequent A
 The credentials, account, tenant, and subscription used for communication with azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzureRmContext, AzureCredential
 
@@ -53,27 +46,12 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ResourceId
-Specifies the recoveryservices vault resource id to be set as Vault context.
-
-```yaml
-Type: System.String
-Parameter Sets: ByResourceId
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
 ### -Vault
 The Recovery Services vault object corresponding to the Recovery Services vault.
 
 ```yaml
-Type: Microsoft.Azure.Commands.RecoveryServices.ARSVault
-Parameter Sets: AzureRecoveryServicesVault
+Type: ARSVault
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -87,7 +65,7 @@ Accept wildcard characters: False
 Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
 
@@ -103,7 +81,7 @@ Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
 
