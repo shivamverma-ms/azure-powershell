@@ -335,6 +335,18 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             this.TargetProtectionContainerFriendlyName =
                 pcm.Properties.TargetProtectionContainerFriendlyName;
             this.TargetProtectionContainerId = pcm.Properties.TargetProtectionContainerId;
+
+            if (pcm.Properties.ProviderSpecificDetails is A2AProtectionContainerMappingDetails)
+            {
+                var details = (A2AProtectionContainerMappingDetails)pcm.Properties.ProviderSpecificDetails;
+                this.ProviderSpecificDetails = new ASRA2AProtectionContainerMappingDetails
+                {
+                    AgentAutoUpdateStatus = details.AgentAutoUpdateStatus,
+                    AutomationAccountArmId = details.AutomationAccountArmId,
+                    JobScheduleName = details.JobScheduleName,
+                    ScheduleName = details.ScheduleName
+                };
+            }
         }
 
         #region Properties
@@ -399,7 +411,42 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// </summary>
         public string TargetProtectionContainerId { get; set; }
 
+        /// <summary>
+        ///     Gets or sets Target Protection Container Id
+        /// </summary>
+        public ASRProtectionContainerMappingProviderSpecificDetails ProviderSpecificDetails { get; set; }
+
         #endregion
+    }
+
+    /// <summary>
+    ///     ProtectionContainerMapping provider settings
+    /// </summary>
+    public class ASRProtectionContainerMappingProviderSpecificDetails
+    {
+
+    }
+
+    /// <summary>
+    ///     A2A ProtectionContainerMapping provider settings
+    /// </summary>
+    public class ASRA2AProtectionContainerMappingDetails : ASRProtectionContainerMappingProviderSpecificDetails
+    {
+        public string AgentAutoUpdateStatus { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the automation account arm id.
+        public string AutomationAccountArmId { get; set; }
+
+        //
+        // Summary:
+        //     Gets or sets the schedule arm name.
+        public string ScheduleName { get; set; }
+
+        //
+        // Summary:
+        //     Gets or sets the job schedule arm name.
+        public string JobScheduleName { get; set; }
     }
 
     /// <summary>
@@ -1231,7 +1278,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     providerSpecificDetails.RecoveryAzureStorageAccount;
                 this.SelectedRecoveryAzureNetworkId =
                     providerSpecificDetails.SelectedRecoveryAzureNetworkId;
-
+                this.SelectedSourceNicNetworkId =
+                    providerSpecificDetails.SelectedSourceNicId;
                 this.RecoveryResourceGroupId =
                     providerSpecificDetails.RecoveryAzureResourceGroupId;
 
@@ -1269,7 +1317,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     providerSpecificDetails.RecoveryAzureStorageAccount;
                 this.SelectedRecoveryAzureNetworkId =
                     providerSpecificDetails.SelectedRecoveryAzureNetworkId;
-
+                this.SelectedSourceNicNetworkId =
+                   providerSpecificDetails.SelectedSourceNicId;
                 if (providerSpecificDetails.VmNics != null)
                 {
                     this.NicDetailsList = new List<ASRVMNicDetails>();
@@ -1486,6 +1535,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         ///     Gets or sets Recovery Azure Storage Account of the Virtual machine.
         /// </summary>
         public string RecoveryResourceGroupId { get; set; }
+
+        /// <summary>
+        ///     Gets or sets Recovery Azure Storage Account of the Virtual machine.
+        /// </summary>
+        public string SelectedSourceNicNetworkId { get; set; }
 
         /// <summary>
         ///     Gets or sets Recovery Services Provider Id
@@ -2260,7 +2314,14 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             this.DiskCapacityInBytes = disk.DiskCapacityInBytes;
             this.DiskName = disk.DiskName;
             this.DiskType = disk.DiskType;
+
             this.Managed = false;
+            this.IsDiskEncrypted = disk.IsDiskEncrypted;
+            this.DekKeyVaultArmId = disk.DekKeyVaultArmId;
+            this.SecretIdentifier = disk.SecretIdentifier;
+            this.IsDiskKeyEncrypted = disk.IsDiskKeyEncrypted;
+            this.KekKeyVaultArmId = disk.KekKeyVaultArmId;
+            this.KeyIdentifier = disk.KeyIdentifier;
         }
 
         /// <summary>
@@ -2284,7 +2345,41 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             this.RecoveryTargetDiskAccountType = disk.RecoveryTargetDiskAccountType;
             this.RecoveryTargetDiskId = disk.RecoveryTargetDiskId;
             this.Managed = true;
+            this.IsDiskEncrypted = disk.IsDiskEncrypted;
+            this.DekKeyVaultArmId = disk.DekKeyVaultArmId;
+            this.SecretIdentifier = disk.SecretIdentifier;
+            this.IsDiskKeyEncrypted = disk.IsDiskKeyEncrypted;
+            this.KekKeyVaultArmId = disk.KekKeyVaultArmId;
+            this.KeyIdentifier = disk.KeyIdentifier;
         }
+
+        //
+        // Summary:
+        //     Gets or sets a value indicating whether disk key got encrypted or not.
+        public bool? IsDiskKeyEncrypted { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the KeyVault resource id for secret (BEK).
+        public string DekKeyVaultArmId { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the secret URL / identifier (BEK).
+        public string SecretIdentifier { get; set; }
+        //
+        // Summary:
+        //     Gets or sets a value indicating whether vm has encrypted os disk or not.
+        public bool? IsDiskEncrypted { get; set; }
+
+        //
+        // Summary:
+        //     Gets or sets the key URL / identifier (KEK).
+        [JsonProperty(PropertyName = "keyIdentifier")]
+        public string KeyIdentifier { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the KeyVault resource id for key (KEK).
+        [JsonProperty(PropertyName = "kekKeyVaultArmId")]
+        public string KekKeyVaultArmId { get; set; }
 
         /// <summary>
         /// Gets or sets is azure vm managed disk.

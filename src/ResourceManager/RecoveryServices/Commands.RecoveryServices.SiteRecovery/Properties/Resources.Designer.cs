@@ -351,6 +351,24 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please pass a valid RecoveryResourceGroupId as input for disk URI &quot;{0}&quot;.
+        /// </summary>
+        internal static string InvalidRecoveryDiskResourceGroup {
+            get {
+                return ResourceManager.GetString("InvalidRecoveryDiskResourceGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please pass a valid RecoveryTargetDiskAccountType as input for disk URI &quot;{0}&quot;.
+        /// </summary>
+        internal static string InvalidRecoveryTargetDiskAccountType {
+            get {
+                return ResourceManager.GetString("InvalidRecoveryTargetDiskAccountType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Replication Frequency {0} is invalid.
         /// </summary>
         internal static string InvalidReplicationFrequency {
@@ -854,18 +872,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.Properties {
         internal static string SubscriptionIsNotAssociatedWithTheAccount {
             get {
                 return ResourceManager.GetString("SubscriptionIsNotAssociatedWithTheAccount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Message: For newly created vault download vault creds file and retry.
-        ///Recommended Action: Install module AzureRm.RecoveryServices if not installed. And execute below cmdlets
-        ///$path = Get-AzureRmRecoveryServicesVaultSettingsFile -Vault $Vault
-        ///Import-AzureRmRecoveryServicesAsrVaultSettingsFile -Path $path.filepath.
-        /// </summary>
-        internal static string TryDownloadingVaultFile {
-            get {
-                return ResourceManager.GetString("TryDownloadingVaultFile", resourceCulture);
             }
         }
         

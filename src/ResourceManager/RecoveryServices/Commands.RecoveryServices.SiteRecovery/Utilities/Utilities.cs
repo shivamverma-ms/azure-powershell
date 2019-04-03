@@ -30,7 +30,6 @@ using Microsoft.Azure.Portal.RecoveryServices.Models.Common;
 using Microsoft.Rest.Azure;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Microsoft.Azure.Commands.Common.Compute.Version2016_04_preview.Models;
 
 namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 {
