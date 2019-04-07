@@ -2373,12 +2373,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         //
         // Summary:
         //     Gets or sets the key URL / identifier (KEK).
-        [JsonProperty(PropertyName = "keyIdentifier")]
         public string KeyIdentifier { get; set; }
         //
         // Summary:
         //     Gets or sets the KeyVault resource id for key (KEK).
-        [JsonProperty(PropertyName = "kekKeyVaultArmId")]
         public string KekKeyVaultArmId { get; set; }
 
         /// <summary>
@@ -2510,13 +2508,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             else
             {
                 this.Tags = new Dictionary<string, string>(details.Tags);
-            }
-
-            if (details.RoleAssignments != null)
-            {
-                this.RoleAssignments =
-                    details.RoleAssignments.ToList()
-                    .ConvertAll(role => new ASRRoleAssignment(role));
             }
 
             if (details.InputEndpoints != null)
@@ -2652,5 +2643,42 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 
             return sb.ToString();
         }
+    }
+
+    /// <summary>
+    /// Encryption types for VM.
+    /// </summary>
+    public enum AzureDiskEncryptionType
+    {
+        /// <summary>
+        /// VM not encrypted.
+        /// </summary>
+        NotEncrypted,
+
+        /// <summary>
+        /// VM encrypted using one pass ADE flow.
+        /// </summary>
+        OnePassEncrypted,
+
+        /// <summary>
+        /// VM encrypted using two pass ADE flow.
+        /// </summary>
+        TwoPassEncrypted
+    }
+
+    /// <summary>
+    /// Azure Disk Encryption extension types for VMs.
+    /// </summary>
+    public enum AzureDiskEncryptionExtensionType
+    {
+        /// <summary>
+        /// ADE extension for Windows VM.
+        /// </summary>
+        AzureDiskEncryption,
+
+        /// <summary>
+        /// ADE extension for Linux VM.
+        /// </summary>
+        AzureDiskEncryptionForLinux
     }
 }

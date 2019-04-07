@@ -1214,6 +1214,20 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 .ConvertAll(disk => new ASRAzureToAzureProtectedDiskDetails(disk)));
             }
 
+            // todo:: uncomment hot add.
+            //if (details.UnprotectedDisks != null && details.UnprotectedDisks.Count > 0)
+            //{
+            //    this.A2AUnprotectedDiskDetails = new List<A2AUnprotectedDiskDetails>();
+            //    foreach (var unprotectedDisk in details.UnprotectedDisks)
+            //    {
+            //        this.A2AUnprotectedDiskDetails.Add(
+            //            new A2AUnprotectedDiskDetails
+            //            {
+            //                DiskLunId = unprotectedDisk.DiskLunId ?? -1
+            //            });
+            //    }
+            //}
+
             if (details.VmSyncedConfigDetails != null)
             {
                 this.VmSyncedConfigDetails =
@@ -1221,6 +1235,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             }
 
         }
+
+        /// <summary>
+        /// Gets or sets A2A unprotected disk details.
+        /// </summary>
+        public List<AsrA2AUnprotectedDiskDetails> A2AUnprotectedDiskDetails { get; set; }
 
         /// <summary>
         /// Fabric object ARM Id.
@@ -1329,6 +1348,17 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         // public string RecoveryFabricObjectId;  //how it is different from parent RecoveryFabricId
         // public string LifecycleId;
         // public string managementId;
+    }
+
+    //
+    // Summary:
+    //     A2A unprotected disk details.
+    public class AsrA2AUnprotectedDiskDetails
+    {
+        //
+        // Summary:
+        //     Gets or sets the source lun Id for the data disk.
+        public int? DiskLunId { get; set; }
     }
 
     /// <summary>

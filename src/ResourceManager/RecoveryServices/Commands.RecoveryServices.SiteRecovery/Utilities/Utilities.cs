@@ -515,6 +515,54 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 
             return fullFileName;
         }
+
+        /// <summary>
+        /// Checks the encryption type of (windows/linux) VM 
+        /// Using the following Azure Disk Encryption extension versions.
+        /// Linux [1-pass-majorversion="1."] Linux [2-pass-majorversion="0."]
+        /// Windows[1-pass-majorversion="2."] Windows[2-pass-majorversion="1."]
+        /// </summary>
+        /// <param name="virtualMachine">Arm V2 type virtual machine object.</param>
+        private static AzureDiskEncryptionType FindEncryptionType(Common.Compute.Version_2018_04.Models.VirtualMachine virtualMachine)
+        {
+            AzureDiskEncryptionType encryptionType = AzureDiskEncryptionType.NotEncrypted;
+            if (virtualMachine.InstanceView.Extensions != null)
+            {
+                foreach (var extension in virtualMachine.InstanceView.Extensions)
+                {
+                    if (extension.Name != null && extension.Name.Equals(
+                        AzureDiskEncryptionExtensionType.AzureDiskEncryption.ToString(),
+                        StringComparison.OrdinalIgnoreCase) && extension.TypeHandlerVersion != null)
+                    {
+                        if (Regex.IsMatch(extension.TypeHandlerVersion, "^(2.)"))
+                        {
+                            encryptionType = AzureDiskEncryptionType.OnePassEncrypted;
+                        }
+                        else if (Regex.IsMatch(extension.TypeHandlerVersion, "^(1.)"))
+                        {
+                            encryptionType = AzureDiskEncryptionType.TwoPassEncrypted;
+                        }
+
+                        break;
+                    }
+                    if (extension.Name != null && extension.Name.Equals(
+                        AzureDiskEncryptionExtensionType.AzureDiskEncryptionForLinux.ToString(),
+                        StringComparison.OrdinalIgnoreCase) && extension.TypeHandlerVersion != null)
+                    {
+                        if (Regex.IsMatch(extension.TypeHandlerVersion, "^(1.)"))
+                        {
+                            encryptionType = AzureDiskEncryptionType.OnePassEncrypted;
+                        }
+                        else if (Regex.IsMatch(extension.TypeHandlerVersion, "^(0.)"))
+                        {
+                            encryptionType = AzureDiskEncryptionType.TwoPassEncrypted;
+                        }
+                        break;
+                    }
+                }
+            }
+            return encryptionType;
+        }
     }
 
     /// <summary>

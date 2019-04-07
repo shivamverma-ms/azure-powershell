@@ -145,6 +145,15 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [ValidateNotNullOrEmpty]
         public ASRAzuretoAzureDiskReplicationConfig[] AzureToAzureDiskReplicationConfiguration { get; set; }
 
+
+        /// <summary>
+        /// Gets or sets the resource ID of the recovery cloud service to failover this virtual machine to.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithoutDiskDetails)]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryAvailabilityZone { get; set; }
+
         /// <summary>
         ///     Gets or sets recovery plan object.
         /// </summary>
@@ -559,7 +568,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     RecoveryResourceGroupId = this.RecoveryResourceGroupId,
                     RecoveryCloudServiceId = this.RecoveryCloudServiceId,
                     RecoveryAvailabilitySetId = this.RecoveryAvailabilitySetId,
-                    RecoveryBootDiagStorageAccountId = this.RecoveryBootDiagStorageAccountId,
+                    RecoveryBootDiagStorageAccountId = this.RecoveryBootDiagStorageAccountId
                 };
 
                 // Fetch the latest Protected item objects

@@ -130,6 +130,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public string RecoveryAvailabilitySet { get; set; }
 
         /// <summary>
+        ///     Gets or sets the availability set for replication protected item after failover.
+        /// </summary>
+        [Parameter]
+        public SwitchParameter EnableAcceleratedNetworkingOnRecovery { get; set; }
+
+        /// <summary>
         ///     Gets or sets the recovery boot diagnostics storageAccountId for replication protected item after failover.
         /// </summary>
         [Parameter]
@@ -416,10 +422,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                             providerSpecificDetails.RecoveryAzureResourceGroupId;
                     }
 
-                    if (string.IsNullOrEmpty(this.RecoveryNetworkId))
+                    if (!this.MyInvocation.BoundParameters.ContainsKey(
+                             Utilities.GetMemberName(() => this.RecoveryNetworkId)))
                     {
-                        vmRecoveryNetworkId = providerSpecificDetails
-                            .SelectedRecoveryAzureNetworkId;
+                        vmRecoveryNetworkId = providerSpecificDetails.SelectedRecoveryAzureNetworkId;
                     }
 
                     if (!this.MyInvocation.BoundParameters.ContainsKey(
@@ -472,11 +478,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         DiskEncryptionInfo = this.A2AEncryptionDetails(provider)
                     };
 
-                    if (!this.MyInvocation.BoundParameters.ContainsKey(
-                            Utilities.GetMemberName(() => this.RecoveryNetworkId)))
-                    {
-                        vmRecoveryNetworkId = providerSpecificDetails.SelectedRecoveryAzureNetworkId;
-                    }
                     vMNicInputDetailsList = getNicListToUpdate(providerSpecificDetails.VmNics);
                 }
 
@@ -486,6 +487,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         RecoveryAzureVMName = vmName,
                         RecoveryAzureVMSize = vmSize,
                         SelectedRecoveryAzureNetworkId = vmRecoveryNetworkId,
+                        SelectedSourceNicId = primaryNic,
                         VmNics = vMNicInputDetailsList,
                         LicenseType =
                             licenseType ==
@@ -549,6 +551,16 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         vMNicInputDetailsList.Add(vMNicInputDetails);
                         // NicId  matched for updation
                         nicFoundToBeUpdated = true;
+
+                        if (!this.MyInvocation.BoundParameters.ContainsKey(
+                           Utilities.GetMemberName(() => this.EnableAcceleratedNetworkingOnRecovery)))
+                        {
+                            vMNicInputDetails.EnableAcceleratedNetworkingOnRecovery = true;
+                        }
+                        else
+                        {
+                            vMNicInputDetails.EnableAcceleratedNetworkingOnRecovery = false;
+                        }
                     }
                     else
                     {
@@ -558,6 +570,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                             nDetails.ReplicaNicStaticIPAddress;
                         vMNicInputDetails.SelectionType = nDetails.SelectionType;
                         vMNicInputDetailsList.Add(vMNicInputDetails);
+                        vMNicInputDetails.EnableAcceleratedNetworkingOnRecovery = nDetails.EnableAcceleratedNetworkingOnRecovery;
                     }
                 }
             }
