@@ -942,6 +942,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             this.SelectionType = vMNicDetails.SelectionType;
             this.PrimaryNicStaticIPAddress = vMNicDetails.PrimaryNicStaticIPAddress;
             this.RecoveryNicIpAddressType = vMNicDetails.RecoveryNicIpAddressType;
+            this.EnableAcceleratedNetworkingOnRecovery = vMNicDetails.EnableAcceleratedNetworkingOnRecovery;
         }
 
         //
@@ -954,6 +955,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         //     Gets or sets IP allocation type for recovery VM.
         public string RecoveryNicIpAddressType { get; set; }
 
+        //
+        // Summary:
+        //     Gets or sets Enable Accelerated Networking On Recovery.
+        public bool? EnableAcceleratedNetworkingOnRecovery { get; set; }
+        
         //
         // Summary:
         //     Gets or sets the replica nic Id.

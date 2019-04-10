@@ -150,7 +150,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             Mandatory = true)]
         [Parameter(
             ParameterSetName = ASRParameterSets.VMwareToAzure,
-            Mandatory = true)]
+            Mandatory = false)]
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithoutDiskDetails)]
         [ValidateNotNullOrEmpty]
         public string RecoveryAzureStorageAccountId { get; set; }
@@ -450,19 +450,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 //                            : null
             };
 
-            var deploymentType = Utilities.GetValueFromArmId(
-                this.RecoveryAzureStorageAccountId,
-                ARMResourceTypeConstants.Providers);
-            if (deploymentType.ToLower().Contains(Constants.Classic.ToLower()))
-            {
-                providerSettings.TargetAzureV1ResourceGroupId =
-                    this.RecoveryResourceGroupId;
-            }
-            else
-            {
-                providerSettings.TargetAzureV2ResourceGroupId =
-                    this.RecoveryResourceGroupId;
-            }
+            providerSettings.TargetAzureV2ResourceGroupId =
+                this.RecoveryResourceGroupId;
 
             // Check if the Replication Group Name is valid.
             if (this.ReplicationGroupName != null)

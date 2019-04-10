@@ -248,6 +248,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     return;
                 }
 
+
                 var vmName = this.Name;
                 var vmSize = this.Size;
                 var vmRecoveryNetworkId = this.RecoveryNetworkId;
@@ -387,10 +388,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     }
 
                     var deploymentType = Utilities.GetValueFromArmId(
-                        providerSpecificDetails.RecoveryAzureStorageAccount,
+                        providerSpecificDetails.TargetVmId,
                         ARMResourceTypeConstants.Providers);
                     if (deploymentType.ToLower()
-                        .Contains(Constants.Classic.ToLower()))
+                        .Contains(Constants.ClassicCompute.ToLower()))
                     {
                         providerSpecificInput =
                             new InMageAzureV2UpdateReplicationProtectedItemInput
@@ -552,7 +553,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         // NicId  matched for updation
                         nicFoundToBeUpdated = true;
 
-                        if (!this.MyInvocation.BoundParameters.ContainsKey(
+                        if (this.MyInvocation.BoundParameters.ContainsKey(
                            Utilities.GetMemberName(() => this.EnableAcceleratedNetworkingOnRecovery)))
                         {
                             vMNicInputDetails.EnableAcceleratedNetworkingOnRecovery = true;
