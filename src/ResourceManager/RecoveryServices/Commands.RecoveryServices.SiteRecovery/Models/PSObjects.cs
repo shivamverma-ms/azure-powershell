@@ -2261,6 +2261,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             this.DiskName = disk.DiskName;
             this.DiskType = disk.DiskType;
             this.DiskState = disk.DiskState;
+            this.AllowedDiskLevelOperation = disk.AllowedDiskLevelOperation;
             this.Managed = false;
         }
 
@@ -2280,6 +2281,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             this.DiskName = disk.DiskName;
             this.DiskType = disk.DiskType;
             this.DiskState = disk.DiskState;
+            this.AllowedDiskLevelOperation = disk.AllowedDiskLevelOperation;
             this.RecoveryReplicaDiskAccountType = disk.RecoveryReplicaDiskAccountType;
             this.RecoveryReplicaDiskId = disk.RecoveryReplicaDiskId;
             this.RecoveryResourceGroupId = disk.RecoveryResourceGroupId;
@@ -2359,6 +2361,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// Gets or sets the diskState.
         /// </summary>
         public string DiskState { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Allowed Disk Level Operation.
+        /// </summary>
+        public IList<string> AllowedDiskLevelOperation { get; set; }
 
         /// <summary>
         /// Gets or sets recovery disk uri.

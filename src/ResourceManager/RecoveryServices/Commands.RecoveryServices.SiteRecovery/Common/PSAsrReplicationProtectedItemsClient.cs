@@ -109,6 +109,34 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         }
 
         /// <summary>
+        /// Remove disks from replicated protected item.
+        /// </summary>
+        /// <param name="fabricName">Fabric Name</param>
+        /// <param name="protectionContainerName">Protection Container ID</param>
+        /// <param name="replicationProtectedItemName">Virtual Machine ID or Replication group Id</param>
+        /// <param name="input">Remove disks input.</param>
+        /// <returns>Job response</returns>
+        public PSSiteRecoveryLongRunningOperation RemoveDisks(
+            string fabricName,
+            string protectionContainerName,
+            string replicationProtectedItemName,
+            RemoveDisksInput input)
+        {
+            var op = this.GetSiteRecoveryClient()
+                .ReplicationProtectedItems.BeginRemoveDisksWithHttpMessagesAsync(
+                    fabricName,
+                    protectionContainerName,
+                    replicationProtectedItemName,
+                    input,
+                    this.GetRequestHeaders(true))
+                .GetAwaiter()
+                .GetResult();
+
+            var result = SiteRecoveryAutoMapperProfile.Mapper.Map<PSSiteRecoveryLongRunningOperation>(op);
+            return result;
+        }
+
+        /// <summary>
         ///     Retrieves Replicated Protected Item.
         /// </summary>
         /// <param name="fabricName">Fabric Name</param>

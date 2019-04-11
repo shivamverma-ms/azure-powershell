@@ -216,6 +216,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzure)]
         [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithoutDiskDetails)]
         [ValidateNotNullOrEmpty]
         public string RecoveryAzureNetworkId { get; set; }
 
@@ -225,6 +227,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzure)]
         [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithoutDiskDetails)]
         [ValidateNotNullOrEmpty]
         public string RecoveryAzureSubnetName { get; set; }
 
@@ -260,6 +264,14 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithoutDiskDetails)]
         [ValidateNotNullOrEmpty]
         public string RecoveryAvailabilitySetId { get; set; }
+
+        /// <summary>
+        /// Gets or sets ID of the AvailabilityZone to recover the machine to in the event of a failover.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithoutDiskDetails)]
+        [ValidateNotNullOrEmpty]
+        public string RecoveryAvailabilityZone { get; set; }
 
         /// <summary>
         /// Gets or sets BootDiagnosticStorageAccountId.
@@ -604,12 +616,21 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 RecoveryResourceGroupId = this.RecoveryResourceGroupId,
                 RecoveryCloudServiceId = this.RecoveryCloudServiceId,
                 RecoveryAvailabilitySetId = this.RecoveryAvailabilitySetId,
-                RecoveryBootDiagStorageAccountId = this.RecoveryBootDiagStorageAccountId
+                RecoveryBootDiagStorageAccountId = this.RecoveryBootDiagStorageAccountId,
+                RecoveryAvailabilityZone = this.RecoveryAvailabilityZone,
+                RecoveryAzureNetworkId = this.RecoveryAzureNetworkId,
+                RecoverySubnetName = this.RecoveryAzureSubnetName
             };
 
             if (!string.IsNullOrEmpty(this.RecoveryCloudServiceId))
             {
                 providerSettings.RecoveryResourceGroupId = null;
+            }
+
+            if (!string.IsNullOrEmpty(this.RecoveryAvailabilityZone) &&
+                !string.IsNullOrEmpty(this.RecoveryAvailabilitySetId))
+            {
+                throw new Exception("RecoveryAvailabilityZone and RecoveryAvailabilitySetId cannot be set together for a VM");
             }
 
             if (this.AzureToAzureDiskReplicationConfiguration == null)
