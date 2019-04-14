@@ -44,7 +44,7 @@ The credentials, account, tenant, and subscription used for communication with A
 
 
 ```yaml
-Type: IAzureContextContainer
+Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzureRmContext, AzureCredential
 
@@ -59,7 +59,7 @@ Accept wildcard characters: False
 Input Object: Specifies the ASR network mapping object corresponding to the ASR network mapping to be updated.
 
 ```yaml
-Type: ASRNetworkMapping
+Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRNetworkMapping
 Parameter Sets: (All)
 Aliases: NetworkMapping
 
@@ -74,7 +74,7 @@ Accept wildcard characters: False
 Specifies the recovery azure network ID for the network mapping.
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: ById
 Aliases:
 
@@ -89,7 +89,7 @@ Accept wildcard characters: False
 Specifies the recovery network object for the network mapping.
 
 ```yaml
-Type: ASRNetwork
+Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRNetwork
 Parameter Sets: ByNetworkObject
 Aliases:
 
@@ -104,7 +104,7 @@ Accept wildcard characters: False
 Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
 
@@ -119,7 +119,7 @@ Accept wildcard characters: False
 Shows what would happen if the cmdlet runs. The cmdlet is not run.
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
 

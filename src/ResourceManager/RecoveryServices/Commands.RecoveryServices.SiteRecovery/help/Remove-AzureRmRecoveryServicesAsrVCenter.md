@@ -48,7 +48,7 @@ Removes the vCenter server from the ASR fabric.
 The credentials, account, tenant, and subscription used for communication with azure.
 
 ```yaml
-Type: IAzureContextContainer
+Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzureRmContext, AzureCredential
 
@@ -63,7 +63,7 @@ Accept wildcard characters: False
 ASR fabric object representing the Configuration Server.
 
 ```yaml
-Type: ASRFabric
+Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRFabric
 Parameter Sets: ByName
 Aliases:
 
@@ -78,7 +78,7 @@ Accept wildcard characters: False
 ASR vCenter object representing the vCenter server to be removed.
 
 ```yaml
-Type: ASRvCenter
+Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRvCenter
 Parameter Sets: Default
 Aliases: vCenter
 
@@ -93,7 +93,7 @@ Accept wildcard characters: False
 Name of the vCenter Server.
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: ByName
 Aliases:
 
@@ -108,7 +108,7 @@ Accept wildcard characters: False
 Specifies the resourceId of vCenter to remove.
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: ByResourceId
 Aliases:
 
@@ -123,7 +123,7 @@ Accept wildcard characters: False
 Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
 
@@ -139,7 +139,7 @@ Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
 

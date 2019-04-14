@@ -43,7 +43,7 @@ Update discovery details for a registered vCenter.
 vCenter login credentials account.
 
 ```yaml
-Type: ASRRunAsAccount
+Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRRunAsAccount
 Parameter Sets: Default
 Aliases:
 
@@ -58,7 +58,7 @@ Accept wildcard characters: False
 The credentials, account, tenant, and subscription used for communication with azure.
 
 ```yaml
-Type: IAzureContextContainer
+Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzureRmContext, AzureCredential
 
@@ -73,7 +73,7 @@ Accept wildcard characters: False
 The vCenter server object to update discovery details for.
 
 ```yaml
-Type: ASRvCenter
+Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRvCenter
 Parameter Sets: Default
 Aliases: vCenter
 
@@ -88,7 +88,7 @@ Accept wildcard characters: False
 The TCP port on the vCenter server to use for discovery.
 
 ```yaml
-Type: Int32
+Type: System.Nullable`1[System.Int32]
 Parameter Sets: Default
 Aliases:
 
@@ -103,7 +103,7 @@ Accept wildcard characters: False
 Specifies the resourceId of vCenter.
 
 ```yaml
-Type: String
+Type: System.String
 Parameter Sets: ByResourceId
 Aliases:
 
@@ -118,7 +118,7 @@ Accept wildcard characters: False
 Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
 
@@ -134,7 +134,7 @@ Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
 

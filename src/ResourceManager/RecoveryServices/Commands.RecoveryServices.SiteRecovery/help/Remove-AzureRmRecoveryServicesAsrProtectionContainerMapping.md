@@ -36,7 +36,7 @@ The credentials, account, tenant, and subscription used for communication with A
 
 
 ```yaml
-Type: IAzureContextContainer
+Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzureRmContext, AzureCredential
 
@@ -51,7 +51,7 @@ Accept wildcard characters: False
 Force the command to run without providing an additional warning.
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -66,7 +66,7 @@ Accept wildcard characters: False
 The input object to the cmdlet: the ASR protection container mapping object corresponding to the protection container to be deleted.
 
 ```yaml
-Type: ASRProtectionContainerMapping
+Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRProtectionContainerMapping
 Parameter Sets: (All)
 Aliases: ProtectionContainerMapping
 
@@ -81,7 +81,7 @@ Accept wildcard characters: False
 Specify if confirmation is required. Set the value of the confirm parameter to $false in order to skip confirmation
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
 
@@ -96,7 +96,7 @@ Accept wildcard characters: False
 Shows what would happen if the cmdlet is executed without actually executing the cmdlet.
 
 ```yaml
-Type: SwitchParameter
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
 

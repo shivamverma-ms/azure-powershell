@@ -1,46 +1,55 @@
 ---
 external help file: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.dll-Help.xml
 Module Name: AzureRM.RecoveryServices.SiteRecovery
-online version: https://docs.microsoft.com/en-us/powershell/module/azurerm.recoveryservices.siterecovery/remove-azurermrecoveryservicesasrrecoveryplan
+online version: https://docs.microsoft.com/en-us/powershell/module/azurerm.recoveryservices.siterecovery/add-azurermrecoveryservicesasrreplicationprotecteditemDisk
 schema: 2.0.0
 ---
 
-# Remove-AzureRmRecoveryServicesAsrRecoveryPlan
+# Add-AzureRmRecoveryServicesAsrReplicationProtectedItemDisk
 
 ## SYNOPSIS
-Deletes the specified ASR recovery plan from Recovery Services vault.
+{{Fill in the Synopsis}}
 
 ## SYNTAX
 
-### ByObject (Default)
 ```
-Remove-AzureRmRecoveryServicesAsrRecoveryPlan -InputObject <ASRRecoveryPlan>
+Add-AzureRmRecoveryServicesAsrReplicationProtectedItemDisk
+ -ReplicationProtectedItem <ASRReplicationProtectedItem>
+ -AzureToAzureDiskReplicationConfiguration <ASRAzuretoAzureDiskReplicationConfig[]> [-WaitForCompletion]
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### ByName
-```
-Remove-AzureRmRecoveryServicesAsrRecoveryPlan -Name <String> [-DefaultProfile <IAzureContextContainer>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
-```
-
 ## DESCRIPTION
-The **Remove-AzureRmRecoveryServicesAsrRecoveryPlan** cmdlet deletes the specified recovery plan from the Recovery Services vault.
+AzureRmRecoveryServicesAsrReplicationProtectedItemDisk
 
 ## EXAMPLES
 
 ### Example 1
-```
-PS C:\> $currentJob = Remove-AzureRmRecoveryServicesAsrRecoveryPlan -RecoveryPlan $RP
+```powershell
+PS C:\> Add-AzureRmRecoveryServicesAsrReplicationProtectedItemDisk -ReplicationProtectedItem $rpi -AzureToAzureDiskReplicationConfiguration $disk1,$disk2
 ```
 
-Starts the deletion of specified recovery plan and returns the ASR job used to track the operation.
+Add disk to already protected Vm.
 
 ## PARAMETERS
 
+### -AzureToAzureDiskReplicationConfiguration
+Disk info Object.
+
+```yaml
+Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRAzuretoAzureDiskReplicationConfig[]
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with Azure.
-
 
 ```yaml
 Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.IAzureContextContainer
@@ -54,30 +63,30 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -InputObject
-The input object to the cmdlet: The ASR recovery plan object corresponding to the recovery plan to be deleted.
+### -ReplicationProtectedItem
+Replication protected item.
 
 ```yaml
-Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRRecoveryPlan
-Parameter Sets: ByObject
-Aliases: RecoveryPlan
+Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRReplicationProtectedItem
+Parameter Sets: (All)
+Aliases:
 
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByValue)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Name
-Specifies the name of the recovery plan to be deleted.
+### -WaitForCompletion
+Wait For Completion
 
 ```yaml
-Type: System.String
-Parameter Sets: ByName
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -100,7 +109,8 @@ Accept wildcard characters: False
 ```
 
 ### -WhatIf
-Shows what would happen if the cmdlet runs. The cmdlet is not run.
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -119,20 +129,12 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRRecoveryPlan
+### None
 
 ## OUTPUTS
 
-### System.Object
+### Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRJob
 
 ## NOTES
 
 ## RELATED LINKS
-
-[Get-AzureRmRecoveryServicesAsrRecoveryPlan](./Get-AzureRmRecoveryServicesAsrRecoveryPlan.md)
-
-[New-AzureRmRecoveryServicesAsrRecoveryPlan](./New-AzureRmRecoveryServicesAsrRecoveryPlan.md)
-
-[Update-AzureRmRecoveryServicesAsrRecoveryPlan](./Update-AzureRmRecoveryServicesAsrRecoveryPlan.md)
-
-

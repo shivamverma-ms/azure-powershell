@@ -23,7 +23,7 @@ New-AzureRmRecoveryServicesAsrReplicationProtectedItem [-VmmToVmm] -ProtectableI
 ```
 New-AzureRmRecoveryServicesAsrReplicationProtectedItem [-VMwareToAzure] -ProtectableItem <ASRProtectableItem>
  -Name <String> [-RecoveryVmName <String>] -ProtectionContainerMapping <ASRProtectionContainerMapping>
- -RecoveryAzureStorageAccountId <String> -Account <ASRRunAsAccount> [-LogStorageAccountId <String>]
+ [-RecoveryAzureStorageAccountId <String>] -Account <ASRRunAsAccount> [-LogStorageAccountId <String>]
  [-IncludeDiskId <String[]>] -ProcessServer <ASRProcessServer> [-RecoveryAzureNetworkId <String>]
  [-RecoveryAzureSubnetName <String>] -RecoveryResourceGroupId <String> [-ReplicationGroupName <String>]
  [-WaitForCompletion] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
@@ -52,18 +52,23 @@ New-AzureRmRecoveryServicesAsrReplicationProtectedItem [-HyperVToAzure] -Protect
 New-AzureRmRecoveryServicesAsrReplicationProtectedItem [-AzureToAzure]
  -AzureToAzureDiskReplicationConfiguration <ASRAzuretoAzureDiskReplicationConfig[]> -AzureVmId <String>
  -Name <String> [-RecoveryVmName <String>] -ProtectionContainerMapping <ASRProtectionContainerMapping>
- -RecoveryResourceGroupId <String> [-RecoveryCloudServiceId <String>] [-RecoveryAvailabilitySetId <String>]
- [-RecoveryBootDiagStorageAccountId <String>] [-WaitForCompletion] [-DefaultProfile <IAzureContextContainer>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ -RecoveryAzureNetworkId <String> -RecoveryAzureSubnetName <String> -RecoveryResourceGroupId <String>
+ [-RecoveryCloudServiceId <String>] [-RecoveryAvailabilityZone <String>] [-RecoveryAvailabilitySetId <String>]
+ [-RecoveryBootDiagStorageAccountId <String>] [-DiskEncryptionVaultId <String>]
+ [-DiskEncryptionSecertUrl <String>] [-KeyEncryptionKeyUrl <String>] [-KeyEncryptionVaultId <String>]
+ [-WaitForCompletion] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### AzureToAzureWithoutDiskDetails
 ```
 New-AzureRmRecoveryServicesAsrReplicationProtectedItem [-AzureToAzure] -AzureVmId <String> -Name <String>
  [-RecoveryVmName <String>] -ProtectionContainerMapping <ASRProtectionContainerMapping>
- [-RecoveryAzureStorageAccountId <String>] -LogStorageAccountId <String> -RecoveryResourceGroupId <String>
- [-RecoveryAvailabilitySetId <String>] [-RecoveryBootDiagStorageAccountId <String>] [-WaitForCompletion]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-RecoveryAzureStorageAccountId <String>] -LogStorageAccountId <String> -RecoveryAzureNetworkId <String>
+ -RecoveryAzureSubnetName <String> -RecoveryResourceGroupId <String> [-RecoveryAvailabilityZone <String>]
+ [-RecoveryAvailabilitySetId <String>] [-RecoveryBootDiagStorageAccountId <String>]
+ [-DiskEncryptionVaultId <String>] [-DiskEncryptionSecertUrl <String>] [-KeyEncryptionKeyUrl <String>]
+ [-KeyEncryptionVaultId <String>] [-WaitForCompletion] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -187,6 +192,36 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -DiskEncryptionSecertUrl
+{{Fill DiskEncryptionSecertUrl Description}}
+
+```yaml
+Type: System.String
+Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DiskEncryptionVaultId
+{{Fill DiskEncryptionVaultId Description}}
+
+```yaml
+Type: System.String
+Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -HyperVToAzure
 Switch parameter to specify the replicated item is a Hyper-V virtual machine that is being replicated to Azure.
 
@@ -208,6 +243,36 @@ The list of disks to include for replication. By default all disks are included.
 ```yaml
 Type: System.String[]
 Parameter Sets: VMwareToAzure, HyperVSiteToAzure
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -KeyEncryptionKeyUrl
+{{Fill KeyEncryptionKeyUrl Description}}
+
+```yaml
+Type: System.String
+Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -KeyEncryptionVaultId
+{{Fill KeyEncryptionVaultId Description}}
+
+```yaml
+Type: System.String
+Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
 Aliases:
 
 Required: False
@@ -351,6 +416,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -RecoveryAvailabilityZone
+{{Fill RecoveryAvailabilityZone Description}}
+
+```yaml
+Type: System.String
+Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -RecoveryAzureNetworkId
 The ID of the Azure virtual network to recover the machine to in the event of a failover.
 
@@ -366,12 +446,9 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -RecoveryAzureStorageAccountId
-Specifies the ID of the Azure storage account to replicate to.
-
 ```yaml
 Type: System.String
-Parameter Sets: VMwareToAzure, EnterpriseToAzure, HyperVSiteToAzure
+Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
 Aliases:
 
 Required: True
@@ -381,12 +458,27 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -RecoveryAzureStorageAccountId
+Specifies the ID of the Azure storage account to replicate to.
+
 ```yaml
 Type: System.String
-Parameter Sets: AzureToAzureWithoutDiskDetails
+Parameter Sets: VMwareToAzure, AzureToAzureWithoutDiskDetails
 Aliases:
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+```yaml
+Type: System.String
+Parameter Sets: EnterpriseToAzure, HyperVSiteToAzure
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -402,6 +494,18 @@ Parameter Sets: VMwareToAzure, HyperVSiteToAzure
 Aliases:
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+```yaml
+Type: System.String
+Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
