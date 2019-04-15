@@ -8,7 +8,7 @@ schema: 2.0.0
 # Add-AzureRmRecoveryServicesAsrReplicationProtectedItemDisk
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+Add the disk to protection for already replicated Virtual machine on which Enable DR is already done.
 
 ## SYNTAX
 
