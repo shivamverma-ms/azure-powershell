@@ -52,7 +52,7 @@ New-AzureRmRecoveryServicesAsrReplicationProtectedItem [-HyperVToAzure] -Protect
 New-AzureRmRecoveryServicesAsrReplicationProtectedItem [-AzureToAzure]
  -AzureToAzureDiskReplicationConfiguration <ASRAzuretoAzureDiskReplicationConfig[]> -AzureVmId <String>
  -Name <String> [-RecoveryVmName <String>] -ProtectionContainerMapping <ASRProtectionContainerMapping>
- -RecoveryAzureNetworkId <String> -RecoveryAzureSubnetName <String> -RecoveryResourceGroupId <String>
+ [-RecoveryAzureNetworkId <String>] [-RecoveryAzureSubnetName <String>] -RecoveryResourceGroupId <String>
  [-RecoveryCloudServiceId <String>] [-RecoveryAvailabilityZone <String>] [-RecoveryAvailabilitySetId <String>]
  [-RecoveryBootDiagStorageAccountId <String>] [-DiskEncryptionVaultId <String>]
  [-DiskEncryptionSecertUrl <String>] [-KeyEncryptionKeyUrl <String>] [-KeyEncryptionVaultId <String>]
@@ -63,8 +63,8 @@ New-AzureRmRecoveryServicesAsrReplicationProtectedItem [-AzureToAzure]
 ```
 New-AzureRmRecoveryServicesAsrReplicationProtectedItem [-AzureToAzure] -AzureVmId <String> -Name <String>
  [-RecoveryVmName <String>] -ProtectionContainerMapping <ASRProtectionContainerMapping>
- [-RecoveryAzureStorageAccountId <String>] -LogStorageAccountId <String> -RecoveryAzureNetworkId <String>
- -RecoveryAzureSubnetName <String> -RecoveryResourceGroupId <String> [-RecoveryAvailabilityZone <String>]
+ [-RecoveryAzureStorageAccountId <String>] -LogStorageAccountId <String> [-RecoveryAzureNetworkId <String>]
+ [-RecoveryAzureSubnetName <String>] -RecoveryResourceGroupId <String> [-RecoveryAvailabilityZone <String>]
  [-RecoveryAvailabilitySetId <String>] [-RecoveryBootDiagStorageAccountId <String>]
  [-DiskEncryptionVaultId <String>] [-DiskEncryptionSecertUrl <String>] [-KeyEncryptionKeyUrl <String>]
  [-KeyEncryptionVaultId <String>] [-WaitForCompletion] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
@@ -193,7 +193,7 @@ Accept wildcard characters: False
 ```
 
 ### -DiskEncryptionSecertUrl
-{{Fill DiskEncryptionSecertUrl Description}}
+DiskEncryptionSecertUrl
 
 ```yaml
 Type: System.String
@@ -208,7 +208,7 @@ Accept wildcard characters: False
 ```
 
 ### -DiskEncryptionVaultId
-{{Fill DiskEncryptionVaultId Description}}
+DiskEncryptionVaultId
 
 ```yaml
 Type: System.String
@@ -253,7 +253,7 @@ Accept wildcard characters: False
 ```
 
 ### -KeyEncryptionKeyUrl
-{{Fill KeyEncryptionKeyUrl Description}}
+KeyEncryptionKeyUrl
 
 ```yaml
 Type: System.String
@@ -268,7 +268,7 @@ Accept wildcard characters: False
 ```
 
 ### -KeyEncryptionVaultId
-{{Fill KeyEncryptionVaultId Description}}
+KeyEncryptionVaultId
 
 ```yaml
 Type: System.String
@@ -417,7 +417,7 @@ Accept wildcard characters: False
 ```
 
 ### -RecoveryAvailabilityZone
-{{Fill RecoveryAvailabilityZone Description}}
+RecoveryAvailabilityZone
 
 ```yaml
 Type: System.String
@@ -436,22 +436,10 @@ The ID of the Azure virtual network to recover the machine to in the event of a 
 
 ```yaml
 Type: System.String
-Parameter Sets: VMwareToAzure, HyperVSiteToAzure
+Parameter Sets: VMwareToAzure, HyperVSiteToAzure, AzureToAzure, AzureToAzureWithoutDiskDetails
 Aliases:
 
 Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-```yaml
-Type: System.String
-Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
-Aliases:
-
-Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -490,22 +478,10 @@ The subnet within the recovery Azure virtual network to which the failed over vi
 
 ```yaml
 Type: System.String
-Parameter Sets: VMwareToAzure, HyperVSiteToAzure
+Parameter Sets: VMwareToAzure, HyperVSiteToAzure, AzureToAzure, AzureToAzureWithoutDiskDetails
 Aliases:
 
 Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-```yaml
-Type: System.String
-Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
-Aliases:
-
-Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False

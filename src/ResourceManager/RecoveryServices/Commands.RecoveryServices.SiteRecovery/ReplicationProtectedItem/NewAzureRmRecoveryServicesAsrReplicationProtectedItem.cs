@@ -216,8 +216,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzure)]
         [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure)]
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithoutDiskDetails, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithoutDiskDetails)]
         [ValidateNotNullOrEmpty]
         public string RecoveryAzureNetworkId { get; set; }
 
@@ -227,8 +227,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzure)]
         [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure)]
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithoutDiskDetails, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithoutDiskDetails)]
         [ValidateNotNullOrEmpty]
         public string RecoveryAzureSubnetName { get; set; }
 
