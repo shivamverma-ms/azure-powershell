@@ -115,7 +115,7 @@ CmdletsToExport =
                'Remove-AzureRmRecoveryServicesAsrProtectionContainer', 
                'Remove-AzureRmRecoveryServicesAsrProtectionContainerMapping', 
                'Remove-AzureRmRecoveryServicesAsrRecoveryPlan', 
-               'Remove-AzureRmRecoveryServicesAsrReplicationProtectedItem', 
+               'Remove-AzureRmRecoveryServicesAsrReplicationProtectedItem',
 			   'Remove-AzureRmRecoveryServicesAsrReplicationProtectedItemDisk',
                'Remove-AzureRmRecoveryServicesAsrServicesProvider', 
                'Remove-AzureRmRecoveryServicesAsrStorageClassificationMapping', 

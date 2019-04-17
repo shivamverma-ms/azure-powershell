@@ -32,15 +32,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public ASRReplicationProtectedItem ReplicationProtectedItem { get; set; }
 
         /// <summary>
-        ///    Switch parameter specifying that the disk replication config created for managed disk.
-        /// </summary>
-        [Parameter(
-            ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk,
-            Mandatory = true)]
-        public SwitchParameter ManagedDisk { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the disk uri.
+        /// Gets or sets the disk uri.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
             Mandatory = true)]
@@ -48,7 +40,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public string[] VhdUri { get; set; }
 
         /// <summary>
-        ///     Gets or sets the disk Id.
+        /// Gets or sets the disk Id.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk,
             Mandatory = true)]
@@ -73,7 +65,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 ProviderSpecificDetails = removeDisksProviderSpecificInput
             };
             var input = new RemoveDisksInput { Properties = inputProperties };
-            AzureToAzureReplication(input);
+            FillRemoveDiskInputForAzureToAzureReplication(input);
 
             this.response = this.RecoveryServicesClient.RemoveDisks(
                 Utilities.GetValueFromArmId(
@@ -105,7 +97,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// <summary>
         /// Helper method to fill in input details.
         /// </summary>
-        private void AzureToAzureReplication(RemoveDisksInput input)
+        private void FillRemoveDiskInputForAzureToAzureReplication(RemoveDisksInput input)
         {
             var providerSettings = new A2ARemoveDisksInput()
             {
@@ -113,13 +105,14 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 VmManagedDisksIds = new List<string>()
             };
 
-            if (this.ManagedDisk.IsPresent)
+            switch (this.ParameterSetName)
             {
-                providerSettings.VmManagedDisksIds = this.DiskId;
-            }
-            else
-            {
-                providerSettings.VmDisksUris = this.VhdUri;
+                case ASRParameterSets.AzureToAzure:
+                    providerSettings.VmDisksUris = this.VhdUri;
+                    break;
+                case ASRParameterSets.AzureToAzureManagedDisk:
+                    providerSettings.VmManagedDisksIds = this.DiskId;
+                    break;
             }
 
             input.Properties.ProviderSpecificDetails = providerSettings;
