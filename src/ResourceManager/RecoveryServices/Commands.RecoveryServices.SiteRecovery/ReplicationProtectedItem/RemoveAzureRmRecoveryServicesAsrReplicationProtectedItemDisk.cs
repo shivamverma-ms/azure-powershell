@@ -22,7 +22,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
     /// <summary>
     /// Removes disks to replication protected item.
     /// </summary>
-    [Cmdlet("Remove", ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "RecoveryServicesAsrReplicationProtectedItemDisk", DefaultParameterSetName = ASRParameterSets.EnterpriseToEnterprise, SupportsShouldProcess = true)]
+    [Cmdlet("Remove", ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "RecoveryServicesAsrReplicationProtectedItemDisk", DefaultParameterSetName = ASRParameterSets.AzureToAzure, SupportsShouldProcess = true)]
     [Alias("Remove-ASRReplicationProtectedItemDisk")]
     [OutputType(typeof(ASRJob))]
     public class RemoveAzureRmRecoveryServicesAsrReplicationProtectedItemDisk : SiteRecoveryCmdletBase
@@ -34,16 +34,14 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// <summary>
         /// Gets or sets the disk uri.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
-            Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string[] VhdUri { get; set; }
 
         /// <summary>
         /// Gets or sets the disk Id.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk,
-            Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureManagedDisk, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string[] DiskId { get; set; }
 
