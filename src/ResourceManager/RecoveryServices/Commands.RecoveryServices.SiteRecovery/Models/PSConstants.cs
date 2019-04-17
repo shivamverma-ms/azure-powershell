@@ -1099,4 +1099,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// </summary>
         public const string Warning = "Warning";
     }
+
+    class ASRA2AProtectionContainerMappingDetailsAgentAutoUpdateStatus
+    {
+        public const string Disabled = "Disabled";
+        public const string Enabled = "Enabled";
+    }
 }

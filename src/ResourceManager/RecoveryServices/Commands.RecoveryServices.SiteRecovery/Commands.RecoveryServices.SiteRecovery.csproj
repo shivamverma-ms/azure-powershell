@@ -111,6 +111,7 @@
     <Compile Include="ProtectableItem\NewAzureRmRecoveryServicesAsrProtectableItem.cs" />
     <Compile Include="ProtectionContainerMapping\GetAzureRmRecoveryServicesAsrProtectionContainerMapping.cs" />
     <Compile Include="ProtectionContainerMapping\NewAzureRmRecoveryServicesAsrProtectionContainerMapping.cs" />
+    <Compile Include="ProtectionContainerMapping\UpdateAzureRmRecoveryServicesAsrProtectionContainerMapping .cs" />
     <Compile Include="ProtectionContainerMapping\RemoveAzureRmRecoveryServicesAsrProtectionContainerMapping.cs" />
     <Compile Include="ProtectionContainer\GetAzureRmRecoveryServicesAsrProtectionContainer.cs" />
     <Compile Include="ProtectionContainer\NewAzureRmRecoveryServicesAsrProtectionContainer.cs" />
