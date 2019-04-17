@@ -11,6 +11,9 @@ Locale: en-US
 This topic displays help topics for the Azure Site Recovery Cmdlets.
 
 ## AzureRM.RecoveryServices.SiteRecovery Cmdlets
+### [Add-AzureRmRecoveryServicesAsrReplicationProtectedItemDisk](Add-AzureRmRecoveryServicesAsrReplicationProtectedItemDisk.md)
+Add the disk to protection for already replicated Virtual machine on which Enable DR is already done.
+
 ### [Edit-AzureRmRecoveryServicesAsrRecoveryPlan](Edit-AzureRmRecoveryServicesAsrRecoveryPlan.md)
 Edits a Site Recovery plan.
 
@@ -184,6 +187,9 @@ Updates the specified azure site recovery network mapping.
 
 ### [Update-AzureRmRecoveryServicesAsrPolicy](Update-AzureRmRecoveryServicesAsrPolicy.md)
 Updates an Azure Site Recovery replication policy.
+
+### [Update-AzureRmRecoveryServicesAsrProtectionContainerMapping](Update-AzureRmRecoveryServicesAsrProtectionContainerMapping.md)
+Update Protection container mapping settings.
 
 ### [Update-AzureRmRecoveryServicesAsrProtectionDirection](Update-AzureRmRecoveryServicesAsrProtectionDirection.md)
 Updates the replication direction for the specified replication protected item or recovery plan. Used to re-protect/reverse replicate a failed over replicated item or recovery plan.

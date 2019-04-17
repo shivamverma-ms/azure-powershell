@@ -44,7 +44,7 @@ Job to track switching process server for passed replication protected item from
 The credentials, account, tenant, and subscription used for communication with azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzureRmContext, AzureCredential
 
@@ -59,7 +59,7 @@ Accept wildcard characters: False
 Site recovery fabric corresponding to the Configuration Server.
 
 ```yaml
-Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRFabric
+Type: ASRFabric
 Parameter Sets: (All)
 Aliases: ConfigServer
 
@@ -74,7 +74,7 @@ Accept wildcard characters: False
 List of replication protected item whose process server to be switched.
 
 ```yaml
-Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRReplicationProtectedItem[]
+Type: ASRReplicationProtectedItem[]
 Parameter Sets: (All)
 Aliases: ReplicatedItem
 
@@ -89,7 +89,7 @@ Accept wildcard characters: False
 The Process server to switch replication out from.
 
 ```yaml
-Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRProcessServer
+Type: ASRProcessServer
 Parameter Sets: (All)
 Aliases:
 
@@ -104,7 +104,7 @@ Accept wildcard characters: False
 The Process server to switch replication to.
 
 ```yaml
-Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRProcessServer
+Type: ASRProcessServer
 Parameter Sets: (All)
 Aliases:
 
@@ -119,7 +119,7 @@ Accept wildcard characters: False
 Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
 
@@ -135,7 +135,7 @@ Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
 

@@ -22,7 +22,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
     /// <summary>
     ///     Deletes the specified Azure Site Recovery protection container mapping.
     /// </summary>
-    [Cmdlet("Update", ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "RecoveryServicesAsrProtectionContainerMapping", DefaultParameterSetName = ASRParameterSets.ByObject, SupportsShouldProcess = true)]
+    [Cmdlet("Update",
+        ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "RecoveryServicesAsrProtectionContainerMapping",
+        DefaultParameterSetName = AzureToAzureEnableAutoUpdate,
+        SupportsShouldProcess = true)]
     [Alias("Update-ASRProtectionContainerMapping")]
     [OutputType(typeof(ASRJob))]
     public class UpdateAzureRmRecoveryServicesAsrProtectionContainerMapping : SiteRecoveryCmdletBase
@@ -54,7 +57,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         ///    Switch parameter specifying that the replication container used to replicate Azure virtual machines between 
         ///    two Azure regions will be updated.
         /// </summary>
-        [Parameter(ParameterSetName = AzureToAzureDisableAutoUpdate, Mandatory = true)]
+        [Parameter(ParameterSetName = AzureToAzureEnableAutoUpdate, Mandatory = true)]
         public SwitchParameter EnableAutoUpdate { get; set; }
 
         /// <summary>

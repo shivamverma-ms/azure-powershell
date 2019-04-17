@@ -55,7 +55,7 @@ Job to track test failover Cleanup of an Azure Site Recovery recoveryPlan.
 User Comment for Test Failover.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -70,7 +70,7 @@ Accept wildcard characters: False
 The credentials, account, tenant, and subscription used for communication with azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzureRmContext, AzureCredential
 
@@ -85,7 +85,7 @@ Accept wildcard characters: False
 Recovery Plan to perform the test failover cleanup on.
 
 ```yaml
-Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRRecoveryPlan
+Type: ASRRecoveryPlan
 Parameter Sets: ByRPObject
 Aliases:
 
@@ -100,7 +100,7 @@ Accept wildcard characters: False
 Replication Protected Item to perform the test failover cleanup on.
 
 ```yaml
-Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRReplicationProtectedItem
+Type: ASRReplicationProtectedItem
 Parameter Sets: ByRPIObject
 Aliases:
 
@@ -115,7 +115,7 @@ Accept wildcard characters: False
 Resource Id of replication protected item / recovery plan for cleaningup test failover.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: ByResourceId
 Aliases:
 
@@ -130,7 +130,7 @@ Accept wildcard characters: False
 Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
 
@@ -146,7 +146,7 @@ Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
 

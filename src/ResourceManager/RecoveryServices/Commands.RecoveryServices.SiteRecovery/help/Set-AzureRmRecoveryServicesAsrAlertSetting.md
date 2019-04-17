@@ -69,7 +69,7 @@ Set notification for custom email address(s) and for subscription owner.
 Alert / Notification sent to emails.
 
 ```yaml
-Type: System.String[]
+Type: String[]
 Parameter Sets: Set, EmailToSubscriptionOwner, DisableEmailToSubcriptionOwner
 Aliases:
 
@@ -84,7 +84,7 @@ Accept wildcard characters: False
 The credentials, account, tenant, and subscription used for communication with azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzureRmContext, AzureCredential
 
@@ -99,7 +99,7 @@ Accept wildcard characters: False
 Switch parameter specifies enable notification to subscription owner.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: DisableEmailToSubcriptionOwner
 Aliases:
 
@@ -114,7 +114,7 @@ Accept wildcard characters: False
 Flag to disable all notification.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: Disable
 Aliases:
 
@@ -129,7 +129,7 @@ Accept wildcard characters: False
 Switch paramter specifies enable notification to subscription owner.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: EmailToSubscriptionOwner
 Aliases:
 
@@ -144,7 +144,7 @@ Accept wildcard characters: False
 Email language of alert /notifcation to user(supported culture codes from microsoft). 
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: Set, EmailToSubscriptionOwner, DisableEmailToSubcriptionOwner
 Aliases:
 
@@ -159,7 +159,7 @@ Accept wildcard characters: False
 Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
 
@@ -174,7 +174,7 @@ Accept wildcard characters: False
 Shows what would happen if the cmdlet runs. The cmdlet is not run.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
 

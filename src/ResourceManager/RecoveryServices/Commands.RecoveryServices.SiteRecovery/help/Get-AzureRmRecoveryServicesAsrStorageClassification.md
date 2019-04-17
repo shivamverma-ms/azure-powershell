@@ -49,7 +49,7 @@ The credentials, account, tenant, and subscription used for communication with A
 
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzureRmContext, AzureCredential
 
@@ -64,7 +64,7 @@ Accept wildcard characters: False
 Specifies an ASR fabric object. The cmdlet gets the details of discovered storage classifications corresponding to the specified ASR fabric. 
 
 ```yaml
-Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRFabric
+Type: ASRFabric
 Parameter Sets: (All)
 Aliases:
 
@@ -79,7 +79,7 @@ Accept wildcard characters: False
 Specifies the friendly name of the storage classification object to get.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: ByObjectWithFriendlyName
 Aliases:
 
@@ -94,7 +94,7 @@ Accept wildcard characters: False
 Specifies the name of the storage classification object to get.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: ByObjectWithName
 Aliases:
 

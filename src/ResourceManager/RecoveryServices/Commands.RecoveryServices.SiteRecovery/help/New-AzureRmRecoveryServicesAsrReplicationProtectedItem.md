@@ -120,7 +120,7 @@ Starts the replication protected item creation operation for the specified VmId 
 The run as account to be used to push install the Mobility service if needed. Must be one from the list of run as accounts in the ASR fabric.
 
 ```yaml
-Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRRunAsAccount
+Type: ASRRunAsAccount
 Parameter Sets: VMwareToAzure
 Aliases:
 
@@ -135,7 +135,7 @@ Accept wildcard characters: False
 Switch parameter to specify that the replicated item is an Azure virtual machine replicating to a recovery Azure region.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
 Aliases:
 
@@ -150,7 +150,7 @@ Accept wildcard characters: False
 Specifies the list of virtual machine disks to replicated and the cache storage account and recovery storage account to be used to replicate the disk.
 
 ```yaml
-Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRAzuretoAzureDiskReplicationConfig[]
+Type: ASRAzuretoAzureDiskReplicationConfig[]
 Parameter Sets: AzureToAzure
 Aliases:
 
@@ -165,7 +165,7 @@ Accept wildcard characters: False
 Specifies the azure vm id to be replicated.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
 Aliases:
 
@@ -181,7 +181,7 @@ The credentials, account, tenant, and subscription used for communication with A
 
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzureRmContext, AzureCredential
 
@@ -196,7 +196,7 @@ Accept wildcard characters: False
 DiskEncryptionSecertUrl
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
 Aliases:
 
@@ -211,7 +211,7 @@ Accept wildcard characters: False
 DiskEncryptionVaultId
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
 Aliases:
 
@@ -226,7 +226,7 @@ Accept wildcard characters: False
 Switch parameter to specify the replicated item is a Hyper-V virtual machine that is being replicated to Azure.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: EnterpriseToAzure, HyperVSiteToAzure
 Aliases:
 
@@ -241,7 +241,7 @@ Accept wildcard characters: False
 The list of disks to include for replication. By default all disks are included.
 
 ```yaml
-Type: System.String[]
+Type: String[]
 Parameter Sets: VMwareToAzure, HyperVSiteToAzure
 Aliases:
 
@@ -256,7 +256,7 @@ Accept wildcard characters: False
 KeyEncryptionKeyUrl
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
 Aliases:
 
@@ -271,7 +271,7 @@ Accept wildcard characters: False
 KeyEncryptionVaultId
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
 Aliases:
 
@@ -286,7 +286,7 @@ Accept wildcard characters: False
 Specifies the log or cache storage account Id to be used to store replication logs.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: VMwareToAzure, HyperVSiteToAzure
 Aliases:
 
@@ -298,7 +298,7 @@ Accept wildcard characters: False
 ```
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: AzureToAzureWithoutDiskDetails
 Aliases:
 
@@ -313,7 +313,7 @@ Accept wildcard characters: False
 Specifies a name for the ASR replication protected item. The name must be unique within the vault.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -329,7 +329,7 @@ Specifies the operating system family.
 The acceptable values for this parameter are: Windows or Linux.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: HyperVSiteToAzure
 Aliases:
 Accepted values: Windows, Linux
@@ -345,7 +345,7 @@ Accept wildcard characters: False
 Specifies the name of the operating system disk.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: HyperVSiteToAzure
 Aliases:
 
@@ -360,7 +360,7 @@ Accept wildcard characters: False
 The Process Server to use to replicate this machine. Use the list of process servers in the ASR fabric corresponding to the Configuration server to specify one.
 
 ```yaml
-Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRProcessServer
+Type: ASRProcessServer
 Parameter Sets: VMwareToAzure
 Aliases:
 
@@ -375,7 +375,7 @@ Accept wildcard characters: False
 Specifies the ASR protectable item object for which replication is being enabled.
 
 ```yaml
-Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRProtectableItem
+Type: ASRProtectableItem
 Parameter Sets: EnterpriseToEnterprise, VMwareToAzure, EnterpriseToAzure, HyperVSiteToAzure
 Aliases:
 
@@ -390,7 +390,7 @@ Accept wildcard characters: False
 Specifies the ASR protection container mapping object corresponding to the replication policy to be used for replication.
 
 ```yaml
-Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRProtectionContainerMapping
+Type: ASRProtectionContainerMapping
 Parameter Sets: (All)
 Aliases:
 
@@ -405,7 +405,7 @@ Accept wildcard characters: False
 The ID of the AvailabilitySet to recover the machine to in the event of a failover.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
 Aliases:
 
@@ -420,7 +420,7 @@ Accept wildcard characters: False
 RecoveryAvailabilityZone
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
 Aliases:
 
@@ -435,7 +435,7 @@ Accept wildcard characters: False
 The ID of the Azure virtual network to recover the machine to in the event of a failover.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: VMwareToAzure, HyperVSiteToAzure, AzureToAzure, AzureToAzureWithoutDiskDetails
 Aliases:
 
@@ -450,7 +450,7 @@ Accept wildcard characters: False
 Specifies the ID of the Azure storage account to replicate to.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: VMwareToAzure, AzureToAzureWithoutDiskDetails
 Aliases:
 
@@ -462,7 +462,7 @@ Accept wildcard characters: False
 ```
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: EnterpriseToAzure, HyperVSiteToAzure
 Aliases:
 
@@ -477,7 +477,7 @@ Accept wildcard characters: False
 The subnet within the recovery Azure virtual network to which the failed over virtual machine should be attached in the event of a failover.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: VMwareToAzure, HyperVSiteToAzure, AzureToAzure, AzureToAzureWithoutDiskDetails
 Aliases:
 
@@ -492,7 +492,7 @@ Accept wildcard characters: False
 Specifies the storage account for boot diagnostics for recovery azure VM.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: AzureToAzure, AzureToAzureWithoutDiskDetails
 Aliases:
 
@@ -507,7 +507,7 @@ Accept wildcard characters: False
 Specifies the resource ID of the recovery cloud service to failover this virtual machine to.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: AzureToAzure
 Aliases:
 
@@ -522,7 +522,7 @@ Accept wildcard characters: False
 Specifies the ARM identifier of the resource group in which the virtual machine will be created in the event of a failover.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: VMwareToAzure, EnterpriseToAzure, HyperVSiteToAzure, AzureToAzure, AzureToAzureWithoutDiskDetails
 Aliases:
 
@@ -537,7 +537,7 @@ Accept wildcard characters: False
 Name of the recovery Vm created after failover.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: VMwareToAzure, EnterpriseToAzure, HyperVSiteToAzure, AzureToAzure, AzureToAzureWithoutDiskDetails
 Aliases:
 
@@ -552,7 +552,7 @@ Accept wildcard characters: False
 Specifies the replication group name to use to create multi-VM consistent recovery points. By default each replication protected item is created in a group of its own and multi-VM consistent recovery points are not generated. Use this option only if you need to create multi-VM consistent recovery points across a group of machines by protecting all machines to the same replication group. 
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: VMwareToAzure
 Aliases:
 
@@ -567,7 +567,7 @@ Accept wildcard characters: False
 Switch parameter to specify the replicated item is a Hyper-V virtual machine that is being replicated between VMM managed Hyper-V sites.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: EnterpriseToEnterprise
 Aliases:
 
@@ -582,7 +582,7 @@ Accept wildcard characters: False
 Switch parameter to specify the replicated item is a VMware virtual machine or physical server that will be replicate to Azure.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: VMwareToAzure
 Aliases:
 
@@ -597,7 +597,7 @@ Accept wildcard characters: False
 Specifies that the cmdlet should wait for completion of the operation before returning.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -612,7 +612,7 @@ Accept wildcard characters: False
 Prompts  for confirmation before starting the operation.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
 
@@ -628,7 +628,7 @@ Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
 

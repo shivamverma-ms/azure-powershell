@@ -51,7 +51,7 @@ The credentials, account, tenant, and subscription used for communication with A
 
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzureRmContext, AzureCredential
 
@@ -66,7 +66,7 @@ Accept wildcard characters: False
 The name of the ASR network mapping object to get.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -81,7 +81,7 @@ Accept wildcard characters: False
 Get the ASR network mappings corresponding to the specified network ASR object.
 
 ```yaml
-Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRNetwork
+Type: ASRNetwork
 Parameter Sets: ByObject
 Aliases:
 
@@ -96,7 +96,7 @@ Accept wildcard characters: False
 Get the ASR network mappings corresponding to the specified primary fabric object.
 
 ```yaml
-Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRFabric
+Type: ASRFabric
 Parameter Sets: ByFabricObject
 Aliases:
 

@@ -45,7 +45,7 @@ Create a disk mapping object for Azure virtual machine disks to be replicated.Us
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzureRmContext, AzureCredential
 
@@ -60,7 +60,7 @@ Accept wildcard characters: False
 Specifies the disk id of managed disk.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: AzureToAzureManagedDisk
 Aliases:
 
@@ -75,7 +75,7 @@ Accept wildcard characters: False
 Specifies the log or cache storage account Id to be used to store replication logs.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -90,7 +90,7 @@ Accept wildcard characters: False
 Specifies the input is for managed disk.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: AzureToAzureManagedDisk
 Aliases:
 
@@ -105,7 +105,7 @@ Accept wildcard characters: False
 Specifies the ID of the Azure storage account to replicate to.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: AzureToAzure
 Aliases:
 
@@ -120,7 +120,7 @@ Accept wildcard characters: False
 Specifies the account type of replicated managed disk.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: AzureToAzureManagedDisk
 Aliases:
 Accepted values: Premium_LRS, Standard_LRS, Standard_SSD
@@ -136,7 +136,7 @@ Accept wildcard characters: False
 Specifies the recovery resource group id for replicated managed disk.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: AzureToAzureManagedDisk
 Aliases:
 
@@ -151,7 +151,7 @@ Accept wildcard characters: False
 Specifies the recovery target disk for replicated managed disk.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: AzureToAzureManagedDisk
 Aliases:
 Accepted values: Premium_LRS, Standard_LRS, Standard_SSD
@@ -167,7 +167,7 @@ Accept wildcard characters: False
 Specify the VHD URI of the disk that this mapping corresponds to.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: AzureToAzure
 Aliases:
 
@@ -182,7 +182,7 @@ Accept wildcard characters: False
 Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
 
@@ -198,7 +198,7 @@ Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
 

@@ -50,7 +50,7 @@ Starts the azure fabric creation with passed name and returns the ASR job used t
 Switch parameter indicates creation of azure fabric.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: Azure
 Aliases:
 
@@ -66,7 +66,7 @@ The credentials, account, tenant, and subscription used for communication with A
 
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzureRmContext, AzureCredential
 
@@ -81,7 +81,7 @@ Accept wildcard characters: False
 Specifies the Azure region corresponding to the Fabric object being created. The Azure Site Recovery fabric object represents a region. For virtual machines being replicated between two Azure regions  a primary fabric represents the primary Azure region and the recovery fabric .
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: Azure
 Aliases:
 
@@ -96,7 +96,7 @@ Accept wildcard characters: False
 Specifies the name of the Azure Site Recovery Fabric.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -111,7 +111,7 @@ Accept wildcard characters: False
 Specifies the Azure Site Recovery Fabric Type.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: Default
 Aliases:
 Accepted values: HyperVSite
@@ -127,7 +127,7 @@ Accept wildcard characters: False
 Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
 
@@ -142,7 +142,7 @@ Accept wildcard characters: False
 Shows what would happen if the cmdlet runs. The cmdlet is not run.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
 
