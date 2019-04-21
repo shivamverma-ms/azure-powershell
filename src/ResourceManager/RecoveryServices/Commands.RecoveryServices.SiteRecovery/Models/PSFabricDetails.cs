@@ -1215,7 +1215,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 .ConvertAll(disk => new ASRAzureToAzureProtectedDiskDetails(disk)));
             }
 
-           /* if (details.UnprotectedDisks != null && details.UnprotectedDisks.Count > 0)
+           if (details.UnprotectedDisks != null && details.UnprotectedDisks.Count > 0)
             {
                 this.A2AUnprotectedDiskDetails = new List<A2AUnprotectedDiskDetails>();
                 foreach (var unprotectedDisk in details.UnprotectedDisks)
@@ -1227,7 +1227,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         });
                 }
             }
-            */
 
             if (details.VmSyncedConfigDetails != null)
             {
@@ -1318,7 +1317,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// <summary>
         /// Gets or sets A2A unprotected disk details.
         /// </summary>
-        //public List<A2AUnprotectedDiskDetails> A2AUnprotectedDiskDetails { get; set; }
+        public List<A2AUnprotectedDiskDetails> A2AUnprotectedDiskDetails { get; set; }
 
         /// <summary>
         /// Gets or sets the recovery fabric object Id.
