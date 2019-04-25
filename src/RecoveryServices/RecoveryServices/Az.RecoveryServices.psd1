@@ -87,10 +87,15 @@ NestedModules = @('.\Microsoft.Azure.PowerShell.Cmdlets.RecoveryServices.dll',
 FunctionsToExport = @()
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
-CmdletsToExport = 'Get-AzRecoveryServicesBackupProperty', 
+CmdletsToExport =
+               # RecoveryServices Common cmdlets
+               'Get-AzRecoveryServicesBackupProperty', 
                'Get-AzRecoveryServicesVault', 
                'Get-AzRecoveryServicesVaultSettingsFile', 
-               'New-AzRecoveryServicesVault', 'Remove-AzRecoveryServicesVault', 
+               'New-AzRecoveryServicesVault', 
+               'Remove-AzRecoveryServicesVault', 
+               # ASR cmdlets
+               'Add-AzRecoveryServicesAsrReplicationProtectedItemDisk',
                'Edit-AzRecoveryServicesAsrRecoveryPlan', 
                'Get-AzRecoveryServicesAsrAlertSetting', 
                'Get-AzRecoveryServicesAsrEvent', 'Get-AzRecoveryServicesAsrFabric', 
@@ -146,11 +151,13 @@ CmdletsToExport = 'Get-AzRecoveryServicesBackupProperty',
                'Stop-AzRecoveryServicesAsrJob', 
                'Update-AzRecoveryServicesAsrMobilityService', 
                'Update-AzRecoveryServicesAsrNetworkMapping', 
-               'Update-AzRecoveryServicesAsrPolicy', 
+               'Update-AzRecoveryServicesAsrPolicy',
+               'Update-AzRecoveryServicesAsrProtectionContainerMapping',
                'Update-AzRecoveryServicesAsrProtectionDirection', 
                'Update-AzRecoveryServicesAsrRecoveryPlan', 
                'Update-AzRecoveryServicesAsrServicesProvider', 
                'Update-AzRecoveryServicesAsrvCenter', 
+               # Backup Cmdlets 
                'Set-AzRecoveryServicesBackupProperty', 
                'Set-AzRecoveryServicesVaultContext', 
                'Backup-AzRecoveryServicesBackupItem', 
@@ -188,7 +195,9 @@ CmdletsToExport = 'Get-AzRecoveryServicesBackupProperty',
 # VariablesToExport = @()
 
 # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-AliasesToExport = 'Get-AzRecoveryServicesBackupProperties', 'Edit-ASRRP', 
+AliasesToExport = 'Get-AzRecoveryServicesBackupProperties', 
+               'Add-ASRReplicationProtectedItemDisk',
+               'Edit-ASRRP', 
                'Edit-ASRRecoveryPlan', 'Get-ASRAlertSetting', 'Get-ASREvent', 
                'Get-ASRFabric', 'Get-ASRJob', 'Get-ASRNetwork', 
                'Get-ASRNetworkMapping', 'Get-ASRNotificationSetting', 
@@ -222,6 +231,7 @@ AliasesToExport = 'Get-AzRecoveryServicesBackupProperties', 'Edit-ASRRP',
                'Start-ASRTFOCleanupJob', 'Start-ASRTestFailoverCleanupJob', 
                'Start-ASRTestFailoverJob', 'Start-ASRUnplannedFailoverJob', 
                'Stop-ASRJob', 'Update-ASRMobilityService', 'Update-ASRPolicy', 
+               'Update-ASRProtectionContainerMapping',
                'Update-ASRProtectionDirection', 'Update-ASRRecoveryPlan', 
                'Update-ASRServicesProvider', 'Update-ASRvCenter', 
                'Set-AzRecoveryServicesBackupProperties', 

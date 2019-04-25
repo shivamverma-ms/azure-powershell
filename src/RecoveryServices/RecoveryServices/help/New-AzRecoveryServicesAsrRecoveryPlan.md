@@ -1,4 +1,4 @@
-﻿---
+---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.RecoveryServices.SiteRecovery.dll-Help.xml
 Module Name: Az.RecoveryServices
 online version: https://docs.microsoft.com/en-us/powershell/module/az.recoveryservices/new-azrecoveryservicesasrrecoveryplan
@@ -49,7 +49,7 @@ Starts the recovery plan creation operation with the specified parameters and re
 ## PARAMETERS
 
 ### -Azure
-{{Fill Azure Description}}
+Flag to create Azure scenario.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter

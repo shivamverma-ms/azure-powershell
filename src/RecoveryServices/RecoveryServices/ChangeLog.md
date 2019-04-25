@@ -18,6 +18,13 @@
         - Additional information about change #1
 -->
 ## Upcoming Release
+* Azure Site Recovery Support to write to managed disk for vMWare to Azure.
+* Azure Site Recovery Support to NIC reduction for vMWare to Azure.
+* Azure Site Recovery Support to accelerated networking for Azure to Azure.
+* Azure Site Recovery Support to agent auto update for Azure to Azure.
+* Azure Site Recovery Support to Standard SSD for Azure to Azure.
+* Azure Site Recovery Support to Azure Disk Encryption two pass for Azure to Azure.
+* Azure Site Recovery Support to protect newly added disk for Azure to Azure.
 
 ## Version 1.3.0
 * Updated cmdlets with plural nouns to singular, and deprecated plural names.

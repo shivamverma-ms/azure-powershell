@@ -335,6 +335,18 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             this.TargetProtectionContainerFriendlyName =
                 pcm.Properties.TargetProtectionContainerFriendlyName;
             this.TargetProtectionContainerId = pcm.Properties.TargetProtectionContainerId;
+
+            if (pcm.Properties.ProviderSpecificDetails is A2AProtectionContainerMappingDetails)
+            {
+                var details = (A2AProtectionContainerMappingDetails)pcm.Properties.ProviderSpecificDetails;
+                this.ProviderSpecificDetails = new ASRA2AProtectionContainerMappingDetails
+                {
+                    AgentAutoUpdateStatus = details.AgentAutoUpdateStatus,
+                    AutomationAccountArmId = details.AutomationAccountArmId,
+                    JobScheduleName = details.JobScheduleName,
+                    ScheduleName = details.ScheduleName
+                };
+            }
         }
 
         #region Properties
@@ -399,7 +411,42 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// </summary>
         public string TargetProtectionContainerId { get; set; }
 
+        /// <summary>
+        ///     Gets or sets Target Protection Container Id
+        /// </summary>
+        public ASRProtectionContainerMappingProviderSpecificDetails ProviderSpecificDetails { get; set; }
+
         #endregion
+    }
+
+    /// <summary>
+    ///     ProtectionContainerMapping provider settings
+    /// </summary>
+    public class ASRProtectionContainerMappingProviderSpecificDetails
+    {
+
+    }
+
+    /// <summary>
+    ///     A2A ProtectionContainerMapping provider settings
+    /// </summary>
+    public class ASRA2AProtectionContainerMappingDetails : ASRProtectionContainerMappingProviderSpecificDetails
+    {
+        public string AgentAutoUpdateStatus { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the automation account arm id.
+        public string AutomationAccountArmId { get; set; }
+
+        //
+        // Summary:
+        //     Gets or sets the schedule arm name.
+        public string ScheduleName { get; set; }
+
+        //
+        // Summary:
+        //     Gets or sets the job schedule arm name.
+        public string JobScheduleName { get; set; }
     }
 
     /// <summary>
@@ -895,6 +942,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             this.SelectionType = vMNicDetails.SelectionType;
             this.PrimaryNicStaticIPAddress = vMNicDetails.PrimaryNicStaticIPAddress;
             this.RecoveryNicIpAddressType = vMNicDetails.RecoveryNicIpAddressType;
+            this.EnableAcceleratedNetworkingOnRecovery = vMNicDetails.EnableAcceleratedNetworkingOnRecovery;
         }
 
         //
@@ -906,6 +954,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         // Summary:
         //     Gets or sets IP allocation type for recovery VM.
         public string RecoveryNicIpAddressType { get; set; }
+
+        //
+        // Summary:
+        //     Gets or sets Enable Accelerated Networking On Recovery.
+        public bool? EnableAcceleratedNetworkingOnRecovery { get; set; }
 
         //
         // Summary:
@@ -1231,7 +1284,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     providerSpecificDetails.RecoveryAzureStorageAccount;
                 this.SelectedRecoveryAzureNetworkId =
                     providerSpecificDetails.SelectedRecoveryAzureNetworkId;
-
+                this.SelectedSourceNicNetworkId =
+                    providerSpecificDetails.SelectedSourceNicId;
                 this.RecoveryResourceGroupId =
                     providerSpecificDetails.RecoveryAzureResourceGroupId;
 
@@ -1243,6 +1297,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         this.NicDetailsList.Add(new ASRVMNicDetails(n));
                     }
                 }
+
+                this.ProviderSpecificDetails = new ASRHyperVReplicaAzureSpecificRPIDetails(providerSpecificDetails);
             }
             else if (rpi.Properties.ProviderSpecificDetails is HyperVReplicaReplicationDetails)
             {
@@ -1267,7 +1323,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     providerSpecificDetails.RecoveryAzureStorageAccount;
                 this.SelectedRecoveryAzureNetworkId =
                     providerSpecificDetails.SelectedRecoveryAzureNetworkId;
-
+                this.SelectedSourceNicNetworkId =
+                   providerSpecificDetails.SelectedSourceNicId;
                 if (providerSpecificDetails.VmNics != null)
                 {
                     this.NicDetailsList = new List<ASRVMNicDetails>();
@@ -1278,40 +1335,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 }
 
                 // Set the InMageAzureV2 specific properties.
-                var inMageAzureV2RPIDetails =
-                    new ASRInMageAzureV2SpecificRPIDetails
-                    {
-                        IpAddress = providerSpecificDetails.IpAddress,
-                        ProcessServerId = providerSpecificDetails.ProcessServerId,
-                        MasterTargetId = providerSpecificDetails.MasterTargetId,
-                        OSType = providerSpecificDetails.OsType,
-                        OSDiskId = providerSpecificDetails.OsDiskId,
-                        VHDName = providerSpecificDetails.VhdName,
-                        MultiVmGroupId = providerSpecificDetails.MultiVmGroupId,
-                        MultiVmGroupName = providerSpecificDetails.MultiVmGroupName,
-                        AgentVersion = providerSpecificDetails.AgentVersion,
-                        DiscoveryType = providerSpecificDetails.DiscoveryType,
-                        LastHeartbeat = providerSpecificDetails.LastHeartbeat,
-                        ProtectionStage = providerSpecificDetails.ProtectionStage,
-                        RecoveryAzureLogStorageAccountId =
-                            providerSpecificDetails.RecoveryAzureLogStorageAccountId
-                    };
-
-                if (providerSpecificDetails.ProtectedDisks != null)
-                {
-                    inMageAzureV2RPIDetails.ProtectedDiskDetails = new List<AsrVirtualHardDisk>();
-                    foreach (var pd in providerSpecificDetails.ProtectedDisks)
-                    {
-                        inMageAzureV2RPIDetails.ProtectedDiskDetails.Add(
-                            new AsrVirtualHardDisk
-                            {
-                                Id = pd.DiskId,
-                                Name = pd.DiskName
-                            });
-                    }
-                }
-
-                this.ProviderSpecificDetails = inMageAzureV2RPIDetails;
+                this.ProviderSpecificDetails = new ASRInMageAzureV2SpecificRPIDetails(providerSpecificDetails);
             }
             else if (rpi.Properties.ProviderSpecificDetails is InMageReplicationDetails)
             {
@@ -1517,6 +1541,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         ///     Gets or sets Recovery Azure Storage Account of the Virtual machine.
         /// </summary>
         public string RecoveryResourceGroupId { get; set; }
+
+        /// <summary>
+        ///     Gets or sets Recovery Azure Storage Account of the Virtual machine.
+        /// </summary>
+        public string SelectedSourceNicNetworkId { get; set; }
 
         /// <summary>
         ///     Gets or sets Recovery Services Provider Id
@@ -2291,7 +2320,14 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             this.DiskCapacityInBytes = disk.DiskCapacityInBytes;
             this.DiskName = disk.DiskName;
             this.DiskType = disk.DiskType;
+
             this.Managed = false;
+            this.IsDiskEncrypted = disk.IsDiskEncrypted;
+            this.DekKeyVaultArmId = disk.DekKeyVaultArmId;
+            this.SecretIdentifier = disk.SecretIdentifier;
+            this.IsDiskKeyEncrypted = disk.IsDiskKeyEncrypted;
+            this.KekKeyVaultArmId = disk.KekKeyVaultArmId;
+            this.KeyIdentifier = disk.KeyIdentifier;
         }
 
         /// <summary>
@@ -2315,7 +2351,39 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             this.RecoveryTargetDiskAccountType = disk.RecoveryTargetDiskAccountType;
             this.RecoveryTargetDiskId = disk.RecoveryTargetDiskId;
             this.Managed = true;
+            this.IsDiskEncrypted = disk.IsDiskEncrypted;
+            this.DekKeyVaultArmId = disk.DekKeyVaultArmId;
+            this.SecretIdentifier = disk.SecretIdentifier;
+            this.IsDiskKeyEncrypted = disk.IsDiskKeyEncrypted;
+            this.KekKeyVaultArmId = disk.KekKeyVaultArmId;
+            this.KeyIdentifier = disk.KeyIdentifier;
         }
+
+        //
+        // Summary:
+        //     Gets or sets a value indicating whether disk key got encrypted or not.
+        public bool? IsDiskKeyEncrypted { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the KeyVault resource id for secret (BEK).
+        public string DekKeyVaultArmId { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the secret URL / identifier (BEK).
+        public string SecretIdentifier { get; set; }
+        //
+        // Summary:
+        //     Gets or sets a value indicating whether vm has encrypted os disk or not.
+        public bool? IsDiskEncrypted { get; set; }
+
+        //
+        // Summary:
+        //     Gets or sets the key URL / identifier (KEK).
+        public string KeyIdentifier { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the KeyVault resource id for key (KEK).
+        public string KekKeyVaultArmId { get; set; }
 
         /// <summary>
         /// Gets or sets is azure vm managed disk.
@@ -2446,13 +2514,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             else
             {
                 this.Tags = new Dictionary<string, string>(details.Tags);
-            }
-
-            if (details.RoleAssignments != null)
-            {
-                this.RoleAssignments =
-                    details.RoleAssignments.ToList()
-                    .ConvertAll(role => new ASRRoleAssignment(role));
             }
 
             if (details.InputEndpoints != null)
@@ -2588,5 +2649,42 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 
             return sb.ToString();
         }
+    }
+
+    /// <summary>
+    /// Encryption types for VM.
+    /// </summary>
+    public enum AzureDiskEncryptionType
+    {
+        /// <summary>
+        /// VM not encrypted.
+        /// </summary>
+        NotEncrypted,
+
+        /// <summary>
+        /// VM encrypted using one pass ADE flow.
+        /// </summary>
+        OnePassEncrypted,
+
+        /// <summary>
+        /// VM encrypted using two pass ADE flow.
+        /// </summary>
+        TwoPassEncrypted
+    }
+
+    /// <summary>
+    /// Azure Disk Encryption extension types for VMs.
+    /// </summary>
+    public enum AzureDiskEncryptionExtensionType
+    {
+        /// <summary>
+        /// ADE extension for Windows VM.
+        /// </summary>
+        AzureDiskEncryption,
+
+        /// <summary>
+        /// ADE extension for Linux VM.
+        /// </summary>
+        AzureDiskEncryptionForLinux
     }
 }

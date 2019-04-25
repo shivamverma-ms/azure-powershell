@@ -24,7 +24,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
     /// <summary>
     ///     Sets recovery properties such as target network and virtual machine size for the specified replication protected item.
     /// </summary>
-    [Cmdlet("Set", ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "RecoveryServicesAsrReplicationProtectedItem",DefaultParameterSetName = ASRParameterSets.ByObject,SupportsShouldProcess = true)]
+    [Cmdlet("Set", ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "RecoveryServicesAsrReplicationProtectedItem", DefaultParameterSetName = ASRParameterSets.ByObject, SupportsShouldProcess = true)]
     [Alias("Set-ASRReplicationProtectedItem")]
     [OutputType(typeof(ASRJob))]
     public class SetAzureRmRecoveryServicesAsrReplicationProtectedItem : SiteRecoveryCmdletBase
@@ -56,7 +56,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// </summary>
         [Parameter]
         [ValidateNotNullOrEmpty]
-        public string PrimaryNic { get; set; }
+        public string UpdateNic { get; set; }
 
         /// <summary>
         ///     Gets or sets the ID of the Azure virtual network to which the protected item should be failed over.
@@ -64,6 +64,13 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter]
         [ValidateNotNullOrEmpty]
         public string RecoveryNetworkId { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the selected source nic Id (Nic reduction).
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public string PrimaryNic { get; set; }
 
         /// <summary>
         /// Gets or sets resource ID of the recovery cloud service to failover this virtual machine to.
@@ -120,8 +127,13 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         ///     Gets or sets the availability set for replication protected item after failover.
         /// </summary>
         [Parameter]
-        [ValidateNotNullOrEmpty]
         public string RecoveryAvailabilitySet { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the availability set for replication protected item after failover.
+        /// </summary>
+        [Parameter]
+        public SwitchParameter EnableAcceleratedNetworkingOnRecovery { get; set; }
 
         /// <summary>
         ///     Gets or sets the recovery boot diagnostics storageAccountId for replication protected item after failover.
@@ -137,6 +149,34 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [ValidateNotNullOrEmpty]
         [Parameter]
         public ASRAzuretoAzureDiskReplicationConfig[] AzureToAzureUpdateReplicationConfiguration { get; set; }
+
+        /// <summary>
+        /// Gets or sets DiskEncryptionVaultId.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public string DiskEncryptionVaultId { get; set; }
+
+        /// <summary>
+        /// Gets or sets DiskEncryptionSecertUrl.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public string DiskEncryptionSecertUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets KeyEncryptionKeyUrl.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public string KeyEncryptionKeyUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets KeyEncryptionVaultId.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public string KeyEncryptionVaultId { get; set; }
 
         /// <summary>
         ///     Gets or sets if the Azure virtual machine that is created on failover should use managed disks.
@@ -184,10 +224,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 // Check for at least one option
                 if (string.IsNullOrEmpty(this.Name) &&
                     string.IsNullOrEmpty(this.Size) &&
-                    string.IsNullOrEmpty(this.PrimaryNic) &&
+                    string.IsNullOrEmpty(this.UpdateNic) &&
                     string.IsNullOrEmpty(this.RecoveryNetworkId) &&
+                    string.IsNullOrEmpty(this.PrimaryNic) &&
                     this.UseManagedDisk == null &&
-                    string.IsNullOrEmpty(this.RecoveryAvailabilitySet) &&
+                    !this.MyInvocation.BoundParameters.ContainsKey(
+                            Utilities.GetMemberName(() => this.RecoveryAvailabilitySet)) &&
                     string.IsNullOrEmpty(this.RecoveryCloudServiceId) &&
                     string.IsNullOrEmpty(this.RecoveryResourceGroupId) &&
                     string.IsNullOrEmpty(this.LicenseType) &&
@@ -199,12 +241,13 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 }
 
                 // Both primary & recovery inputs should be present
-                if (string.IsNullOrEmpty(this.PrimaryNic) ^
+                if (string.IsNullOrEmpty(this.UpdateNic) ^
                     string.IsNullOrEmpty(this.RecoveryNetworkId))
                 {
                     this.WriteWarning(Resources.NetworkArgumentsMissingForUpdateVmProperties);
                     return;
                 }
+
 
                 var vmName = this.Name;
                 var vmSize = this.Size;
@@ -214,6 +257,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 var recoveryCloudServiceId = this.RecoveryCloudServiceId;
                 var useManagedDisk = this.UseManagedDisk;
                 var availabilitySetId = this.RecoveryAvailabilitySet;
+                var primaryNic = this.PrimaryNic;
                 var vMNicInputDetailsList = new List<VMNicInputDetails>();
                 var providerSpecificInput = new UpdateReplicationProtectedItemProviderInput();
 
@@ -244,7 +288,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         licenseType = providerSpecificDetails.LicenseType;
                     }
 
-                    if (string.IsNullOrEmpty(this.RecoveryAvailabilitySet))
+                    if (!this.MyInvocation.BoundParameters.ContainsKey(
+                            Utilities.GetMemberName(() => this.RecoveryAvailabilitySet)))
                     {
                         availabilitySetId = providerSpecificDetails.RecoveryAvailabilitySetId;
                     }
@@ -258,6 +303,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     {
                         recoveryResourceGroupId =
                             providerSpecificDetails.RecoveryAzureResourceGroupId;
+                    }
+
+                    if (!this.MyInvocation.BoundParameters.ContainsKey(
+                            Utilities.GetMemberName(() => this.PrimaryNic)))
+                    {
+                        primaryNic = providerSpecificDetails.SelectedSourceNicId;
                     }
 
                     var deploymentType = Utilities.GetValueFromArmId(
@@ -313,7 +364,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         licenseType = providerSpecificDetails.LicenseType;
                     }
 
-                    if (string.IsNullOrEmpty(this.RecoveryAvailabilitySet))
+                    if (!this.MyInvocation.BoundParameters.ContainsKey(
+                            Utilities.GetMemberName(() => this.RecoveryAvailabilitySet)))
                     {
                         availabilitySetId = providerSpecificDetails.RecoveryAvailabilitySetId;
                     }
@@ -329,11 +381,17 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                             providerSpecificDetails.RecoveryAzureResourceGroupId;
                     }
 
+                    if (!this.MyInvocation.BoundParameters.ContainsKey(
+                            Utilities.GetMemberName(() => this.PrimaryNic)))
+                    {
+                        primaryNic = providerSpecificDetails.SelectedSourceNicId;
+                    }
+
                     var deploymentType = Utilities.GetValueFromArmId(
-                        providerSpecificDetails.RecoveryAzureStorageAccount,
+                        providerSpecificDetails.TargetVmId,
                         ARMResourceTypeConstants.Providers);
                     if (deploymentType.ToLower()
-                        .Contains(Constants.Classic.ToLower()))
+                        .Contains(Constants.ClassicCompute.ToLower()))
                     {
                         providerSpecificInput =
                             new InMageAzureV2UpdateReplicationProtectedItemInput
@@ -363,6 +421,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     {
                         recoveryResourceGroupId =
                             providerSpecificDetails.RecoveryAzureResourceGroupId;
+                    }
+
+                    if (!this.MyInvocation.BoundParameters.ContainsKey(
+                             Utilities.GetMemberName(() => this.RecoveryNetworkId)))
+                    {
+                        vmRecoveryNetworkId = providerSpecificDetails.SelectedRecoveryAzureNetworkId;
                     }
 
                     if (!this.MyInvocation.BoundParameters.ContainsKey(
@@ -411,14 +475,9 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         RecoveryCloudServiceId = this.RecoveryCloudServiceId,
                         RecoveryResourceGroupId = this.RecoveryResourceGroupId,
                         RecoveryBootDiagStorageAccountId = this.RecoveryBootDiagStorageAccountId,
-                        ManagedDiskUpdateDetails = managedDiskUpdateDetails
+                        ManagedDiskUpdateDetails = managedDiskUpdateDetails,
+                        DiskEncryptionInfo = this.A2AEncryptionDetails(provider)
                     };
-
-                    if (!this.MyInvocation.BoundParameters.ContainsKey(
-                            Utilities.GetMemberName(() => this.RecoveryNetworkId)))
-                    {
-                        vmRecoveryNetworkId = providerSpecificDetails.SelectedRecoveryAzureNetworkId;
-                    }
 
                     vMNicInputDetailsList = getNicListToUpdate(providerSpecificDetails.VmNics);
                 }
@@ -429,6 +488,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         RecoveryAzureVMName = vmName,
                         RecoveryAzureVMSize = vmSize,
                         SelectedRecoveryAzureNetworkId = vmRecoveryNetworkId,
+                        SelectedSourceNicId = primaryNic,
                         VmNics = vMNicInputDetailsList,
                         LicenseType =
                             licenseType ==
@@ -442,6 +502,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         ProviderSpecificDetails = providerSpecificInput
                     };
 
+                if (provider is HyperVReplicaAzureReplicationDetails || provider is InMageAzureV2ReplicationDetails)
+                {
+                    updateReplicationProtectedItemInputProperties.SelectedSourceNicId = primaryNic;
+                }
                 var input = new UpdateReplicationProtectedItemInput
                 {
                     Properties = updateReplicationProtectedItemInputProperties
@@ -468,17 +532,17 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         {
             var vMNicInputDetailsList = new List<VMNicInputDetails>();
             // Weather to track Nic found to be updated. IF primary nic is not or empty no need to update.
-            var nicFoundToBeUpdated = string.IsNullOrEmpty(this.PrimaryNic);
+            var nicFoundToBeUpdated = string.IsNullOrEmpty(this.UpdateNic);
 
             if (vmNicList != null)
             {
                 foreach (var nDetails in vmNicList)
                 {
                     var vMNicInputDetails = new VMNicInputDetails();
-                    if (!string.IsNullOrEmpty(this.PrimaryNic)
-                        && string.Compare(nDetails.NicId, this.PrimaryNic, StringComparison.OrdinalIgnoreCase) == 0)
+                    if (!string.IsNullOrEmpty(this.UpdateNic)
+                        && string.Compare(nDetails.NicId, this.UpdateNic, StringComparison.OrdinalIgnoreCase) == 0)
                     {
-                        vMNicInputDetails.NicId = this.PrimaryNic;
+                        vMNicInputDetails.NicId = this.UpdateNic;
                         vMNicInputDetails.RecoveryVMSubnetName = this.RecoveryNicSubnetName;
                         vMNicInputDetails.ReplicaNicStaticIPAddress =
                             this.RecoveryNicStaticIPAddress;
@@ -488,6 +552,16 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         vMNicInputDetailsList.Add(vMNicInputDetails);
                         // NicId  matched for updation
                         nicFoundToBeUpdated = true;
+
+                        if (this.MyInvocation.BoundParameters.ContainsKey(
+                           Utilities.GetMemberName(() => this.EnableAcceleratedNetworkingOnRecovery)))
+                        {
+                            vMNicInputDetails.EnableAcceleratedNetworkingOnRecovery = true;
+                        }
+                        else
+                        {
+                            vMNicInputDetails.EnableAcceleratedNetworkingOnRecovery = false;
+                        }
                     }
                     else
                     {
@@ -497,6 +571,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                             nDetails.ReplicaNicStaticIPAddress;
                         vMNicInputDetails.SelectionType = nDetails.SelectionType;
                         vMNicInputDetailsList.Add(vMNicInputDetails);
+                        vMNicInputDetails.EnableAcceleratedNetworkingOnRecovery = nDetails.EnableAcceleratedNetworkingOnRecovery;
                     }
                 }
             }
@@ -506,6 +581,55 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 throw new PSInvalidOperationException(Resources.NicNotFoundInVMForUpdateVmProperties);
             }
             return vMNicInputDetailsList;
+        }
+
+        private DiskEncryptionInfo A2AEncryptionDetails(ReplicationProviderSpecificSettings replicationProvider)
+        {
+            // Any encryption data is present.
+            if (this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.DiskEncryptionSecertUrl)) ||
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.DiskEncryptionVaultId)) ||
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionKeyUrl)) ||
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionVaultId)))
+            {
+                // Non A2A scenerio
+                if (!(replicationProvider is A2AReplicationDetails))
+                {
+                    throw new Exception(
+                        "DiskEncryptionSecertUrl,DiskEncryptionVaultId,KeyEncryptionKeyUrl,KeyEncryptionVaultId " +
+                        "is used for udpating Azure to Azure replication");
+                }
+                // todo :: vipin
+                A2AReplicationDetails providerSpecificDetails = (A2AReplicationDetails)replicationProvider;
+
+                DiskEncryptionInfo diskEncryptionInfo = new DiskEncryptionInfo();
+                // BEK DATA is present
+                if (this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.DiskEncryptionSecertUrl)) &&
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.DiskEncryptionVaultId)))
+                {
+                    diskEncryptionInfo.DiskEncryptionKeyInfo = new DiskEncryptionKeyInfo(this.DiskEncryptionSecertUrl, this.DiskEncryptionVaultId);
+                    // KEK Data is present in pair.
+                    if (this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionKeyUrl)) &&
+                this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionVaultId)))
+                    {
+                        diskEncryptionInfo.KeyEncryptionKeyInfo = new KeyEncryptionKeyInfo(this.KeyEncryptionKeyUrl, this.KeyEncryptionVaultId);
+                    }
+                    else
+                    {
+                        // If either KeyEncryptionKeyUrl or KeyEncryptionVaultId present not both.
+                        // if (!this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionKeyUrl)) ||
+                        //!this.MyInvocation.BoundParameters.ContainsKey(Utilities.GetMemberName(() => this.KeyEncryptionVaultId)))
+                        // {
+                        //      throw new Exception("Provide Disk KeyEncryptionKeyUrl and KeyEncryptionVaultId.");
+                        //  }
+                    }
+                }
+                else
+                {
+                    throw new Exception("Provide Disk DiskEncryptionSecertUrl and DiskEncryptionVaultId.");
+                }
+                return diskEncryptionInfo;
+            }
+            return null;
         }
     }
 }
