@@ -174,7 +174,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 
                                     if (gp.ReplicationProtectedItems.Any(
                                         pi => string.Compare(
-                                                  pi.Id,
+                                                  pi.ID,
                                                   replicationProtectedItemResponse.Id,
                                                   StringComparison.OrdinalIgnoreCase) ==
                                               0))
@@ -190,7 +190,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 
                                 this.InputObject.Groups[this.InputObject.Groups.IndexOf(tempGroup)]
                                     .ReplicationProtectedItems
-                                    .Add(new ReplicationProtectedItem_2016_08_10(replicationProtectedItemResponse));
+                                    .Add(new ASRReplicationProtectedItem(replicationProtectedItemResponse));
                             }
                             else
                             {
@@ -223,7 +223,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                                     .Groups[this.InputObject.Groups.IndexOf(tempGroup)]
                                     .ReplicationProtectedItems.FirstOrDefault(
                                         pi => string.Compare(
-                                                  pi.Id,
+                                                  pi.ID,
                                                   rpi.ID,
                                                   StringComparison.OrdinalIgnoreCase) ==
                                               0);

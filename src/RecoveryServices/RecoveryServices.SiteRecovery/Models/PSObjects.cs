@@ -323,7 +323,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             if (pcm.Properties.HealthErrorDetails != null)
             {
                 this.HealthErrorDetails = pcm.Properties.HealthErrorDetails.ToList().
-                        ConvertAll(healthError => new ASRHealthError_2016_08_10(healthError));
+                        ConvertAll(healthError => new ASRHealthError(healthError));
             }
             this.PolicyFriendlyName = pcm.Properties.PolicyFriendlyName;
             this.PolicyId = pcm.Properties.PolicyId;
@@ -369,7 +369,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// <summary>
         ///     Gets or sets Health Error Details
         /// </summary>
-        public IList<ASRHealthError_2016_08_10> HealthErrorDetails { get; set; }
+        public IList<ASRHealthError> HealthErrorDetails { get; set; }
 
         /// <summary>
         ///     Gets or sets Policy Friendly Name
@@ -1267,7 +1267,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             if (rpi.Properties.HealthErrors != null)
             {
                 this.ReplicationHealthErrors = rpi.Properties.HealthErrors.ToList().ConvertAll(
-                    healthError => new ASRHealthError_2016_08_10(healthError));
+                    healthError => new ASRHealthError(healthError));
             }
             this.TestFailoverState = rpi.Properties.TestFailoverState;
             this.TestFailoverStateDescription = rpi.Properties.TestFailoverStateDescription;
@@ -1303,10 +1303,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             else if (rpi.Properties.ProviderSpecificDetails is HyperVReplicaReplicationDetails)
             {
                 this.ReplicationProvider = Constants.HyperVReplica2012;
+                this.ProviderSpecificDetails = new ASRHyperVReplicaRPIDetails((HyperVReplicaReplicationDetails)rpi.Properties.ProviderSpecificDetails);
             }
             else if (rpi.Properties.ProviderSpecificDetails is HyperVReplicaBlueReplicationDetails)
             {
                 this.ReplicationProvider = Constants.HyperVReplica2012R2;
+                this.ProviderSpecificDetails = new ASRHyperVReplicaBlueRPIDetails((HyperVReplicaBlueReplicationDetails)rpi.Properties.ProviderSpecificDetails);
             }
             else if (rpi.Properties.ProviderSpecificDetails is InMageAzureV2ReplicationDetails)
             {
@@ -1372,7 +1374,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     AgentVersion = providerSpecificDetails.AgentDetails.AgentVersion,
                     DiscoveryType = providerSpecificDetails.DiscoveryType,
                     LastHeartbeat = providerSpecificDetails.LastHeartbeat,
-                    ProtectionStage = providerSpecificDetails.ProtectionStage
+                    ProtectionStage = providerSpecificDetails.ProtectionStage,
+                    VmId= providerSpecificDetails.VmId
                 };
 
                 if (providerSpecificDetails.ProtectedDisks != null)
@@ -1560,7 +1563,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// <summary>
         ///     Gets or sets Replication Health Errors
         /// </summary>
-        public IList<ASRHealthError_2016_08_10> ReplicationHealthErrors { get; set; }
+        public IList<ASRHealthError> ReplicationHealthErrors { get; set; }
 
         /// <summary>
         ///     Gets or sets Replication provider.
@@ -1593,6 +1596,95 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
     /// </summary>
     public class ASRProviderSpecificRPIDetails
     {
+    }
+
+    //
+    // Summary:
+    //     HyperV replica 2012 replication details.
+    public class ASRHyperVReplicaRPIDetails : ASRProviderSpecificRPIDetails
+    {
+        //
+        // Summary:
+        //     Initializes a new instance of the HyperVReplicaReplicationDetails class.
+        public ASRHyperVReplicaRPIDetails(HyperVReplicaReplicationDetails hyperVReplicaReplicationDetails)
+        {
+            this.LastReplicatedTime = hyperVReplicaReplicationDetails.LastReplicatedTime;
+            if (hyperVReplicaReplicationDetails.VmNics != null)
+            {
+                this.VmNics =
+                       hyperVReplicaReplicationDetails.VmNics?.ToList()
+                       .ConvertAll(nic => new ASRVMNicDetails(nic));
+            }
+            this.VmId = hyperVReplicaReplicationDetails.VmId;
+            this.VmProtectionState = hyperVReplicaReplicationDetails.VmProtectionState;
+            this.VmProtectionStateDescription = hyperVReplicaReplicationDetails.VmProtectionStateDescription;
+        }
+
+        //
+        // Summary:
+        //     Gets or sets the Last replication time.
+        public DateTime? LastReplicatedTime { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the PE Network details.
+        public IList<ASRVMNicDetails> VmNics { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the virtual machine Id.
+        public string VmId { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the protection state for the vm.
+        public string VmProtectionState { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the protection state description for the vm.
+        public string VmProtectionStateDescription { get; set; }
+
+    }
+
+    // Summary:
+    //     HyperV replica 2012 R2 (Blue) replication details.
+    public class ASRHyperVReplicaBlueRPIDetails : ASRProviderSpecificRPIDetails
+    {
+        //
+        // Summary:
+        //     Initializes a new instance of the HyperVReplicaBlueReplicationDetails class.
+        public ASRHyperVReplicaBlueRPIDetails(HyperVReplicaBlueReplicationDetails hyperVReplicaBlueReplicationDetails)
+        {
+            this.LastReplicatedTime = hyperVReplicaBlueReplicationDetails.LastReplicatedTime;
+            if (hyperVReplicaBlueReplicationDetails.VmNics != null)
+            {
+                this.VmNics =
+                       hyperVReplicaBlueReplicationDetails.VmNics?.ToList()
+                       .ConvertAll(nic => new ASRVMNicDetails(nic));
+            }
+            this.VmId = hyperVReplicaBlueReplicationDetails.VmId;
+            this.VmProtectionState = hyperVReplicaBlueReplicationDetails.VmProtectionState;
+            this.VmProtectionStateDescription = hyperVReplicaBlueReplicationDetails.VmProtectionStateDescription;
+
+        }
+
+        //
+        // Summary:
+        //     Gets or sets the Last replication time.
+        public DateTime? LastReplicatedTime { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the PE Network details.
+        public IList<ASRVMNicDetails> VmNics { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the virtual machine Id.
+        public string VmId { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the protection state for the vm.
+        public string VmProtectionState { get; set; }
+        //
+        // Summary:
+        //     Gets or sets the protection state description for the vm.
+        public string VmProtectionStateDescription { get; set; }
     }
 
     /// <summary>

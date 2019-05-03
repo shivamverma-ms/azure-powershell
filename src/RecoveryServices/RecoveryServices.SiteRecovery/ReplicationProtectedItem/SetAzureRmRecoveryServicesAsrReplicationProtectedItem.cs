@@ -18,6 +18,7 @@ using System.Linq;
 using System.Management.Automation;
 using Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.Properties;
 using Microsoft.Azure.Management.RecoveryServices.SiteRecovery.Models;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
 
 namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 {
@@ -228,8 +229,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     string.IsNullOrEmpty(this.RecoveryNetworkId) &&
                     string.IsNullOrEmpty(this.PrimaryNic) &&
                     this.UseManagedDisk == null &&
-                    !this.MyInvocation.BoundParameters.ContainsKey(
-                            Utilities.GetMemberName(() => this.RecoveryAvailabilitySet)) &&
+                    this.IsParameterBound(c=>c.RecoveryAvailabilitySet) &&
                     string.IsNullOrEmpty(this.RecoveryCloudServiceId) &&
                     string.IsNullOrEmpty(this.RecoveryResourceGroupId) &&
                     string.IsNullOrEmpty(this.LicenseType) &&
@@ -288,11 +288,9 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         licenseType = providerSpecificDetails.LicenseType;
                     }
 
-                    if (!this.MyInvocation.BoundParameters.ContainsKey(
-                            Utilities.GetMemberName(() => this.RecoveryAvailabilitySet)))
-                    {
-                        availabilitySetId = providerSpecificDetails.RecoveryAvailabilitySetId;
-                    }
+                    availabilitySetId = this.IsParameterBound(c => c.RecoveryAvailabilitySet) 
+                        ? this.RecoveryAvailabilitySet 
+                        : providerSpecificDetails.RecoveryAvailabilitySetId;
 
                     if (string.IsNullOrEmpty(this.UseManagedDisk))
                     {
@@ -364,11 +362,9 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         licenseType = providerSpecificDetails.LicenseType;
                     }
 
-                    if (!this.MyInvocation.BoundParameters.ContainsKey(
-                            Utilities.GetMemberName(() => this.RecoveryAvailabilitySet)))
-                    {
-                        availabilitySetId = providerSpecificDetails.RecoveryAvailabilitySetId;
-                    }
+                    availabilitySetId = this.IsParameterBound(c => c.RecoveryAvailabilitySet) 
+                        ? this.RecoveryAvailabilitySet 
+                        : providerSpecificDetails.RecoveryAvailabilitySetId;
 
                     if (string.IsNullOrEmpty(this.UseManagedDisk))
                     {
@@ -422,6 +418,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         recoveryResourceGroupId =
                             providerSpecificDetails.RecoveryAzureResourceGroupId;
                     }
+
+                    availabilitySetId = this.IsParameterBound(c => c.RecoveryAvailabilitySet) 
+                        ? this.RecoveryAvailabilitySet 
+                        : providerSpecificDetails.RecoveryAvailabilitySet;
 
                     if (!this.MyInvocation.BoundParameters.ContainsKey(
                              Utilities.GetMemberName(() => this.RecoveryNetworkId)))

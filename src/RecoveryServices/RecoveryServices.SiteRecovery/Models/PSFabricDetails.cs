@@ -1161,6 +1161,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         ///     VHD Name.
         /// </summary>
         public string VHDName { get; set; }
+
+        //
+        // Summary:
+        //     Gets or sets the virtual machine Id.
+        public string VmId { get; set; }
     }
 
     /// <summary>
@@ -1196,22 +1201,20 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 this.LastHeartbeat = details.LastHeartbeat.Value.ToLocalTime();
             }
 
-            if (details.ProtectedDisks != null && details.ProtectedDisks.Count > 0)
+            if (details.ProtectedDisks != null && details.ProtectedDisks.Any())
             {
                 this.A2ADiskDetails =
                     details.ProtectedDisks.ToList()
                     .ConvertAll(disk => new ASRAzureToAzureProtectedDiskDetails(disk));
             }
 
-            if (details.ProtectedManagedDisks != null && details.ProtectedManagedDisks.Count > 0)
+            if (details.ProtectedManagedDisks != null && details.ProtectedManagedDisks.Any())
             {
                 if (this.A2ADiskDetails == null)
                 {
                     this.A2ADiskDetails = new List<ASRAzureToAzureProtectedDiskDetails>();
                 }
-                this.A2ADiskDetails.AddRange(
-                details.ProtectedManagedDisks.ToList()
-                .ConvertAll(disk => new ASRAzureToAzureProtectedDiskDetails(disk)));
+                this.A2ADiskDetails.AddRange(details.ProtectedManagedDisks.ToList().ConvertAll(disk => new ASRAzureToAzureProtectedDiskDetails(disk)));
             }
 
             if (details.UnprotectedDisks != null && details.UnprotectedDisks.Count > 0)
