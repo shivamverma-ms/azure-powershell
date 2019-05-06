@@ -1375,7 +1375,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     DiscoveryType = providerSpecificDetails.DiscoveryType,
                     LastHeartbeat = providerSpecificDetails.LastHeartbeat,
                     ProtectionStage = providerSpecificDetails.ProtectionStage,
-                    VmId= providerSpecificDetails.VmId
+                    VmId = providerSpecificDetails.VmId
                 };
 
                 if (providerSpecificDetails.ProtectedDisks != null)
@@ -2320,6 +2320,23 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         ///     Gets or sets the CS RunAs account name.
         /// </summary>
         public string AccountName { get; set; }
+    }
+
+    /// <summary>
+    /// Azure VM disk details required for vMWareToAzure protection.
+    /// </summary>
+    public class AsrInMageAzureV2DiskInput
+    {
+        // Summary:
+        //     Gets or sets the DiskId.
+        public string DiskId { get; set; }
+        // Summary:
+        //     Gets or sets the LogStorageAccountId.
+        public string LogStorageAccountId { get; set; }
+        // Summary:
+        //     Gets or sets the DiskType. Possible values include: 'Standard_LRS', 'Premium_LRS',
+        //     'StandardSSD_LRS'
+        public string DiskType { get; set; }
     }
 
     /// <summary>

@@ -18,6 +18,8 @@ using System.Collections.Generic;
 using Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.Properties;
 using Microsoft.Azure.Management.RecoveryServices.SiteRecovery.Models;
 using Job = Microsoft.Azure.Management.RecoveryServices.SiteRecovery.Models.Job;
+using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using System.Linq;
 
 namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 {
@@ -148,9 +150,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter(
             ParameterSetName = ASRParameterSets.HyperVSiteToAzure,
             Mandatory = true)]
-        [Parameter(
-            ParameterSetName = ASRParameterSets.VMwareToAzure,
-            Mandatory = false)]
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithoutDiskDetails)]
         [ValidateNotNullOrEmpty]
         public string RecoveryAzureStorageAccountId { get; set; }
@@ -198,10 +197,16 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// <summary>
         ///     Gets or sets list of disks to include for replication. By default all disks are included.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzure)]
         [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure)]
         [ValidateNotNullOrEmpty]
         public string[] IncludeDiskId { get; set; }
+
+        /// <summary>
+        ///     Gets or sets list of disks config to include for replication. By default all disks are included.
+        /// </summary>
+
+        [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzure)]
+        public AsrInMageAzureV2DiskInput[] InMageAzureV2DiskInput { get; set; }
 
         /// <summary>
         ///     Gets or sets the Process Server to use to replicate this machine. Use the list of process servers
@@ -444,11 +449,19 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                                             ? this.ProtectableItem.FriendlyName
                                             : this.RecoveryVmName,
                 EnableRdpOnTargetOption = Constants.NeverEnableRDPOnTargetOption
-                // todo:: fix this.
-                //DisksToInclude = this.IncludeDiskId != null
-                //                            ? this.IncludeDiskId
-                //                            : null
             };
+
+            if (this.IsParameterBound(c => c.InMageAzureV2DiskInput))
+            {
+                List<InMageAzureV2DiskInputDetails> inmageAzureV2DiskInput = InMageAzureV2DiskInput.Select(
+                    p => new InMageAzureV2DiskInputDetails()
+                    {
+                        DiskId = p.DiskId,
+                        DiskType = p.DiskType,
+                        LogStorageAccountId = p.LogStorageAccountId 
+                    }).ToList();
+                providerSettings.DisksToInclude = inmageAzureV2DiskInput;
+            }
 
             providerSettings.TargetAzureV2ResourceGroupId =
                 this.RecoveryResourceGroupId;
