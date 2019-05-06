@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.RecoveryServices.SiteRecovery.dll-Help.xml
 Module Name: Az.RecoveryServices
-online version:https://docs.microsoft.com/en-us/powershell/module/az.recoveryservices/update-azrecoveryservicesasrprotectioncontainermapping
+online version: https://docs.microsoft.com/en-us/powershell/module/az.recoveryservices/update-azrecoveryservicesasrprotectioncontainermapping
 schema: 2.0.0
 ---
 
@@ -44,7 +44,7 @@ Disables auto update for container.
 Automation AccountId
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: AzureToAzureEnableAutoUpdate
 Aliases:
 
@@ -59,7 +59,7 @@ Accept wildcard characters: False
 Specifies Azure to Azure protection container.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -70,11 +70,26 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -89,7 +104,7 @@ Accept wildcard characters: False
 Switch parameter to disable auto update.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: AzureToAzureDisableAutoUpdate
 Aliases:
 
@@ -104,7 +119,7 @@ Accept wildcard characters: False
 Switch parameter to enable auto update.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: AzureToAzureEnableAutoUpdate
 Aliases:
 
@@ -119,7 +134,7 @@ Accept wildcard characters: False
 Object for protection container mapping.
 
 ```yaml
-Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRProtectionContainerMapping
+Type: ASRProtectionContainerMapping
 Parameter Sets: (All)
 Aliases: ProtectionContainerMapping
 
@@ -130,27 +145,12 @@ Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
-### -Confirm
-Prompts you for confirmation before running the cmdlet.
-
-```yaml
-Type: System.Management.Automation.SwitchParameter
-Parameter Sets: (All)
-Aliases: cf
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -WhatIf
 Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
 

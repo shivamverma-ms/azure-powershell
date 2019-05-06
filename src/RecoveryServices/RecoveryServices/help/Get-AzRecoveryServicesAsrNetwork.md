@@ -49,7 +49,7 @@ The credentials, account, tenant, and subscription used for communication with A
 
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -64,7 +64,7 @@ Accept wildcard characters: False
 ASR fabric object
 
 ```yaml
-Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRFabric
+Type: ASRFabric
 Parameter Sets: (All)
 Aliases:
 
@@ -79,7 +79,7 @@ Accept wildcard characters: False
 Friendly name of network ASR object.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: ByFriendlyName
 Aliases:
 
@@ -94,7 +94,7 @@ Accept wildcard characters: False
 Name of network ASR object.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: ByName
 Aliases:
 

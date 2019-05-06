@@ -1,33 +1,33 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.RecoveryServices.SiteRecovery.dll-Help.xml
 Module Name: Az.RecoveryServices
-online version: https://docs.microsoft.com/en-us/powershell/module/az.recoveryservices/import-azrecoveryservicesasrvaultsettingsfile
+online version: https://docs.microsoft.com/en-us/powershell/module/az.recoveryservices/update-azrecoveryservicesasrvcenter
 schema: 2.0.0
 ---
 
-# Import-AzRecoveryServicesAsrVaultSettingsFile
+# New-AzRecoveryServicesAsrInMageAzureV2DiskInput
 
 ## SYNOPSIS
-Imports the specified ASR vault settings file to set the vault context(PowerShell session context) for subsequent ASR operations in the PowerShell session. 
+Create disk input for disk to protect vMWare to Azure.
 
 ## SYNTAX
 
 ```
-Import-AzRecoveryServicesAsrVaultSettingsFile [-Path] <String> [-DefaultProfile <IAzureContextContainer>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+New-AzRecoveryServicesAsrInMageAzureV2DiskInput -DiskId <String> -LogStorageAccountId <String>
+ -DiskType <String> [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-The **Import-AzRecoveryServicesAsrVaultSettingsFile** cmdlet imports the Azure Site Recovery vault settings file. The vault settings file is used to set the vault context for subsequent Azure Site Recovery operations in the current session.
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
-```
-PS C:\> $VaultSettings = Import-AzRecoveryServicesAsrVaultSettingsFile -Path $FilePath
+```powershell
+PS C:> {{ Add example code here }}
 ```
 
-Imports the specified Recovery Services vault settings file and returns settings of the imported vault.
+{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -49,7 +49,6 @@ Accept wildcard characters: False
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with Azure.
 
-
 ```yaml
 Type: IAzureContextContainer
 Parameter Sets: (All)
@@ -62,9 +61,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Path
-Specifies the folder path of the ASR vault settings file.
-This file can be downloaded from the Recovery Services vault portal and stored locally.
+### -DiskId
+Specify the DiskId of the disk that this mapping corresponds to.
 
 ```yaml
 Type: String
@@ -72,14 +70,46 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 0
+Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DiskType
+Specifies the Recovery disk type.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+Accepted values: Premium_LRS, Standard_LRS, Standard_SSD
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LogStorageAccountId
+Specifies the log or cache storage account Id to be used to store replication logs.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -WhatIf
-Shows what would happen if the cmdlet runs. The cmdlet is not run.
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
 Type: SwitchParameter
@@ -98,14 +128,12 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
+### None
 
 ## OUTPUTS
 
-### Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRVaultSettings
+### Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.AsrInMageAzureV2DiskInput
 
 ## NOTES
 
 ## RELATED LINKS
-
-[Get-AzRecoveryServicesAsrVaultSettingsFile](./Get-AzRecoveryServicesAsrVaultSettingsFile.md)

@@ -19,7 +19,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
     /// <summary>
     ///     Creates Azure Site Recovery Disk replication configuration for A2A replication.
     /// </summary>
-    [Cmdlet("New", ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "RecoveryServicesAsrInMageAzureV2DiskInput", DefaultParameterSetName = ASRParameterSets.AzureToAzure,SupportsShouldProcess = true)]
+    [Cmdlet("New", ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "RecoveryServicesAsrInMageAzureV2DiskInput", DefaultParameterSetName = ASRParameterSets.VMwareToAzure, SupportsShouldProcess = true)]
     [Alias("New-AsrInMageAzureV2DiskInput")]
     [OutputType(typeof(AsrInMageAzureV2DiskInput))]
     public class AzureRmAsrInMageAzureV2DiskInput : SiteRecoveryCmdletBase
@@ -70,15 +70,14 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 this.DiskId,
                 VerbsCommon.New))
             {
-                        diskRelicationConfig = new AzureRmAsrInMageAzureV2DiskInput()
-                        {
-                            DiskId = this.DiskId,
-                            DiskType = this.DiskType,
-                            LogStorageAccountId = this.LogStorageAccountId
-                        };
-                }
-                this.WriteObject(diskRelicationConfig);
+                diskRelicationConfig = new AzureRmAsrInMageAzureV2DiskInput()
+                {
+                    DiskId = this.DiskId,
+                    DiskType = this.DiskType,
+                    LogStorageAccountId = this.LogStorageAccountId
+                };
             }
+            this.WriteObject(diskRelicationConfig);
         }
     }
 }
