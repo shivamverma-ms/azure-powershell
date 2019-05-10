@@ -92,7 +92,7 @@ function Test-NewAsrFabric {
 
 
 function Test-NewContainer{
-    param([string] $seed ='35')
+    param([string] $seed ='33')
     $primaryPolicyName = getPrimaryPolicy
         $recoveryPolicyName = getRecoveryPolicy
         
