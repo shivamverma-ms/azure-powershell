@@ -46,6 +46,8 @@ namespace Microsoft.Azure.Management.RecoveryServices.SiteRecovery.Models
             this.PossibleCauses = healthError.PossibleCauses;
             this.RecommendedAction = healthError.RecommendedAction;
             this.RecoveryProviderErrorMessage = healthError.RecoveryProviderErrorMessage;
+            this.ErrorId = healthError.ErrorId;
+            this.CustomerResolvability = healthError.CustomerResolvability;
             this.childError = new List<ASRHealthError_2016_08_10>();
             if (healthError.InnerHealthErrors != null)
             {
@@ -120,6 +122,16 @@ namespace Microsoft.Azure.Management.RecoveryServices.SiteRecovery.Models
         ///     Error message.
         /// </summary>
         public string ErrorMessage { get; set; }
+
+        /// <summary>
+        ///     Id of error.
+        /// </summary>
+        public string ErrorId { get; set; }
+
+        /// <summary>
+        ///     CustomerResolvability of error.
+        /// </summary>
+        public string CustomerResolvability { get; set; }
 
         /// <summary>
         ///     Possible causes of error.

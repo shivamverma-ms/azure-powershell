@@ -198,3 +198,31 @@ Function WaitForIRCompletion
         $IRjobs
         WaitForJobCompletion -JobId $IRjobs[0].Name -JobQueryWaitTimeInSeconds $JobQueryWaitTimeInSeconds -Message $("Finalize IR in Progress...")
 }
+
+Function WaitForAddDisksIRCompletion
+{ 
+    param(
+        [PSObject] $affectedObjectId,
+        [int] $JobQueryWaitTimeInSeconds = 10
+        )
+        $isProcessingLeft = $true
+        $IRjobs = $null
+
+        Write-Host $("Add-Disk IR in Progress...") -ForegroundColor Yellow
+        do
+        {
+            $IRjobs = Get-AzureRmRecoveryServicesAsrJob -TargetObjectId $affectedObjectId | Sort-Object StartTime -Descending | select -First 2 | Where-Object{$_.JobType -eq "AddDisksIrCompletion"}
+            $isProcessingLeft = ($IRjobs -eq $null -or $IRjobs.Count -ne 1)
+
+            if($isProcessingLeft)
+            {
+                Write-Host $("Adddisk IR in Progress...") -ForegroundColor Yellow
+                Write-Host $("Waiting for: " + $JobQueryWaitTimeInSeconds.ToString + " Seconds") -ForegroundColor Yellow
+                [Microsoft.Rest.ClientRuntime.Azure.TestFramework.TestUtilities]::Wait($JobQueryWaitTimeInSeconds * 1000)
+            }
+        }While($isProcessingLeft)
+
+        Write-Host $("Finalize Add disk IR jobs:") -ForegroundColor Green
+        $IRjobs
+        WaitForJobCompletion -JobId $IRjobs[0].Name -JobQueryWaitTimeInSeconds $JobQueryWaitTimeInSeconds -Message $("Finalize IR in Progress...")
+}

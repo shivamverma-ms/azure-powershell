@@ -76,5 +76,49 @@ namespace RecoveryServices.SiteRecovery.Test
         {
             this.RunPowerShellTest(_logger, Constants.NewModel, "Test-NewContainer");
         }
+
+#if NETSTANDARD
+        [Fact(Skip = "Needs investigation, TestManagementClientHelper class wasn't initialized with the ResourceManagementClient client.")]
+#else
+        [Fact]
+#endif
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void A2ANewReplicationProtectedItemDisk()
+        {
+            this.RunPowerShellTest(_logger, Constants.NewModel, "Test-NewReplicationProtectedItem");
+        }
+
+#if NETSTANDARD
+        [Fact(Skip = "Needs investigation, TestManagementClientHelper class wasn't initialized with the ResourceManagementClient client.")]
+#else
+        [Fact]
+#endif
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void A2AAddReplicationProtectedItemDisk()
+        {
+            this.RunPowerShellTest(_logger, Constants.NewModel, "Test-AddReplicationProtectedItemDisk");
+        }
+
+#if NETSTANDARD
+        [Fact(Skip = "Needs investigation, TestManagementClientHelper class wasn't initialized with the ResourceManagementClient client.")]
+#else
+        [Fact]
+#endif
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void A2ARemoveReplicationProtectedItemDisk()
+        {
+            this.RunPowerShellTest(_logger, Constants.NewModel, "Test-RemoveReplicationProtectedItemDisk");
+        }
+
+#if NETSTANDARD
+        [Fact(Skip = "Needs investigation, TestManagementClientHelper class wasn't initialized with the ResourceManagementClient client.")]
+#else
+        [Fact]
+#endif
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void A2ARemoveReplicationProtectedItemHealthError()
+        {
+            this.RunPowerShellTest(_logger, Constants.NewModel, "Test-ResolveHealthError");
+        }
     }
 }
