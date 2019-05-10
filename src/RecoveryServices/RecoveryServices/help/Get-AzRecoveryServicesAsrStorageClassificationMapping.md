@@ -44,7 +44,7 @@ The credentials, account, tenant, and subscription used for communication with A
 
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -59,7 +59,7 @@ Accept wildcard characters: False
 Specifies the name of the storage classification mapping to get.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: ByObjectWithName
 Aliases:
 
@@ -74,7 +74,7 @@ Accept wildcard characters: False
 Specifies an ASR storage classification object. The cmdlet gets ASR storage classification mappings corresponding to the specified storage classification 
 
 ```yaml
-Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRStorageClassification
+Type: ASRStorageClassification
 Parameter Sets: (All)
 Aliases:
 

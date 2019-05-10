@@ -11,6 +11,9 @@ Locale: en-US
 This topic displays help topics for the Azure Recovery Services cmdlets.
 
 ## Az.RecoveryServices Cmdlets
+### [Add-AzRecoveryServicesAsrReplicationProtectedItemDisk](Add-AzRecoveryServicesAsrReplicationProtectedItemDisk.md)
+Add the disk to protection for already replicated Virtual machine on which Enable DR is already done.
+
 ### [Backup-AzRecoveryServicesBackupItem](Backup-AzRecoveryServicesBackupItem.md)
 Starts a backup for a Backup item.
 
@@ -98,6 +101,9 @@ Gets Backup jobs.
 ### [Get-AzRecoveryServicesBackupJobDetail](Get-AzRecoveryServicesBackupJobDetail.md)
 Gets details for a Backup job.
 
+### [Get-AzRecoveryServicesBackupJobDetails](Get-AzRecoveryServicesBackupJobDetails.md)
+Gets details for a Backup job.
+
 ### [Get-AzRecoveryServicesBackupManagementServer](Get-AzRecoveryServicesBackupManagementServer.md)
 Gets SCDPM and Azure Backup management servers.
 
@@ -148,6 +154,9 @@ Creates a disk mapping object for Azure virtual machine disks to be replicated.
 
 ### [New-AzRecoveryServicesAsrFabric](New-AzRecoveryServicesAsrFabric.md)
 Creates an Azure Site Recovery Fabric.
+
+### [New-AzRecoveryServicesAsrInMageAzureV2DiskInput](New-AzRecoveryServicesAsrInMageAzureV2DiskInput.md)
+Create disk input for disk to protect vMWare to Azure.
 
 ### [New-AzRecoveryServicesAsrNetworkMapping](New-AzRecoveryServicesAsrNetworkMapping.md)
 Creates an ASR network mapping between two networks.
@@ -239,6 +248,9 @@ Sets recovery properties such as target network and virtual machine size for the
 ### [Set-AzRecoveryServicesAsrVaultContext](Set-AzRecoveryServicesAsrVaultContext.md)
 Sets the Recovery Services vault context to be used for subsequent Azure Site Recovery operations in the current PowerShell session.
 
+### [Set-AzRecoveryServicesBackupProperties](Set-AzRecoveryServicesBackupProperties.md)
+Sets the properties for backup management.
+
 ### [Set-AzRecoveryServicesBackupProperty](Set-AzRecoveryServicesBackupProperty.md)
 Sets the properties for backup management.
 
@@ -294,7 +306,7 @@ Updates the specified azure site recovery network mapping.
 Updates an Azure Site Recovery replication policy.
 
 ### [Update-AzRecoveryServicesAsrProtectionContainerMapping](Update-AzRecoveryServicesAsrProtectionContainerMapping.md)
-{{ Fill in the Synopsis }}
+Update the ASR protection container mapping.
 
 ### [Update-AzRecoveryServicesAsrProtectionDirection](Update-AzRecoveryServicesAsrProtectionDirection.md)
 Updates the replication direction for the specified replication protected item or recovery plan. Used to re-protect/reverse replicate a failed over replicated item or recovery plan.

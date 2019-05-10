@@ -75,7 +75,7 @@ The credentials, account, tenant, and subscription used for communication with A
 
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -90,7 +90,7 @@ Accept wildcard characters: False
 Specifies the friendly name of the ASR replication policy.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: ByFriendlyName
 Aliases:
 
@@ -105,7 +105,7 @@ Accept wildcard characters: False
 Specifies the name of the ASR replication policy.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: ByName
 Aliases:
 

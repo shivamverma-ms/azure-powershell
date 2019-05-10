@@ -19,6 +19,7 @@ using System.Management.Automation;
 using Hyak.Common;
 using Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.Properties;
 using Microsoft.Azure.Management.RecoveryServices.SiteRecovery.Models;
+using Microsoft.WindowsAzure.Commands.Common.CustomAttributes;
 using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery

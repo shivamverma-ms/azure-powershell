@@ -52,7 +52,7 @@ Enable-AzRecoveryServicesBackupProtection -Vault $vault -Policy $defpol -Name "m
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -67,7 +67,7 @@ Accept wildcard characters: False
 Name of the Azure Resource whose representative item needs to be checked if it is already protected by some Recovery Services Vault in the subscription.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: Name
 Aliases:
 
@@ -82,7 +82,7 @@ Accept wildcard characters: False
 Name of the Azure Resource whose representative item needs to be checked if it is already protected by some Recovery Services Vault in the subscription.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: IdWorkload
 Aliases:
 
@@ -97,7 +97,7 @@ Accept wildcard characters: False
 Name of the resource group of the Azure Resource whose representative item needs to be checked if it is already protected by some RecoveryServices Vault in the subscription.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: Name
 Aliases:
 
@@ -112,7 +112,7 @@ Accept wildcard characters: False
 ID of the Azure Resource whose representative item needs to be checked if it is already protected by some RecoveryServices Vault in the subscription.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: IdWorkload, Id
 Aliases:
 
@@ -127,7 +127,7 @@ Accept wildcard characters: False
 Name of the Azure Resource whose representative item needs to be checked if it is already protected by some Recovery Services Vault in the subscription.
 
 ```yaml
-Type: System.String
+Type: String
 Parameter Sets: Name, IdWorkload
 Aliases:
 Accepted values: AzureVM, AzureFiles
