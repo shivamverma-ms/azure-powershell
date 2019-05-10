@@ -67,5 +67,19 @@ namespace RecoveryServices.SiteRecovery.Test
         {
             this.RunPowerShellTest(_logger, Constants.NewModel, "Test-NewContainer");
         }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void A2ANewAsrReplicationProtectedItem()
+        {
+            this.RunPowerShellTest(_logger, Constants.NewModel, "Test-NewReplicationProtectedItem");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void A2ANewAsrReplicationProtectedItemDisk()
+        {
+            this.RunPowerShellTest(_logger, Constants.NewModel, "Test-AddReplicationProtectedItemDisk");
+        }
     }
 }
