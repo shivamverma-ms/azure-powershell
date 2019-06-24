@@ -1299,7 +1299,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 }
 
                 this.ProviderSpecificDetails = new ASRHyperVReplicaAzureSpecificRPIDetails(providerSpecificDetails);
-
             }
             else if (rpi.Properties.ProviderSpecificDetails is HyperVReplicaReplicationDetails)
             {
