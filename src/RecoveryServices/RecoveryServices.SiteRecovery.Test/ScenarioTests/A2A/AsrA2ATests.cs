@@ -81,5 +81,20 @@ namespace RecoveryServices.SiteRecovery.Test
         {
             this.RunPowerShellTest(_logger, Constants.NewModel, "Test-AddReplicationProtectedItemDisk");
         }
+
+        [Fact(Skip = "Needs investigation, TestManagementClientHelper class wasn't initialized with the ResourceManagementClient client.")]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void A2ARemoveReplicationProtectedItemDisk()
+        {
+            this.RunPowerShellTest(_logger, Constants.NewModel, "Test-RemoveReplicationProtectedItemDisk");
+        }
+
+        [Fact(Skip = "Needs investigation, TestManagementClientHelper class wasn't initialized with the ResourceManagementClient client.")]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void A2ARemoveReplicationProtectedItemHealthError()
+        {
+            this.RunPowerShellTest(_logger, Constants.NewModel, "Test-ResolveHealthError");
+        }
+
     }
 }

@@ -214,6 +214,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             this.PossibleCauses = healthError.PossibleCauses;
             this.RecommendedAction = healthError.RecommendedAction;
             this.RecoveryProviderErrorMessage = healthError.RecoveryProviderErrorMessage;
+            this.ErrorId = healthError.ErrorId;
+            this.CustomerResolvability = healthError.CustomerResolvability;
         }
 
         /// <summary>
@@ -255,6 +257,16 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         ///     Recovery Provider error message.
         /// </summary>
         public string RecoveryProviderErrorMessage { get; set; }
+
+        /// <summary> 
+        ///     Id of error. 
+        /// </summary> 
+        public string ErrorId { get; set; }
+
+        /// <summary> 
+        ///     CustomerResolvability of error. 
+        /// </summary> 
+        public string CustomerResolvability { get; set; }
     }
 
     /// <summary>
