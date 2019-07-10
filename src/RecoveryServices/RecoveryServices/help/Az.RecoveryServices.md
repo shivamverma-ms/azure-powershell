@@ -212,6 +212,12 @@ Deletes the specified ASR recovery plan from Recovery Services vault.
 ### [Remove-AzRecoveryServicesAsrReplicationProtectedItem](Remove-AzRecoveryServicesAsrReplicationProtectedItem.md)
 Stops/Disables replication for an Azure Site Recovery replication protected item.
 
+### [Remove-AzRecoveryServicesAsrReplicationProtectedItemDisk](Remove-AzRecoveryServicesAsrReplicationProtectedItemDisk.md)
+Removes disks to replication protected item.
+
+### [Remove-AzRecoveryServicesAsrReplicationProtectedItemHealthError](Remove-AzRecoveryServicesAsrReplicationProtectedItemHealthError.md)
+Removes the health error from the ASR replication protected item.
+
 ### [Remove-AzRecoveryServicesAsrServicesProvider](Remove-AzRecoveryServicesAsrServicesProvider.md)
 Deletes/unregister the specified Azure Site Recovery recovery services provider from the recovery services vault.
 

@@ -525,7 +525,7 @@ function Test-RemoveReplicationProtectedItemDisk{
 #>
 
 function Test-ResolveHealthError{
-   param([string] $seed ='556')
+   param([string] $seed ='557')
         $primaryPolicyName = getPrimaryPolicy
         $recoveryPolicyName = getRecoveryPolicy
         

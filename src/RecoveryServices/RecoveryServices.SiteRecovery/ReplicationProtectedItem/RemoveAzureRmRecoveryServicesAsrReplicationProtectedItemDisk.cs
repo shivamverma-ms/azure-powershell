@@ -27,9 +27,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
     [OutputType(typeof(ASRJob))]
     public class RemoveAzureRmRecoveryServicesAsrReplicationProtectedItemDisk : SiteRecoveryCmdletBase
     {
+        [Parameter(Mandatory = true, ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
-        [Parameter(Mandatory = true)]
-        public ASRReplicationProtectedItem ReplicationProtectedItem { get; set; }
+        [Alias("ReplicationProtectedItem")]
+        public ASRReplicationProtectedItem InputObject { get; set; }
 
         /// <summary>
         /// Gets or sets the disk uri.
@@ -67,12 +68,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 
             this.response = this.RecoveryServicesClient.RemoveDisks(
                 Utilities.GetValueFromArmId(
-                    this.ReplicationProtectedItem.ID,
+                    this.InputObject.ID,
                     ARMResourceTypeConstants.ReplicationFabrics),
                 Utilities.GetValueFromArmId(
-                    this.ReplicationProtectedItem.ID,
+                    this.InputObject.ID,
                     ARMResourceTypeConstants.ReplicationProtectionContainers),
-                this.ReplicationProtectedItem.Name,
+                this.InputObject.Name,
                 input);
 
             this.jobResponse = this.RecoveryServicesClient.GetAzureSiteRecoveryJobDetails(

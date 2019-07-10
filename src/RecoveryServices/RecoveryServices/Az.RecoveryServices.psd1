@@ -134,7 +134,7 @@ CmdletsToExport =
                'Remove-AzRecoveryServicesAsrRecoveryPlan', 
                'Remove-AzRecoveryServicesAsrReplicationProtectedItem', 
 			   'Remove-AzRecoveryServicesAsrReplicationProtectedItemDisk', 
-			   'Remove-RecoveryServicesAsrReplicationProtectedItemHealthError', 
+			   'Remove-AzRecoveryServicesAsrReplicationProtectedItemHealthError', 
                'Remove-AzRecoveryServicesAsrServicesProvider', 
                'Remove-AzRecoveryServicesAsrStorageClassificationMapping', 
                'Remove-AzRecoveryServicesAsrvCenter', 
