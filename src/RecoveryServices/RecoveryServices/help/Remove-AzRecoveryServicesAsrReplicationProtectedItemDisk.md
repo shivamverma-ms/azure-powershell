@@ -36,7 +36,15 @@ The **Remove-AzRecoveryServicesAsrReplicationProtectedItemDisk** cmdlet removes 
 PS C:\> Remove-AzRecoveryServicesAsrReplicationProtectedItemDisk -ReplicationProtectedItem $rpi -VhdUri $vhdUri
 ```
 
-Start the operation to remove specified disk from protection VM.
+Start the operation to remove specified disk from protection VM for unManaged disk.
+
+
+### Example 2
+```powershell
+PS C:\> Remove-AzRecoveryServicesAsrReplicationProtectedItemDisk -ReplicationProtectedItem $rpi -DiskId $diskId
+```
+
+Start the operation to remove specified disk from protection VM for Managed disk.
 
 ## PARAMETERS
 
