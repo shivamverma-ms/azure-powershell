@@ -81,5 +81,19 @@ namespace RecoveryServices.SiteRecovery.Test
         {
             this.RunPowerShellTest(_logger, Constants.NewModel, "Test-AddReplicationProtectedItemDisk");
         }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void A2ARemoveReplicationProtectedItemDisk()
+        {
+            this.RunPowerShellTest(_logger, Constants.NewModel, "Test-RemoveReplicationProtectedItemDisk");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void A2ARemoveReplicationProtectedItemHealthError()
+        {
+            this.RunPowerShellTest(_logger, Constants.NewModel, "Test-ResolveHealthError");
+        }
     }
 }
