@@ -20,23 +20,23 @@ using Job = Microsoft.Azure.Management.RecoveryServices.SiteRecovery.Models.Job;
 namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 {
     /// <summary>
-    /// Adds disks to replication protected item.
+    /// Removes health error for the replication protected item.
     /// </summary>
-    [Cmdlet("Add", ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "RecoveryServicesAsrReplicationProtectedItemDisk",
-        DefaultParameterSetName = ASRParameterSets.EnterpriseToEnterprise,
-        SupportsShouldProcess = true)]
-    [Alias("Add-ASRReplicationProtectedItemDisk")]
+    [Cmdlet("Remove", ResourceManager.Common.AzureRMConstants.AzureRMPrefix + "RecoveryServicesAsrReplicationProtectedItemHealthError", DefaultParameterSetName = ASRParameterSets.AzureToAzure, SupportsShouldProcess = true)]
+    [Alias("Remove-ASRReplicationProtectedItemHealthError")]
     [OutputType(typeof(ASRJob))]
-    public class AddAzureRmRecoveryServicesAsrReplicationProtectedItemDisk : SiteRecoveryCmdletBase
+    public class RemoveAzureRmRecoveryServicesAsrReplicationProtectedItemHealthError : SiteRecoveryCmdletBase
     {
-        [Parameter(Mandatory = true, ValueFromPipeline = true)]
-        [ValidateNotNullOrEmpty]
-        [Alias("ReplicationProtectedItem")]
-        public ASRReplicationProtectedItem InputObject { get; set; }
-
         [ValidateNotNullOrEmpty]
         [Parameter(Mandatory = true)]
-        public ASRAzuretoAzureDiskReplicationConfig[] AzureToAzureDiskReplicationConfiguration { get; set; }
+        public ASRReplicationProtectedItem ReplicationProtectedItem { get; set; }
+
+        /// <summary>
+        /// Gets or sets the errro id.
+        /// </summary>
+        [Parameter(Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        public string[] ErrorIds { get; set; }
 
         [Parameter]
         public SwitchParameter WaitForCompletion { get; set; }
@@ -47,82 +47,48 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public override void ExecuteSiteRecoveryCmdlet()
         {
             base.ExecuteSiteRecoveryCmdlet();
-            if (ShouldProcess(this.InputObject.FriendlyName, VerbsCommon.Add))
+
+            var input = new ResolveHealthInput { Properties = new ResolveHealthInputProperties() };
+            FillResolveHealthErrorInput(input);
+
+            this.response = this.RecoveryServicesClient.ResolveHealthError(
+                Utilities.GetValueFromArmId(
+                    this.ReplicationProtectedItem.ID,
+                    ARMResourceTypeConstants.ReplicationFabrics),
+                Utilities.GetValueFromArmId(
+                    this.ReplicationProtectedItem.ID,
+                    ARMResourceTypeConstants.ReplicationProtectionContainers),
+                this.ReplicationProtectedItem.Name,
+                input);
+
+            this.jobResponse = this.RecoveryServicesClient.GetAzureSiteRecoveryJobDetails(
+                PSRecoveryServicesClient.GetJobIdFromReponseLocation(this.response.Location));
+
+            this.WriteObject(new ASRJob(this.jobResponse));
+
+            if (this.WaitForCompletion.IsPresent)
             {
-                // check for A2A protected item - if providerSpecificDetails is A2AReplicationDetails.
-
-                var addDisksProviderSpecificInput = new AddDisksProviderSpecificInput();
-                var inputProperties = new AddDisksInputProperties
-                {
-                    ProviderSpecificDetails = addDisksProviderSpecificInput
-                };
-                var input = new AddDisksInput { Properties = inputProperties };
-                AzureToAzureReplication(input);
-
-                this.response = this.RecoveryServicesClient.AddDisks(
-                    Utilities.GetValueFromArmId(
-                        this.InputObject.ID,
-                        ARMResourceTypeConstants.ReplicationFabrics),
-                    Utilities.GetValueFromArmId(
-                        this.InputObject.ID,
-                        ARMResourceTypeConstants.ReplicationProtectionContainers),
-                    this.InputObject.Name,
-                    input);
+                this.WaitForJobCompletion(this.jobResponse.Name);
 
                 this.jobResponse = this.RecoveryServicesClient.GetAzureSiteRecoveryJobDetails(
-                    PSRecoveryServicesClient.GetJobIdFromReponseLocation(this.response.Location));
+                    PSRecoveryServicesClient
+                        .GetJobIdFromReponseLocation(this.response.Location));
 
                 this.WriteObject(new ASRJob(this.jobResponse));
-
-                if (this.WaitForCompletion.IsPresent)
-                {
-                    this.WaitForJobCompletion(this.jobResponse.Name);
-
-                    this.jobResponse = this.RecoveryServicesClient.GetAzureSiteRecoveryJobDetails(
-                        PSRecoveryServicesClient
-                            .GetJobIdFromReponseLocation(this.response.Location));
-
-                    this.WriteObject(new ASRJob(this.jobResponse));
-                }
             }
         }
 
         /// <summary>
         /// Helper method to fill in input details.
         /// </summary>
-        private void AzureToAzureReplication(AddDisksInput input)
+        private void FillResolveHealthErrorInput(ResolveHealthInput input)
         {
-            var providerSettings = new A2AAddDisksInput()
-            {
-                VmDisks = new List<A2AVmDiskInputDetails>(),
-                VmManagedDisks = new List<A2AVmManagedDiskInputDetails>()
-            };
+            input.Properties.HealthErrors = new List<ResolveHealthError>();
 
-            foreach (ASRAzuretoAzureDiskReplicationConfig disk in this.AzureToAzureDiskReplicationConfiguration)
+            foreach (string errorId in ErrorIds)
             {
-                if (disk.IsManagedDisk)
-                {
-                    providerSettings.VmManagedDisks.Add(new A2AVmManagedDiskInputDetails
-                    {
-                        DiskId = disk.DiskId,
-                        RecoveryResourceGroupId = disk.RecoveryResourceGroupId,
-                        PrimaryStagingAzureStorageAccountId = disk.LogStorageAccountId,
-                        RecoveryReplicaDiskAccountType = disk.RecoveryReplicaDiskAccountType,
-                        RecoveryTargetDiskAccountType = disk.RecoveryTargetDiskAccountType
-                    });
-                }
-                else
-                {
-                    providerSettings.VmDisks.Add(new A2AVmDiskInputDetails
-                    {
-                        DiskUri = disk.VhdUri,
-                        RecoveryAzureStorageAccountId = disk.RecoveryAzureStorageAccountId,
-                        PrimaryStagingAzureStorageAccountId = disk.LogStorageAccountId
-                    });
-                }
+                input.Properties.HealthErrors.Add(new ResolveHealthError(errorId));
             }
-
-            input.Properties.ProviderSpecificDetails = providerSettings;
         }
 
         /// <summary>
