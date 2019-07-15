@@ -38,7 +38,6 @@ PS C:\> Remove-AzRecoveryServicesAsrReplicationProtectedItemDisk -ReplicationPro
 
 Start the operation to remove specified disk from protection VM for unManaged disk.
 
-
 ### Example 2
 ```powershell
 PS C:\> Remove-AzRecoveryServicesAsrReplicationProtectedItemDisk -ReplicationProtectedItem $rpi -DiskId $diskId
