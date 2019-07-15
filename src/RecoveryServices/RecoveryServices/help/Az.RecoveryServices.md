@@ -1,4 +1,4 @@
----
+﻿---
 Module Name: Az.RecoveryServices
 Module Guid: 4aa53b7e-fcfe-4e22-979c-9a4e6380de58
 Download Help Link: https://docs.microsoft.com/en-us/powershell/module/az.recoveryservices
@@ -211,6 +211,12 @@ Deletes the specified ASR recovery plan from Recovery Services vault.
 
 ### [Remove-AzRecoveryServicesAsrReplicationProtectedItem](Remove-AzRecoveryServicesAsrReplicationProtectedItem.md)
 Stops/Disables replication for an Azure Site Recovery replication protected item.
+
+### [Remove-AzRecoveryServicesAsrReplicationProtectedItem](Remove-AzRecoveryServicesAsrReplicationProtectedItemDisk.md)
+Removes a protected disk from replication protected item.
+
+### [Remove-AzRecoveryServicesAsrReplicationProtectedItem](Remove-AzRecoveryServicesAsrReplicationProtectedItemHealth.md)
+Removes the health error from replication protected item.
 
 ### [Remove-AzRecoveryServicesAsrServicesProvider](Remove-AzRecoveryServicesAsrServicesProvider.md)
 Deletes/unregister the specified Azure Site Recovery recovery services provider from the recovery services vault.
