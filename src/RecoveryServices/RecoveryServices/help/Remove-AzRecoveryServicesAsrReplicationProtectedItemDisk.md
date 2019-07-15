@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-AzRecoveryServicesAsrReplicationProtectedItemDisk
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Removes disks to replication protected item.
 
 ## SYNTAX
 
@@ -27,24 +27,47 @@ Remove-AzRecoveryServicesAsrReplicationProtectedItemDisk -InputObject <ASRReplic
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+The **Remove-AzRecoveryServicesAsrReplicationProtectedItemDisk** cmdlet removes the disk from the ASR replication protected item.
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> {{ Add example code here }}
+PS C:\> Remove-AzRecoveryServicesAsrReplicationProtectedItemDisk -ReplicationProtectedItem $rpi -VhdUri $vhdUri
 ```
 
-{{ Add example description here }}
+Start the operation to remove specified disk from protection VM for unManaged disk.
+
+
+### Example 2
+```powershell
+PS C:\> Remove-AzRecoveryServicesAsrReplicationProtectedItemDisk -ReplicationProtectedItem $rpi -DiskId $diskId
+```
+
+Start the operation to remove specified disk from protection VM for Managed disk.
 
 ## PARAMETERS
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with Azure.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
+Type: IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
 
@@ -56,10 +79,10 @@ Accept wildcard characters: False
 ```
 
 ### -DiskId
-{{ Fill DiskId Description }}
+Specifies the list of managed disk Ids.
 
 ```yaml
-Type: System.String[]
+Type: String[]
 Parameter Sets: AzureToAzureManagedDisk
 Aliases:
 
@@ -71,10 +94,10 @@ Accept wildcard characters: False
 ```
 
 ### -InputObject
-{{ Fill InputObject Description }}
+The input object to the cmdlet: The ASR replication protected item object corresponding to which disk is to be removed.
 
 ```yaml
-Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRReplicationProtectedItem
+Type: ASRReplicationProtectedItem
 Parameter Sets: (All)
 Aliases: ReplicationProtectedItem
 
@@ -86,10 +109,10 @@ Accept wildcard characters: False
 ```
 
 ### -VhdUri
-{{ Fill VhdUri Description }}
+Specifies the list of vhd Uri's.
 
 ```yaml
-Type: System.String[]
+Type: String[]
 Parameter Sets: AzureToAzure
 Aliases:
 
@@ -101,27 +124,12 @@ Accept wildcard characters: False
 ```
 
 ### -WaitForCompletion
-{{ Fill WaitForCompletion Description }}
+Wait For Completion
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Confirm
-Prompts you for confirmation before running the cmdlet.
-
-```yaml
-Type: System.Management.Automation.SwitchParameter
-Parameter Sets: (All)
-Aliases: cf
 
 Required: False
 Position: Named
@@ -135,7 +143,7 @@ Shows what would happen if the cmdlet runs.
 The cmdlet is not run.
 
 ```yaml
-Type: System.Management.Automation.SwitchParameter
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: wi
 
