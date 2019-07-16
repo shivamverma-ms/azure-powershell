@@ -14,7 +14,7 @@ Removes the health error from the ASR replication protected item.
 
 ```
 Remove-AzRecoveryServicesAsrReplicationProtectedItemHealthError
- -ReplicationProtectedItem <ASRReplicationProtectedItem> -ErrorIds <String[]> [-WaitForCompletion]
+ -ReplicationProtectedItem <ASRReplicationProtectedItem> -ErrorId <String[]> [-WaitForCompletion]
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -62,7 +62,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ErrorIds
+### -ErrorId
 Health Error Ids.
 
 ```yaml
