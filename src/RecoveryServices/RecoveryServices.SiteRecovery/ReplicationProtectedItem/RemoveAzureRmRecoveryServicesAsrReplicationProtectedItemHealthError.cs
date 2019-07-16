@@ -36,7 +36,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// </summary>
         [Parameter(Mandatory = true)]
         [ValidateNotNullOrEmpty]
-        public string[] ErrorIds { get; set; }
+        public string[] ErrorId { get; set; }
 
         [Parameter]
         public SwitchParameter WaitForCompletion { get; set; }
@@ -85,7 +85,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         {
             input.Properties.HealthErrors = new List<ResolveHealthError>();
 
-            foreach (string errorId in ErrorIds)
+            foreach (string errorId in ErrorId)
             {
                 input.Properties.HealthErrors.Add(new ResolveHealthError(errorId));
             }

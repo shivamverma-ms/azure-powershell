@@ -641,6 +641,6 @@ function Test-ResolveHealthError{
         }While($healthError -eq $null)
 
 	    #resolve health error
-		$addDRjob = Remove-AzureRmRecoveryServicesAsrReplicationProtectedItemHealthError -ReplicationProtectedItem $pe -ErrorIds $healthError.ErrorId
+		$addDRjob = Remove-AzureRmRecoveryServicesAsrReplicationProtectedItemHealthError -ReplicationProtectedItem $pe -ErrorId $healthError.ErrorId
 		WaitForJobCompletion -JobId $addDRjob.Name
 }
