@@ -2345,17 +2345,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
     public class ASRAzuretoAzureDiskReplicationConfig
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ASRAzuretoAzureDiskReplicationConfig" /> class.
+        /// Initializes a new instance of the <see cref="ASRAzuretoAzureDiskReplicationConfig" /> class.
         /// </summary>
         public ASRAzuretoAzureDiskReplicationConfig()
         {
         }
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="ASRRunAsAccount" /> class.
-        /// </summary>
-        /// <param name="runAsAccountDetails">Run as account object.</param>
-        /// 
         /// <summary>
         /// Gets or sets the disk uri.
         /// </summary>
@@ -2395,6 +2390,26 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// Gets or sets RecoveryTargetDiskAccountType. 
         /// </summary>
         public string RecoveryTargetDiskAccountType;
+
+        /// <summary>
+        /// Gets or sets DiskEncryptionVaultId.
+        /// </summary>
+        public string DiskEncryptionVaultId { get; set; }
+
+        /// <summary>
+        /// Gets or sets DiskEncryptionSecretUrl.
+        /// </summary>
+        public string DiskEncryptionSecretUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets KeyEncryptionKeyUrl.
+        /// </summary>
+        public string KeyEncryptionKeyUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets KeyEncryptionVaultId.
+        /// </summary>
+        public string KeyEncryptionVaultId { get; set; }
     }
 
     /// <summary>
@@ -2468,30 +2483,34 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             this.KeyIdentifier = disk.KeyIdentifier;
         }
 
-        //
-        // Summary:
-        //     Gets or sets a value indicating whether disk key got encrypted or not.
+        /// <summary>
+        /// Gets or sets a value indicating whether disk key got encrypted or not.
+        /// </summary>
         public bool? IsDiskKeyEncrypted { get; set; }
-        //
-        // Summary:
-        //     Gets or sets the KeyVault resource id for secret (BEK).
+
+        /// <summary>
+        /// Gets or sets the KeyVault resource id for secret (BEK).
+        /// </summary>
         public string DekKeyVaultArmId { get; set; }
-        //
-        // Summary:
-        //     Gets or sets the secret URL / identifier (BEK).
+
+        /// <summary>
+        /// Gets or sets the secret URL / identifier (BEK).
+        /// </summary>
         public string SecretIdentifier { get; set; }
-        //
-        // Summary:
-        //     Gets or sets a value indicating whether vm has encrypted os disk or not.
+
+        /// <summary>
+        /// Gets or sets a value indicating whether vm has encrypted os disk or not.
+        /// </summary>
         public bool? IsDiskEncrypted { get; set; }
 
-        //
-        // Summary:
-        //     Gets or sets the key URL / identifier (KEK).
+        /// <summary>
+        /// Gets or sets the key URL / identifier (KEK).
+        /// </summary>
         public string KeyIdentifier { get; set; }
-        //
-        // Summary:
-        //     Gets or sets the KeyVault resource id for key (KEK).
+
+        /// <summary>
+        /// Gets or sets the KeyVault resource id for key (KEK).
+        /// </summary>
         public string KekKeyVaultArmId { get; set; }
 
         /// <summary>
@@ -2758,42 +2777,5 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 
             return sb.ToString();
         }
-    }
-
-    /// <summary>
-    /// Encryption types for VM.
-    /// </summary>
-    public enum AzureDiskEncryptionType
-    {
-        /// <summary>
-        /// VM not encrypted.
-        /// </summary>
-        NotEncrypted,
-
-        /// <summary>
-        /// VM encrypted using one pass ADE flow.
-        /// </summary>
-        OnePassEncrypted,
-
-        /// <summary>
-        /// VM encrypted using two pass ADE flow.
-        /// </summary>
-        TwoPassEncrypted
-    }
-
-    /// <summary>
-    /// Azure Disk Encryption extension types for VMs.
-    /// </summary>
-    public enum AzureDiskEncryptionExtensionType
-    {
-        /// <summary>
-        /// ADE extension for Windows VM.
-        /// </summary>
-        AzureDiskEncryption,
-
-        /// <summary>
-        /// ADE extension for Linux VM.
-        /// </summary>
-        AzureDiskEncryptionForLinux
     }
 }

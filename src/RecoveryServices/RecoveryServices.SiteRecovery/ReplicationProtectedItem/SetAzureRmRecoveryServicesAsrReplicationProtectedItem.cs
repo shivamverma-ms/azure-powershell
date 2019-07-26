@@ -462,7 +462,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                                 new A2AVmManagedDiskUpdateDetails(
                                     managedDisk.DiskId,
                                     managedDisk.RecoveryTargetDiskAccountType,
-                                    managedDisk.RecoveryReplicaDiskAccountType));
+                                    managedDisk.RecoveryReplicaDiskAccountType,
+                                    Utilities.A2AEncryptionDetails(
+                                        managedDisk.DiskEncryptionSecretUrl,
+                                        managedDisk.DiskEncryptionVaultId,
+                                        managedDisk.KeyEncryptionKeyUrl,
+                                        managedDisk.KeyEncryptionVaultId)));
                         }
                     }
 

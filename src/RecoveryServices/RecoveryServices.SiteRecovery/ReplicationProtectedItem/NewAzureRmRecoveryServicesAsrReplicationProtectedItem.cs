@@ -321,13 +321,13 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public string KeyEncryptionVaultId { get; set; }
 
         /// <summary>
-        ///     Gets or sets switch parameter. On passing, command waits till completion.
+        /// Gets or sets switch parameter. On passing, command waits till completion.
         /// </summary>
         [Parameter]
         public SwitchParameter WaitForCompletion { get; set; }
 
         /// <summary>
-        ///     ProcessRecord of the command.
+        /// ProcessRecord of the command.
         /// </summary>
         public override void ExecuteSiteRecoveryCmdlet()
         {
@@ -764,7 +764,13 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                             RecoveryResourceGroupId = disk.RecoveryResourceGroupId,
                             PrimaryStagingAzureStorageAccountId = disk.LogStorageAccountId,
                             RecoveryReplicaDiskAccountType = disk.RecoveryReplicaDiskAccountType,
-                            RecoveryTargetDiskAccountType = disk.RecoveryTargetDiskAccountType
+                            RecoveryTargetDiskAccountType = disk.RecoveryTargetDiskAccountType,
+                            DiskEncryptionInfo =
+                                Utilities.A2AEncryptionDetails(
+                                    disk.DiskEncryptionSecretUrl,
+                                    disk.DiskEncryptionVaultId,
+                                    disk.KeyEncryptionKeyUrl,
+                                    disk.KeyEncryptionVaultId)
                         });
 
                     }
@@ -782,40 +788,14 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 }
             }
 
-            providerSettings.DiskEncryptionInfo = this.A2AEncryptionDetails();
+            providerSettings.DiskEncryptionInfo =
+                Utilities.A2AEncryptionDetails(
+                    this.DiskEncryptionSecretUrl,
+                    this.DiskEncryptionVaultId,
+                    this.KeyEncryptionKeyUrl,
+                    this.KeyEncryptionVaultId);
 
             input.Properties.ProviderSpecificDetails = providerSettings;
-        }
-
-        /**
-         * Creating DiskEncryptionInfo for A2A encrypted Vm.
-         */
-        private DiskEncryptionInfo A2AEncryptionDetails()
-        {
-            // Checking if any encryption data is present then the only creating DiskEncryptionInfo.
-            if (this.IsParameterBound(c => c.DiskEncryptionSecretUrl) ||
-                this.IsParameterBound(c => c.DiskEncryptionVaultId) ||
-                this.IsParameterBound(c => c.KeyEncryptionKeyUrl) ||
-                this.IsParameterBound(c => c.KeyEncryptionVaultId))
-            {
-                DiskEncryptionInfo diskEncryptionInfo = new DiskEncryptionInfo();
-                // BEK DATA is present
-                if (this.IsParameterBound(c => c.DiskEncryptionSecretUrl) && this.IsParameterBound(c => c.DiskEncryptionVaultId))
-                {
-                    diskEncryptionInfo.DiskEncryptionKeyInfo = new DiskEncryptionKeyInfo(this.DiskEncryptionSecretUrl, this.DiskEncryptionVaultId);
-                    // KEK Data is present in pair.
-                    if (this.IsParameterBound(c => c.KeyEncryptionKeyUrl) && this.IsParameterBound(c => c.KeyEncryptionVaultId))
-                    {
-                        diskEncryptionInfo.KeyEncryptionKeyInfo = new KeyEncryptionKeyInfo(this.KeyEncryptionKeyUrl, this.KeyEncryptionVaultId);
-                    }
-                }
-                else
-                {
-                    throw new Exception("Provide Disk DiskEncryptionSecretUrl and DiskEncryptionVaultId.");
-                }
-                return diskEncryptionInfo;
-            }
-            return null;
         }
 
         /// <summary>

@@ -636,7 +636,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             ReplicationProtectedItem replicationProtectedItemResponse)
         {
             if (this.AzureToAzureDiskReplicationConfiguration == null ||
-                                        this.AzureToAzureDiskReplicationConfiguration.Length == 0)
+                this.AzureToAzureDiskReplicationConfiguration.Length == 0)
             {
                 var a2aReplicationDetails = ((A2AReplicationDetails)replicationProtectedItemResponse.Properties.ProviderSpecificDetails);
                 if (!a2aReplicationDetails.FabricObjectId.ToLower().Contains(ARMResourceTypeConstants.Compute.ToLower()))
@@ -690,7 +690,13 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         RecoveryReplicaDiskAccountType = disk.RecoveryReplicaDiskAccountType,
                         RecoveryTargetDiskAccountType = disk.RecoveryTargetDiskAccountType,
                         PrimaryStagingAzureStorageAccountId = disk.LogStorageAccountId,
-                    });
+                        DiskEncryptionInfo =
+                            Utilities.A2AEncryptionDetails(
+                                disk.DiskEncryptionSecretUrl,
+                                disk.DiskEncryptionVaultId,
+                                disk.KeyEncryptionKeyUrl,
+                                disk.KeyEncryptionVaultId)
+                });
                 }
             }
         }
