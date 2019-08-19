@@ -18,6 +18,7 @@
         - Additional information about change #1
 -->
 ## Upcoming Release
+* Azure Site Recovery Support to select Disk type for vMWare to Azure DR.
 
 ## Version 2.0.0-preview
 * Azure Site Recovery Support to write to managed disk for vMWare to Azure.
