@@ -38,9 +38,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [ValidateNotNullOrEmpty]
         public string[] ErrorId { get; set; }
 
-        [Parameter]
-        public SwitchParameter WaitForCompletion { get; set; }
-
         /// <summary>
         /// ProcessRecord of the command.
         /// </summary>
@@ -51,28 +48,23 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             var input = new ResolveHealthInput { Properties = new ResolveHealthInputProperties() };
             FillResolveHealthErrorInput(input);
 
-            this.response = this.RecoveryServicesClient.ResolveHealthError(
-                Utilities.GetValueFromArmId(
-                    this.ReplicationProtectedItem.ID,
-                    ARMResourceTypeConstants.ReplicationFabrics),
-                Utilities.GetValueFromArmId(
-                    this.ReplicationProtectedItem.ID,
-                    ARMResourceTypeConstants.ReplicationProtectionContainers),
-                this.ReplicationProtectedItem.Name,
-                input);
-
-            this.jobResponse = this.RecoveryServicesClient.GetAzureSiteRecoveryJobDetails(
-                PSRecoveryServicesClient.GetJobIdFromReponseLocation(this.response.Location));
-
-            this.WriteObject(new ASRJob(this.jobResponse));
-
-            if (this.WaitForCompletion.IsPresent)
+            if (this.ShouldProcess(
+                this.ReplicationProtectedItem.FriendlyName,
+                "Removes the protected item's health error"))
             {
-                this.WaitForJobCompletion(this.jobResponse.Name);
+                PSSiteRecoveryLongRunningOperation response =
+                    this.RecoveryServicesClient.ResolveHealthError(
+                        Utilities.GetValueFromArmId(
+                            this.ReplicationProtectedItem.ID,
+                            ARMResourceTypeConstants.ReplicationFabrics),
+                        Utilities.GetValueFromArmId(
+                            this.ReplicationProtectedItem.ID,
+                            ARMResourceTypeConstants.ReplicationProtectionContainers),
+                        this.ReplicationProtectedItem.Name,
+                        input);
 
                 this.jobResponse = this.RecoveryServicesClient.GetAzureSiteRecoveryJobDetails(
-                    PSRecoveryServicesClient
-                        .GetJobIdFromReponseLocation(this.response.Location));
+                    PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location));
 
                 this.WriteObject(new ASRJob(this.jobResponse));
             }
@@ -102,10 +94,5 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         }
 
         private Job jobResponse;
-
-        /// <summary>
-        /// Job response.
-        /// </summary>
-        private PSSiteRecoveryLongRunningOperation response;
     }
 }

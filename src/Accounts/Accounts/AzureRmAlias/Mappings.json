@@ -1830,8 +1830,6 @@
     "Remove-AzRecoveryServicesAsrProtectionContainerMapping": "Remove-AzureRmRecoveryServicesAsrProtectionContainerMapping",
     "Remove-AzRecoveryServicesAsrRecoveryPlan": "Remove-AzureRmRecoveryServicesAsrRecoveryPlan",
     "Remove-AzRecoveryServicesAsrReplicationProtectedItem": "Remove-AzureRmRecoveryServicesAsrReplicationProtectedItem",
-    "Remove-AzRecoveryServicesAsrReplicationProtectedItemDisk": "Remove-AzureRmRecoveryServicesAsrReplicationProtectedItemDisk",
-    "Remove-AzRecoveryServicesAsrReplicationProtectedItemHealthError": "Remove-AzureRmRecoveryServicesAsrReplicationProtectedItemHealthError",
     "Remove-AzRecoveryServicesAsrServicesProvider": "Remove-AzureRmRecoveryServicesAsrServicesProvider",
     "Remove-AzRecoveryServicesAsrStorageClassificationMapping": "Remove-AzureRmRecoveryServicesAsrStorageClassificationMapping",
     "Remove-AzRecoveryServicesAsrvCenter": "Remove-AzureRmRecoveryServicesAsrvCenter",

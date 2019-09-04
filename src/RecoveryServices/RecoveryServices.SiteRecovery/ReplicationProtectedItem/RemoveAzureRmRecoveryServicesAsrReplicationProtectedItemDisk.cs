@@ -46,9 +46,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [ValidateNotNullOrEmpty]
         public string[] DiskId { get; set; }
 
-        [Parameter]
-        public SwitchParameter WaitForCompletion { get; set; }
-
         /// <summary>
         /// ProcessRecord of the command.
         /// </summary>
@@ -66,28 +63,23 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             var input = new RemoveDisksInput { Properties = inputProperties };
             FillRemoveDiskInputForAzureToAzureReplication(input);
 
-            this.response = this.RecoveryServicesClient.RemoveDisks(
-                Utilities.GetValueFromArmId(
-                    this.InputObject.ID,
-                    ARMResourceTypeConstants.ReplicationFabrics),
-                Utilities.GetValueFromArmId(
-                    this.InputObject.ID,
-                    ARMResourceTypeConstants.ReplicationProtectionContainers),
-                this.InputObject.Name,
-                input);
-
-            this.jobResponse = this.RecoveryServicesClient.GetAzureSiteRecoveryJobDetails(
-                PSRecoveryServicesClient.GetJobIdFromReponseLocation(this.response.Location));
-
-            this.WriteObject(new ASRJob(this.jobResponse));
-
-            if (this.WaitForCompletion.IsPresent)
+            if (this.ShouldProcess(
+                this.InputObject.FriendlyName,
+                "Removes the protected disk"))
             {
-                this.WaitForJobCompletion(this.jobResponse.Name);
+                PSSiteRecoveryLongRunningOperation response = 
+                    this.RecoveryServicesClient.RemoveDisks(
+                        Utilities.GetValueFromArmId(
+                            this.InputObject.ID,
+                            ARMResourceTypeConstants.ReplicationFabrics),
+                        Utilities.GetValueFromArmId(
+                            this.InputObject.ID,
+                            ARMResourceTypeConstants.ReplicationProtectionContainers),
+                        this.InputObject.Name,
+                        input);
 
                 this.jobResponse = this.RecoveryServicesClient.GetAzureSiteRecoveryJobDetails(
-                    PSRecoveryServicesClient
-                        .GetJobIdFromReponseLocation(this.response.Location));
+                    PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location));
 
                 this.WriteObject(new ASRJob(this.jobResponse));
             }
@@ -128,10 +120,5 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         }
 
         private Job jobResponse;
-
-        /// <summary>
-        /// Job response.
-        /// </summary>
-        private PSSiteRecoveryLongRunningOperation response;
     }
 }
