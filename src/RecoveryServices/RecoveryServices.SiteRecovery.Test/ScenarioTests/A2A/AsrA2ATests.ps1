@@ -375,6 +375,7 @@ function Test-AddReplicationProtectedItemDisk{
 
 		$pe = Get-AzRecoveryServicesAsrReplicationProtectedItem -ProtectionContainer $pc -Name  $vmName
 		Assert-NotNull($pe)
+}
 
 <#
 .SYNOPSIS 
@@ -505,7 +506,7 @@ function Test-RemoveReplicationProtectedItemDisk{
 		WaitForJobCompletion -JobId $addDRjob.Name
 		
 	 #get disk to deattach
-	|   $removeDisk = $pe.ProviderSpecificDetails.A2ADiskDetails | where-object {$_.AllowedDiskLevelOperation.Count -eq 1}
+	    $removeDisk = $pe.ProviderSpecificDetails.A2ADiskDetails | where-object {$_.AllowedDiskLevelOperation.Count -eq 1}
 	    Assert-NotNull($removeDisk)
 		$vm = get-azVm -ResourceGroupName $vmName -Name $vmName
 		$removeDiskId = $vm.StorageProfile.DataDisks | Where-Object {$_.ManagedDisk.Name -eq $removeDisk.DiskName}

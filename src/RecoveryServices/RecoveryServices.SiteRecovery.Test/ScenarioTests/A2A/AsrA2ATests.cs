@@ -32,11 +32,11 @@ namespace RecoveryServices.SiteRecovery.Test
 
             this.PowershellHelperFile = System.IO.Path.Combine(
                 System.AppDomain.CurrentDomain.BaseDirectory,
-                "ScenarioTests\\A2A\\A2ATestsHelper.ps1");
+                "ScenarioTests", "A2A", "A2ATestsHelper.ps1");
 
-            this.PowershellFile = System.IO.Path.Combine(
+           this.PowershellFile = System.IO.Path.Combine(
                 System.AppDomain.CurrentDomain.BaseDirectory,
-                "ScenarioTests\\A2A\\AsrA2ATests.ps1");
+                "ScenarioTests", "A2A", "AsrA2ATests.ps1");
             this.Initialize();
         }
 
