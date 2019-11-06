@@ -61,10 +61,10 @@ function Test-NewA2AManagedDiskReplicationConfiguration
 
 <#
 .SYNOPSIS 
-    Test GetAsrFabric new parametersets
+    Test GetAsrFabric new parameter sets
 #>
 function Test-NewAsrFabric {
-    $seed = 344;
+    $seed = 35;
         $vaultRgLocation = getVaultRgLocation
         $vaultName = getVaultName
         $vaultLocation = getVaultLocation
@@ -92,7 +92,7 @@ function Test-NewAsrFabric {
 
 
 function Test-NewContainer{
-    param([string] $seed ='96')
+    param([string] $seed ='33')
     $primaryPolicyName = getPrimaryPolicy
         $recoveryPolicyName = getRecoveryPolicy
         
@@ -375,6 +375,7 @@ function Test-AddReplicationProtectedItemDisk{
 
 		$pe = Get-AzRecoveryServicesAsrReplicationProtectedItem -ProtectionContainer $pc -Name  $vmName
 		Assert-NotNull($pe)
+}
 
 <#
 .SYNOPSIS 
@@ -505,7 +506,7 @@ function Test-RemoveReplicationProtectedItemDisk{
 		WaitForJobCompletion -JobId $addDRjob.Name
 		
 	 #get disk to deattach
-	|   $removeDisk = $pe.ProviderSpecificDetails.A2ADiskDetails | where-object {$_.AllowedDiskLevelOperation.Count -eq 1}
+	    $removeDisk = $pe.ProviderSpecificDetails.A2ADiskDetails | where-object {$_.AllowedDiskLevelOperation.Count -eq 1}
 	    Assert-NotNull($removeDisk)
 		$vm = get-azVm -ResourceGroupName $vmName -Name $vmName
 		$removeDiskId = $vm.StorageProfile.DataDisks | Where-Object {$_.ManagedDisk.Name -eq $removeDisk.DiskName}
