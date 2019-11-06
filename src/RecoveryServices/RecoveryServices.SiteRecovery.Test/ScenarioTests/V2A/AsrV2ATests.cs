@@ -119,7 +119,7 @@ namespace RecoveryServices.SiteRecovery.Test
              "\"");
         }
 
-        [Fact]
+        [Fact(Skip = "Needs Rerecordung.Recording is missing.")]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void V2ACreateRPI()
         {
