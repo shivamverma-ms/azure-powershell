@@ -519,6 +519,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         internal const string SetEmail = "SetEmail";
 
         /// <summary>
+        ///     VMware V2.
+        /// </summary>
+        internal const string VMwareV2 = "VMwareV2";
+
+        /// <summary>
         ///     Mapping for VMware to Azure.
         /// </summary>
         internal const string VMwareToAzure = "VMwareToAzure";

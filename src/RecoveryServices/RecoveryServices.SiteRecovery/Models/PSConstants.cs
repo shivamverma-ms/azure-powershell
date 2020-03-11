@@ -533,6 +533,16 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public const string VMware = "VMware";
 
         /// <summary>
+        ///     FabricType - VMwareV2.
+        /// </summary>
+        public const string VMwareV2 = "VMwareV2";
+
+        /// <summary>
+        ///     Represents VMwareCbt string constant..
+        /// </summary>
+        public const string VMwareCbt = "VMwareCbt";
+
+        /// <summary>
         ///     Represents Yes.
         /// </summary>
         public const string Yes = "Yes";
