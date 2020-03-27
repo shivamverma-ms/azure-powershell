@@ -179,6 +179,13 @@ function Test-SiteRecoveryFabricTest
     Assert-NotNull($ProcessServer.FriendlyName)
     Assert-NotNull($ProcessServer.Id)
     Assert-NotNull($ProcessServer.IpAddress)
+    Assert-NotNull($ProcessServer.Health)
+    Assert-NotNull($ProcessServer.PsStatsRefreshTime)
+    Assert-NotNull($ProcessServer.ThroughputUploadPendingDataInBytes)
+    Assert-NotNull($ProcessServer.ThroughputInMBps)
+    Assert-NotNull($ProcessServer.ThroughputInBytes)
+    Assert-NotNull($ProcessServer.MarsCommunicationStatus)
+    Assert-NotNull($ProcessServer.MarsRegistrationStatus)
 
     # New-AzRecoveryServicesAsrFabric Not used in V2A
     # Remove-AzRecoveryServicesAsrFabric Not Used in V2A

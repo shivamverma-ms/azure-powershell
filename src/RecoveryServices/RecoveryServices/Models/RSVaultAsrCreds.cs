@@ -142,5 +142,11 @@ namespace Microsoft.Azure.Portal.RecoveryServices.Models.Common
         /// </summary>
         [DataMember(Order = 6)]
         public string SiteName { get; set; }
+
+        /// <summary>
+        /// Gets or sets private endpoint state.
+        /// </summary>
+        [DataMember(Order = 7)]
+        public string privateEndpointStateForSiteRecovery { get; set; }
     }
 }
