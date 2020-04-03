@@ -1,14 +1,14 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.RecoveryServices.SiteRecovery.dll-Help.xml
 Module Name: Az.RecoveryServices
-online version: https://docs.microsoft.com/en-us/powershell/module/az.recoveryservices/new-azrecoveryservicesasrfabric
+online version:
 schema: 2.0.0
 ---
 
 # New-AzRecoveryServicesAsrFabric
 
 ## SYNOPSIS
-Creates an Azure Site Recovery Fabric.
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
@@ -24,30 +24,29 @@ New-AzRecoveryServicesAsrFabric [-Azure] -Name <String> -Location <String>
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
+### VMwareCbt
+```
+New-AzRecoveryServicesAsrFabric [-VMwareCbt] -Name <String> -VMwareSiteId <String>
+ -MigrationSolutionId <String> [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
+```
+
 ## DESCRIPTION
-The **New-AzRecoveryServicesAsrFabric** cmdlet creates an Azure Site Recovery Fabric of the specified type.
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
-```
-PS C:\>  $currentJob = New-AzRecoveryServicesAsrFabric -Name $FabricName
-```
-
-Starts the fabric creation with passed name and returns the ASR job used to track the fabric creation operation.
-
-### Example 2
-```
-PS C:\>  $currentJob = New-AzRecoveryServicesAsrFabric -Azure -Name $fabricName -Location "eastus"
-PS C:\>  Get-ASRJob -name $currentJob.id
+```powershell
+PS C:\> {{ Add example code here }}
 ```
 
-Starts the azure fabric creation with passed name and returns the ASR job used to track the fabric creation operation.
+{{ Add example description here }}
 
 ## PARAMETERS
 
 ### -Azure
-Switch parameter specifies to create azure fabric.
+{{ Fill Azure Description }}
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -64,7 +63,6 @@ Accept wildcard characters: False
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with Azure.
 
-
 ```yaml
 Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
 Parameter Sets: (All)
@@ -78,7 +76,7 @@ Accept wildcard characters: False
 ```
 
 ### -Location
-Specifies the Azure region corresponding to the Fabric object being created. The Azure Site Recovery fabric object represents a region. For virtual machines being replicated between two Azure regions  a primary fabric represents the primary Azure region and the recovery fabric .
+{{ Fill Location Description }}
 
 ```yaml
 Type: System.String
@@ -92,8 +90,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -MigrationSolutionId
+ARM Id of the migration solution
+
+```yaml
+Type: System.String
+Parameter Sets: VMwareCbt
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Name
-Specifies the name of the Azure Site Recovery Fabric.
+Name of the fabric to be created
 
 ```yaml
 Type: System.String
@@ -108,7 +121,7 @@ Accept wildcard characters: False
 ```
 
 ### -Type
-Specifies the Azure Site Recovery Fabric Type.
+{{ Fill Type Description }}
 
 ```yaml
 Type: System.String
@@ -117,6 +130,36 @@ Aliases:
 Accepted values: HyperVSite
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -VMwareCbt
+{{ Fill VMwareCbt Description }}
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: VMwareCbt
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -VMwareSiteId
+ARM Id of the VMware site
+
+```yaml
+Type: System.String
+Parameter Sets: VMwareCbt
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -139,7 +182,8 @@ Accept wildcard characters: False
 ```
 
 ### -WhatIf
-Shows what would happen if the cmdlet runs. The cmdlet is not run.
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -167,7 +211,3 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-
-[Get-AzRecoveryServicesAsrFabric](./Get-AzRecoveryServicesAsrFabric.md)
-
-[Remove-AzRecoveryServicesAsrFabric](./Remove-AzRecoveryServicesAsrFabric.md)

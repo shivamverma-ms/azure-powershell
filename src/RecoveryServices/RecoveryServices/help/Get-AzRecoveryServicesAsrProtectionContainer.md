@@ -1,14 +1,14 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.RecoveryServices.SiteRecovery.dll-Help.xml
 Module Name: Az.RecoveryServices
-online version: https://docs.microsoft.com/en-us/powershell/module/az.recoveryservices/get-azrecoveryservicesasrprotectioncontainer
+online version:
 schema: 2.0.0
 ---
 
 # Get-AzRecoveryServicesAsrProtectionContainer
 
 ## SYNOPSIS
-Gets ASR protection containers in the Recovery Services vault.
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
@@ -31,56 +31,21 @@ Get-AzRecoveryServicesAsrProtectionContainer -FriendlyName <String> -Fabric <ASR
 ```
 
 ## DESCRIPTION
-The **Get-AzRecoveryServicesAsrProtectionContainer** cmdlet gets Azure Site Recovery protection containers in the Recovery Services vault.
-A protection container is a logical container for protectable(discovered) and protected objects such as virtual machines.
-Replication policies define replication settings for protected items and can be associated with a protection container and applied to a protectable item.
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
-```
-PS C:\> $ProtectionContainers = Get-AzRecoveryServicesAsrProtectionContainer -Fabric $fabric
-```
-
-List of protection container in fabric $fabric.
-
-### Example 2
-```
-PS C:\> Get-AzRecoveryServicesAsrProtectionContainer -Name xxxxx  -Fabric $fabric
-FriendlyName                : xxxxxxxx
-Name                        : xxxxx
-ID                          : /Subscriptions/xxxxxxxxxxxxxxxxxxxxxxxxx/resourceGroups/xxxxxxxxxxxxxxx/providers/Microsoft.RecoveryServices/vaults/xxxxxxxxxx/replicationFabrics/xxxxxxxxxxxxxxxxxxxxxxxxx/replicationProtectionContainers/xxxxxxxxxxxxxxxxxxxxxxxxx
-Type                        : Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers
-FabricFriendlyName          : xxxxxxxxxxxxxxxxxxxxxxxxx
-FabricType                  : VMware
-Role                        : Primary
-AvailablePolicies           : {V2aTestPolicy, v2ahydra, v2aswag-failback, v2aswag}
-ProtectionContainerMappings : {pcmmapping, v2aPowerold, 636569dc-79bc-4f50-b83d-89f58717f0b2, df7aa204-b0ef-4d62-943e-324551030e5b}
+```powershell
+PS C:\> {{ Add example code here }}
 ```
 
-Protection container in fabric $fabric with name.
-
-### Example 3
-```
-PS C:\> Get-AzRecoveryServicesAsrProtectionContainer -FriendlyName xxxxxxxx  -Fabric $fabric
-FriendlyName                : xxxxxxxx
-Name                        : xxxxx
-ID                          : /Subscriptions/xxxxxxxxxxxxxxxxxxxxxxxxx/resourceGroups/xxxxxxxxxxxxxxx/providers/Microsoft.RecoveryServices/vaults/xxxxxxxxxx/replicationFabrics/xxxxxxxxxxxxxxxxxxxxxxxxx/replicationProtectionContainers/xxxxxxxxxxxxxxxxxxxxxxxxx
-Type                        : Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers
-FabricFriendlyName          : xxxxxxxxxxxxxxxxxxxxxxxxx
-FabricType                  : VMware
-Role                        : Primary
-AvailablePolicies           : {V2aTestPolicy, v2ahydra, v2aswag-failback, v2aswag}
-ProtectionContainerMappings : {pcmmapping, v2aPowerold, 636569dc-79bc-4f50-b83d-89f58717f0b2, df7aa204-b0ef-4d62-943e-324551030e5b}
-```
-
-Protection container in fabric $fabric with friendly Name.
+{{ Add example description here }}
 
 ## PARAMETERS
 
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with Azure.
-
 
 ```yaml
 Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
@@ -95,7 +60,7 @@ Accept wildcard characters: False
 ```
 
 ### -Fabric
-Look for the protection container in the specified ASR fabric.
+{{ Fill Fabric Description }}
 
 ```yaml
 Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRFabric
@@ -110,7 +75,7 @@ Accept wildcard characters: False
 ```
 
 ### -FriendlyName
-Specifies the friendly name of the ASR protection container to look for.
+{{ Fill FriendlyName Description }}
 
 ```yaml
 Type: System.String
@@ -125,7 +90,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-Specifies the name of the ASR protection container to look for.
+{{ Fill Name Description }}
 
 ```yaml
 Type: System.String

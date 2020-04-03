@@ -1,14 +1,14 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.RecoveryServices.SiteRecovery.dll-Help.xml
 Module Name: Az.RecoveryServices
-online version: https://docs.microsoft.com/en-us/powershell/module/az.recoveryservices/get-azrecoveryservicesasrservicesprovider
+online version:
 schema: 2.0.0
 ---
 
 # Get-AzRecoveryServicesAsrServicesProvider
 
 ## SYNOPSIS
-Gets the details of the ASR recovery services providers registered to the Recovery Services vault.
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
@@ -31,22 +31,21 @@ Get-AzRecoveryServicesAsrServicesProvider -FriendlyName <String> -Fabric <ASRFab
 ```
 
 ## DESCRIPTION
-The **Get-AzRecoveryServicesAsrServicesProvider** cmdlet gets information on the Azure Site Recovery providers in the vault.
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
-```
-PS C:\> $RSPs = Get-AzRecoveryServicesAsrFabric | Get-AzRecoveryServicesAsrServicesProvider
+```powershell
+PS C:\> {{ Add example code here }}
 ```
 
-List all ASR replication services providers registered to the Recovery Services vault corresponding to the specified fabric.
+{{ Add example description here }}
 
 ## PARAMETERS
 
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with Azure.
-
 
 ```yaml
 Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
@@ -61,7 +60,7 @@ Accept wildcard characters: False
 ```
 
 ### -Fabric
-Specifies the ASR fabric object.
+{{ Fill Fabric Description }}
 
 ```yaml
 Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRFabric
@@ -76,7 +75,7 @@ Accept wildcard characters: False
 ```
 
 ### -FriendlyName
-Specifies the friendly name of the ASR recovery services provider to get details for.
+{{ Fill FriendlyName Description }}
 
 ```yaml
 Type: System.String
@@ -91,7 +90,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-Specifies the name of the ASR recovery services provider to get details for.
+{{ Fill Name Description }}
 
 ```yaml
 Type: System.String
@@ -119,7 +118,3 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-
-[Remove-AzRecoveryServicesAsrServicesProvider](./Remove-AzRecoveryServicesAsrServicesProvider.md)
-
-[Update-AzRecoveryServicesAsrServicesProvider](./Update-AzRecoveryServicesAsrServicesProvider.md)

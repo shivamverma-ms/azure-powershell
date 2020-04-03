@@ -1,14 +1,14 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.RecoveryServices.SiteRecovery.dll-Help.xml
 Module Name: Az.RecoveryServices
-online version: https://docs.microsoft.com/en-us/powershell/module/az.recoveryservices/update-azrecoveryservicesasrprotectioncontainermapping
+online version:
 schema: 2.0.0
 ---
 
 # Update-AzRecoveryServicesAsrProtectionContainerMapping
 
 ## SYNOPSIS
-Update the Azure site recovery protection container mapping.
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
@@ -27,23 +27,16 @@ Update-AzRecoveryServicesAsrProtectionContainerMapping -InputObject <ASRProtecti
 ```
 
 ## DESCRIPTION
-The **Update-AzRecoveryServicesAsrProtectionContainerMapping** cmdlet updates the specified Azure Site Recovery protection container mapping.
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:> Update-AzRecoveryServicesAsrProtectionContainerMapping -InputObject $ASRProtectionContainerMapping -AzureToAzure -DisableAutoUpdate
+PS C:\> {{ Add example code here }}
 ```
 
-Start the operation to disable auto update for container.
-
-### Example 2
-```powershell
-PS C:> Update-AzRecoveryServicesAsrProtectionContainerMapping -InputObject $ASRProtectionContainerMapping  -AzureToAzure -EnableAutoUpdate -AutomationAccountId $automationAccountId
-```
-
-Start the operation to disable enable auto update for container.
+{{ Add example description here }}
 
 ## PARAMETERS
 

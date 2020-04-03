@@ -1,14 +1,14 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.RecoveryServices.SiteRecovery.dll-Help.xml
 Module Name: Az.RecoveryServices
-online version: https://docs.microsoft.com/en-us/powershell/module/az.recoveryservices/get-azrecoveryservicesasrpolicy
+online version:
 schema: 2.0.0
 ---
 
 # Get-AzRecoveryServicesAsrPolicy
 
 ## SYNOPSIS
-Gets ASR replication policies.
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
@@ -29,50 +29,21 @@ Get-AzRecoveryServicesAsrPolicy -FriendlyName <String> [-DefaultProfile <IAzureC
 ```
 
 ## DESCRIPTION
-The **Get-AzRecoveryServicesAsrPolicy** cmdlet gets the list of configured Azure Site Recovery replication policies or a specific replication policy by name.
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
-```
-PS C:\> $Policy = Get-AzRecoveryServicesAsrPolicy
-```
-
-Returns the list of replication policies
-
-### Example 2
-```
-PS C:\>  Get-AzRecoveryServicesAsrPolicy -Name abc
-
-FriendlyName                : abc
-Name                        : abc
-ID                          : /Subscriptions/xxxxxxxxxxxx/resourceGroups/xxxxxxxxxxxx/providers/Microsoft.RecoveryServices/vaults/xxxxxxxxxxxx/replicationPolicies/abc
-Type                        : Microsoft.RecoveryServices/vaults/replicationPolicies
-ReplicationProvider         : HyperVReplicaAzure
-ReplicationProviderSettings : Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRHyperVReplicaAzurePolicyDetails
+```powershell
+PS C:\> {{ Add example code here }}
 ```
 
-Returns replication policy with name.
-
-### Example 3
-```
-PS C:\> Get-AzRecoveryServicesAsrPolicy -FriendlyName abc
-
-FriendlyName                : abc
-Name                        : abc
-ID                          : /Subscriptions/xxxxxxxxxxxx/resourceGroups/xxxxxxxxxxxx/providers/Microsoft.RecoveryServices/vaults/xxxxxxxxxxxx/replicationPolicies/abc
-Type                        : Microsoft.RecoveryServices/vaults/replicationPolicies
-ReplicationProvider         : HyperVReplicaAzure
-ReplicationProviderSettings : Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRHyperVReplicaAzurePolicyDetails
-```
-
-Returns the replication policy with the specified friendly name.
+{{ Add example description here }}
 
 ## PARAMETERS
 
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with Azure.
-
 
 ```yaml
 Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
@@ -87,7 +58,7 @@ Accept wildcard characters: False
 ```
 
 ### -FriendlyName
-Specifies the friendly name of the ASR replication policy.
+{{ Fill FriendlyName Description }}
 
 ```yaml
 Type: System.String
@@ -102,7 +73,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-Specifies the name of the ASR replication policy.
+{{ Fill Name Description }}
 
 ```yaml
 Type: System.String
@@ -130,7 +101,3 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-
-[New-AzRecoveryServicesAsrPolicy](./New-AzRecoveryServicesAsrPolicy.md)
-
-[Remove-AzRecoveryServicesAsrPolicy](./Remove-AzRecoveryServicesAsrPolicy.md)

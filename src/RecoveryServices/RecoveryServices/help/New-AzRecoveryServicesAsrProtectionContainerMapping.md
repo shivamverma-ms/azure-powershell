@@ -1,14 +1,14 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.RecoveryServices.SiteRecovery.dll-Help.xml
 Module Name: Az.RecoveryServices
-online version: https://docs.microsoft.com/en-us/powershell/module/az.recoveryservices/new-azrecoveryservicesasrprotectioncontainermapping
+online version:
 schema: 2.0.0
 ---
 
 # New-AzRecoveryServicesAsrProtectionContainerMapping
 
 ## SYNOPSIS
-Creates an Azure Site Recovery Protection Container mapping by associating the specified replication policy to the specified ASR protection container.
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
@@ -26,64 +26,31 @@ New-AzRecoveryServicesAsrProtectionContainerMapping -Name <String> -Policy <ASRP
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
+### VMwareCbt
+```
+New-AzRecoveryServicesAsrProtectionContainerMapping -Name <String> -Policy <ASRPolicy>
+ -PrimaryProtectionContainer <ASRProtectionContainer> -KeyVaultId <String> -KeyVaultUri <String>
+ -StorageAccountId <String> -StorageAccountSasSecretName <String>
+ -ServiceBusConnectionStringSecretName <String> -TargetLocation <String>
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
 ## DESCRIPTION
-The **New-AzRecoveryServicesAsrProtectionContainerMapping** cmdlet creates an Azure Site Recovery Protection Container mapping by associating the specified replication policy to the specified protection container.
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
-```
-PS C:\> New-AzRecoveryServicesAsrProtectionContainerMapping -Name $ContainerMappingName -Policy $ProtectionProfile -PrimaryProtectionContainer $PrimaryContainer -RecoveryProtectionContainer $RecoveryContainer
-
-Name             : 1f32fee1-05d0-4c11-a997-1618e14b4dab
-ID               : /Subscriptions/xxxxxxxxxxxx/resourceGroups/canaryexproute/providers/Microsoft.RecoveryServices/vaults/IbizaV2ATest/replicationJobs/1f32fee1-05d0-4c11-a997-1618e14b4dab
-Type             :
-JobType          :
-DisplayName      :
-ClientRequestId  : 2870d5ab-f9be-405e-87d5-5bf20387c623 ActivityId: 24b28fc5-509b-4ad3-92c0-c8bb7ced7fb6
-State            : NotStarted
-StateDescription : NotStarted
-StartTime        :
-EndTime          :
-TargetObjectId   :
-TargetObjectType :
-TargetObjectName :
-AllowedActions   :
-Tasks            : {}
-Errors           : {}
+```powershell
+PS C:\> {{ Add example code here }}
 ```
 
-Starts the creation of the protection container mapping with the specified parameters, and returns the ASR job used to track the operation.
-
-### Example 2
-```
-PS C:\> New-AzRecoveryServicesAsrProtectionContainerMapping -Name $PrimaryProtectionContainerMapping -policy $Policy1 -PrimaryProtectionContainer $pc
-
-Name             : 1f32fee1-05d0-4c11-a997-1618e14b4dab
-ID               : /Subscriptions/xxxxxxxxxxxx/resourceGroups/canaryexproute/providers/Microsoft.RecoveryServices/vaults/IbizaV2ATest/replicationJobs/1f32fee1-05d0-4c11-a997-1618e14b4dab
-Type             :
-JobType          :
-DisplayName      :
-ClientRequestId  : 2870d5ab-f9be-405e-87d5-5bf20387c623 ActivityId: 24b28fc5-509b-4ad3-92c0-c8bb7ced7fb6
-State            : NotStarted
-StateDescription : NotStarted
-StartTime        :
-EndTime          :
-TargetObjectId   :
-TargetObjectType :
-TargetObjectName :
-AllowedActions   :
-Tasks            : {}
-Errors           : {}
-```
-
-Starts the creation of the protection container mapping with the specified parameters, and returns the ASR job used to track the operation.
+{{ Add example description here }}
 
 ## PARAMETERS
 
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with Azure.
-
 
 ```yaml
 Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
@@ -97,8 +64,38 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -KeyVaultId
+{{ Fill KeyVaultId Description }}
+
+```yaml
+Type: System.String
+Parameter Sets: VMwareCbt
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -KeyVaultUri
+{{ Fill KeyVaultUri Description }}
+
+```yaml
+Type: System.String
+Parameter Sets: VMwareCbt
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Name
-Specifies the name of the Protection Container mapping.
+{{ Fill Name Description }}
 
 ```yaml
 Type: System.String
@@ -113,11 +110,23 @@ Accept wildcard characters: False
 ```
 
 ### -Policy
-Specifies the ASR replication policy object for the replication policy to be used in the mapping.
+{{ Fill Policy Description }}
 
 ```yaml
 Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRPolicy
-Parameter Sets: (All)
+Parameter Sets: EnterpriseToAzure, EnterpriseToEnterprise
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+```yaml
+Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRPolicy
+Parameter Sets: VMwareCbt
 Aliases:
 
 Required: True
@@ -128,7 +137,7 @@ Accept wildcard characters: False
 ```
 
 ### -PrimaryProtectionContainer
-Specifies the ASR protection container object for the  primary protection container to be used in the mapping.
+{{ Fill PrimaryProtectionContainer Description }}
 
 ```yaml
 Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRProtectionContainer
@@ -143,11 +152,71 @@ Accept wildcard characters: False
 ```
 
 ### -RecoveryProtectionContainer
-Specifies the ASR protection container object for the  recovery protection container to be used in the mapping (used if replicating to a recovery location that is not Azure.)
+{{ Fill RecoveryProtectionContainer Description }}
 
 ```yaml
 Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRProtectionContainer
 Parameter Sets: EnterpriseToEnterprise
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ServiceBusConnectionStringSecretName
+{{ Fill ServiceBusConnectionStringSecretName Description }}
+
+```yaml
+Type: System.String
+Parameter Sets: VMwareCbt
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -StorageAccountId
+{{ Fill StorageAccountId Description }}
+
+```yaml
+Type: System.String
+Parameter Sets: VMwareCbt
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -StorageAccountSasSecretName
+{{ Fill StorageAccountSasSecretName Description }}
+
+```yaml
+Type: System.String
+Parameter Sets: VMwareCbt
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TargetLocation
+{{ Fill TargetLocation Description }}
+
+```yaml
+Type: System.String
+Parameter Sets: VMwareCbt
 Aliases:
 
 Required: True
@@ -173,7 +242,8 @@ Accept wildcard characters: False
 ```
 
 ### -WhatIf
-Shows what would happen if the cmdlet runs. The cmdlet is not run.
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -201,7 +271,3 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-
-[Get-AzRecoveryServicesAsrProtectionContainerMapping](./Get-AzRecoveryServicesAsrProtectionContainerMapping.md)
-
-[Remove-AzRecoveryServicesAsrProtectionContainerMapping](./Remove-AzRecoveryServicesAsrProtectionContainerMapping.md)

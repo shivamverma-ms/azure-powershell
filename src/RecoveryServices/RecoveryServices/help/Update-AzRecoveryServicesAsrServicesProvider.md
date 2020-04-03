@@ -1,14 +1,14 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.RecoveryServices.SiteRecovery.dll-Help.xml
 Module Name: Az.RecoveryServices
-online version: https://docs.microsoft.com/en-us/powershell/module/az.recoveryservices/update-azrecoveryservicesasrservicesprovider
+online version:
 schema: 2.0.0
 ---
 
 # Update-AzRecoveryServicesAsrServicesProvider
 
 ## SYNOPSIS
-Refreshes (Refresh server) the information received from the Azure Site Recovery Services Provider.
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
@@ -18,22 +18,21 @@ Update-AzRecoveryServicesAsrServicesProvider -InputObject <ASRRecoveryServicesPr
 ```
 
 ## DESCRIPTION
-The **Update-AzRecoveryServicesAsrServicesProvider** cmdlet updates the information received from the Azure Site Recovery Services Provider. You can use this cmdlet to trigger a refresh of the information received from the Recovery Services Provider.
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
-```
-PS C:\> $currentJob = Update-AzRecoveryServicesAsrServicesProvider -InputObject $ServicesProvider
+```powershell
+PS C:\> {{ Add example code here }}
 ```
 
-Starts the operation of refreshing the information from the specified ASR services provider and returns the ASR job used to track the operation.
+{{ Add example description here }}
 
 ## PARAMETERS
 
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with Azure.
-
 
 ```yaml
 Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
@@ -48,7 +47,7 @@ Accept wildcard characters: False
 ```
 
 ### -InputObject
-Specifies the ASR services provider object that identifies the server for which information is to updated(refreshed.)
+{{ Fill InputObject Description }}
 
 ```yaml
 Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRRecoveryServicesProvider
@@ -78,7 +77,8 @@ Accept wildcard characters: False
 ```
 
 ### -WhatIf
-Shows what would happen if the cmdlet runs. The cmdlet is not run.
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -106,7 +106,3 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ## RELATED LINKS
-
-[Get-AzRecoveryServicesAsrServicesProvider](./Get-AzRecoveryServicesAsrServicesProvider.md)
-
-[Remove-AzRecoveryServicesAsrServicesProvider](./Remove-AzRecoveryServicesAsrServicesProvider.md)

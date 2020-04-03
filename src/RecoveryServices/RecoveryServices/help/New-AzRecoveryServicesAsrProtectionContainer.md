@@ -1,34 +1,40 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.RecoveryServices.SiteRecovery.dll-Help.xml
 Module Name: Az.RecoveryServices
-online version: https://docs.microsoft.com/en-us/powershell/module/az.recoveryservices/new-azrecoveryservicesasrprotectioncontainer
+online version:
 schema: 2.0.0
 ---
 
 # New-AzRecoveryServicesAsrProtectionContainer
 
 ## SYNOPSIS
-Creates an Azure Site Recovery Protection Container within the specified fabric.
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
+### AzureToAzure (Default)
+```
+New-AzRecoveryServicesAsrProtectionContainer -Name <String> -InputObject <ASRFabric>
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### VMwareCbt
 ```
 New-AzRecoveryServicesAsrProtectionContainer -Name <String> -InputObject <ASRFabric>
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-The New-AzRecoveryServicesAsrProtectionContainer cmdlet creates a Protection Container under the specified Azure Site Recovery Fabric.
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
 ### Example 1
-```
-PS C:\> $job = New-AzRecoveryServicesAsrProtectionContainer -Name xyz -Fabric $fabric
-PS C:\> Get-ASRJob -name $job.id
+```powershell
+PS C:\> {{ Add example code here }}
 ```
 
-Starts the creation of the protection container with the specified parameters, and returns the ASR job used to track the operation.
+{{ Add example description here }}
 
 ## PARAMETERS
 
@@ -48,7 +54,7 @@ Accept wildcard characters: False
 ```
 
 ### -InputObject
-Creates the replication protection container in specified input Object (Azure Fabric).
+{{ Fill InputObject Description }}
 
 ```yaml
 Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRFabric
@@ -63,7 +69,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-Name of the protection container.
+{{ Fill Name Description }}
 
 ```yaml
 Type: System.String
@@ -93,7 +99,8 @@ Accept wildcard characters: False
 ```
 
 ### -WhatIf
-Shows what would happen if the cmdlet runs. The cmdlet is not run.
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
