@@ -733,6 +733,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public ASRHyperVReplicaAzureSpecificRPIDetails(HyperVReplicaAzureReplicationDetails details)
         {
             this.RecoveryAvailabilitySetId = details.RecoveryAvailabilitySetId;
+            this.RecoveryAvailabilityZone = details.TargetAvailabilityZone;
+            this.RecoveryProximityPlacementGroupId = details.TargetProximityPlacementGroupId;
             this.EnableRDPOnTargetOption = details.EnableRdpOnTargetOption;
             this.SourceVmCPUCount = details.SourceVmCpuCount;
             this.SourceVmRAMSizeInMB = details.SourceVmRamSizeInMB;
@@ -852,6 +854,16 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// </summary>
         public string LicenseType { get; set; }
 
+        /// <summary>
+        ///     Gets or sets the resource ID of the availability zone to failover this virtual machine to.
+        /// </summary>
+        public string RecoveryAvailabilityZone { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the proximity placement group Id for replication protected item after failover.
+        /// </summary>
+        public string RecoveryProximityPlacementGroupId { get; set; }
+
     }
 
     /// <summary>
@@ -866,6 +878,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         {
             this.LastHeartbeat = this.LastHeartbeat;
             this.RecoveryAvailabilitySetId = details.RecoveryAvailabilitySetId;
+            this.RecoveryProximityPlacementGroupId = details.TargetProximityPlacementGroupId;
+            this.RecoveryAvailabilityZone = details.TargetAvailabilityZone;
             this.AgentVersion = details.AgentVersion;
             this.DiscoveryType = details.DiscoveryType;
             this.IpAddress = details.IpAddress;
@@ -1159,6 +1173,16 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         // Summary:
         //     Gets or sets the protection state description for the vm.
         public string VmProtectionStateDescription { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the resource ID of the availability zone to failover this virtual machine to.
+        /// </summary>
+        public string RecoveryAvailabilityZone { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the proximity placement group Id for replication protected item after failover.
+        /// </summary>
+        public string RecoveryProximityPlacementGroupId { get; set; }
     }
 
     /// <summary>

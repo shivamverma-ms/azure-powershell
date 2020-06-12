@@ -131,6 +131,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public string RecoveryAvailabilitySet { get; set; }
 
         /// <summary>
+        ///     Gets or sets the resource ID of the availability zone to failover this virtual machine to.
+        /// </summary>
+        [Parameter]
+        public string RecoveryAvailabilityZone { get; set; }
+
+        /// <summary>
         ///     Gets or sets the proximity placement group Id for replication protected item after failover.
         /// </summary>
         [Parameter]
@@ -278,6 +284,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     this.UseManagedDisk == null &&
                     this.IsParameterBound(c => c.RecoveryAvailabilitySet) &&
                     this.IsParameterBound(c => c.RecoveryProximityPlacementGroupId) &&
+                    this.IsParameterBound(c => c.RecoveryAvailabilityZone) &&
                     string.IsNullOrEmpty(this.RecoveryCloudServiceId) &&
                     string.IsNullOrEmpty(this.RecoveryResourceGroupId) &&
                     string.IsNullOrEmpty(this.LicenseType) &&
@@ -332,6 +339,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 var useManagedDisk = this.UseManagedDisk;
                 var availabilitySetId = this.RecoveryAvailabilitySet;
                 var proximityPlacementGroupId = this.RecoveryProximityPlacementGroupId;
+                var availabilityZone = this.RecoveryAvailabilityZone;
                 var primaryNic = this.PrimaryNic;
                 var diskIdToDiskEncryptionMap = this.DiskIdToDiskEncryptionSetMap;
                 var tfoNetworkId = string.Empty;
@@ -368,6 +376,15 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     availabilitySetId = this.IsParameterBound(c => c.RecoveryAvailabilitySet)
                         ? this.RecoveryAvailabilitySet
                         : providerSpecificDetails.RecoveryAvailabilitySetId;
+
+                    availabilityZone = this.IsParameterBound(c => c.RecoveryAvailabilityZone)
+                        ? this.RecoveryAvailabilityZone
+                        : providerSpecificDetails.TargetAvailabilityZone;
+
+                    proximityPlacementGroupId = this.IsParameterBound(c => c.RecoveryProximityPlacementGroupId)
+                        ? this.RecoveryProximityPlacementGroupId
+                        : providerSpecificDetails.TargetProximityPlacementGroupId;
+
 
                     if (string.IsNullOrEmpty(this.UseManagedDisk))
                     {
@@ -414,7 +431,9 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                                 RecoveryAzureV1ResourceGroupId = null,
                                 RecoveryAzureV2ResourceGroupId = recoveryResourceGroupId,
                                 UseManagedDisks = useManagedDisk,
-                                DiskIdToDiskEncryptionMap = this.DiskIdToDiskEncryptionSetMap
+                                DiskIdToDiskEncryptionMap = this.DiskIdToDiskEncryptionSetMap,
+                                TargetProximityPlacementGroupId = proximityPlacementGroupId,
+                                TargetAvailabilityZone = availabilityZone
                             };
                     }
 
@@ -447,6 +466,14 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 
                     availabilitySetId = this.IsParameterBound(c => c.RecoveryAvailabilitySet)
                         ? this.RecoveryAvailabilitySet : providerSpecificDetails.RecoveryAvailabilitySetId;
+
+                    availabilityZone = this.IsParameterBound(c => c.RecoveryAvailabilityZone)
+                        ? this.RecoveryAvailabilityZone
+                        : providerSpecificDetails.TargetAvailabilityZone;
+
+                    proximityPlacementGroupId = this.IsParameterBound(c => c.RecoveryProximityPlacementGroupId)
+                        ? this.RecoveryProximityPlacementGroupId
+                        : providerSpecificDetails.TargetProximityPlacementGroupId;
 
                     if (string.IsNullOrEmpty(this.UseManagedDisk))
                     {
@@ -484,6 +511,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                             {
                                 RecoveryAzureV1ResourceGroupId = null,
                                 RecoveryAzureV2ResourceGroupId = recoveryResourceGroupId,
+                                TargetProximityPlacementGroupId = proximityPlacementGroupId,
+                                TargetAvailabilityZone = availabilityZone,
                                 UseManagedDisks = useManagedDisk
                             };
                     }

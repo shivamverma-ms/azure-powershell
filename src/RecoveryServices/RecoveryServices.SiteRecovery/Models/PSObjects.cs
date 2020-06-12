@@ -1206,6 +1206,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 var hd = new AsrVirtualHardDisk();
                 hd.Id = disk.VhdId;
                 hd.Name = disk.VhdName;
+                hd.Capacity = Convert.ToInt64(disk.MaxSizeMB);
                 this.Disks.Add(hd);
             }
 
