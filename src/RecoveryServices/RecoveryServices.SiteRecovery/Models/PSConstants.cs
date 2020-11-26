@@ -230,6 +230,16 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public const string InMageProviderSpecificSettings = "InMageProviderSpecificSettings";
 
         /// <summary>
+        ///     Represents InMageRcm string constant.
+        /// </summary>
+        public const string InMageRcm = "InMageRcm";
+
+        /// <summary>
+        ///     Represents InMageRcmFailback string constant.
+        /// </summary>
+        public const string InMageRcmFailback = "InMageRcmFailback";
+
+        /// <summary>
         ///     JSON field: InstanceType
         /// </summary>
         public const string InstanceType = "InstanceType";
@@ -374,6 +384,16 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         ///     Represents Recovery location.
         /// </summary>
         public const string RecoveryLocation = "Recovery";
+
+        /// <summary>
+        ///     Application Consistent Recovery Point.
+        /// </summary>
+        public const string RecoveryPointApplicationConsistent = "RecoveryPointApplicationConsistent";
+
+        /// <summary>
+        ///     Crash Consistent Recovery Point.
+        /// </summary>
+        public const string RecoveryPointCrashConsistent = "RecoveryPointCrashConsistent";
 
         /// <summary>
         ///     Recovery Tag for Latest Recovery Point.

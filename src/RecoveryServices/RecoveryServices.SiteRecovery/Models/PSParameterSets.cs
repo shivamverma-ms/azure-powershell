@@ -84,6 +84,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// </summary>
         internal const string AzureToVMware = "AzureToVMware";
 
+        /// </summary>
+        /// Handle ASR Vault.
+        /// </summary>
+        internal const string AzureToVMwareRcm = "AzureToVMwareRcm";
+
         /// <summary>
         ///     When only Name is passed to the command.
         /// </summary>
@@ -563,5 +568,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         ///     Mapping for VMware to VMware for RPI.
         /// </summary>
         internal const string VMwareToVMwareRPI = "VMwareToVMwareRPI";
+
+        /// <summary>
+        ///     Mapping for VMware to Azure using RCM as the control plane.
+        /// </summary>
+        internal const string VMwareRcmToAzure = "VMwareRcmToAzure";
     }
 }

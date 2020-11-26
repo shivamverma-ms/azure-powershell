@@ -162,6 +162,16 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public string RecoveryTag { get; set; }
 
         /// <summary>
+        ///     Gets or sets a value indicating whether multi VM sync enabled VMs should use
+        ///     multi VM sync points for test failover.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        [DefaultValue(Constants.True)]
+        [ValidateSet(Constants.True, Constants.False)]
+        public string UseMultiVmSyncPoint { get; set; }
+
+        /// <summary>
         ///     ProcessRecord of the command.
         /// </summary>
         public override void ExecuteSiteRecoveryCmdlet()
@@ -233,7 +243,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 FailoverDirection = this.Direction,
                 NetworkId = this.networkId,
                 NetworkType = this.networkType,
-                ProviderSpecificDetails = new ProviderSpecificFailoverInput(),
+                ProviderSpecificDetails = new TestFailoverProviderSpecificInput(),
                 SkipTestFailoverCleanup = bool.TrueString
             };
 
@@ -247,7 +257,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             {
                 if (this.Direction == Constants.PrimaryToRecovery)
                 {
-                    var failoverInput = new HyperVReplicaAzureFailoverProviderInput
+                    var failoverInput = new HyperVReplicaAzureTestFailoverInput
                     {
                         PrimaryKekCertificatePfx = this.primaryKekCertpfx,
                         SecondaryKekCertificatePfx = this.secondaryKekCertpfx
@@ -298,7 +308,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 if (this.Direction == Constants.PrimaryToRecovery)
                 {
                     // Set the InMageAzureV2 Provider specific input in the Test Failover Input.
-                    var failoverInput = new InMageAzureV2FailoverProviderInput
+                    var failoverInput = new InMageAzureV2TestFailoverInput
                     {
                         RecoveryPointId = this.RecoveryPoint != null ? this.RecoveryPoint.ID : null
                     };
@@ -325,7 +335,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
               this.ReplicationProtectedItem.ReplicationProvider,
                StringComparison.OrdinalIgnoreCase))
             {
-                var failoverInput = new A2AFailoverProviderInput()
+                var failoverInput = new A2ATestFailoverInput()
                 {
                     RecoveryPointId = this.RecoveryPoint != null ? this.RecoveryPoint.ID : null,
                     CloudServiceCreationOption = this.CloudServiceCreationOption
@@ -333,6 +343,40 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 
                 input.Properties.ProviderSpecificDetails = failoverInput;
                 input.Properties.SkipTestFailoverCleanup = true.ToString();
+            }
+            else if (string.Compare(
+                    this.ReplicationProtectedItem.ReplicationProvider,
+                    Constants.InMageRcm,
+                    StringComparison.OrdinalIgnoreCase) ==
+                0)
+            {
+                // Validate the Direction as PrimaryToRecovery.
+                if (this.Direction == Constants.PrimaryToRecovery)
+                {
+                    // Set the InMageRcm Provider specific input in the Test Failover Input.
+                    var failoverInput = new InMageRcmTestFailoverInput
+                    {
+                        NetworkId = this.networkId,
+                        RecoveryPointId = this.RecoveryPoint != null ? this.RecoveryPoint.ID : null
+                    };
+                    input.Properties.ProviderSpecificDetails = failoverInput;
+                }
+                else
+                {
+                    // RecoveryToPrimary Direction is Invalid for InMageRcm.
+                    new ArgumentException(Resources.InvalidDirectionForVMWareToAzure);
+                }
+            }
+            else if (string.Compare(
+                    this.ReplicationProtectedItem.ReplicationProvider,
+                    Constants.InMageRcmFailback,
+                    StringComparison.OrdinalIgnoreCase) ==
+                0)
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                        Resources.UnsupportedReplicationProviderForTestFailover,
+                        this.ReplicationProtectedItem.ReplicationProvider));
             }
 
             var response = this.RecoveryServicesClient.StartAzureSiteRecoveryTestFailover(
@@ -466,6 +510,53 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     // Add the InMageAzureV2 Provider specific input in the Test Failover Input.
                     recoveryPlanTestFailoverInputProperties.ProviderSpecificDetails.Add(
                         recoveryPlanInMageAzureV2FailoverInput);
+                }
+                else if (string.Compare(
+                        replicationProvider,
+                        Constants.InMageRcm,
+                        StringComparison.OrdinalIgnoreCase) ==
+                    0)
+                {
+                    this.UseMultiVmSyncPoint =
+                        this.MyInvocation.BoundParameters.ContainsKey(
+                            Utilities.GetMemberName(() => this.UseMultiVmSyncPoint))
+                            ? this.UseMultiVmSyncPoint
+                            : Constants.True;
+                    var recoveryPointType =
+                        this.RecoveryTag == Constants.RecoveryTagLatestAvailableApplicationConsistent
+                            ? RecoveryPlanPointType.LatestApplicationConsistent
+                            : this.RecoveryTag == Constants.RecoveryTagLatest
+                                ? RecoveryPlanPointType.Latest
+                                 : this.RecoveryTag == Constants.RecoveryTagLatestAvailableCrashConsistent
+                                     ? RecoveryPlanPointType.LatestCrashConsistent
+                                      : RecoveryPlanPointType.LatestProcessed;
+
+                    // Check if the Direction is PrimaryToRecovery.
+                    if (this.Direction == Constants.PrimaryToRecovery)
+                    {
+                        // Create the InMageRcm Provider specific input.
+                        var recoveryPlanInMageRcmFailoverInput =
+                            new RecoveryPlanInMageRcmFailoverInput
+                            {
+                                RecoveryPointType = recoveryPointType,
+                                UseMultiVmSyncPoint = this.UseMultiVmSyncPoint
+                            };
+
+                        // Add the InMageRcm Provider specific input in the Test Failover Input.
+                        recoveryPlanTestFailoverInputProperties.ProviderSpecificDetails.Add(
+                            recoveryPlanInMageRcmFailoverInput);
+                    }
+                }
+                else if (string.Compare(
+                        this.ReplicationProtectedItem.ReplicationProvider,
+                        Constants.InMageRcmFailback,
+                        StringComparison.OrdinalIgnoreCase) ==
+                    0)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                            Resources.UnsupportedReplicationProviderForTestFailover,
+                            this.ReplicationProtectedItem.ReplicationProvider));
                 }
             }
 

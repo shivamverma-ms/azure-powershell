@@ -37,6 +37,22 @@ Update-AzRecoveryServicesAsrProtectionDirection [-VMwareToAzure] -Account <ASRRu
  -Direction <String> [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
+### AzureToVMwareRcm
+```
+Update-AzRecoveryServicesAsrProtectionDirection [-AzureToVMwareRcm]
+ -ProtectionContainerMapping <ASRProtectionContainerMapping> -DataStoreName <String> -ReprotectAgentId <String>
+ -LogStorageAccountId <String> -ReplicationProtectedItem <ASRReplicationProtectedItem> -Direction <String>
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### VMwareRcmToAzure
+```
+Update-AzRecoveryServicesAsrProtectionDirection [-VMwareRcmToAzure] -FabricDiscoveryMachineId <String>
+ -RunAsAccountId <String> -ProtectionContainerMapping <ASRProtectionContainerMapping> -ProcessServerId <String>
+ -ReplicationProtectedItem <ASRReplicationProtectedItem> -Direction <String>
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
 ### HyperVToAzure
 ```
 Update-AzRecoveryServicesAsrProtectionDirection [-HyperVToAzure] [-LogStorageAccountId <String>]
@@ -135,7 +151,6 @@ PS C:\> $currentJob = Update-AzRecoveryServicesAsrProtectionDirection -AzureToAz
 
 Start the update direction operation for the specified replication protected item in target azure region defined by protection container mapping and using cache storage (in same region as VM) and proximity placement group.
 
-
 ## PARAMETERS
 
 ### -Account
@@ -210,12 +225,42 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -AzureToVMwareRcm
+Switch parameter indicating that the specified policy is used to replicate Azure virtual machines to VMware using RCM as control plane.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: AzureToVMwareRcm
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -DataStore
 The VMware data-store to be used for the vmdisk's.
 
 ```yaml
 Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRDataStore
 Parameter Sets: AzureToVMware
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DataStoreName
+Name of the VMware data store to be used for the VM disk's.
+
+```yaml
+Type: System.String
+Parameter Sets: AzureToVMwareRcm
 Aliases:
 
 Required: True
@@ -250,7 +295,7 @@ The acceptable values for this parameter are:
 
 ```yaml
 Type: System.String
-Parameter Sets: ByRPIObject, AzureToVMware, VMwareToAzure, HyperVToAzure, EnterpriseToEnterprise, ByRPObject, ByPEObject
+Parameter Sets: ByRPIObject, AzureToVMware, VMwareToAzure, AzureToVMwareRcm, VMwareRcmToAzure, HyperVToAzure, EnterpriseToEnterprise, ByRPObject, ByPEObject
 Aliases:
 Accepted values: PrimaryToRecovery, RecoveryToPrimary
 
@@ -285,6 +330,21 @@ Parameter Sets: AzureToAzure, AzureToAzureWithMultipleStorageAccount
 Aliases:
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -FabricDiscoveryMachineId
+Specifies the ARM Id of the VM discovered in VMware.
+
+```yaml
+Type: System.String
+Parameter Sets: VMwareRcmToAzure
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -353,7 +413,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: AzureToAzure
+Parameter Sets: AzureToVMwareRcm, AzureToAzure
 Aliases:
 
 Required: True
@@ -393,12 +453,27 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -ProcessServerId
+Id of Process Server  to be used for replication.
+
+```yaml
+Type: System.String
+Parameter Sets: VMwareRcmToAzure
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -ProtectionContainerMapping
 Protection containerMapping to be used for replication.
 
 ```yaml
 Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRProtectionContainerMapping
-Parameter Sets: AzureToVMware, VMwareToAzure, AzureToAzure, AzureToAzureWithMultipleStorageAccount
+Parameter Sets: AzureToVMware, VMwareToAzure, AzureToVMwareRcm, VMwareRcmToAzure, AzureToAzure, AzureToAzureWithMultipleStorageAccount
 Aliases:
 
 Required: True
@@ -518,13 +593,28 @@ Specifies an ASR replication protected item.
 
 ```yaml
 Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRReplicationProtectedItem
-Parameter Sets: ByRPIObject, AzureToVMware, VMwareToAzure, HyperVToAzure, EnterpriseToEnterprise, AzureToAzure, AzureToAzureWithMultipleStorageAccount
+Parameter Sets: ByRPIObject, AzureToVMware, VMwareToAzure, AzureToVMwareRcm, VMwareRcmToAzure, HyperVToAzure, EnterpriseToEnterprise, AzureToAzure, AzureToAzureWithMultipleStorageAccount
 Aliases:
 
 Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -ReprotectAgentId
+Id of Reprotect Agent to be used for replication.
+
+```yaml
+Type: System.String
+Parameter Sets: AzureToVMwareRcm
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -543,12 +633,42 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -RunAsAccountId
+The Id of the run as account to be used to push install the Mobility service if needed. Must be one from the list of run as accounts in the ASR fabric.
+
+```yaml
+Type: System.String
+Parameter Sets: VMwareRcmToAzure
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -VmmToVmm
 Update replication direction for a failed over Hyper-V virtual machine that is protected between two VMM managed Hyper-V sites.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
 Parameter Sets: EnterpriseToEnterprise
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -VMwareRcmToAzure
+Switch parameter indicating that the specified policy is used to replicate VMware virtual machines to Azure using RCM as control plane.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: VMwareRcmToAzure
 Aliases:
 
 Required: True

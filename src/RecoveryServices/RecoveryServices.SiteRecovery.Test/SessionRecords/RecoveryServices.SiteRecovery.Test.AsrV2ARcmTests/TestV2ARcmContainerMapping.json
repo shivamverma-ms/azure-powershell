@@ -1,0 +1,1555 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test?api-version=2016-06-01",
+      "EncodedRequestUri": "L3N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdD9hcGktdmVyc2lvbj0yMDE2LTA2LTAx",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "50f9613b-09e2-41b8-81c4-0d7e2ebac95a-2020-12-06 10:23:24Z-P"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.RecoveryServicesClient/4.3.0.0"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-request-id": [
+          "e1b5b8bd-40b5-4e3f-a5e9-be8f98bcb392"
+        ],
+        "x-ms-client-request-id": [
+          "50f9613b-09e2-41b8-81c4-0d7e2ebac95a-2020-12-06 10:23:24Z-P"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "Server": [
+          "Microsoft-IIS/10.0"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "11999"
+        ],
+        "x-ms-correlation-request-id": [
+          "e1b5b8bd-40b5-4e3f-a5e9-be8f98bcb392"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102325Z:e1b5b8bd-40b5-4e3f-a5e9-be8f98bcb392"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:24 GMT"
+        ],
+        "Content-Length": [
+          "484"
+        ],
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"location\": \"southeastasia\",\r\n  \"name\": \"v2aRcm-powershell-test\",\r\n  \"etag\": \"W/\\\"datetime'2020-12-06T09%3A54%3A53.1924871Z'\\\"\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"privateEndpointStateForBackup\": \"None\",\r\n    \"privateEndpointStateForSiteRecovery\": \"None\"\r\n  },\r\n  \"id\": \"/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test\",\r\n  \"type\": \"Microsoft.RecoveryServices/vaults\",\r\n  \"sku\": {\r\n    \"name\": \"RS0\",\r\n    \"tier\": \"Standard\"\r\n  }\r\n}",
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/extendedInformation/vaultExtendedInfo?api-version=2016-06-01",
+      "EncodedRequestUri": "L3N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdC9leHRlbmRlZEluZm9ybWF0aW9uL3ZhdWx0RXh0ZW5kZWRJbmZvP2FwaS12ZXJzaW9uPTIwMTYtMDYtMDE=",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "147486fe-6636-44cd-9230-50c6f4101476-2020-12-06 10:23:25Z-Ps"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "Agent-Authentication": [
+          ""
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.RecoveryServicesClient/4.3.0.0"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-request-id": [
+          "94278c6b-913f-492d-9dcf-c385046709d6"
+        ],
+        "x-ms-client-request-id": [
+          "147486fe-6636-44cd-9230-50c6f4101476-2020-12-06 10:23:25Z-Ps"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "Server": [
+          "Microsoft-IIS/10.0"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "11998"
+        ],
+        "x-ms-correlation-request-id": [
+          "94278c6b-913f-492d-9dcf-c385046709d6"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102325Z:94278c6b-913f-492d-9dcf-c385046709d6"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:25 GMT"
+        ],
+        "Content-Length": [
+          "403"
+        ],
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"name\": \"vaultExtendedInfo\",\r\n  \"etag\": \"0ad63a11-47fa-4676-9bb3-f0d70548eb73\",\r\n  \"properties\": {\r\n    \"integrityKey\": \"H5off7+1XBR+FvlZgGI2Yw==\",\r\n    \"algorithm\": \"None\"\r\n  },\r\n  \"id\": \"/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-testextendedInformation/vaultExtendedInfo\",\r\n  \"type\": \"Microsoft.RecoveryServices/vaults/extendedInformation\"\r\n}",
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults?api-version=2016-06-01",
+      "EncodedRequestUri": "L3N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHM/YXBpLXZlcnNpb249MjAxNi0wNi0wMQ==",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "4e8abd9a-4800-4ce1-b0a1-1c4e1e246e1a"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.RecoveryServicesClient/4.3.0.0"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-original-request-ids": [
+          "7bffda28-2f55-4a50-9218-0f62609210fe",
+          "7bffda28-2f55-4a50-9218-0f62609210fe"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "11997"
+        ],
+        "x-ms-request-id": [
+          "7bffda28-2f55-4a50-9218-0f62609210fe"
+        ],
+        "x-ms-correlation-request-id": [
+          "7bffda28-2f55-4a50-9218-0f62609210fe"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102327Z:7bffda28-2f55-4a50-9218-0f62609210fe"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:26 GMT"
+        ],
+        "Content-Type": [
+          "application/json; charset=utf-8"
+        ],
+        "Expires": [
+          "-1"
+        ],
+        "Content-Length": [
+          "2911"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"value\": [\r\n    {\r\n      \"location\": \"centraluseuap\",\r\n      \"name\": \"vmwaremigrationprojectb485rsvault\",\r\n      \"etag\": \"W/\\\"datetime'2020-01-30T10%3A56%3A46.6017222Z'\\\"\",\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"privateEndpointStateForBackup\": \"None\",\r\n        \"privateEndpointStateForSiteRecovery\": \"None\"\r\n      },\r\n      \"id\": \"/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/vmwaremigrationprojectb485rsvault\",\r\n      \"type\": \"Microsoft.RecoveryServices/vaults\",\r\n      \"sku\": {\r\n        \"name\": \"RS0\",\r\n        \"tier\": \"Standard\"\r\n      }\r\n    },\r\n    {\r\n      \"location\": \"southeastasia\",\r\n      \"name\": \"agentUpgradeVault\",\r\n      \"etag\": \"W/\\\"datetime'2020-08-21T12%3A23%3A56.3840337Z'\\\"\",\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"privateEndpointStateForBackup\": \"None\",\r\n        \"privateEndpointStateForSiteRecovery\": \"None\"\r\n      },\r\n      \"id\": \"/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/agentUpgradeVault\",\r\n      \"type\": \"Microsoft.RecoveryServices/vaults\",\r\n      \"sku\": {\r\n        \"name\": \"RS0\",\r\n        \"tier\": \"Standard\"\r\n      }\r\n    },\r\n    {\r\n      \"location\": \"southeastasia\",\r\n      \"name\": \"V2ACSResyncSignOff\",\r\n      \"etag\": \"W/\\\"datetime'2020-11-25T11%3A39%3A18.3627286Z'\\\"\",\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"privateEndpointStateForBackup\": \"None\",\r\n        \"privateEndpointStateForSiteRecovery\": \"None\"\r\n      },\r\n      \"id\": \"/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/V2ACSResyncSignOff\",\r\n      \"type\": \"Microsoft.RecoveryServices/vaults\",\r\n      \"sku\": {\r\n        \"name\": \"RS0\",\r\n        \"tier\": \"Standard\"\r\n      }\r\n    },\r\n    {\r\n      \"location\": \"southeastasia\",\r\n      \"name\": \"V2ACSTaggingSignOffVault\",\r\n      \"etag\": \"W/\\\"datetime'2020-10-20T06%3A21%3A03.3303333Z'\\\"\",\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"privateEndpointStateForBackup\": \"None\",\r\n        \"privateEndpointStateForSiteRecovery\": \"None\"\r\n      },\r\n      \"id\": \"/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/V2ACSTaggingSignOffVault\",\r\n      \"type\": \"Microsoft.RecoveryServices/vaults\",\r\n      \"sku\": {\r\n        \"name\": \"RS0\",\r\n        \"tier\": \"Standard\"\r\n      }\r\n    },\r\n    {\r\n      \"location\": \"southeastasia\",\r\n      \"name\": \"v2aRcm-powershell-test\",\r\n      \"etag\": \"W/\\\"datetime'2020-12-06T09%3A54%3A53.1924871Z'\\\"\",\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"privateEndpointStateForBackup\": \"None\",\r\n        \"privateEndpointStateForSiteRecovery\": \"None\"\r\n      },\r\n      \"id\": \"/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test\",\r\n      \"type\": \"Microsoft.RecoveryServices/vaults\",\r\n      \"sku\": {\r\n        \"name\": \"RS0\",\r\n        \"tier\": \"Standard\"\r\n      }\r\n    },\r\n    {\r\n      \"location\": \"southeastasia\",\r\n      \"name\": \"vmwarecsvault\",\r\n      \"etag\": \"W/\\\"datetime'2020-10-10T10%3A02%3A47.6035523Z'\\\"\",\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"privateEndpointStateForBackup\": \"None\",\r\n        \"privateEndpointStateForSiteRecovery\": \"None\"\r\n      },\r\n      \"id\": \"/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/vmwarecsvault\",\r\n      \"type\": \"Microsoft.RecoveryServices/vaults\",\r\n      \"sku\": {\r\n        \"name\": \"RS0\",\r\n        \"tier\": \"Standard\"\r\n      }\r\n    }\r\n  ]\r\n}",
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationFabrics/v2aRcm-powershell-testreplicationfabric?api-version=2018-07-10",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdC9yZXBsaWNhdGlvbkZhYnJpY3MvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdHJlcGxpY2F0aW9uZmFicmljP2FwaS12ZXJzaW9uPTIwMTgtMDctMTA=",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "d5ad6384-4669-4cdc-8b78-ee9b6b36cc66-2020-12-06 10:23:27Z-Ps"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "Agent-Authentication": [
+          "{\"NotBeforeTimestamp\":\"\\/Date(1607246607391)\\/\",\"NotAfterTimestamp\":\"\\/Date(1607851407391)\\/\",\"ClientRequestId\":\"d5ad6384-4669-4cdc-8b78-ee9b6b36cc66-2020-12-06 10:23:27Z-Ps\",\"HashFunction\":\"HMACSHA256\",\"Hmac\":\"1/SBJI+p2hWw9J2K81sDMQ6vDzKQhK8p0t7vukKvvqA=\",\"Version\":{\"Major\":1,\"Minor\":2,\"Build\":-1,\"Revision\":-1,\"MajorRevision\":-1,\"MinorRevision\":-1},\"PropertyBag\":{}}"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.SiteRecovery.SiteRecoveryManagementClient/2.1.1.0"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "11994"
+        ],
+        "Server": [
+          "Microsoft-IIS/10.0",
+          "Kestrel"
+        ],
+        "x-ms-request-id": [
+          "d5ad6384-4669-4cdc-8b78-ee9b6b36cc66-2020-12-06 10:23:27Z-Ps 12/6/2020 10:23:27 AM"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-client-request-id": [
+          "d5ad6384-4669-4cdc-8b78-ee9b6b36cc66-2020-12-06 10:23:27Z-Ps"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-correlation-request-id": [
+          "ec62eb3d-2d6f-4175-bfbc-8b0f4852cac2"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102327Z:ec62eb3d-2d6f-4175-bfbc-8b0f4852cac2"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:26 GMT"
+        ],
+        "Content-Length": [
+          "4828"
+        ],
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"name\": \"v2aRcm-powershell-testreplicationfabric\",\r\n  \"type\": \"Microsoft.RecoveryServices/vaults/replicationFabrics\",\r\n  \"id\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationFabrics/v2aRcm-powershell-testreplicationfabric\",\r\n  \"properties\": {\r\n    \"friendlyName\": \"v2aRcm-powershell-testreplicationfabric\",\r\n    \"encryptionDetails\": {\r\n      \"kekState\": \"None\",\r\n      \"kekCertThumbprint\": null\r\n    },\r\n    \"rolloverEncryptionDetails\": {\r\n      \"kekState\": \"None\",\r\n      \"kekCertThumbprint\": null\r\n    },\r\n    \"internalIdentifier\": \"ced1949a-522b-5f9d-9a54-7ffd67b8c35b\",\r\n    \"bcdrState\": \"Valid\",\r\n    \"customDetails\": {\r\n      \"instanceType\": \"InMageRcm\",\r\n      \"vmwareSiteId\": \"/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.OffAzure/VMwareSites/v2arcm-app7d6dvmwaresite\",\r\n      \"physicalSiteId\": \"/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.OffAzure/ServerSites/v2arcm-app7d6dphysicalsite\",\r\n      \"serviceEndpoint\": \"https://can01-srs1.sea.hypervrecoverymanager.windowsazure.com\",\r\n      \"serviceResourceId\": \"1773647970532718870\",\r\n      \"serviceContainerId\": \"2815283080309\",\r\n      \"dataPlaneUri\": \"https://can01-prot2.sea.backup.windowsazure.com\",\r\n      \"controlPlaneUri\": \"https://can01-rcm1.sea.hypervrecoverymanager.windowsazure.com\",\r\n      \"processServers\": [\r\n        {\r\n          \"id\": \"c68310d0-38bb-4397-a61e-da18d9da2f76\",\r\n          \"name\": \"v2arcm-app\",\r\n          \"biosId\": \"49290642-0C8F-9437-1AF3-27E6ECBCC178\",\r\n          \"fabricObjectId\": \"/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.OffAzure/VMwareSites/v2arcm-app7d6dvmwaresite/machines/bcdr-vcenter-fareast-corp-micro-cfcc5a24-a40e-56b9-a6af-e206c9ca4f93_500699ce-6668-e41c-b499-355dbc72a561\",\r\n          \"fqdn\": \"WIN-1LP7HV25M6B\",\r\n          \"version\": \"9.41.5813.1\",\r\n          \"lastHeartbeatUtc\": \"2020-12-05T16:02:29.2335037Z\",\r\n          \"totalMemoryInBytes\": 0,\r\n          \"availableMemoryInBytes\": 0,\r\n          \"usedMemoryInBytes\": 0,\r\n          \"memoryUsagePercentage\": 0.0,\r\n          \"totalSpaceInBytes\": 0,\r\n          \"availableSpaceInBytes\": 0,\r\n          \"usedSpaceInBytes\": 0,\r\n          \"freeSpacePercentage\": 0.0,\r\n          \"throughputUploadPendingDataInBytes\": 0,\r\n          \"throughputInBytes\": 0,\r\n          \"processorUsagePercentage\": 0.0,\r\n          \"throughputStatus\": \"Healthy\",\r\n          \"systemLoad\": 0,\r\n          \"systemLoadStatus\": \"Healthy\",\r\n          \"diskUsageStatus\": \"Healthy\",\r\n          \"memoryUsageStatus\": \"Healthy\",\r\n          \"processorUsageStatus\": \"Healthy\",\r\n          \"health\": \"Normal\",\r\n          \"healthErrors\": [],\r\n          \"historicHealth\": \"Normal\"\r\n        }\r\n      ],\r\n      \"rcmProxies\": [\r\n        {\r\n          \"id\": \"c68310d0-38bb-4397-a61e-da18d9da2f76\",\r\n          \"name\": \"v2arcm-app\",\r\n          \"biosId\": \"49290642-0C8F-9437-1AF3-27E6ECBCC178\",\r\n          \"fabricObjectId\": \"/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.OffAzure/VMwareSites/v2arcm-app7d6dvmwaresite/machines/bcdr-vcenter-fareast-corp-micro-cfcc5a24-a40e-56b9-a6af-e206c9ca4f93_500699ce-6668-e41c-b499-355dbc72a561\",\r\n          \"fqdn\": \"WIN-1LP7HV25M6B\",\r\n          \"version\": \"1.28.7815.28146\",\r\n          \"lastHeartbeatUtc\": \"2020-12-05T15:58:18.7741103Z\",\r\n          \"health\": \"Normal\",\r\n          \"healthErrors\": []\r\n        }\r\n      ],\r\n      \"pushInstallers\": [\r\n        {\r\n          \"id\": \"c68310d0-38bb-4397-a61e-da18d9da2f76\",\r\n          \"name\": \"v2arcm-app\",\r\n          \"biosId\": \"49290642-0C8F-9437-1AF3-27E6ECBCC178\",\r\n          \"fabricObjectId\": \"/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.OffAzure/VMwareSites/v2arcm-app7d6dvmwaresite/machines/bcdr-vcenter-fareast-corp-micro-cfcc5a24-a40e-56b9-a6af-e206c9ca4f93_500699ce-6668-e41c-b499-355dbc72a561\",\r\n          \"fqdn\": \"WIN-1LP7HV25M6B\",\r\n          \"version\": \"1.28.7815.28146\",\r\n          \"lastHeartbeatUtc\": \"2020-12-05T16:02:39.9196854Z\",\r\n          \"health\": \"Normal\",\r\n          \"healthErrors\": []\r\n        }\r\n      ],\r\n      \"replicationAgents\": [\r\n        {\r\n          \"id\": \"c68310d0-38bb-4397-a61e-da18d9da2f76\",\r\n          \"name\": \"v2arcm-app\",\r\n          \"biosId\": \"49290642-0C8F-9437-1AF3-27E6ECBCC178\",\r\n          \"fabricObjectId\": \"/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.OffAzure/VMwareSites/v2arcm-app7d6dvmwaresite/machines/bcdr-vcenter-fareast-corp-micro-cfcc5a24-a40e-56b9-a6af-e206c9ca4f93_500699ce-6668-e41c-b499-355dbc72a561\",\r\n          \"fqdn\": \"WIN-1LP7HV25M6B\",\r\n          \"version\": \"1.28.7815.28146\",\r\n          \"lastHeartbeatUtc\": \"2020-12-05T16:02:47.0291111Z\",\r\n          \"health\": \"Normal\",\r\n          \"healthErrors\": []\r\n        }\r\n      ],\r\n      \"reprotectAgents\": [\r\n        {\r\n          \"id\": \"c68310d0-38bb-4397-a61e-da18d9da2f76\",\r\n          \"name\": \"v2arcm-app\",\r\n          \"biosId\": \"49290642-0C8F-9437-1AF3-27E6ECBCC178\",\r\n          \"fabricObjectId\": \"/subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.OffAzure/VMwareSites/v2arcm-app7d6dvmwaresite/machines/bcdr-vcenter-fareast-corp-micro-cfcc5a24-a40e-56b9-a6af-e206c9ca4f93_500699ce-6668-e41c-b499-355dbc72a561\",\r\n          \"fqdn\": \"WIN-1LP7HV25M6B\",\r\n          \"version\": \"1.28.7815.28146\",\r\n          \"lastHeartbeatUtc\": \"2020-12-05T16:03:07.985675Z\",\r\n          \"health\": \"Normal\",\r\n          \"healthErrors\": []\r\n        }\r\n      ],\r\n      \"marsAgents\": [],\r\n      \"dras\": [\r\n        {\r\n          \"id\": \"c68310d0-38bb-4397-a61e-da18d9da2f76\",\r\n          \"name\": \"v2arcm-app\",\r\n          \"biosId\": \"49290642-0C8F-9437-1AF3-27E6ECBCC178\",\r\n          \"version\": \"5.1.6485.0\",\r\n          \"lastHeartbeatUtc\": \"2020-12-06T10:23:20.9892573Z\",\r\n          \"health\": \"None\",\r\n          \"healthErrors\": []\r\n        }\r\n      ],\r\n      \"agentDetails\": []\r\n    },\r\n    \"healthErrorDetails\": [],\r\n    \"health\": \"Normal\"\r\n  }\r\n}",
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationFabrics/v2aRcm-powershell-testreplicationfabric/replicationProtectionContainers/v2aRcm-powershell-test90e9replicationcontainer?api-version=2018-07-10",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdC9yZXBsaWNhdGlvbkZhYnJpY3MvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdHJlcGxpY2F0aW9uZmFicmljL3JlcGxpY2F0aW9uUHJvdGVjdGlvbkNvbnRhaW5lcnMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdDkwZTlyZXBsaWNhdGlvbmNvbnRhaW5lcj9hcGktdmVyc2lvbj0yMDE4LTA3LTEw",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "bd00a2b0-ea1b-44de-8aea-29259f93e03d-2020-12-06 10:23:27Z-Ps"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "Agent-Authentication": [
+          "{\"NotBeforeTimestamp\":\"\\/Date(1607246607879)\\/\",\"NotAfterTimestamp\":\"\\/Date(1607851407879)\\/\",\"ClientRequestId\":\"bd00a2b0-ea1b-44de-8aea-29259f93e03d-2020-12-06 10:23:27Z-Ps\",\"HashFunction\":\"HMACSHA256\",\"Hmac\":\"7wIonUQqFiUKANKbJfiAFOITML46WjtE0LeN0tYMUHg=\",\"Version\":{\"Major\":1,\"Minor\":2,\"Build\":-1,\"Revision\":-1,\"MajorRevision\":-1,\"MinorRevision\":-1},\"PropertyBag\":{}}"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.SiteRecovery.SiteRecoveryManagementClient/2.1.1.0"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "11993"
+        ],
+        "Server": [
+          "Microsoft-IIS/10.0",
+          "Kestrel"
+        ],
+        "x-ms-request-id": [
+          "bd00a2b0-ea1b-44de-8aea-29259f93e03d-2020-12-06 10:23:27Z-Ps 12/6/2020 10:23:28 AM"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-client-request-id": [
+          "bd00a2b0-ea1b-44de-8aea-29259f93e03d-2020-12-06 10:23:27Z-Ps"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-correlation-request-id": [
+          "d9f3331e-aea0-4fdf-a3db-ad3776380f02"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102328Z:d9f3331e-aea0-4fdf-a3db-ad3776380f02"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:27 GMT"
+        ],
+        "Content-Length": [
+          "703"
+        ],
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"id\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationFabrics/v2aRcm-powershell-testreplicationfabric/replicationProtectionContainers/v2aRcm-powershell-test90e9replicationcontainer\",\r\n  \"name\": \"v2aRcm-powershell-test90e9replicationcontainer\",\r\n  \"type\": \"Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers\",\r\n  \"properties\": {\r\n    \"fabricFriendlyName\": \"v2aRcm-powershell-testreplicationfabric\",\r\n    \"friendlyName\": \"v2aRcm-powershell-test90e9replicationcontainer\",\r\n    \"fabricType\": \"InMageRcm\",\r\n    \"protectedItemCount\": 0,\r\n    \"pairingStatus\": \"Paired\",\r\n    \"role\": \"Primary\",\r\n    \"fabricSpecificDetails\": null\r\n  }\r\n}",
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationFabrics/v2aRcm-powershell-testreplicationfabric/replicationProtectionContainers/v2aRcm-powershell-test90e9replicationcontainer/replicationProtectionContainerMappings?api-version=2018-07-10",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdC9yZXBsaWNhdGlvbkZhYnJpY3MvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdHJlcGxpY2F0aW9uZmFicmljL3JlcGxpY2F0aW9uUHJvdGVjdGlvbkNvbnRhaW5lcnMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdDkwZTlyZXBsaWNhdGlvbmNvbnRhaW5lci9yZXBsaWNhdGlvblByb3RlY3Rpb25Db250YWluZXJNYXBwaW5ncz9hcGktdmVyc2lvbj0yMDE4LTA3LTEw",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "15746c5c-a4f1-4287-a624-5e5dd583888c-2020-12-06 10:23:28Z-Ps"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "Agent-Authentication": [
+          "{\"NotBeforeTimestamp\":\"\\/Date(1607246608102)\\/\",\"NotAfterTimestamp\":\"\\/Date(1607851408102)\\/\",\"ClientRequestId\":\"15746c5c-a4f1-4287-a624-5e5dd583888c-2020-12-06 10:23:28Z-Ps\",\"HashFunction\":\"HMACSHA256\",\"Hmac\":\"Bn0C3ZVu/MpWVJ/eeavfAtj/XPQoyQb4VZIm+DYQPsI=\",\"Version\":{\"Major\":1,\"Minor\":2,\"Build\":-1,\"Revision\":-1,\"MajorRevision\":-1,\"MinorRevision\":-1},\"PropertyBag\":{}}"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.SiteRecovery.SiteRecoveryManagementClient/2.1.1.0"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "11992"
+        ],
+        "Server": [
+          "Microsoft-IIS/10.0",
+          "Kestrel"
+        ],
+        "x-ms-request-id": [
+          "15746c5c-a4f1-4287-a624-5e5dd583888c-2020-12-06 10:23:28Z-Ps 12/6/2020 10:23:28 AM"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-client-request-id": [
+          "15746c5c-a4f1-4287-a624-5e5dd583888c-2020-12-06 10:23:28Z-Ps"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-correlation-request-id": [
+          "f80501f5-347b-4f35-bedb-b1e5cf042a04"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102328Z:f80501f5-347b-4f35-bedb-b1e5cf042a04"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:27 GMT"
+        ],
+        "Content-Length": [
+          "2846"
+        ],
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"value\": [\r\n    {\r\n      \"id\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationFabrics/v2aRcm-powershell-testreplicationfabric/replicationProtectionContainers/v2aRcm-powershell-test90e9replicationcontainer/replicationProtectionContainerMappings/default-failover-containerpairing\",\r\n      \"name\": \"default-failover-containerpairing\",\r\n      \"type\": \"Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers/replicationProtectionContainerMappings\",\r\n      \"properties\": {\r\n        \"targetProtectionContainerId\": \"Microsoft Azure\",\r\n        \"targetProtectionContainerFriendlyName\": \"Microsoft Azure\",\r\n        \"providerSpecificDetails\": {\r\n          \"instanceType\": \"InMageRcm\",\r\n          \"enableAgentAutoUpgrade\": \"true\"\r\n        },\r\n        \"health\": \"Normal\",\r\n        \"healthErrorDetails\": [],\r\n        \"policyId\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationPolicies/24-hour-replication-policy\",\r\n        \"state\": \"Paired\",\r\n        \"sourceProtectionContainerFriendlyName\": \"v2aRcm-powershell-test90e9replicationcontainer\",\r\n        \"sourceFabricFriendlyName\": \"v2aRcm-powershell-testreplicationfabric\",\r\n        \"targetFabricFriendlyName\": \"Microsoft Azure\",\r\n        \"policyFriendlyName\": \"24-hour-replication-policy\"\r\n      }\r\n    },\r\n    {\r\n      \"id\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationFabrics/v2aRcm-powershell-testreplicationfabric/replicationProtectionContainers/v2aRcm-powershell-test90e9replicationcontainer/replicationProtectionContainerMappings/default-failback-containerpairing\",\r\n      \"name\": \"default-failback-containerpairing\",\r\n      \"type\": \"Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers/replicationProtectionContainerMappings\",\r\n      \"properties\": {\r\n        \"targetProtectionContainerId\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationFabrics/v2aRcm-powershell-testreplicationfabric/replicationProtectionContainers/v2aRcm-powershell-test90e9replicationcontainer\",\r\n        \"targetProtectionContainerFriendlyName\": \"v2aRcm-powershell-test90e9replicationcontainer\",\r\n        \"providerSpecificDetails\": null,\r\n        \"health\": \"Normal\",\r\n        \"healthErrorDetails\": [],\r\n        \"policyId\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationPolicies/24-hour-replication-failbackpolicy\",\r\n        \"state\": \"Paired\",\r\n        \"sourceProtectionContainerFriendlyName\": \"v2aRcm-powershell-test90e9replicationcontainer\",\r\n        \"sourceFabricFriendlyName\": \"v2aRcm-powershell-testreplicationfabric\",\r\n        \"targetFabricFriendlyName\": \"v2aRcm-powershell-testreplicationfabric\",\r\n        \"policyFriendlyName\": \"24-hour-replication-failbackpolicy\"\r\n      }\r\n    }\r\n  ],\r\n  \"nextLink\": null\r\n}",
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationPolicies/24-hour-replication-policy?api-version=2018-07-10",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdC9yZXBsaWNhdGlvblBvbGljaWVzLzI0LWhvdXItcmVwbGljYXRpb24tcG9saWN5P2FwaS12ZXJzaW9uPTIwMTgtMDctMTA=",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "3380f6bd-abcc-42a9-b0b6-c3246f111505-2020-12-06 10:23:28Z-Ps"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "Agent-Authentication": [
+          "{\"NotBeforeTimestamp\":\"\\/Date(1607246608358)\\/\",\"NotAfterTimestamp\":\"\\/Date(1607851408358)\\/\",\"ClientRequestId\":\"3380f6bd-abcc-42a9-b0b6-c3246f111505-2020-12-06 10:23:28Z-Ps\",\"HashFunction\":\"HMACSHA256\",\"Hmac\":\"waPV+8sVkgbgYkSc4WSgm0muMwZUwljADr4FdNLXIjY=\",\"Version\":{\"Major\":1,\"Minor\":2,\"Build\":-1,\"Revision\":-1,\"MajorRevision\":-1,\"MinorRevision\":-1},\"PropertyBag\":{}}"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.SiteRecovery.SiteRecoveryManagementClient/2.1.1.0"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "11991"
+        ],
+        "Server": [
+          "Microsoft-IIS/10.0",
+          "Kestrel"
+        ],
+        "x-ms-request-id": [
+          "3380f6bd-abcc-42a9-b0b6-c3246f111505-2020-12-06 10:23:28Z-Ps 12/6/2020 10:23:28 AM"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-client-request-id": [
+          "3380f6bd-abcc-42a9-b0b6-c3246f111505-2020-12-06 10:23:28Z-Ps"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-correlation-request-id": [
+          "727d34f4-eedf-4c78-8b65-9db03e11fd42"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102328Z:727d34f4-eedf-4c78-8b65-9db03e11fd42"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:27 GMT"
+        ],
+        "Content-Length": [
+          "555"
+        ],
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"id\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationPolicies/24-hour-replication-policy\",\r\n  \"name\": \"24-hour-replication-policy\",\r\n  \"type\": \"Microsoft.RecoveryServices/vaults/replicationPolicies\",\r\n  \"properties\": {\r\n    \"friendlyName\": \"24-hour-replication-policy\",\r\n    \"providerSpecificDetails\": {\r\n      \"instanceType\": \"InMageRcm\",\r\n      \"recoveryPointHistoryInMinutes\": 4320,\r\n      \"appConsistentFrequencyInMinutes\": 240,\r\n      \"crashConsistentFrequencyInMinutes\": 5,\r\n      \"enableMultiVmSync\": \"false\"\r\n    }\r\n  }\r\n}",
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationPolicies/24-hour-replication-failbackpolicy?api-version=2018-07-10",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdC9yZXBsaWNhdGlvblBvbGljaWVzLzI0LWhvdXItcmVwbGljYXRpb24tZmFpbGJhY2twb2xpY3k/YXBpLXZlcnNpb249MjAxOC0wNy0xMA==",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "7855c3be-dd21-4971-972b-7bab2d7ed4e4-2020-12-06 10:23:28Z-Ps"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "Agent-Authentication": [
+          "{\"NotBeforeTimestamp\":\"\\/Date(1607246608526)\\/\",\"NotAfterTimestamp\":\"\\/Date(1607851408526)\\/\",\"ClientRequestId\":\"7855c3be-dd21-4971-972b-7bab2d7ed4e4-2020-12-06 10:23:28Z-Ps\",\"HashFunction\":\"HMACSHA256\",\"Hmac\":\"o/hK9KaPPpdBk8O6sH6l9znkSMoLq6xG4fyZ6aIi2Wc=\",\"Version\":{\"Major\":1,\"Minor\":2,\"Build\":-1,\"Revision\":-1,\"MajorRevision\":-1,\"MinorRevision\":-1},\"PropertyBag\":{}}"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.SiteRecovery.SiteRecoveryManagementClient/2.1.1.0"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "11990"
+        ],
+        "Server": [
+          "Microsoft-IIS/10.0",
+          "Kestrel"
+        ],
+        "x-ms-request-id": [
+          "7855c3be-dd21-4971-972b-7bab2d7ed4e4-2020-12-06 10:23:28Z-Ps 12/6/2020 10:23:28 AM"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-client-request-id": [
+          "7855c3be-dd21-4971-972b-7bab2d7ed4e4-2020-12-06 10:23:28Z-Ps"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-correlation-request-id": [
+          "704702dd-9218-4abb-a6dd-1d1219736844"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102328Z:704702dd-9218-4abb-a6dd-1d1219736844"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:27 GMT"
+        ],
+        "Content-Length": [
+          "522"
+        ],
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"id\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationPolicies/24-hour-replication-failbackpolicy\",\r\n  \"name\": \"24-hour-replication-failbackpolicy\",\r\n  \"type\": \"Microsoft.RecoveryServices/vaults/replicationPolicies\",\r\n  \"properties\": {\r\n    \"friendlyName\": \"24-hour-replication-failbackpolicy\",\r\n    \"providerSpecificDetails\": {\r\n      \"instanceType\": \"InMageRcmFailback\",\r\n      \"appConsistentFrequencyInMinutes\": 240,\r\n      \"crashConsistentFrequencyInMinutes\": 5\r\n    }\r\n  }\r\n}",
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationPolicies/24-hour-replication-failbackpolicy?api-version=2018-07-10",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdC9yZXBsaWNhdGlvblBvbGljaWVzLzI0LWhvdXItcmVwbGljYXRpb24tZmFpbGJhY2twb2xpY3k/YXBpLXZlcnNpb249MjAxOC0wNy0xMA==",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "48a4484d-17e2-4772-8dae-81bc4f39bd35-2020-12-06 10:23:28Z-Ps"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "Agent-Authentication": [
+          "{\"NotBeforeTimestamp\":\"\\/Date(1607246608889)\\/\",\"NotAfterTimestamp\":\"\\/Date(1607851408889)\\/\",\"ClientRequestId\":\"48a4484d-17e2-4772-8dae-81bc4f39bd35-2020-12-06 10:23:28Z-Ps\",\"HashFunction\":\"HMACSHA256\",\"Hmac\":\"TVLS7+6jycqAy+UZ6pj4cXWH/lfQBCpRP3lA+LOP3tw=\",\"Version\":{\"Major\":1,\"Minor\":2,\"Build\":-1,\"Revision\":-1,\"MajorRevision\":-1,\"MinorRevision\":-1},\"PropertyBag\":{}}"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.SiteRecovery.SiteRecoveryManagementClient/2.1.1.0"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "11988"
+        ],
+        "Server": [
+          "Microsoft-IIS/10.0",
+          "Kestrel"
+        ],
+        "x-ms-request-id": [
+          "48a4484d-17e2-4772-8dae-81bc4f39bd35-2020-12-06 10:23:28Z-Ps 12/6/2020 10:23:29 AM"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-client-request-id": [
+          "48a4484d-17e2-4772-8dae-81bc4f39bd35-2020-12-06 10:23:28Z-Ps"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-correlation-request-id": [
+          "db3c2256-4355-4b73-aef4-a499971768f1"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102329Z:db3c2256-4355-4b73-aef4-a499971768f1"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:28 GMT"
+        ],
+        "Content-Length": [
+          "522"
+        ],
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"id\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationPolicies/24-hour-replication-failbackpolicy\",\r\n  \"name\": \"24-hour-replication-failbackpolicy\",\r\n  \"type\": \"Microsoft.RecoveryServices/vaults/replicationPolicies\",\r\n  \"properties\": {\r\n    \"friendlyName\": \"24-hour-replication-failbackpolicy\",\r\n    \"providerSpecificDetails\": {\r\n      \"instanceType\": \"InMageRcmFailback\",\r\n      \"appConsistentFrequencyInMinutes\": 240,\r\n      \"crashConsistentFrequencyInMinutes\": 5\r\n    }\r\n  }\r\n}",
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationPolicies/v2aRcm-powershell-testpolicy?api-version=2018-07-10",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdC9yZXBsaWNhdGlvblBvbGljaWVzL3YyYVJjbS1wb3dlcnNoZWxsLXRlc3Rwb2xpY3k/YXBpLXZlcnNpb249MjAxOC0wNy0xMA==",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "291fe060-f4f0-4315-90f2-54a7353bda53-2020-12-06 10:23:28Z-Ps"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "Agent-Authentication": [
+          "{\"NotBeforeTimestamp\":\"\\/Date(1607246608694)\\/\",\"NotAfterTimestamp\":\"\\/Date(1607851408694)\\/\",\"ClientRequestId\":\"291fe060-f4f0-4315-90f2-54a7353bda53-2020-12-06 10:23:28Z-Ps\",\"HashFunction\":\"HMACSHA256\",\"Hmac\":\"6wtJIknfetBb16tBPkxlNdaxhkNqQrS8HIkb+w43HII=\",\"Version\":{\"Major\":1,\"Minor\":2,\"Build\":-1,\"Revision\":-1,\"MajorRevision\":-1,\"MinorRevision\":-1},\"PropertyBag\":{}}"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.SiteRecovery.SiteRecoveryManagementClient/2.1.1.0"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "11989"
+        ],
+        "Server": [
+          "Microsoft-IIS/10.0",
+          "Kestrel"
+        ],
+        "x-ms-request-id": [
+          "291fe060-f4f0-4315-90f2-54a7353bda53-2020-12-06 10:23:28Z-Ps 12/6/2020 10:23:28 AM"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-client-request-id": [
+          "291fe060-f4f0-4315-90f2-54a7353bda53-2020-12-06 10:23:28Z-Ps"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-correlation-request-id": [
+          "75670ba0-fd41-4cdf-9003-447aa04ce34f"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102328Z:75670ba0-fd41-4cdf-9003-447aa04ce34f"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:27 GMT"
+        ],
+        "Content-Length": [
+          "561"
+        ],
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"id\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationPolicies/v2aRcm-powershell-testpolicy\",\r\n  \"name\": \"v2aRcm-powershell-testpolicy\",\r\n  \"type\": \"Microsoft.RecoveryServices/vaults/replicationPolicies\",\r\n  \"properties\": {\r\n    \"friendlyName\": \"v2aRcm-powershell-testpolicy\",\r\n    \"providerSpecificDetails\": {\r\n      \"instanceType\": \"InMageRcm\",\r\n      \"recoveryPointHistoryInMinutes\": 2400,\r\n      \"appConsistentFrequencyInMinutes\": 900,\r\n      \"crashConsistentFrequencyInMinutes\": 5,\r\n      \"enableMultiVmSync\": \"false\"\r\n    }\r\n  }\r\n}",
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationFabrics/v2aRcm-powershell-testreplicationfabric/replicationProtectionContainers/v2aRcm-powershell-test90e9replicationcontainer/replicationProtectionContainerMappings/v2aRcm-powershell-testmapping?api-version=2018-07-10",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdC9yZXBsaWNhdGlvbkZhYnJpY3MvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdHJlcGxpY2F0aW9uZmFicmljL3JlcGxpY2F0aW9uUHJvdGVjdGlvbkNvbnRhaW5lcnMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdDkwZTlyZXBsaWNhdGlvbmNvbnRhaW5lci9yZXBsaWNhdGlvblByb3RlY3Rpb25Db250YWluZXJNYXBwaW5ncy92MmFSY20tcG93ZXJzaGVsbC10ZXN0bWFwcGluZz9hcGktdmVyc2lvbj0yMDE4LTA3LTEw",
+      "RequestMethod": "PUT",
+      "RequestBody": "{\r\n  \"properties\": {\r\n    \"targetProtectionContainerId\": \"Microsoft Azure\",\r\n    \"policyId\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationPolicies/v2aRcm-powershell-testpolicy\",\r\n    \"providerSpecificInput\": {\r\n      \"instanceType\": \"ReplicationProviderSpecificContainerMappingInput\"\r\n    }\r\n  }\r\n}",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "b70800e3-860d-40b5-b6bc-c0181c0f724a-2020-12-06 10:23:29Z-Ps"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "Agent-Authentication": [
+          "{\"NotBeforeTimestamp\":\"\\/Date(1607246609052)\\/\",\"NotAfterTimestamp\":\"\\/Date(1607851409052)\\/\",\"ClientRequestId\":\"b70800e3-860d-40b5-b6bc-c0181c0f724a-2020-12-06 10:23:29Z-Ps\",\"HashFunction\":\"HMACSHA256\",\"Hmac\":\"ugCuxjOQq5/e3ogdArLgL5F/5mmUcLo9+SRjO4fmsK4=\",\"Version\":{\"Major\":1,\"Minor\":2,\"Build\":-1,\"Revision\":-1,\"MajorRevision\":-1,\"MinorRevision\":-1},\"PropertyBag\":{}}"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.SiteRecovery.SiteRecoveryManagementClient/2.1.1.0"
+        ],
+        "Content-Type": [
+          "application/json; charset=utf-8"
+        ],
+        "Content-Length": [
+          "411"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "Location": [
+          "https://management.azure.com/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationFabrics/v2aRcm-powershell-testreplicationfabric/replicationProtectionContainers/v2aRcm-powershell-test90e9replicationcontainer/replicationProtectionContainerMappings/v2aRcm-powershell-testmapping/operationresults/c6ceee50-fd84-4d2a-8f6f-6cf88e0c4082?api-version=2018-07-10"
+        ],
+        "Retry-After": [
+          "30"
+        ],
+        "x-ms-request-id": [
+          "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/c6ceee50-fd84-4d2a-8f6f-6cf88e0c4082",
+          "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/c6ceee50-fd84-4d2a-8f6f-6cf88e0c4082"
+        ],
+        "Azure-AsyncOperation": [
+          "https://management.azure.com/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationOperationStatus/c6ceee50-fd84-4d2a-8f6f-6cf88e0c4082?api-version=2018-07-10"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-client-request-id": [
+          "b70800e3-860d-40b5-b6bc-c0181c0f724a-2020-12-06 10:23:29Z-Ps"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-ratelimit-remaining-subscription-writes": [
+          "1198"
+        ],
+        "x-ms-correlation-request-id": [
+          "4be80c58-43fd-423e-9545-365924a1add4"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102330Z:4be80c58-43fd-423e-9545-365924a1add4"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:30 GMT"
+        ],
+        "Expires": [
+          "-1"
+        ],
+        "Content-Length": [
+          "0"
+        ]
+      },
+      "ResponseBody": "",
+      "StatusCode": 202
+    },
+    {
+      "RequestUri": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/c6ceee50-fd84-4d2a-8f6f-6cf88e0c4082?api-version=2018-07-10",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdC9yZXBsaWNhdGlvbkpvYnMvYzZjZWVlNTAtZmQ4NC00ZDJhLThmNmYtNmNmODhlMGM0MDgyP2FwaS12ZXJzaW9uPTIwMTgtMDctMTA=",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "8163b910-f817-495b-8632-de6e866002fa-2020-12-06 10:23:30Z-Ps"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "Agent-Authentication": [
+          "{\"NotBeforeTimestamp\":\"\\/Date(1607246610477)\\/\",\"NotAfterTimestamp\":\"\\/Date(1607851410477)\\/\",\"ClientRequestId\":\"8163b910-f817-495b-8632-de6e866002fa-2020-12-06 10:23:30Z-Ps\",\"HashFunction\":\"HMACSHA256\",\"Hmac\":\"6Fup8MqT9tS9YEX4hz/Pt6PyAfJIr7JZgvYWnZe612A=\",\"Version\":{\"Major\":1,\"Minor\":2,\"Build\":-1,\"Revision\":-1,\"MajorRevision\":-1,\"MinorRevision\":-1},\"PropertyBag\":{}}"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.SiteRecovery.SiteRecoveryManagementClient/2.1.1.0"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "11987"
+        ],
+        "Server": [
+          "Microsoft-IIS/10.0",
+          "Kestrel"
+        ],
+        "x-ms-request-id": [
+          "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/c6ceee50-fd84-4d2a-8f6f-6cf88e0c4082"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-client-request-id": [
+          "8163b910-f817-495b-8632-de6e866002fa-2020-12-06 10:23:30Z-Ps"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-correlation-request-id": [
+          "e18184a3-3e4a-4bfd-b6fa-e4962e7f9fa6"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102330Z:e18184a3-3e4a-4bfd-b6fa-e4962e7f9fa6"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:30 GMT"
+        ],
+        "Content-Length": [
+          "2945"
+        ],
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"id\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/c6ceee50-fd84-4d2a-8f6f-6cf88e0c4082\",\r\n  \"name\": \"c6ceee50-fd84-4d2a-8f6f-6cf88e0c4082\",\r\n  \"type\": \"Microsoft.RecoveryServices/vaults/replicationJobs\",\r\n  \"properties\": {\r\n    \"activityId\": \"b70800e3-860d-40b5-b6bc-c0181c0f724a-2020-12-06 10:23:29Z-Ps ActivityId: 4be80c58-43fd-423e-9545-365924a1add4\",\r\n    \"scenarioName\": \"AssociateProtectionProfile\",\r\n    \"friendlyName\": \"Associate replication policy\",\r\n    \"state\": \"InProgress\",\r\n    \"stateDescription\": \"InProgress\",\r\n    \"tasks\": [\r\n      {\r\n        \"taskId\": \"CloudPairingWfPreflightChecksTask\",\r\n        \"name\": \"CloudPairingPrerequisitesCheck\",\r\n        \"startTime\": \"2020-12-06T10:23:30.5724906Z\",\r\n        \"endTime\": \"0001-01-01T00:00:00\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Check protection prerequisites\",\r\n        \"state\": \"InProgress\",\r\n        \"stateDescription\": \"InProgress\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      },\r\n      {\r\n        \"taskId\": \"CloudPairingWfPrepareSiteTask\",\r\n        \"name\": \"CloudPairingPrepareSite\",\r\n        \"startTime\": \"0001-01-01T00:00:00\",\r\n        \"endTime\": \"0001-01-01T00:00:00\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Prepare the server\",\r\n        \"state\": \"NotStarted\",\r\n        \"stateDescription\": \"NotStarted\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      },\r\n      {\r\n        \"taskId\": \"CloudPairingWfPrepareCloudForPairingTask\",\r\n        \"name\": \"CloudPairingPrepareCloud\",\r\n        \"startTime\": \"0001-01-01T00:00:00\",\r\n        \"endTime\": \"0001-01-01T00:00:00\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Prepare for configuring protection\",\r\n        \"state\": \"NotStarted\",\r\n        \"stateDescription\": \"NotStarted\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      },\r\n      {\r\n        \"taskId\": \"CloudPairingWfPairCloudsTask\",\r\n        \"name\": \"CloudPairingPairClouds\",\r\n        \"startTime\": \"0001-01-01T00:00:00\",\r\n        \"endTime\": \"0001-01-01T00:00:00\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Configure the protection settings\",\r\n        \"state\": \"NotStarted\",\r\n        \"stateDescription\": \"NotStarted\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      }\r\n    ],\r\n    \"errors\": [],\r\n    \"startTime\": \"2020-12-06T10:23:29.6820945Z\",\r\n    \"allowedActions\": [\r\n      \"Cancel\"\r\n    ],\r\n    \"targetObjectId\": \"ad35e43c-1839-58a5-b7d3-f152e4e13917\",\r\n    \"targetObjectName\": \"v2aRcm-powershell-testpolicy\",\r\n    \"targetInstanceType\": \"ProtectionProfile\",\r\n    \"customDetails\": {\r\n      \"instanceType\": \"AsrJobDetails\",\r\n      \"affectedObjectDetails\": {\r\n        \"primaryCloudId\": \"cloud_ced1949a-522b-5f9d-9a54-7ffd67b8c35b\",\r\n        \"primaryCloudName\": \"v2aRcm-powershell-test90e9replicationcontainer\",\r\n        \"recoveryCloudId\": \"d38048d4-b460-4791-8ece-108395ee8478\",\r\n        \"recoveryCloudName\": \"Microsoft Azure\",\r\n        \"primaryVmmId\": \"ced1949a-522b-5f9d-9a54-7ffd67b8c35b\",\r\n        \"primaryVmmName\": \"v2aRcm-powershell-testreplicationfabric\",\r\n        \"recoveryVmmId\": \"21a9403c-6ec1-44f2-b744-b4e50b792387\",\r\n        \"recoveryVmmName\": \"Microsoft Azure\",\r\n        \"primaryFabricProviderId\": \"InMageRcm\",\r\n        \"recoveryFabricProviderId\": \"Azure\"\r\n      }\r\n    }\r\n  }\r\n}",
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/c6ceee50-fd84-4d2a-8f6f-6cf88e0c4082?api-version=2018-07-10",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdC9yZXBsaWNhdGlvbkpvYnMvYzZjZWVlNTAtZmQ4NC00ZDJhLThmNmYtNmNmODhlMGM0MDgyP2FwaS12ZXJzaW9uPTIwMTgtMDctMTA=",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "41b63bb0-be60-491d-b937-8759faada5cc-2020-12-06 10:23:30Z-Ps"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "Agent-Authentication": [
+          "{\"NotBeforeTimestamp\":\"\\/Date(1607246610728)\\/\",\"NotAfterTimestamp\":\"\\/Date(1607851410728)\\/\",\"ClientRequestId\":\"41b63bb0-be60-491d-b937-8759faada5cc-2020-12-06 10:23:30Z-Ps\",\"HashFunction\":\"HMACSHA256\",\"Hmac\":\"YadRMyEzq0ZqoGPkNx0+5VbUT/GAWljToLzqf3v3Z08=\",\"Version\":{\"Major\":1,\"Minor\":2,\"Build\":-1,\"Revision\":-1,\"MajorRevision\":-1,\"MinorRevision\":-1},\"PropertyBag\":{}}"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.SiteRecovery.SiteRecoveryManagementClient/2.1.1.0"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "11986"
+        ],
+        "Server": [
+          "Microsoft-IIS/10.0",
+          "Kestrel"
+        ],
+        "x-ms-request-id": [
+          "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/c6ceee50-fd84-4d2a-8f6f-6cf88e0c4082"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-client-request-id": [
+          "41b63bb0-be60-491d-b937-8759faada5cc-2020-12-06 10:23:30Z-Ps"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-correlation-request-id": [
+          "5a9e0c50-172e-4ce9-b0a4-8531804b95b9"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102330Z:5a9e0c50-172e-4ce9-b0a4-8531804b95b9"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:30 GMT"
+        ],
+        "Content-Length": [
+          "2975"
+        ],
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"id\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/c6ceee50-fd84-4d2a-8f6f-6cf88e0c4082\",\r\n  \"name\": \"c6ceee50-fd84-4d2a-8f6f-6cf88e0c4082\",\r\n  \"type\": \"Microsoft.RecoveryServices/vaults/replicationJobs\",\r\n  \"properties\": {\r\n    \"activityId\": \"b70800e3-860d-40b5-b6bc-c0181c0f724a-2020-12-06 10:23:29Z-Ps ActivityId: 4be80c58-43fd-423e-9545-365924a1add4\",\r\n    \"scenarioName\": \"AssociateProtectionProfile\",\r\n    \"friendlyName\": \"Associate replication policy\",\r\n    \"state\": \"InProgress\",\r\n    \"stateDescription\": \"InProgress\",\r\n    \"tasks\": [\r\n      {\r\n        \"taskId\": \"CloudPairingWfPreflightChecksTask\",\r\n        \"name\": \"CloudPairingPrerequisitesCheck\",\r\n        \"startTime\": \"2020-12-06T10:23:30.5724906Z\",\r\n        \"endTime\": \"2020-12-06T10:23:30.747496Z\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Check protection prerequisites\",\r\n        \"state\": \"Succeeded\",\r\n        \"stateDescription\": \"Completed\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      },\r\n      {\r\n        \"taskId\": \"CloudPairingWfPrepareSiteTask\",\r\n        \"name\": \"CloudPairingPrepareSite\",\r\n        \"startTime\": \"2020-12-06T10:23:30.747496Z\",\r\n        \"endTime\": \"2020-12-06T10:23:30.7925087Z\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Prepare the server\",\r\n        \"state\": \"Succeeded\",\r\n        \"stateDescription\": \"Completed\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      },\r\n      {\r\n        \"taskId\": \"CloudPairingWfPrepareCloudForPairingTask\",\r\n        \"name\": \"CloudPairingPrepareCloud\",\r\n        \"startTime\": \"2020-12-06T10:23:30.7925087Z\",\r\n        \"endTime\": \"0001-01-01T00:00:00\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Prepare for configuring protection\",\r\n        \"state\": \"InProgress\",\r\n        \"stateDescription\": \"InProgress\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      },\r\n      {\r\n        \"taskId\": \"CloudPairingWfPairCloudsTask\",\r\n        \"name\": \"CloudPairingPairClouds\",\r\n        \"startTime\": \"0001-01-01T00:00:00\",\r\n        \"endTime\": \"0001-01-01T00:00:00\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Configure the protection settings\",\r\n        \"state\": \"NotStarted\",\r\n        \"stateDescription\": \"NotStarted\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      }\r\n    ],\r\n    \"errors\": [],\r\n    \"startTime\": \"2020-12-06T10:23:29.6820945Z\",\r\n    \"allowedActions\": [\r\n      \"Cancel\"\r\n    ],\r\n    \"targetObjectId\": \"ad35e43c-1839-58a5-b7d3-f152e4e13917\",\r\n    \"targetObjectName\": \"v2aRcm-powershell-testpolicy\",\r\n    \"targetInstanceType\": \"ProtectionProfile\",\r\n    \"customDetails\": {\r\n      \"instanceType\": \"AsrJobDetails\",\r\n      \"affectedObjectDetails\": {\r\n        \"primaryCloudId\": \"cloud_ced1949a-522b-5f9d-9a54-7ffd67b8c35b\",\r\n        \"primaryCloudName\": \"v2aRcm-powershell-test90e9replicationcontainer\",\r\n        \"recoveryCloudId\": \"d38048d4-b460-4791-8ece-108395ee8478\",\r\n        \"recoveryCloudName\": \"Microsoft Azure\",\r\n        \"primaryVmmId\": \"ced1949a-522b-5f9d-9a54-7ffd67b8c35b\",\r\n        \"primaryVmmName\": \"v2aRcm-powershell-testreplicationfabric\",\r\n        \"recoveryVmmId\": \"21a9403c-6ec1-44f2-b744-b4e50b792387\",\r\n        \"recoveryVmmName\": \"Microsoft Azure\",\r\n        \"primaryFabricProviderId\": \"InMageRcm\",\r\n        \"recoveryFabricProviderId\": \"Azure\"\r\n      }\r\n    }\r\n  }\r\n}",
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/c6ceee50-fd84-4d2a-8f6f-6cf88e0c4082?api-version=2018-07-10",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdC9yZXBsaWNhdGlvbkpvYnMvYzZjZWVlNTAtZmQ4NC00ZDJhLThmNmYtNmNmODhlMGM0MDgyP2FwaS12ZXJzaW9uPTIwMTgtMDctMTA=",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "9e0460bb-c0e2-45d7-8e3f-187c48ab961a-2020-12-06 10:23:30Z-Ps"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "Agent-Authentication": [
+          "{\"NotBeforeTimestamp\":\"\\/Date(1607246610914)\\/\",\"NotAfterTimestamp\":\"\\/Date(1607851410914)\\/\",\"ClientRequestId\":\"9e0460bb-c0e2-45d7-8e3f-187c48ab961a-2020-12-06 10:23:30Z-Ps\",\"HashFunction\":\"HMACSHA256\",\"Hmac\":\"ewlky/DrVd2ur2pB+d9xQkJ/9SC+Cv/3S2rQAN0nW/g=\",\"Version\":{\"Major\":1,\"Minor\":2,\"Build\":-1,\"Revision\":-1,\"MajorRevision\":-1,\"MinorRevision\":-1},\"PropertyBag\":{}}"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.SiteRecovery.SiteRecoveryManagementClient/2.1.1.0"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "11985"
+        ],
+        "Server": [
+          "Microsoft-IIS/10.0",
+          "Kestrel"
+        ],
+        "x-ms-request-id": [
+          "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/c6ceee50-fd84-4d2a-8f6f-6cf88e0c4082"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-client-request-id": [
+          "9e0460bb-c0e2-45d7-8e3f-187c48ab961a-2020-12-06 10:23:30Z-Ps"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-correlation-request-id": [
+          "a8877500-789b-48b4-9956-5844ff6cf26f"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102331Z:a8877500-789b-48b4-9956-5844ff6cf26f"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:31 GMT"
+        ],
+        "Content-Length": [
+          "3014"
+        ],
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"id\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/c6ceee50-fd84-4d2a-8f6f-6cf88e0c4082\",\r\n  \"name\": \"c6ceee50-fd84-4d2a-8f6f-6cf88e0c4082\",\r\n  \"type\": \"Microsoft.RecoveryServices/vaults/replicationJobs\",\r\n  \"properties\": {\r\n    \"activityId\": \"b70800e3-860d-40b5-b6bc-c0181c0f724a-2020-12-06 10:23:29Z-Ps ActivityId: 4be80c58-43fd-423e-9545-365924a1add4\",\r\n    \"scenarioName\": \"AssociateProtectionProfile\",\r\n    \"friendlyName\": \"Associate replication policy\",\r\n    \"state\": \"Succeeded\",\r\n    \"stateDescription\": \"Completed\",\r\n    \"tasks\": [\r\n      {\r\n        \"taskId\": \"CloudPairingWfPreflightChecksTask\",\r\n        \"name\": \"CloudPairingPrerequisitesCheck\",\r\n        \"startTime\": \"2020-12-06T10:23:30.5724906Z\",\r\n        \"endTime\": \"2020-12-06T10:23:30.747496Z\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Check protection prerequisites\",\r\n        \"state\": \"Succeeded\",\r\n        \"stateDescription\": \"Completed\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      },\r\n      {\r\n        \"taskId\": \"CloudPairingWfPrepareSiteTask\",\r\n        \"name\": \"CloudPairingPrepareSite\",\r\n        \"startTime\": \"2020-12-06T10:23:30.747496Z\",\r\n        \"endTime\": \"2020-12-06T10:23:30.8374938Z\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Prepare the server\",\r\n        \"state\": \"Succeeded\",\r\n        \"stateDescription\": \"Completed\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      },\r\n      {\r\n        \"taskId\": \"CloudPairingWfPrepareCloudForPairingTask\",\r\n        \"name\": \"CloudPairingPrepareCloud\",\r\n        \"startTime\": \"2020-12-06T10:23:30.8374938Z\",\r\n        \"endTime\": \"2020-12-06T10:23:30.8825148Z\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Prepare for configuring protection\",\r\n        \"state\": \"Succeeded\",\r\n        \"stateDescription\": \"Completed\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      },\r\n      {\r\n        \"taskId\": \"CloudPairingWfPairCloudsTask\",\r\n        \"name\": \"CloudPairingPairClouds\",\r\n        \"startTime\": \"2020-12-06T10:23:30.8825148Z\",\r\n        \"endTime\": \"0001-01-01T00:00:00\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Configure the protection settings\",\r\n        \"state\": \"InProgress\",\r\n        \"stateDescription\": \"InProgress\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      }\r\n    ],\r\n    \"errors\": [],\r\n    \"startTime\": \"2020-12-06T10:23:29.6820945Z\",\r\n    \"endTime\": \"2020-12-06T10:23:30Z\",\r\n    \"allowedActions\": [],\r\n    \"targetObjectId\": \"ad35e43c-1839-58a5-b7d3-f152e4e13917\",\r\n    \"targetObjectName\": \"v2aRcm-powershell-testpolicy\",\r\n    \"targetInstanceType\": \"ProtectionProfile\",\r\n    \"customDetails\": {\r\n      \"instanceType\": \"AsrJobDetails\",\r\n      \"affectedObjectDetails\": {\r\n        \"primaryCloudId\": \"cloud_ced1949a-522b-5f9d-9a54-7ffd67b8c35b\",\r\n        \"primaryCloudName\": \"v2aRcm-powershell-test90e9replicationcontainer\",\r\n        \"recoveryCloudId\": \"d38048d4-b460-4791-8ece-108395ee8478\",\r\n        \"recoveryCloudName\": \"Microsoft Azure\",\r\n        \"primaryVmmId\": \"ced1949a-522b-5f9d-9a54-7ffd67b8c35b\",\r\n        \"primaryVmmName\": \"v2aRcm-powershell-testreplicationfabric\",\r\n        \"recoveryVmmId\": \"21a9403c-6ec1-44f2-b744-b4e50b792387\",\r\n        \"recoveryVmmName\": \"Microsoft Azure\",\r\n        \"primaryFabricProviderId\": \"InMageRcm\",\r\n        \"recoveryFabricProviderId\": \"Azure\"\r\n      }\r\n    }\r\n  }\r\n}",
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationFabrics/v2aRcm-powershell-testreplicationfabric/replicationProtectionContainers/v2aRcm-powershell-test90e9replicationcontainer/replicationProtectionContainerMappings/v2aRcm-powershell-testfailbackmapping?api-version=2018-07-10",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdC9yZXBsaWNhdGlvbkZhYnJpY3MvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdHJlcGxpY2F0aW9uZmFicmljL3JlcGxpY2F0aW9uUHJvdGVjdGlvbkNvbnRhaW5lcnMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdDkwZTlyZXBsaWNhdGlvbmNvbnRhaW5lci9yZXBsaWNhdGlvblByb3RlY3Rpb25Db250YWluZXJNYXBwaW5ncy92MmFSY20tcG93ZXJzaGVsbC10ZXN0ZmFpbGJhY2ttYXBwaW5nP2FwaS12ZXJzaW9uPTIwMTgtMDctMTA=",
+      "RequestMethod": "PUT",
+      "RequestBody": "{\r\n  \"properties\": {\r\n    \"targetProtectionContainerId\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationFabrics/v2aRcm-powershell-testreplicationfabric/replicationProtectionContainers/v2aRcm-powershell-test90e9replicationcontainer\",\r\n    \"policyId\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationPolicies/24-hour-replication-failbackpolicy\",\r\n    \"providerSpecificInput\": {\r\n      \"instanceType\": \"ReplicationProviderSpecificContainerMappingInput\"\r\n    }\r\n  }\r\n}",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "693eb75c-8e4a-4c35-8a00-1b2f5f1d467c-2020-12-06 10:23:31Z-Ps"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "Agent-Authentication": [
+          "{\"NotBeforeTimestamp\":\"\\/Date(1607246611092)\\/\",\"NotAfterTimestamp\":\"\\/Date(1607851411092)\\/\",\"ClientRequestId\":\"693eb75c-8e4a-4c35-8a00-1b2f5f1d467c-2020-12-06 10:23:31Z-Ps\",\"HashFunction\":\"HMACSHA256\",\"Hmac\":\"hbfI9+su8OBLaHWqQu00L1tnFR3EhRptxYEMy5Wpmpc=\",\"Version\":{\"Major\":1,\"Minor\":2,\"Build\":-1,\"Revision\":-1,\"MajorRevision\":-1,\"MinorRevision\":-1},\"PropertyBag\":{}}"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.SiteRecovery.SiteRecoveryManagementClient/2.1.1.0"
+        ],
+        "Content-Type": [
+          "application/json; charset=utf-8"
+        ],
+        "Content-Length": [
+          "685"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "Location": [
+          "https://management.azure.com/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationFabrics/v2aRcm-powershell-testreplicationfabric/replicationProtectionContainers/v2aRcm-powershell-test90e9replicationcontainer/replicationProtectionContainerMappings/v2aRcm-powershell-testfailbackmapping/operationresults/7abd7576-1960-40b3-8577-dda49662d549?api-version=2018-07-10"
+        ],
+        "Retry-After": [
+          "30"
+        ],
+        "x-ms-request-id": [
+          "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/7abd7576-1960-40b3-8577-dda49662d549",
+          "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/7abd7576-1960-40b3-8577-dda49662d549"
+        ],
+        "Azure-AsyncOperation": [
+          "https://management.azure.com/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationOperationStatus/7abd7576-1960-40b3-8577-dda49662d549?api-version=2018-07-10"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-client-request-id": [
+          "693eb75c-8e4a-4c35-8a00-1b2f5f1d467c-2020-12-06 10:23:31Z-Ps"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-ratelimit-remaining-subscription-writes": [
+          "1197"
+        ],
+        "x-ms-correlation-request-id": [
+          "9758e29a-26c5-4af0-bb20-202af7b8f6d7"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102331Z:9758e29a-26c5-4af0-bb20-202af7b8f6d7"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:31 GMT"
+        ],
+        "Expires": [
+          "-1"
+        ],
+        "Content-Length": [
+          "0"
+        ]
+      },
+      "ResponseBody": "",
+      "StatusCode": 202
+    },
+    {
+      "RequestUri": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/7abd7576-1960-40b3-8577-dda49662d549?api-version=2018-07-10",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdC9yZXBsaWNhdGlvbkpvYnMvN2FiZDc1NzYtMTk2MC00MGIzLTg1NzctZGRhNDk2NjJkNTQ5P2FwaS12ZXJzaW9uPTIwMTgtMDctMTA=",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "927c5f62-5801-485a-97a9-ccde6eba64cd-2020-12-06 10:23:31Z-Ps"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "Agent-Authentication": [
+          "{\"NotBeforeTimestamp\":\"\\/Date(1607246611840)\\/\",\"NotAfterTimestamp\":\"\\/Date(1607851411840)\\/\",\"ClientRequestId\":\"927c5f62-5801-485a-97a9-ccde6eba64cd-2020-12-06 10:23:31Z-Ps\",\"HashFunction\":\"HMACSHA256\",\"Hmac\":\"nIL2UXmX4qw6L3MbKAEONoTW952/djZV60Bzv4D9weQ=\",\"Version\":{\"Major\":1,\"Minor\":2,\"Build\":-1,\"Revision\":-1,\"MajorRevision\":-1,\"MinorRevision\":-1},\"PropertyBag\":{}}"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.SiteRecovery.SiteRecoveryManagementClient/2.1.1.0"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "11984"
+        ],
+        "Server": [
+          "Microsoft-IIS/10.0",
+          "Kestrel"
+        ],
+        "x-ms-request-id": [
+          "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/7abd7576-1960-40b3-8577-dda49662d549"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-client-request-id": [
+          "927c5f62-5801-485a-97a9-ccde6eba64cd-2020-12-06 10:23:31Z-Ps"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-correlation-request-id": [
+          "e6a179c4-6489-4ef7-9097-f94c21d6994e"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102331Z:e6a179c4-6489-4ef7-9097-f94c21d6994e"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:31 GMT"
+        ],
+        "Content-Length": [
+          "750"
+        ],
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"id\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/7abd7576-1960-40b3-8577-dda49662d549\",\r\n  \"name\": \"7abd7576-1960-40b3-8577-dda49662d549\",\r\n  \"type\": \"Microsoft.RecoveryServices/vaults/replicationJobs\",\r\n  \"properties\": {\r\n    \"activityId\": \"693eb75c-8e4a-4c35-8a00-1b2f5f1d467c-2020-12-06 10:23:31Z-Ps ActivityId: 9758e29a-26c5-4af0-bb20-202af7b8f6d7\",\r\n    \"scenarioName\": null,\r\n    \"friendlyName\": null,\r\n    \"state\": \"NotStarted\",\r\n    \"stateDescription\": \"NotStarted\",\r\n    \"tasks\": [],\r\n    \"errors\": [],\r\n    \"allowedActions\": [],\r\n    \"targetObjectId\": null,\r\n    \"targetObjectName\": null,\r\n    \"targetInstanceType\": \"ProtectionEntity\",\r\n    \"customDetails\": {\r\n      \"instanceType\": \"AsrJobDetails\",\r\n      \"affectedObjectDetails\": {}\r\n    }\r\n  }\r\n}",
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/7abd7576-1960-40b3-8577-dda49662d549?api-version=2018-07-10",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdC9yZXBsaWNhdGlvbkpvYnMvN2FiZDc1NzYtMTk2MC00MGIzLTg1NzctZGRhNDk2NjJkNTQ5P2FwaS12ZXJzaW9uPTIwMTgtMDctMTA=",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "4a6d4097-67ad-4aca-a4a9-96213047caab-2020-12-06 10:23:31Z-Ps"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "Agent-Authentication": [
+          "{\"NotBeforeTimestamp\":\"\\/Date(1607246611988)\\/\",\"NotAfterTimestamp\":\"\\/Date(1607851411988)\\/\",\"ClientRequestId\":\"4a6d4097-67ad-4aca-a4a9-96213047caab-2020-12-06 10:23:31Z-Ps\",\"HashFunction\":\"HMACSHA256\",\"Hmac\":\"F9UkACw/SQhbxbmGNRjA2rvIrxjb2xKskt3c9eOkmdw=\",\"Version\":{\"Major\":1,\"Minor\":2,\"Build\":-1,\"Revision\":-1,\"MajorRevision\":-1,\"MinorRevision\":-1},\"PropertyBag\":{}}"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.SiteRecovery.SiteRecoveryManagementClient/2.1.1.0"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "11983"
+        ],
+        "Server": [
+          "Microsoft-IIS/10.0",
+          "Kestrel"
+        ],
+        "x-ms-request-id": [
+          "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/7abd7576-1960-40b3-8577-dda49662d549"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-client-request-id": [
+          "4a6d4097-67ad-4aca-a4a9-96213047caab-2020-12-06 10:23:31Z-Ps"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-correlation-request-id": [
+          "5b399a9c-43a7-4c1e-9a77-8e81d0620c30"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102332Z:5b399a9c-43a7-4c1e-9a77-8e81d0620c30"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:32 GMT"
+        ],
+        "Content-Length": [
+          "750"
+        ],
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"id\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/7abd7576-1960-40b3-8577-dda49662d549\",\r\n  \"name\": \"7abd7576-1960-40b3-8577-dda49662d549\",\r\n  \"type\": \"Microsoft.RecoveryServices/vaults/replicationJobs\",\r\n  \"properties\": {\r\n    \"activityId\": \"693eb75c-8e4a-4c35-8a00-1b2f5f1d467c-2020-12-06 10:23:31Z-Ps ActivityId: 9758e29a-26c5-4af0-bb20-202af7b8f6d7\",\r\n    \"scenarioName\": null,\r\n    \"friendlyName\": null,\r\n    \"state\": \"NotStarted\",\r\n    \"stateDescription\": \"NotStarted\",\r\n    \"tasks\": [],\r\n    \"errors\": [],\r\n    \"allowedActions\": [],\r\n    \"targetObjectId\": null,\r\n    \"targetObjectName\": null,\r\n    \"targetInstanceType\": \"ProtectionEntity\",\r\n    \"customDetails\": {\r\n      \"instanceType\": \"AsrJobDetails\",\r\n      \"affectedObjectDetails\": {}\r\n    }\r\n  }\r\n}",
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/7abd7576-1960-40b3-8577-dda49662d549?api-version=2018-07-10",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdC9yZXBsaWNhdGlvbkpvYnMvN2FiZDc1NzYtMTk2MC00MGIzLTg1NzctZGRhNDk2NjJkNTQ5P2FwaS12ZXJzaW9uPTIwMTgtMDctMTA=",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "d9e10a59-e323-4317-b75f-704eed5c56ba-2020-12-06 10:23:32Z-Ps"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "Agent-Authentication": [
+          "{\"NotBeforeTimestamp\":\"\\/Date(1607246612136)\\/\",\"NotAfterTimestamp\":\"\\/Date(1607851412136)\\/\",\"ClientRequestId\":\"d9e10a59-e323-4317-b75f-704eed5c56ba-2020-12-06 10:23:32Z-Ps\",\"HashFunction\":\"HMACSHA256\",\"Hmac\":\"ay5sj5bLDoSYSmqOrvVCb0qHJ2t5BlspKu8SGgyGLeg=\",\"Version\":{\"Major\":1,\"Minor\":2,\"Build\":-1,\"Revision\":-1,\"MajorRevision\":-1,\"MinorRevision\":-1},\"PropertyBag\":{}}"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.SiteRecovery.SiteRecoveryManagementClient/2.1.1.0"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "11982"
+        ],
+        "Server": [
+          "Microsoft-IIS/10.0",
+          "Kestrel"
+        ],
+        "x-ms-request-id": [
+          "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/7abd7576-1960-40b3-8577-dda49662d549"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-client-request-id": [
+          "d9e10a59-e323-4317-b75f-704eed5c56ba-2020-12-06 10:23:32Z-Ps"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-correlation-request-id": [
+          "2290862f-f853-4c4b-b788-147594b4970b"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102332Z:2290862f-f853-4c4b-b788-147594b4970b"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:32 GMT"
+        ],
+        "Content-Length": [
+          "750"
+        ],
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"id\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/7abd7576-1960-40b3-8577-dda49662d549\",\r\n  \"name\": \"7abd7576-1960-40b3-8577-dda49662d549\",\r\n  \"type\": \"Microsoft.RecoveryServices/vaults/replicationJobs\",\r\n  \"properties\": {\r\n    \"activityId\": \"693eb75c-8e4a-4c35-8a00-1b2f5f1d467c-2020-12-06 10:23:31Z-Ps ActivityId: 9758e29a-26c5-4af0-bb20-202af7b8f6d7\",\r\n    \"scenarioName\": null,\r\n    \"friendlyName\": null,\r\n    \"state\": \"NotStarted\",\r\n    \"stateDescription\": \"NotStarted\",\r\n    \"tasks\": [],\r\n    \"errors\": [],\r\n    \"allowedActions\": [],\r\n    \"targetObjectId\": null,\r\n    \"targetObjectName\": null,\r\n    \"targetInstanceType\": \"ProtectionEntity\",\r\n    \"customDetails\": {\r\n      \"instanceType\": \"AsrJobDetails\",\r\n      \"affectedObjectDetails\": {}\r\n    }\r\n  }\r\n}",
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/7abd7576-1960-40b3-8577-dda49662d549?api-version=2018-07-10",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdC9yZXBsaWNhdGlvbkpvYnMvN2FiZDc1NzYtMTk2MC00MGIzLTg1NzctZGRhNDk2NjJkNTQ5P2FwaS12ZXJzaW9uPTIwMTgtMDctMTA=",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "be650074-c9e6-4f44-9997-a1912f08aad9-2020-12-06 10:23:32Z-Ps"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "Agent-Authentication": [
+          "{\"NotBeforeTimestamp\":\"\\/Date(1607246612290)\\/\",\"NotAfterTimestamp\":\"\\/Date(1607851412290)\\/\",\"ClientRequestId\":\"be650074-c9e6-4f44-9997-a1912f08aad9-2020-12-06 10:23:32Z-Ps\",\"HashFunction\":\"HMACSHA256\",\"Hmac\":\"hcHmCRnFrQTUO6v+lNwOv1lT2qRJEp7KhNEpLxbd1eE=\",\"Version\":{\"Major\":1,\"Minor\":2,\"Build\":-1,\"Revision\":-1,\"MajorRevision\":-1,\"MinorRevision\":-1},\"PropertyBag\":{}}"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.SiteRecovery.SiteRecoveryManagementClient/2.1.1.0"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "11981"
+        ],
+        "Server": [
+          "Microsoft-IIS/10.0",
+          "Kestrel"
+        ],
+        "x-ms-request-id": [
+          "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/7abd7576-1960-40b3-8577-dda49662d549"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-client-request-id": [
+          "be650074-c9e6-4f44-9997-a1912f08aad9-2020-12-06 10:23:32Z-Ps"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-correlation-request-id": [
+          "02b3abe3-590e-457e-8fb2-11857d5033f3"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102332Z:02b3abe3-590e-457e-8fb2-11857d5033f3"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:32 GMT"
+        ],
+        "Content-Length": [
+          "3007"
+        ],
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"id\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/7abd7576-1960-40b3-8577-dda49662d549\",\r\n  \"name\": \"7abd7576-1960-40b3-8577-dda49662d549\",\r\n  \"type\": \"Microsoft.RecoveryServices/vaults/replicationJobs\",\r\n  \"properties\": {\r\n    \"activityId\": \"693eb75c-8e4a-4c35-8a00-1b2f5f1d467c-2020-12-06 10:23:31Z-Ps ActivityId: 9758e29a-26c5-4af0-bb20-202af7b8f6d7\",\r\n    \"scenarioName\": \"AssociateProtectionProfile\",\r\n    \"friendlyName\": \"Associate replication policy\",\r\n    \"state\": \"InProgress\",\r\n    \"stateDescription\": \"InProgress\",\r\n    \"tasks\": [\r\n      {\r\n        \"taskId\": \"CloudPairingWfPreflightChecksTask\",\r\n        \"name\": \"CloudPairingPrerequisitesCheck\",\r\n        \"startTime\": \"0001-01-01T00:00:00\",\r\n        \"endTime\": \"0001-01-01T00:00:00\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Check protection prerequisites\",\r\n        \"state\": \"NotStarted\",\r\n        \"stateDescription\": \"NotStarted\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      },\r\n      {\r\n        \"taskId\": \"CloudPairingWfPrepareSiteTask\",\r\n        \"name\": \"CloudPairingPrepareSite\",\r\n        \"startTime\": \"0001-01-01T00:00:00\",\r\n        \"endTime\": \"0001-01-01T00:00:00\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Prepare the server\",\r\n        \"state\": \"NotStarted\",\r\n        \"stateDescription\": \"NotStarted\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      },\r\n      {\r\n        \"taskId\": \"CloudPairingWfPrepareCloudForPairingTask\",\r\n        \"name\": \"CloudPairingPrepareCloud\",\r\n        \"startTime\": \"0001-01-01T00:00:00\",\r\n        \"endTime\": \"0001-01-01T00:00:00\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Prepare for configuring protection\",\r\n        \"state\": \"NotStarted\",\r\n        \"stateDescription\": \"NotStarted\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      },\r\n      {\r\n        \"taskId\": \"CloudPairingWfPairCloudsTask\",\r\n        \"name\": \"CloudPairingPairClouds\",\r\n        \"startTime\": \"0001-01-01T00:00:00\",\r\n        \"endTime\": \"0001-01-01T00:00:00\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Configure the protection settings\",\r\n        \"state\": \"NotStarted\",\r\n        \"stateDescription\": \"NotStarted\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      }\r\n    ],\r\n    \"errors\": [],\r\n    \"startTime\": \"2020-12-06T10:23:31.6111746Z\",\r\n    \"allowedActions\": [\r\n      \"Cancel\"\r\n    ],\r\n    \"targetObjectId\": \"5682a827-4319-5da7-be83-1ed53ea9c8e2\",\r\n    \"targetObjectName\": \"24-hour-replication-failbackpolicy\",\r\n    \"targetInstanceType\": \"ProtectionProfile\",\r\n    \"customDetails\": {\r\n      \"instanceType\": \"AsrJobDetails\",\r\n      \"affectedObjectDetails\": {\r\n        \"primaryCloudId\": \"cloud_ced1949a-522b-5f9d-9a54-7ffd67b8c35b\",\r\n        \"primaryCloudName\": \"v2aRcm-powershell-test90e9replicationcontainer\",\r\n        \"recoveryCloudId\": \"cloud_ced1949a-522b-5f9d-9a54-7ffd67b8c35b\",\r\n        \"recoveryCloudName\": \"v2aRcm-powershell-test90e9replicationcontainer\",\r\n        \"primaryVmmId\": \"ced1949a-522b-5f9d-9a54-7ffd67b8c35b\",\r\n        \"primaryVmmName\": \"v2aRcm-powershell-testreplicationfabric\",\r\n        \"recoveryVmmId\": \"ced1949a-522b-5f9d-9a54-7ffd67b8c35b\",\r\n        \"recoveryVmmName\": \"v2aRcm-powershell-testreplicationfabric\",\r\n        \"primaryFabricProviderId\": \"InMageRcm\",\r\n        \"recoveryFabricProviderId\": \"InMageRcm\"\r\n      }\r\n    }\r\n  }\r\n}",
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/7abd7576-1960-40b3-8577-dda49662d549?api-version=2018-07-10",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdC9yZXBsaWNhdGlvbkpvYnMvN2FiZDc1NzYtMTk2MC00MGIzLTg1NzctZGRhNDk2NjJkNTQ5P2FwaS12ZXJzaW9uPTIwMTgtMDctMTA=",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "bfbca61b-75d8-440a-a2f2-e852cd0c92d4-2020-12-06 10:23:32Z-Ps"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "Agent-Authentication": [
+          "{\"NotBeforeTimestamp\":\"\\/Date(1607246612455)\\/\",\"NotAfterTimestamp\":\"\\/Date(1607851412455)\\/\",\"ClientRequestId\":\"bfbca61b-75d8-440a-a2f2-e852cd0c92d4-2020-12-06 10:23:32Z-Ps\",\"HashFunction\":\"HMACSHA256\",\"Hmac\":\"n4gyjaPLUHMl8sns3QXuWh/lBp5iK/NZ3kCzvCX3wO0=\",\"Version\":{\"Major\":1,\"Minor\":2,\"Build\":-1,\"Revision\":-1,\"MajorRevision\":-1,\"MinorRevision\":-1},\"PropertyBag\":{}}"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.SiteRecovery.SiteRecoveryManagementClient/2.1.1.0"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "11980"
+        ],
+        "Server": [
+          "Microsoft-IIS/10.0",
+          "Kestrel"
+        ],
+        "x-ms-request-id": [
+          "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/7abd7576-1960-40b3-8577-dda49662d549"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-client-request-id": [
+          "bfbca61b-75d8-440a-a2f2-e852cd0c92d4-2020-12-06 10:23:32Z-Ps"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-correlation-request-id": [
+          "bd1b3c8d-dc47-4a55-8c8a-a7a710f72d5b"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102332Z:bd1b3c8d-dc47-4a55-8c8a-a7a710f72d5b"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:32 GMT"
+        ],
+        "Content-Length": [
+          "3016"
+        ],
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"id\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/7abd7576-1960-40b3-8577-dda49662d549\",\r\n  \"name\": \"7abd7576-1960-40b3-8577-dda49662d549\",\r\n  \"type\": \"Microsoft.RecoveryServices/vaults/replicationJobs\",\r\n  \"properties\": {\r\n    \"activityId\": \"693eb75c-8e4a-4c35-8a00-1b2f5f1d467c-2020-12-06 10:23:31Z-Ps ActivityId: 9758e29a-26c5-4af0-bb20-202af7b8f6d7\",\r\n    \"scenarioName\": \"AssociateProtectionProfile\",\r\n    \"friendlyName\": \"Associate replication policy\",\r\n    \"state\": \"InProgress\",\r\n    \"stateDescription\": \"InProgress\",\r\n    \"tasks\": [\r\n      {\r\n        \"taskId\": \"CloudPairingWfPreflightChecksTask\",\r\n        \"name\": \"CloudPairingPrerequisitesCheck\",\r\n        \"startTime\": \"2020-12-06T10:23:32.4515061Z\",\r\n        \"endTime\": \"0001-01-01T00:00:00\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Check protection prerequisites\",\r\n        \"state\": \"InProgress\",\r\n        \"stateDescription\": \"InProgress\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      },\r\n      {\r\n        \"taskId\": \"CloudPairingWfPrepareSiteTask\",\r\n        \"name\": \"CloudPairingPrepareSite\",\r\n        \"startTime\": \"0001-01-01T00:00:00\",\r\n        \"endTime\": \"0001-01-01T00:00:00\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Prepare the server\",\r\n        \"state\": \"NotStarted\",\r\n        \"stateDescription\": \"NotStarted\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      },\r\n      {\r\n        \"taskId\": \"CloudPairingWfPrepareCloudForPairingTask\",\r\n        \"name\": \"CloudPairingPrepareCloud\",\r\n        \"startTime\": \"0001-01-01T00:00:00\",\r\n        \"endTime\": \"0001-01-01T00:00:00\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Prepare for configuring protection\",\r\n        \"state\": \"NotStarted\",\r\n        \"stateDescription\": \"NotStarted\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      },\r\n      {\r\n        \"taskId\": \"CloudPairingWfPairCloudsTask\",\r\n        \"name\": \"CloudPairingPairClouds\",\r\n        \"startTime\": \"0001-01-01T00:00:00\",\r\n        \"endTime\": \"0001-01-01T00:00:00\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Configure the protection settings\",\r\n        \"state\": \"NotStarted\",\r\n        \"stateDescription\": \"NotStarted\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      }\r\n    ],\r\n    \"errors\": [],\r\n    \"startTime\": \"2020-12-06T10:23:31.6111746Z\",\r\n    \"allowedActions\": [\r\n      \"Cancel\"\r\n    ],\r\n    \"targetObjectId\": \"5682a827-4319-5da7-be83-1ed53ea9c8e2\",\r\n    \"targetObjectName\": \"24-hour-replication-failbackpolicy\",\r\n    \"targetInstanceType\": \"ProtectionProfile\",\r\n    \"customDetails\": {\r\n      \"instanceType\": \"AsrJobDetails\",\r\n      \"affectedObjectDetails\": {\r\n        \"primaryCloudId\": \"cloud_ced1949a-522b-5f9d-9a54-7ffd67b8c35b\",\r\n        \"primaryCloudName\": \"v2aRcm-powershell-test90e9replicationcontainer\",\r\n        \"recoveryCloudId\": \"cloud_ced1949a-522b-5f9d-9a54-7ffd67b8c35b\",\r\n        \"recoveryCloudName\": \"v2aRcm-powershell-test90e9replicationcontainer\",\r\n        \"primaryVmmId\": \"ced1949a-522b-5f9d-9a54-7ffd67b8c35b\",\r\n        \"primaryVmmName\": \"v2aRcm-powershell-testreplicationfabric\",\r\n        \"recoveryVmmId\": \"ced1949a-522b-5f9d-9a54-7ffd67b8c35b\",\r\n        \"recoveryVmmName\": \"v2aRcm-powershell-testreplicationfabric\",\r\n        \"primaryFabricProviderId\": \"InMageRcm\",\r\n        \"recoveryFabricProviderId\": \"InMageRcm\"\r\n      }\r\n    }\r\n  }\r\n}",
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/7abd7576-1960-40b3-8577-dda49662d549?api-version=2018-07-10",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdC9yZXBsaWNhdGlvbkpvYnMvN2FiZDc1NzYtMTk2MC00MGIzLTg1NzctZGRhNDk2NjJkNTQ5P2FwaS12ZXJzaW9uPTIwMTgtMDctMTA=",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "7ec6eec7-c101-4d96-b084-c1315298c05c-2020-12-06 10:23:32Z-Ps"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "Agent-Authentication": [
+          "{\"NotBeforeTimestamp\":\"\\/Date(1607246612628)\\/\",\"NotAfterTimestamp\":\"\\/Date(1607851412628)\\/\",\"ClientRequestId\":\"7ec6eec7-c101-4d96-b084-c1315298c05c-2020-12-06 10:23:32Z-Ps\",\"HashFunction\":\"HMACSHA256\",\"Hmac\":\"yrJFIKMv//haA2dWBzqTQ7sRNlCz/W9XXF6DaVyKJvE=\",\"Version\":{\"Major\":1,\"Minor\":2,\"Build\":-1,\"Revision\":-1,\"MajorRevision\":-1,\"MinorRevision\":-1},\"PropertyBag\":{}}"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.SiteRecovery.SiteRecoveryManagementClient/2.1.1.0"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "11979"
+        ],
+        "Server": [
+          "Microsoft-IIS/10.0",
+          "Kestrel"
+        ],
+        "x-ms-request-id": [
+          "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/7abd7576-1960-40b3-8577-dda49662d549"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-client-request-id": [
+          "7ec6eec7-c101-4d96-b084-c1315298c05c-2020-12-06 10:23:32Z-Ps"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-correlation-request-id": [
+          "3b5a0a22-5f71-46d2-8d4b-d86af8e408db"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102332Z:3b5a0a22-5f71-46d2-8d4b-d86af8e408db"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:32 GMT"
+        ],
+        "Content-Length": [
+          "4730"
+        ],
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"id\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationJobs/7abd7576-1960-40b3-8577-dda49662d549\",\r\n  \"name\": \"7abd7576-1960-40b3-8577-dda49662d549\",\r\n  \"type\": \"Microsoft.RecoveryServices/vaults/replicationJobs\",\r\n  \"properties\": {\r\n    \"activityId\": \"693eb75c-8e4a-4c35-8a00-1b2f5f1d467c-2020-12-06 10:23:31Z-Ps ActivityId: 9758e29a-26c5-4af0-bb20-202af7b8f6d7\",\r\n    \"scenarioName\": \"AssociateProtectionProfile\",\r\n    \"friendlyName\": \"Associate replication policy\",\r\n    \"state\": \"Failed\",\r\n    \"stateDescription\": \"Failed\",\r\n    \"tasks\": [\r\n      {\r\n        \"taskId\": \"CloudPairingWfPreflightChecksTask\",\r\n        \"name\": \"CloudPairingPrerequisitesCheck\",\r\n        \"startTime\": \"2020-12-06T10:23:32.4515061Z\",\r\n        \"endTime\": \"0001-01-01T00:00:00\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Check protection prerequisites\",\r\n        \"state\": \"InProgress\",\r\n        \"stateDescription\": \"InProgress\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": [\r\n          {\r\n            \"serviceErrorDetails\": {\r\n              \"code\": \"575\",\r\n              \"message\": \"The resource already exists under resource name 'default-failback-containerpairing'.\",\r\n              \"possibleCauses\": \"The resource was created before using resource name 'default-failback-containerpairing' but now being recreated using a new name 'v2aRcm-powershell-testfailbackmapping'.\",\r\n              \"recommendedAction\": \"Use the resource's existing resource name for any action on it. Read more at https://aka.ms/asrerrorcode-575 \",\r\n              \"activityId\": \"693eb75c-8e4a-4c35-8a00-1b2f5f1d467c-2020-12-06 10:23:31Z-Ps ActivityId: 9758e29a-26c5-4af0-bb20-202af7b8f6d7\"\r\n            },\r\n            \"providerErrorDetails\": {\r\n              \"errorCode\": 0,\r\n              \"errorMessage\": null,\r\n              \"errorId\": \"5943ec63-a3a0-4c8e-b108-d02c064a9059\",\r\n              \"possibleCauses\": \"\",\r\n              \"recommendedAction\": \"\"\r\n            },\r\n            \"errorLevel\": \"Error\",\r\n            \"creationTime\": \"2020-12-06T10:23:32.5565016Z\",\r\n            \"taskId\": \"CloudPairingWfPreflightChecksTask\"\r\n          }\r\n        ]\r\n      },\r\n      {\r\n        \"taskId\": \"CloudPairingWfPrepareSiteTask\",\r\n        \"name\": \"CloudPairingPrepareSite\",\r\n        \"startTime\": \"0001-01-01T00:00:00\",\r\n        \"endTime\": \"0001-01-01T00:00:00\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Prepare the server\",\r\n        \"state\": \"NotStarted\",\r\n        \"stateDescription\": \"NotStarted\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      },\r\n      {\r\n        \"taskId\": \"CloudPairingWfPrepareCloudForPairingTask\",\r\n        \"name\": \"CloudPairingPrepareCloud\",\r\n        \"startTime\": \"0001-01-01T00:00:00\",\r\n        \"endTime\": \"0001-01-01T00:00:00\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Prepare for configuring protection\",\r\n        \"state\": \"NotStarted\",\r\n        \"stateDescription\": \"NotStarted\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      },\r\n      {\r\n        \"taskId\": \"CloudPairingWfPairCloudsTask\",\r\n        \"name\": \"CloudPairingPairClouds\",\r\n        \"startTime\": \"0001-01-01T00:00:00\",\r\n        \"endTime\": \"0001-01-01T00:00:00\",\r\n        \"allowedActions\": [],\r\n        \"friendlyName\": \"Configure the protection settings\",\r\n        \"state\": \"NotStarted\",\r\n        \"stateDescription\": \"NotStarted\",\r\n        \"taskType\": \"TaskDetails\",\r\n        \"customDetails\": {\r\n          \"instanceType\": \"TaskDetails\"\r\n        },\r\n        \"groupTaskCustomDetails\": null,\r\n        \"errors\": []\r\n      }\r\n    ],\r\n    \"errors\": [\r\n      {\r\n        \"serviceErrorDetails\": {\r\n          \"code\": \"575\",\r\n          \"message\": \"The resource already exists under resource name 'default-failback-containerpairing'.\",\r\n          \"possibleCauses\": \"The resource was created before using resource name 'default-failback-containerpairing' but now being recreated using a new name 'v2aRcm-powershell-testfailbackmapping'.\",\r\n          \"recommendedAction\": \"Use the resource's existing resource name for any action on it. Read more at https://aka.ms/asrerrorcode-575 \",\r\n          \"activityId\": \"693eb75c-8e4a-4c35-8a00-1b2f5f1d467c-2020-12-06 10:23:31Z-Ps ActivityId: 9758e29a-26c5-4af0-bb20-202af7b8f6d7\"\r\n        },\r\n        \"providerErrorDetails\": {\r\n          \"errorCode\": 0,\r\n          \"errorMessage\": null,\r\n          \"errorId\": \"5943ec63-a3a0-4c8e-b108-d02c064a9059\",\r\n          \"possibleCauses\": \"\",\r\n          \"recommendedAction\": \"\"\r\n        },\r\n        \"errorLevel\": \"Error\",\r\n        \"creationTime\": \"2020-12-06T10:23:32.5565016Z\",\r\n        \"taskId\": \"CloudPairingWfPreflightChecksTask\"\r\n      }\r\n    ],\r\n    \"startTime\": \"2020-12-06T10:23:31.6111746Z\",\r\n    \"endTime\": \"2020-12-06T10:23:32Z\",\r\n    \"allowedActions\": [\r\n      \"Restart\"\r\n    ],\r\n    \"targetObjectId\": \"5682a827-4319-5da7-be83-1ed53ea9c8e2\",\r\n    \"targetObjectName\": \"24-hour-replication-failbackpolicy\",\r\n    \"targetInstanceType\": \"ProtectionProfile\",\r\n    \"customDetails\": {\r\n      \"instanceType\": \"AsrJobDetails\",\r\n      \"affectedObjectDetails\": {\r\n        \"primaryCloudId\": \"cloud_ced1949a-522b-5f9d-9a54-7ffd67b8c35b\",\r\n        \"primaryCloudName\": \"v2aRcm-powershell-test90e9replicationcontainer\",\r\n        \"recoveryCloudId\": \"cloud_ced1949a-522b-5f9d-9a54-7ffd67b8c35b\",\r\n        \"recoveryCloudName\": \"v2aRcm-powershell-test90e9replicationcontainer\",\r\n        \"primaryVmmId\": \"ced1949a-522b-5f9d-9a54-7ffd67b8c35b\",\r\n        \"primaryVmmName\": \"v2aRcm-powershell-testreplicationfabric\",\r\n        \"recoveryVmmId\": \"ced1949a-522b-5f9d-9a54-7ffd67b8c35b\",\r\n        \"recoveryVmmName\": \"v2aRcm-powershell-testreplicationfabric\",\r\n        \"primaryFabricProviderId\": \"InMageRcm\",\r\n        \"recoveryFabricProviderId\": \"InMageRcm\"\r\n      }\r\n    }\r\n  }\r\n}",
+      "StatusCode": 200
+    },
+    {
+      "RequestUri": "/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationFabrics/v2aRcm-powershell-testreplicationfabric/replicationProtectionContainers/v2aRcm-powershell-test90e9replicationcontainer/replicationProtectionContainerMappings/v2aRcm-powershell-testmapping?api-version=2018-07-10",
+      "EncodedRequestUri": "L1N1YnNjcmlwdGlvbnMvN2M5NDNjMWItNTEyMi00MDk3LTkwYzgtODYxNDExYmRkNTc0L3Jlc291cmNlR3JvdXBzL3Ztd2FyZXNyY3JnL3Byb3ZpZGVycy9NaWNyb3NvZnQuUmVjb3ZlcnlTZXJ2aWNlcy92YXVsdHMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdC9yZXBsaWNhdGlvbkZhYnJpY3MvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdHJlcGxpY2F0aW9uZmFicmljL3JlcGxpY2F0aW9uUHJvdGVjdGlvbkNvbnRhaW5lcnMvdjJhUmNtLXBvd2Vyc2hlbGwtdGVzdDkwZTlyZXBsaWNhdGlvbmNvbnRhaW5lci9yZXBsaWNhdGlvblByb3RlY3Rpb25Db250YWluZXJNYXBwaW5ncy92MmFSY20tcG93ZXJzaGVsbC10ZXN0bWFwcGluZz9hcGktdmVyc2lvbj0yMDE4LTA3LTEw",
+      "RequestMethod": "GET",
+      "RequestBody": "",
+      "RequestHeaders": {
+        "x-ms-client-request-id": [
+          "67238982-8e19-4258-8fa1-1a6c863bc53a-2020-12-06 10:23:32Z-Ps"
+        ],
+        "Accept-Language": [
+          "en-US"
+        ],
+        "Agent-Authentication": [
+          "{\"NotBeforeTimestamp\":\"\\/Date(1607246612807)\\/\",\"NotAfterTimestamp\":\"\\/Date(1607851412807)\\/\",\"ClientRequestId\":\"67238982-8e19-4258-8fa1-1a6c863bc53a-2020-12-06 10:23:32Z-Ps\",\"HashFunction\":\"HMACSHA256\",\"Hmac\":\"aACPDTrg9Xka8HhVrcaKP9noAtP+GHk9aPAltrHEbNM=\",\"Version\":{\"Major\":1,\"Minor\":2,\"Build\":-1,\"Revision\":-1,\"MajorRevision\":-1,\"MinorRevision\":-1},\"PropertyBag\":{}}"
+        ],
+        "User-Agent": [
+          "FxVersion/4.6.29321.03",
+          "OSName/Windows",
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.RecoveryServices.SiteRecovery.SiteRecoveryManagementClient/2.1.1.0"
+        ]
+      },
+      "ResponseHeaders": {
+        "Cache-Control": [
+          "no-cache"
+        ],
+        "Pragma": [
+          "no-cache"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": [
+          "11978"
+        ],
+        "Server": [
+          "Microsoft-IIS/10.0",
+          "Kestrel"
+        ],
+        "x-ms-request-id": [
+          "67238982-8e19-4258-8fa1-1a6c863bc53a-2020-12-06 10:23:32Z-Ps 12/6/2020 10:23:32 AM"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "x-ms-client-request-id": [
+          "67238982-8e19-4258-8fa1-1a6c863bc53a-2020-12-06 10:23:32Z-Ps"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubDomains"
+        ],
+        "x-ms-correlation-request-id": [
+          "60073001-b2e4-4015-9e3c-c98c076954ec"
+        ],
+        "x-ms-routing-request-id": [
+          "CENTRALINDIA:20201206T102333Z:60073001-b2e4-4015-9e3c-c98c076954ec"
+        ],
+        "Date": [
+          "Sun, 06 Dec 2020 10:23:32 GMT"
+        ],
+        "Content-Length": [
+          "1263"
+        ],
+        "Content-Type": [
+          "application/json"
+        ],
+        "Expires": [
+          "-1"
+        ]
+      },
+      "ResponseBody": "{\r\n  \"id\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationFabrics/v2aRcm-powershell-testreplicationfabric/replicationProtectionContainers/v2aRcm-powershell-test90e9replicationcontainer/replicationProtectionContainerMappings/v2aRcm-powershell-testmapping\",\r\n  \"name\": \"v2aRcm-powershell-testmapping\",\r\n  \"type\": \"Microsoft.RecoveryServices/vaults/replicationFabrics/replicationProtectionContainers/replicationProtectionContainerMappings\",\r\n  \"properties\": {\r\n    \"targetProtectionContainerId\": \"Microsoft Azure\",\r\n    \"targetProtectionContainerFriendlyName\": \"Microsoft Azure\",\r\n    \"providerSpecificDetails\": {\r\n      \"instanceType\": \"InMageRcm\",\r\n      \"enableAgentAutoUpgrade\": \"true\"\r\n    },\r\n    \"health\": \"Normal\",\r\n    \"healthErrorDetails\": [],\r\n    \"policyId\": \"/Subscriptions/7c943c1b-5122-4097-90c8-861411bdd574/resourceGroups/vmwaresrcrg/providers/Microsoft.RecoveryServices/vaults/v2aRcm-powershell-test/replicationPolicies/v2aRcm-powershell-testpolicy\",\r\n    \"state\": \"Paired\",\r\n    \"sourceProtectionContainerFriendlyName\": \"v2aRcm-powershell-test90e9replicationcontainer\",\r\n    \"sourceFabricFriendlyName\": \"v2aRcm-powershell-testreplicationfabric\",\r\n    \"targetFabricFriendlyName\": \"Microsoft Azure\",\r\n    \"policyFriendlyName\": \"v2aRcm-powershell-testpolicy\"\r\n  }\r\n}",
+      "StatusCode": 200
+    }
+  ],
+  "Names": {},
+  "Variables": {
+    "SubscriptionId": "7c943c1b-5122-4097-90c8-861411bdd574"
+  }
+}

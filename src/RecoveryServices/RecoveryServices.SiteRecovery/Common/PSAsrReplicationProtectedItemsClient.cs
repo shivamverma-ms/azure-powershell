@@ -301,6 +301,31 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         }
 
         /// <summary>
+        ///     Starts Cancel Failover.
+        /// </summary>
+        /// <param name="fabricName">Fabric Name</param>
+        /// <param name="protectionContainerName">Protection Conatiner Name</param>
+        /// <param name="replicationProtectedItemName">Replication Protected Item</param>
+        /// <returns>Job Response</returns>
+        public PSSiteRecoveryLongRunningOperation StartAzureSiteRecoveryCancelFailover(
+            string fabricName,
+            string protectionContainerName,
+            string replicationProtectedItemName)
+        {
+            var op = this.GetSiteRecoveryClient()
+                .ReplicationProtectedItems.BeginFailoverCancelWithHttpMessagesAsync(
+                    fabricName,
+                    protectionContainerName,
+                    replicationProtectedItemName,
+                    this.GetRequestHeaders(true))
+                .GetAwaiter()
+                .GetResult();
+
+            var result = SiteRecoveryAutoMapperProfile.Mapper.Map<PSSiteRecoveryLongRunningOperation>(op);
+            return result;
+        }
+
+        /// <summary>
         ///     Starts Planned Failover
         /// </summary>
         /// <param name="fabricName">Fabric Name</param>

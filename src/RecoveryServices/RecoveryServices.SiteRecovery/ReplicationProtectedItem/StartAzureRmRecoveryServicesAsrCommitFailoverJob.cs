@@ -149,7 +149,54 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                                 .ReplicationProvider));
                 }
             }
-
+            else if (string.Compare(
+                    this.ReplicationProtectedItem.ReplicationProvider,
+                    Constants.InMageRcm,
+                    StringComparison.OrdinalIgnoreCase) ==
+                0)
+            {
+                // Validate if the Replication Protection Item is part of any Replication Group.
+                Guid guidResult;
+                var parseFlag = Guid.TryParse(
+                    ((ASRInMageRcmSpecificRPIDetails)this
+                        .ReplicationProtectedItem
+                        .ProviderSpecificDetails).MultiVmGroupName,
+                    out guidResult);
+                if (parseFlag == false || guidResult == Guid.Empty)
+                {
+                    // Replication Group was created at the time of Protection.
+                    throw new InvalidOperationException(
+                        string.Format(
+                            Resources
+                                .UnsupportedReplicationProtectionActionForCommit,
+                            this.ReplicationProtectedItem
+                                .ReplicationProvider));
+                }
+            }
+            else if (string.Compare(
+                    this.ReplicationProtectedItem.ReplicationProvider,
+                    Constants.InMageRcmFailback,
+                    StringComparison.OrdinalIgnoreCase) ==
+                0)
+            {
+                // Validate if the Replication Protection Item is part of any Replication Group.
+                Guid guidResult;
+                var parseFlag = Guid.TryParse(
+                    ((ASRInMageRcmFailbackSpecificRPIDetails)this
+                        .ReplicationProtectedItem
+                        .ProviderSpecificDetails).MultiVmGroupName,
+                    out guidResult);
+                if (parseFlag == false || guidResult == Guid.Empty)
+                {
+                    // Replication Group was created at the time of Protection.
+                    throw new InvalidOperationException(
+                        string.Format(
+                            Resources
+                                .UnsupportedReplicationProtectionActionForCommit,
+                            this.ReplicationProtectedItem
+                                .ReplicationProvider));
+                }
+            }
             var response = this.RecoveryServicesClient.StartAzureSiteRecoveryCommitFailover(
                 this.fabricName,
                 this.protectionContainerName,

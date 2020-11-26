@@ -1009,7 +1009,18 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.Properties {
                 return ResourceManager.GetString("UnsupportedReplicationProtectionActionForCommit", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Unsupported replication protection action for virtual machine in replication group for cancel failover for replication provider {0}. Use recovery plan action for the same purpose..
+        /// </summary>
+        internal static string UnsupportedReplicationProtectionActionForCancelFailover
+        {
+            get
+            {
+                return ResourceManager.GetString("UnsupportedReplicationProtectionActionForCancelFailover", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Unsupported replication protection action for virtual machine in replication group for test failover for replication provider {0}. Use recovery plan action for the same purpose..
         /// </summary>
@@ -1081,7 +1092,18 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.Properties {
                 return ResourceManager.GetString("UnsupportedReplicationProviderForReprotect", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Unsupported replication provider {0} for Unplanned failover.
+        /// </summary>
+        internal static string UnsupportedReplicationProviderForUnplannedFailover
+        {
+            get
+            {
+                return ResourceManager.GetString("UnsupportedReplicationProviderForUnplannedFailover", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Unsupported replication provider {0} for test failover.
         /// </summary>

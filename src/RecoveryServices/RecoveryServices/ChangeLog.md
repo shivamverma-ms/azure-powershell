@@ -18,6 +18,7 @@
         - Additional information about change #1
 -->
 ## Upcoming Release
+* Azure Site Recovery supports VMware to Azure replication using RCM as control plane.
 * Enabled softdelete feature for SQL.
 * Fixing SQL AG restore, removing the container name check.
 

@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Management.Automation;
 using Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.Properties;
@@ -63,6 +64,25 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             Constants.PrimaryToRecovery,
             Constants.RecoveryToPrimary)]
         public string Direction { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether VM is to be shutdown.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        [DefaultValue(Constants.True)]
+        [ValidateSet(Constants.True, Constants.False)]
+        public string PerformShutdown { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether multi VM sync enabled VMs should use
+        ///     multi VM sync points for failover.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        [DefaultValue(Constants.True)]
+        [ValidateSet(Constants.True, Constants.False)]
+        public string UseMultiVmSyncPoint { get; set; }
 
         /// <summary>
         ///     Switch parameter to perform operation in source side before starting unplanned failover.
@@ -163,7 +183,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             {
                 FailoverDirection = this.Direction,
                 SourceSiteOperations = this.PerformSourceSideAction ? "Required" : "NotRequired",
-                ProviderSpecificDetails = new ProviderSpecificFailoverInput()
+                ProviderSpecificDetails = new UnplannedFailoverProviderSpecificInput()
             };
 
             var input =
@@ -177,7 +197,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             {
                 if (this.Direction == Constants.PrimaryToRecovery)
                 {
-                    var failoverInput = new HyperVReplicaAzureFailoverProviderInput
+                    var failoverInput = new HyperVReplicaAzureUnplannedFailoverInput
                     {
                         PrimaryKekCertificatePfx = this.primaryKekCertpfx,
                         SecondaryKekCertificatePfx = this.secondaryKekCertpfx,
@@ -208,12 +228,31 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                Constants.A2A,
                StringComparison.OrdinalIgnoreCase))
             {
-                var failoverInput = new A2AFailoverProviderInput()
+                var failoverInput = new A2AUnplannedFailoverInput()
                 {
                     RecoveryPointId = this.RecoveryPoint == null ? null : this.RecoveryPoint.ID
                 };
 
                 input.Properties.ProviderSpecificDetails = failoverInput;
+            }
+            else if (string.Compare(
+                    this.ReplicationProtectedItem.ReplicationProvider,
+                    Constants.InMageRcm,
+                    StringComparison.OrdinalIgnoreCase) ==
+                0)
+            {
+                this.InMageRcmUnplannedFailover(input);
+            }
+            else if (string.Compare(
+                    this.ReplicationProtectedItem.ReplicationProvider,
+                    Constants.InMageRcmFailback,
+                    StringComparison.OrdinalIgnoreCase) ==
+                0)
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                        Resources.UnsupportedReplicationProviderForUnplannedFailover,
+                        this.ReplicationProtectedItem.ReplicationProvider));
             }
 
             var response = this.RecoveryServicesClient.StartAzureSiteRecoveryUnplannedFailover(
@@ -266,7 +305,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         : RecoveryPointType.LatestTime;
 
                 // Set the InMage Provider specific input in the Unplanned Failover Input.
-                var failoverInput = new InMageFailoverProviderInput
+                var failoverInput = new InMageUnplannedFailoverInput
                 {
                     RecoveryPointType = recoveryPointType
                 };
@@ -310,7 +349,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             if (this.Direction == Constants.PrimaryToRecovery)
             {
                 // Set the InMageAzureV2 Provider specific input in the Unplanned Failover Input.
-                var failoverInput = new InMageAzureV2FailoverProviderInput
+                var failoverInput = new InMageAzureV2UnplannedFailoverInput
                 {
                     RecoveryPointId = this.RecoveryPoint != null ? this.RecoveryPoint.ID : null
                 };
@@ -319,6 +358,35 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             else
             {
                 // RecoveryToPrimary Direction is Invalid for InMageAzureV2.
+                new ArgumentException(Resources.InvalidDirectionForVMWareToAzure);
+            }
+        }
+
+        /// <summary>
+        ///     InMageRcm unplanned failover.
+        /// </summary>
+        private void InMageRcmUnplannedFailover(UnplannedFailoverInput input)
+        {
+            this.PerformShutdown =
+                this.MyInvocation.BoundParameters.ContainsKey(
+                    Utilities.GetMemberName(() => this.PerformShutdown))
+                    ? this.PerformShutdown
+                    : Constants.True;
+
+            // Validate the Direction as PrimaryToRecovery.
+            if (this.Direction == Constants.PrimaryToRecovery)
+            {
+                // Set the InMageRcm Provider specific input in the Unplanned Failover Input.
+                var failoverInput = new InMageRcmUnplannedFailoverInput
+                {
+                    PerformShutdown = this.PerformShutdown,
+                    RecoveryPointId = this.RecoveryPoint != null ? this.RecoveryPoint.ID : null
+                };
+                input.Properties.ProviderSpecificDetails = failoverInput;
+            }
+            else
+            {
+                // RecoveryToPrimary Direction is Invalid for InMageRcm.
                 new ArgumentException(Resources.InvalidDirectionForVMWareToAzure);
             }
         }
@@ -466,6 +534,53 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         RecoveryPointType = recoveryPointType
                     };
                     recoveryPlanUnplannedFailoverInputProperties.ProviderSpecificDetails.Add(recoveryPlanA2AFailoverInput);
+                }
+                else if (string.Compare(
+                        replicationProvider,
+                        Constants.InMageRcm,
+                        StringComparison.OrdinalIgnoreCase) ==
+                    0)
+                {
+                    var recoveryPointType =
+                        this.RecoveryTag == Constants.RecoveryTagLatestAvailableApplicationConsistent
+                            ? RecoveryPlanPointType.LatestApplicationConsistent
+                            : this.RecoveryTag == Constants.RecoveryTagLatest
+                                ? RecoveryPlanPointType.Latest
+                                 : this.RecoveryTag == Constants.RecoveryTagLatestAvailableCrashConsistent
+                                     ? RecoveryPlanPointType.LatestCrashConsistent
+                                      : RecoveryPlanPointType.LatestProcessed;
+                    this.UseMultiVmSyncPoint =
+                        this.MyInvocation.BoundParameters.ContainsKey(
+                            Utilities.GetMemberName(() => this.UseMultiVmSyncPoint))
+                            ? this.UseMultiVmSyncPoint
+                            : Constants.True;
+
+                    // Check if the Direction is PrimaryToRecovery.
+                    if (this.Direction == Constants.PrimaryToRecovery)
+                    {
+                        // Create the InMageRcm Provider specific input.
+                        var recoveryPlanInMageRcmFailoverInput =
+                            new RecoveryPlanInMageRcmFailoverInput
+                            {
+                                RecoveryPointType = recoveryPointType,
+                                UseMultiVmSyncPoint = this.UseMultiVmSyncPoint
+                            };
+
+                        // Add the InMagRcm provider specific input in the unplanned failover input.
+                        recoveryPlanUnplannedFailoverInputProperties.ProviderSpecificDetails.Add(
+                            recoveryPlanInMageRcmFailoverInput);
+                    }
+                }
+                else if (string.Compare(
+                        this.ReplicationProtectedItem.ReplicationProvider,
+                        Constants.InMageRcmFailback,
+                        StringComparison.OrdinalIgnoreCase) ==
+                    0)
+                {
+                    throw new InvalidOperationException(
+                        string.Format(
+                            Resources.UnsupportedReplicationProviderForUnplannedFailover,
+                            this.ReplicationProtectedItem.ReplicationProvider));
                 }
             }
 

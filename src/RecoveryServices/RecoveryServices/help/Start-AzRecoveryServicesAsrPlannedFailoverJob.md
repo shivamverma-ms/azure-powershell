@@ -17,16 +17,16 @@ Starts a planned failover operation.
 Start-AzRecoveryServicesAsrPlannedFailoverJob -ReplicationProtectedItem <ASRReplicationProtectedItem>
  -Direction <String> [-Optimize <String>] [-CreateVmIfNotFound <String>]
  [-ServicesProvider <ASRRecoveryServicesProvider>] [-DataEncryptionPrimaryCertFile <String>]
- [-DataEncryptionSecondaryCertFile <String>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-DataEncryptionSecondaryCertFile <String>] [-RecoveryPointType <String>] [-UseMultiVmSyncPoint <String>]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ByRPObject
 ```
 Start-AzRecoveryServicesAsrPlannedFailoverJob -RecoveryPlan <ASRRecoveryPlan> -Direction <String>
  [-Optimize <String>] [-CreateVmIfNotFound <String>] [-DataEncryptionPrimaryCertFile <String>]
- [-DataEncryptionSecondaryCertFile <String>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-DataEncryptionSecondaryCertFile <String>] [-RecoveryPointType <String>] [-UseMultiVmSyncPoint <String>]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -174,6 +174,22 @@ Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
+### -RecoveryPointType
+Specifies the recovery point type: ApplicationConsistent, CrashConsistent.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+Accepted values: RecoveryPointApplicationConsistent, RecoveryPointCrashConsistent
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -ReplicationProtectedItem
 Specifies the ASR replication protected item object corresponding to the replication protected item to be failed over.
 
@@ -196,6 +212,22 @@ Identifies the host to on which to create the virtual machine while failing over
 Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRRecoveryServicesProvider
 Parameter Sets: ByRPIObject
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UseMultiVmSyncPoint
+Use multi VM sync points for failover of multi VM sync enabled VMs.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+Accepted values: True, False
 
 Required: False
 Position: Named

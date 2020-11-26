@@ -49,6 +49,24 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public SwitchParameter VMwareToAzure { get; set; }
 
         /// <summary>
+        ///    Switch Parameter to update replication direction from Azure to VMware using Rcm.
+        /// </summary>
+        [Parameter(
+            Position = 0,
+            ParameterSetName = ASRParameterSets.AzureToVMwareRcm,
+            Mandatory = true)]
+        public SwitchParameter AzureToVMwareRcm { get; set; }
+
+        /// <summary>
+        ///    Switch Parameter to update replication direction from VMware to Azure using Rcm.
+        /// </summary>
+        [Parameter(
+            Position = 0,
+            ParameterSetName = ASRParameterSets.VMwareRcmToAzure,
+           Mandatory = true)]
+        public SwitchParameter VMwareRcmToAzure { get; set; }
+
+        /// <summary>
         ///    Switch Parameter to re-protect a Hyper-V virtual machine after fail-back.
         /// </summary>
         [Parameter(
@@ -78,6 +96,21 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             ParameterSetName = ASRParameterSets.AzureToAzureWithMultipleStorageAccount,
             Mandatory = true)]
         public SwitchParameter AzureToAzure { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the ARM Id of the VM discovered in VMware.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.VMwareRcmToAzure, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        public string FabricDiscoveryMachineId { get; set; }
+
+        /// <summary>
+        ///     Gets or sets run as account Id to be used to push install the Mobility service if needed.
+        ///     Must be one from the list of run as accounts in the ASR fabric.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.VMwareRcmToAzure, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        public string RunAsAccountId { get; set; }
 
         /// <summary>
         ///     Gets or sets the run as account to be used to push install the Mobility service if needed.
@@ -118,8 +151,31 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzure, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithMultipleStorageAccount, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToVMwareRcm, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.VMwareRcmToAzure, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public ASRProtectionContainerMapping ProtectionContainerMapping { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the Id of Process Server to use to replicate this machine.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.VMwareRcmToAzure, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        public string ProcessServerId { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the name of data store of MT server for the on-premise VMware machine.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToVMwareRcm, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        public string DataStoreName { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the Id of Reprotect Agent to use to replicate this machine.
+        /// </summary>
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToVMwareRcm, Mandatory = true)]
+        [ValidateNotNullOrEmpty]
+        public string ReprotectAgentId { get; set; }
 
         /// <summary>
         ///     Gets or sets azure storage account ID to store the replication log of VMs.
@@ -127,6 +183,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzure)]
         [Parameter(ParameterSetName = ASRParameterSets.HyperVToAzure)]
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, Mandatory = true)]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToVMwareRcm, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public string LogStorageAccountId { get; set; }
 
@@ -196,6 +253,14 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             ParameterSetName = ASRParameterSets.AzureToAzureWithMultipleStorageAccount,
             Mandatory = true,
             ValueFromPipeline = true)]
+        [Parameter(
+            ParameterSetName = ASRParameterSets.AzureToVMwareRcm,
+            Mandatory = true,
+            ValueFromPipeline = true)]
+        [Parameter(
+            ParameterSetName = ASRParameterSets.VMwareRcmToAzure,
+            Mandatory = true,
+            ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
         public ASRReplicationProtectedItem ReplicationProtectedItem { get; set; }
 
@@ -215,6 +280,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             ParameterSetName = ASRParameterSets.HyperVToAzure,
             Mandatory = true)]
         [Parameter(
+            ParameterSetName = ASRParameterSets.AzureToVMwareRcm,
+            Mandatory = true)]
+        [Parameter(
+            ParameterSetName = ASRParameterSets.VMwareRcmToAzure,
+            Mandatory = true)]
+        [Parameter(
             ParameterSetName = ASRParameterSets.ByRPIObject,
             Mandatory = true)]
         [Parameter(
@@ -225,9 +296,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
              Mandatory = true)]
         [ValidateSet(
             Constants.PrimaryToRecovery,
-            Constants.RecoveryToPrimary)]
+            Constants.RecoveryToPrimary)]        
         public string Direction { get; set; }
-
 
         /// <summary>
         /// Gets or sets recovery resourceGroup id for protected Vm.
@@ -274,7 +344,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.AzureToVMware, Mandatory = true)]
         [ValidateNotNullOrEmpty]
         public ASRRetentionVolume RetentionVolume { get; set; }
-
 
         /// <summary>
         /// Gets or sets DiskEncryptionVaultId.
@@ -332,6 +401,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     case ASRParameterSets.ByRPIObject:
                     case ASRParameterSets.AzureToVMware:
                     case ASRParameterSets.VMwareToAzure:
+                    case ASRParameterSets.AzureToVMwareRcm:
+                    case ASRParameterSets.VMwareRcmToAzure:
                     case ASRParameterSets.HyperVToAzure:
                     case ASRParameterSets.EnterpriseToEnterprise:
                         this.protectionContainerName = Utilities.GetValueFromArmId(
@@ -385,22 +456,22 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 
             validateRPISwitchParam();
 
-            var protectableItemResponse = this.RecoveryServicesClient
-                .GetAzureSiteRecoveryProtectableItem(
-                    this.fabricName,
-                    this.protectionContainerName,
-                    Utilities.GetValueFromArmId(
-                        replicationProtectedItemResponse.Properties.ProtectableItemId,
-                        ARMResourceTypeConstants.ProtectableItems));
-
-            var asrProtectableItem = new ASRProtectableItem(protectableItemResponse);
-
             if (0 ==
                 string.Compare(
                     this.ReplicationProtectedItem.ReplicationProvider,
                     Constants.HyperVReplicaAzure,
                     StringComparison.OrdinalIgnoreCase))
             {
+                var protectableItemResponse = this.RecoveryServicesClient
+                    .GetAzureSiteRecoveryProtectableItem(
+                        this.fabricName,
+                        this.protectionContainerName,
+                        Utilities.GetValueFromArmId(
+                            replicationProtectedItemResponse.Properties.ProtectableItemId,
+                            ARMResourceTypeConstants.ProtectableItems));
+
+                var asrProtectableItem = new ASRProtectableItem(protectableItemResponse);
+
                 if (this.Direction == Constants.PrimaryToRecovery)
                 {
                     var reprotectInput = new HyperVReplicaAzureReprotectInput
@@ -511,6 +582,57 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     new ArgumentException(Resources.InvalidDirectionForVMWareToAzure);
                 }
             }
+            else if (string.Compare(
+                    this.ReplicationProtectedItem.ReplicationProvider,
+                    Constants.InMageRcm,
+                    StringComparison.OrdinalIgnoreCase) ==
+                0)
+            {
+                // Validate the direction as RecoveryToPrimary.
+                if (this.Direction == Constants.RecoveryToPrimary)
+                {
+                    // Set the InMageRcm Provider specific input in the Re-protect Input.
+                    var reprotectInput = new InMageRcmReprotectInput
+                    {
+                        PolicyId = this.ProtectionContainerMapping.PolicyId,
+                        ReprotectAgentId = this.ReprotectAgentId,
+                        LogStorageAccountId = this.LogStorageAccountId,
+                        DatastoreName = this.DataStoreName
+                    };
+
+                    input.Properties.ProviderSpecificDetails = reprotectInput;
+                }
+                else
+                {
+                    // PrimaryToRecovery direction is invalid.
+                    new ArgumentException(Resources.InvalidDirectionForAzureToVMWare);
+                }
+            }
+            else if (string.Compare(
+                    this.ReplicationProtectedItem.ReplicationProvider,
+                    Constants.InMageRcmFailback,
+                    StringComparison.OrdinalIgnoreCase) ==
+                0)
+            {
+                // Validate the Direction as PrimaryToRecovery.
+                if (this.Direction == Constants.PrimaryToRecovery)
+                {
+                    // Set the InMageRcmFailback Provider specific input in the Re-protect Input.
+                    var reprotectInput = new InMageRcmFailbackReprotectInput
+                    {
+                        PolicyId = this.ProtectionContainerMapping.PolicyId,
+                        ProcessServerId = this.ProcessServerId,
+                        RunAsAccountId = this.RunAsAccountId,
+                        FabricDiscoveryMachineId = this.FabricDiscoveryMachineId
+                    };
+                    input.Properties.ProviderSpecificDetails = reprotectInput;
+                }
+                else
+                {
+                    // PrimaryToRecovery direction is invalid.
+                    new ArgumentException(Resources.InvalidDirectionForVMWareToAzure);
+                }
+            }
 
             var response = this.RecoveryServicesClient.StartAzureSiteRecoveryReprotection(
                 this.fabricName,
@@ -538,7 +660,9 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             {
                 if (Constants.InMageAzureV2.Equals(replicationProvider, StringComparison.OrdinalIgnoreCase) ||
                     Constants.InMage.Equals(replicationProvider, StringComparison.OrdinalIgnoreCase) ||
-                    Constants.A2A.Equals(replicationProvider, StringComparison.OrdinalIgnoreCase))
+                    Constants.A2A.Equals(replicationProvider, StringComparison.OrdinalIgnoreCase) ||
+                    Constants.InMageRcm.Equals(replicationProvider, StringComparison.OrdinalIgnoreCase) ||
+                    Constants.InMageRcmFailback.Equals(replicationProvider, StringComparison.OrdinalIgnoreCase))
                 {
                     throw new InvalidOperationException(
                         string.Format(
@@ -779,7 +903,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 && !this.ReplicationProtectedItem.ReplicationProvider.Equals(Constants.HyperVReplicaAzure))
                 || (this.VmmToVmm.IsPresent
                 && !(this.ReplicationProtectedItem.ReplicationProvider.Equals(Constants.HyperVReplica2012)
-                || this.ReplicationProtectedItem.ReplicationProvider.Equals(Constants.HyperVReplica2012R2))))
+                || this.ReplicationProtectedItem.ReplicationProvider.Equals(Constants.HyperVReplica2012R2)))
+                || (this.AzureToVMwareRcm.IsPresent
+                && !this.ReplicationProtectedItem.ReplicationProvider.Equals(Constants.InMageRcm))
+                || (this.VMwareRcmToAzure.IsPresent
+                && !this.ReplicationProtectedItem.ReplicationProvider.Equals(Constants.InMageRcmFailback)))
             {
                 throw new PSInvalidOperationException(Resources.InvalidParameterSet);
             }

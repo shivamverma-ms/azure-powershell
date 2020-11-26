@@ -76,6 +76,25 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public SwitchParameter VmmToVmm { get; set; }
 
         /// <summary>
+        ///    Switch parameter specifying that the replication policy being created will be used 
+        ///    to replicate VMware virtual machines and/or Physical servers to Azure using RCM.
+        /// </summary>
+        [Parameter(
+            ParameterSetName = ASRParameterSets.VMwareRcmToAzure,
+            Position = 0,
+            Mandatory = true)]
+        public SwitchParameter VMwareRcmToAzure { get; set; }
+
+        /// <summary>
+        ///    Switch parameter indicating that the specified policy is used to replicate failed over virtual machines 
+        ///    running in Azure back to an on-premises VMware site using RCM.
+        /// </summary>
+        [Parameter(Position = 0,
+            ParameterSetName = ASRParameterSets.AzureToVMwareRcm,
+            Mandatory = true)]
+        public SwitchParameter AzureToVMwareRcm { get; set; }
+
+        /// <summary>
         ///     Gets or sets ASR replication policy object corresponding to the replication policy to be updated.
         /// </summary>
         [Parameter(
@@ -124,6 +143,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.AzureToVMware)]
         [Parameter(ParameterSetName = ASRParameterSets.VMwareToAzure)]
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [Parameter(ParameterSetName = ASRParameterSets.VMwareRcmToAzure)]
         [ValidateNotNullOrEmpty]
         public int RecoveryPointRetentionInHours { get; set; }
 
@@ -200,6 +220,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter(DontShow = true, ParameterSetName = ASRParameterSets.VMwareToAzure)]
         [Parameter(DontShow = true, ParameterSetName = ASRParameterSets.AzureToVMware)]
         [Parameter(DontShow = true, ParameterSetName = ASRParameterSets.AzureToAzure)]
+        [Parameter(DontShow = true, ParameterSetName = ASRParameterSets.VMwareRcmToAzure)]
         [ValidateNotNullOrEmpty]
         [DefaultValue(Constants.Enable)]
         [ValidateSet(Constants.Enable, Constants.Disable)]
@@ -249,6 +270,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         break;
                     case ASRParameterSets.AzureToAzure:
                         this.UpdateA2APolicy();
+                        break;
+                    case ASRParameterSets.VMwareRcmToAzure:
+                        this.UpdateInMageRcmPolicy();
+                        break;
+                    case ASRParameterSets.AzureToVMwareRcm:
+                        this.UpdateInMageRcmFailbackPolicy();
                         break;
                     case ASRParameterSets.Default:
                         DefaultUpdatePolicy();
@@ -769,6 +796,139 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 
             this.WriteObject(new ASRJob(jobResponse));
         }
+
+        /// <summary>
+        ///     Updates an InMageRcm Policy.
+        /// </summary>
+        private void UpdateInMageRcmPolicy()
+        {
+            if (string.Compare(
+                    this.InputObject.ReplicationProvider,
+                    Constants.InMageRcm,
+                    StringComparison.OrdinalIgnoreCase) !=
+                0)
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                        Resources.IncorrectReplicationProvider,
+                        this.InputObject.ReplicationProvider));
+            }
+
+            // Get the InMageRcm Provider specific details from the Policy.
+            var replicationProviderSettings =
+                this.InputObject.ReplicationProviderSettings as ASRInMageRcmPolicyDetails;
+
+            // Set the Paremeters to be updated.
+            this.applicationConsistentSnapshotFrequencyInMinutes =
+                this.MyInvocation.BoundParameters.ContainsKey(
+                    Utilities.GetMemberName(
+                        () =>
+                            this.applicationConsistentSnapshotFrequencyInHours))
+                    ? this.ApplicationConsistentSnapshotFrequencyInHours * 60
+                    : replicationProviderSettings.AppConsistentFrequencyInMinutes;
+            this.RecoveryPointRetentionInHours =
+                this.MyInvocation.BoundParameters.ContainsKey(
+                    Utilities.GetMemberName(
+                        () =>
+                            this.RecoveryPointRetentionInHours))
+                    ? this.RecoveryPointRetentionInHours
+                    : replicationProviderSettings.RecoveryPointHistory / 60;
+            this.multiVmSyncStatus =
+                this.MyInvocation.BoundParameters.ContainsKey(
+                    Utilities.GetMemberName(
+                        () =>
+                            this.MultiVmSyncStatus))
+                    ? this.MultiVmSyncStatus
+                    : (replicationProviderSettings.MultiVmSyncStatus.Equals("Enabled")
+                        ? Constants.Enable
+                        : Constants.Disable);
+            this.crashConsistentFrequencyInMinutes =
+                replicationProviderSettings.CrashConsistentFrequencyInMinutes;
+
+            // Create the Update Policy Input.
+            var updatePolicyInput = new UpdatePolicyInput
+            {
+                Properties = new UpdatePolicyInputProperties
+                {
+                    ReplicationProviderSettings = new InMageRcmPolicyCreationInput
+                    {
+                        RecoveryPointHistoryInMinutes = this.RecoveryPointRetentionInHours * 60,
+                        CrashConsistentFrequencyInMinutes = crashConsistentFrequencyInMinutes,
+                        AppConsistentFrequencyInMinutes =
+                            this.applicationConsistentSnapshotFrequencyInMinutes,
+                        EnableMultiVmSync = this.multiVmSyncStatus.Equals(Constants.Enable)
+                            ? Constants.True
+                            : Constants.False
+                    }
+                }
+            };
+
+            var response = this.RecoveryServicesClient.UpdatePolicy(
+                this.InputObject.Name,
+                updatePolicyInput);
+
+            var jobResponse = this.RecoveryServicesClient.GetAzureSiteRecoveryJobDetails(
+                PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location));
+
+            this.WriteObject(new ASRJob(jobResponse));
+        }
+
+        /// <summary>
+        ///     Updates an InMageRcmFailback Policy.
+        /// </summary>
+        private void UpdateInMageRcmFailbackPolicy()
+        {
+            if (string.Compare(
+                    this.InputObject.ReplicationProvider,
+                    Constants.InMageRcmFailback,
+                    StringComparison.OrdinalIgnoreCase) !=
+                0)
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                        Resources.IncorrectReplicationProvider,
+                        this.InputObject.ReplicationProvider));
+            }
+
+            // Get the InMageRcmFailback Provider specific details from the Policy.
+            var replicationProviderSettings =
+                this.InputObject.ReplicationProviderSettings as ASRInMageRcmFailbackPolicyDetails;
+
+            // Set the Paremeters to be updated.
+            this.applicationConsistentSnapshotFrequencyInMinutes =
+                this.MyInvocation.BoundParameters.ContainsKey(
+                    Utilities.GetMemberName(
+                        () =>
+                            this.applicationConsistentSnapshotFrequencyInHours))
+                    ? this.ApplicationConsistentSnapshotFrequencyInHours * 60
+                    : replicationProviderSettings.AppConsistentFrequencyInMinutes;
+            this.crashConsistentFrequencyInMinutes =
+                replicationProviderSettings.CrashConsistentFrequencyInMinutes;
+
+            // Create the Update Policy Input.
+            var updatePolicyInput = new UpdatePolicyInput
+            {
+                Properties = new UpdatePolicyInputProperties
+                {
+                    ReplicationProviderSettings = new InMageRcmFailbackPolicyCreationInput
+                    {
+                        CrashConsistentFrequencyInMinutes = crashConsistentFrequencyInMinutes,
+                        AppConsistentFrequencyInMinutes =
+                            this.applicationConsistentSnapshotFrequencyInMinutes
+                    }
+                }
+            };
+
+            var response = this.RecoveryServicesClient.UpdatePolicy(
+                this.InputObject.Name,
+                updatePolicyInput);
+
+            var jobResponse = this.RecoveryServicesClient.GetAzureSiteRecoveryJobDetails(
+                PSRecoveryServicesClient.GetJobIdFromReponseLocation(response.Location));
+
+            this.WriteObject(new ASRJob(jobResponse));
+        }
+
         #region Private
 
         private string replicationMethod;

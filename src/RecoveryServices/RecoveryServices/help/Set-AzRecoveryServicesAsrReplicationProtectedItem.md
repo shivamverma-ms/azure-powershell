@@ -16,8 +16,9 @@ Sets recovery properties such as target network and virtual machine size for the
 Set-AzRecoveryServicesAsrReplicationProtectedItem -InputObject <ASRReplicationProtectedItem> [-Name <String>]
  [-Size <String>] [-UpdateNic <String>] [-RecoveryNetworkId <String>] [-PrimaryNic <String>]
  [-RecoveryCloudServiceId <String>] [-RecoveryNicSubnetName <String>] [-RecoveryNicStaticIPAddress <String>]
- [-NicSelectionType <String>] [-RecoveryResourceGroupId <String>] [-LicenseType <String>]
- [-RecoveryAvailabilitySet <String>] [-RecoveryProximityPlacementGroupId <String>]
+ [-TestNicSubnetName <String>] [-TestNicStaticIPAddress <String>] [-NicSelectionType <String>]
+ [-RecoveryResourceGroupId <String>] [-LicenseType <String>] [-RecoveryAvailabilitySet <String>]
+ [-RecoveryAvailabilityZone <String>] [-RecoveryProximityPlacementGroupId <String>]
  [-EnableAcceleratedNetworkingOnRecovery] [-RecoveryBootDiagStorageAccountId <String>]
  [-AzureToAzureUpdateReplicationConfiguration <ASRAzuretoAzureDiskReplicationConfig[]>]
  [-DiskEncryptionVaultId <String>] [-DiskEncryptionSecretUrl <String>] [-KeyEncryptionKeyUrl <String>]
@@ -25,8 +26,8 @@ Set-AzRecoveryServicesAsrReplicationProtectedItem -InputObject <ASRReplicationPr
  [-DiskIdToDiskEncryptionSetMap <System.Collections.Generic.IDictionary`2[System.String,System.String]>]
  [-RecoveryPublicIPAddressId <String>] [-RecoveryNetworkSecurityGroupId <String>]
  [-RecoveryLBBackendAddressPoolId <String[]>] [-TfoAzureVMName <String>]
- [-ASRVMNicConfiguration <ASRVMNicConfig[]>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-ASRVMNicConfiguration <ASRVMNicConfig[]>] [-TestNetworkId <String>]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -86,7 +87,6 @@ PS C:\> $currentJob = Set-AzureRmRecoveryServicesAsrReplicationProtectedItem -In
 ```
 
 Start the update operation for the specified replication protected item to use the supplied proximity placement group for failover VM.
-
 
 ## PARAMETERS
 
@@ -320,6 +320,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -RecoveryAvailabilityZone
+Availability zone for replication protected item after failover.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -RecoveryBootDiagStorageAccountId
 Specifies the storage account for boot diagnostics for recovery azure VM.
 
@@ -473,6 +488,51 @@ Accept wildcard characters: False
 ### -Size
 Specifies the recovery virtual machine size.
 The value should be from the set of sizes supported by Azure virtual machines.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TestNetworkId
+Specifies the ARM Id of test network.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TestNicStaticIPAddress
+Specifies the test static IP address.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TestNicSubnetName
+Specifies the name of the test subnet.
 
 ```yaml
 Type: System.String

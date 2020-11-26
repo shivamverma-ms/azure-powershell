@@ -64,6 +64,21 @@ Update-AzRecoveryServicesAsrPolicy [-VmmToVmm] -InputObject <ASRPolicy> [-Replic
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
+### VMwareRcmToAzure
+```
+Update-AzRecoveryServicesAsrPolicy [-VMwareRcmToAzure] -InputObject <ASRPolicy>
+ [-RecoveryPointRetentionInHours <Int32>] [-ApplicationConsistentSnapshotFrequencyInHours <Int32>]
+ [-MultiVmSyncStatus <String>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
+```
+
+### AzureToVMwareRcm
+```
+Update-AzRecoveryServicesAsrPolicy [-AzureToVMwareRcm] -InputObject <ASRPolicy>
+ [-ApplicationConsistentSnapshotFrequencyInHours <Int32>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
+```
+
 ## DESCRIPTION
 The **Update-AzRecoveryServicesAsrPolicy** cmdlet updates the specified Azure Site Recovery replication policy.
 
@@ -153,6 +168,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -AzureToVMwareRcm
+Switch parameter indicating that the specified policy is used to replicate Azure virtual machines to VMware using RCM as control plane.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: AzureToVMwareRcm
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Compression
 Specifies if compression should be enabled.
 
@@ -220,7 +250,7 @@ Specifies multiVm sync status for the policy.
 
 ```yaml
 Type: System.String
-Parameter Sets: VMwareToAzure, AzureToAzure, AzureToVMware
+Parameter Sets: VMwareToAzure, AzureToAzure, AzureToVMware, VMwareRcmToAzure
 Aliases:
 Accepted values: Enable, Disable
 
@@ -267,7 +297,7 @@ Time in hours to retain recovery points after creation.
 
 ```yaml
 Type: System.Int32
-Parameter Sets: VMwareToAzure, AzureToAzure, AzureToVMware
+Parameter Sets: VMwareToAzure, AzureToAzure, AzureToVMware, VMwareRcmToAzure
 Aliases:
 
 Required: False
@@ -391,8 +421,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -VMwareRcmToAzure
+Switch parameter indicating that the specified policy is used to replicate VMware virtual machines to Azure using RCM as control plane.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: VMwareRcmToAzure
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -VMwareToAzure
-Switch parameter indicating that the specified policy is used to replicate VMware virtual machines to Azure.
+Switch parameter indicating that the specified policy is used to replicate VMware virtual machines to Azure using RCM as control plane.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter

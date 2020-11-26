@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Management.Automation;
 using Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.Properties;
@@ -113,6 +114,27 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public string DataEncryptionSecondaryCertFile { get; set; }
 
         /// <summary>
+        ///     Gets or sets recovery point type.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        [ValidateSet(
+            Constants.RecoveryPointApplicationConsistent,
+            Constants.RecoveryPointCrashConsistent)]
+        [DefaultValue(Constants.RecoveryPointApplicationConsistent)]
+        public string RecoveryPointType { get; set; }
+
+        /// <summary>
+        ///     Gets or sets a value indicating whether multi VM sync enabled VMs should use
+        ///     multi VM sync points for test failover.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        [DefaultValue(Constants.True)]
+        [ValidateSet(Constants.True, Constants.False)]
+        public string UseMultiVmSyncPoint { get; set; }
+
+        /// <summary>
         ///     ProcessRecord of the command.
         /// </summary>
         public override void ExecuteSiteRecoveryCmdlet()
@@ -179,7 +201,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     {
                         PrimaryKekCertificatePfx = this.primaryKekCertpfx,
                         SecondaryKekCertificatePfx = this.secondaryKekCertpfx,
-                        VaultLocation = "dummy"
                     };
                     input.Properties.ProviderSpecificDetails = failoverInput;
                 }
@@ -222,6 +243,32 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     input.Properties.ProviderSpecificDetails = failbackInput;
                 }
             }
+            else if (0 ==
+                string.Compare(
+                    this.ReplicationProtectedItem.ReplicationProvider,
+                    Constants.InMageRcmFailback,
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                var recoveryPointType =
+                    this.RecoveryPointType == Constants.RecoveryPointApplicationConsistent
+                        ? InMageRcmFailbackRecoveryPointType.ApplicationConsistent
+                        : InMageRcmFailbackRecoveryPointType.CrashConsistent;
+                
+                // Validate the Direction as RecoveryToPrimary.
+                if (this.Direction == Constants.RecoveryToPrimary)
+                {
+                    var failoverInput = new InMageRcmFailbackPlannedFailoverProviderInput
+                    {
+                        RecoveryPointType = recoveryPointType
+                    };
+                    input.Properties.ProviderSpecificDetails = failoverInput;
+                }
+                else
+                {
+                    // PrimaryToRecovery Direction is Invalid for InMageRcmFailback.
+                    new ArgumentException(Resources.InvalidDirectionForAzureToVMWare);
+                }
+            }
             else if (string.Compare(
                     this.ReplicationProtectedItem.ReplicationProvider,
                     Constants.InMageAzureV2,
@@ -230,6 +277,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 string.Compare(
                     this.ReplicationProtectedItem.ReplicationProvider,
                     Constants.InMage,
+                    StringComparison.OrdinalIgnoreCase) ==
+                0 ||
+                string.Compare(
+                    this.ReplicationProtectedItem.ReplicationProvider,
+                    Constants.InMageRcm,
                     StringComparison.OrdinalIgnoreCase) ==
                 0)
             {
@@ -311,6 +363,40 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                             recoveryPlanHyperVReplicaAzureFailbackInput);
                     }
                 }
+                else if (0 ==
+                    string.Compare(
+                        replicationProvider,
+                        Constants.InMageRcmFailback,
+                        StringComparison.OrdinalIgnoreCase))
+                {
+                    this.UseMultiVmSyncPoint =
+                        this.MyInvocation.BoundParameters.ContainsKey(
+                            Utilities.GetMemberName(() => this.UseMultiVmSyncPoint))
+                            ? this.UseMultiVmSyncPoint
+                            : Constants.True;
+                    var recoveryPointType =
+                        this.RecoveryPointType == Constants.RecoveryPointApplicationConsistent
+                            ? InMageRcmFailbackRecoveryPointType.ApplicationConsistent
+                            : InMageRcmFailbackRecoveryPointType.CrashConsistent;
+
+                    // Validate the Direction as RecoveryToPrimary.
+                    if (this.Direction == Constants.RecoveryToPrimary)
+                    {
+                        var recoveryPlanFailoverInput =
+                            new RecoveryPlanInMageRcmFailbackFailoverInput
+                            {
+                                RecoveryPointType = recoveryPointType,
+                                UseMultiVmSyncPoint = this.UseMultiVmSyncPoint
+                            };
+                        recoveryPlanPlannedFailoverInputProperties.ProviderSpecificDetails.Add(
+                            recoveryPlanFailoverInput);
+                    }
+                    else
+                    {
+                        // PrimaryToRecovery Direction is Invalid for InMageRcmFailback.
+                        new ArgumentException(Resources.InvalidDirectionForAzureToVMWare);
+                    }
+                }
                 else if (string.Compare(
                         replicationProvider,
                         Constants.InMageAzureV2,
@@ -319,6 +405,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     string.Compare(
                         replicationProvider,
                         Constants.InMage,
+                        StringComparison.OrdinalIgnoreCase) ==
+                    0 ||
+                    string.Compare(
+                        replicationProvider,
+                        Constants.InMageRcm,
                         StringComparison.OrdinalIgnoreCase) ==
                     0)
                 {
