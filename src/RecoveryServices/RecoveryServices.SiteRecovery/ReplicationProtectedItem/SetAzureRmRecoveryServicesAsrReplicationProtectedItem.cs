@@ -136,6 +136,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter]
         public string RecoveryAvailabilityZone { get; set; }
 
+        // <summary>
+        ///     Gets or sets the size to failover this virtual machine to.
+        /// </summary>
+        [Parameter]
+        public string RecoveryTargetSize { get; set; }
+
         /// <summary>
         ///     Gets or sets the proximity placement group Id for replication protected item after failover.
         /// </summary>
