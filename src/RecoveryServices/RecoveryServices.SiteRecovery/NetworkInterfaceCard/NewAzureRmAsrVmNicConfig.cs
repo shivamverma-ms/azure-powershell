@@ -40,7 +40,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public string NicId { get; set; }
 
         /// <summary>
-        ///    Gets or sets the NIC Id.
+        ///    Specify the ASR Replication Protected Item.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
             Mandatory = true,
@@ -84,15 +84,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public SwitchParameter ReuseExistingNic { get; set; }
 
         /// <summary>
-        ///     Gets or sets the name of the recovery VM subnet.
-        /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
-            Mandatory = false,
-            HelpMessage = "Specifies the name of the recovery subnet.")]
-        [ValidateNotNullOrEmpty]
-        public string RecoveryVMSubnetName { get; set; }
-
-        /// <summary>
         ///     Gets or sets the id of the NSG associated with the NIC.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
@@ -109,33 +100,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             HelpMessage = "Specifies whether accelerated networking is enabled on recovery NIC.")]
         [ValidateNotNullOrEmpty]
         public SwitchParameter EnableAcceleratedNetworkingOnRecovery { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the static IP address that should be assigned to primary NIC on recovery.
-        /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
-            Mandatory = false,
-            HelpMessage = "Specifies the IP address of the recovery NIC.")]
-        [ValidateNotNull]
-        public string RecoveryNicStaticIPAddress { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the id of the public IP address resource associated with the NIC.
-        /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
-            Mandatory = false,
-            HelpMessage = "Specifies the ID of the public IP address associated with recovery NIC.")]
-        [ValidateNotNullOrEmpty]
-        public string RecoveryPublicIPAddressId { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the target backend address pools for the NIC.
-        /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
-            Mandatory = false,
-            HelpMessage = "Specifies the IDs of backend address pools for the recovery NIC.")]
-        [ValidateNotNull]
-        public string[] RecoveryLBBackendAddressPoolId { get; set; }
 
         /// <summary>
         ///     Gets or sets Id of the test failover VM Network.
@@ -174,15 +138,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public SwitchParameter TfoReuseExistingNic { get; set; }
 
         /// <summary>
-        ///     Gets or sets the name of the test failover subnet.
-        /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
-            Mandatory = false,
-            HelpMessage = "Specifies the name of the test failover subnet.")]
-        [ValidateNotNullOrEmpty]
-        public string TfoVMSubnetName { get; set; }
-
-        /// <summary>
         ///     Gets or sets the id of the NSG associated with the test failover NIC.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
@@ -201,31 +156,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public SwitchParameter EnableAcceleratedNetworkingOnTfo { get; set; }
 
         /// <summary>
-        ///     Gets or sets the static IP address that should be assigned to test failover NIC.
+        ///     Gets or sets the test failover and failover NIC IP configuration details.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
-            Mandatory = false,
-            HelpMessage = "Specifies the IP address of the test failover NIC.")]
+        [Parameter]
         [ValidateNotNull]
-        public string TfoNicStaticIPAddress { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the id of the public IP address resource associated with the test failover NIC.
-        /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
-            Mandatory = false,
-            HelpMessage = "Specifies the ID of the public IP address associated with test failover NIC.")]
-        [ValidateNotNullOrEmpty]
-        public string TfoPublicIPAddressId { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the target backend address pools for the NIC.
-        /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
-            Mandatory = false,
-            HelpMessage = "Specifies the IDs of backend address pools for the recovery NIC.")]
-        [ValidateNotNull]
-        public string[] TfoLBBackendAddressPoolId { get; set; }
+        public IPConfigInputDetails[] IPConfigs { get; set; }
 
         #endregion Parameters
 
@@ -237,33 +172,15 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             base.ExecuteSiteRecoveryCmdlet();
             ASRVMNicConfig nicConfig = null;
 
-            if (string.IsNullOrEmpty(this.RecoveryVMNetworkId) &&
-                !string.IsNullOrEmpty(this.RecoveryVMSubnetName))
+
+            // how to verify if tfo/fo update input is provided and check corresponding network id.
+            if (!string.IsNullOrEmpty(this.RecoveryVMNetworkId) &&
+                !string.IsNullOrEmpty(this.TfoVMNetworkId))
             {
                 this.WriteWarning(Resources.RecoveryNetworkInformationMissing);
                 return;
             }
-
-            if (string.IsNullOrEmpty(this.TfoVMNetworkId) &&
-                !string.IsNullOrEmpty(this.TfoVMSubnetName))
-            {
-                this.WriteWarning(Resources.TfoNetworkInformationMissing);
-                return;
-            }
-
-            if (string.IsNullOrEmpty(this.RecoveryVMSubnetName) &&
-                !string.IsNullOrEmpty(this.RecoveryNicStaticIPAddress))
-            {
-                this.WriteWarning(Resources.RecoverySubnetInformationMissing);
-                return;
-            }
-
-            if (string.IsNullOrEmpty(this.TfoVMSubnetName) &&
-                !string.IsNullOrEmpty(this.TfoNicStaticIPAddress))
-            {
-                this.WriteWarning(Resources.TfoSubnetInformationMissing);
-                return;
-            }
+          
 
             switch (this.ParameterSetName)
             {
@@ -302,18 +219,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     }
 
                     if (!this.MyInvocation.BoundParameters.ContainsKey(
-                            Utilities.GetMemberName(() => this.RecoveryVMSubnetName)))
-                    {
-                        this.RecoveryVMSubnetName = vmNic.RecoveryVMSubnetName;
-                    }
-
-                    if (!this.MyInvocation.BoundParameters.ContainsKey(
-                            Utilities.GetMemberName(() => this.RecoveryNicStaticIPAddress)))
-                    {
-                        this.RecoveryNicStaticIPAddress = vmNic.ReplicaNicStaticIPAddress;
-                    }
-
-                    if (!this.MyInvocation.BoundParameters.ContainsKey(
                             Utilities.GetMemberName(() => this.RecoveryNetworkSecurityGroupId)))
                     {
                         this.RecoveryNetworkSecurityGroupId = vmNic.RecoveryNetworkSecurityGroupId;
@@ -328,36 +233,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     }
 
                     if (!this.MyInvocation.BoundParameters.ContainsKey(
-                            Utilities.GetMemberName(() => this.RecoveryPublicIPAddressId)))
-                    {
-                        this.RecoveryPublicIPAddressId = vmNic.RecoveryPublicIPAddressId;
-                    }
-
-                    if (!this.MyInvocation.BoundParameters.ContainsKey(
-                            Utilities.GetMemberName(() => this.RecoveryLBBackendAddressPoolId)))
-                    {
-                        this.RecoveryLBBackendAddressPoolId =
-                            vmNic.RecoveryLBBackendAddressPoolId?.ToArray();
-                    }
-
-                    if (!this.MyInvocation.BoundParameters.ContainsKey(
                             Utilities.GetMemberName(() => this.TfoVMNetworkId)))
                     {
                         this.TfoVMNetworkId =
                             this.ReplicationProtectedItem.SelectedTfoAzureNetworkId;
-                    }
-
-                    if (!this.MyInvocation.BoundParameters.ContainsKey(
-                            Utilities.GetMemberName(() => this.TfoVMSubnetName)))
-                    {
-                        this.TfoVMSubnetName = vmNic.TfoVMSubnetName;
-                    }
-
-                    if (!this.MyInvocation.BoundParameters.ContainsKey(
-                            Utilities.GetMemberName(() => this.TfoNicStaticIPAddress)))
-                    {
-                        this.TfoNicStaticIPAddress =
-                            vmNic.TfoIPConfigs?.FirstOrDefault()?.StaticIPAddress ?? string.Empty;
                     }
 
                     if (!this.MyInvocation.BoundParameters.ContainsKey(
@@ -374,20 +253,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                             vmNic.EnableAcceleratedNetworkingOnTfo ?? false;
                     }
 
-                    if (!this.MyInvocation.BoundParameters.ContainsKey(
-                            Utilities.GetMemberName(() => this.TfoPublicIPAddressId)))
-                    {
-                        this.TfoPublicIPAddressId =
-                            vmNic.TfoIPConfigs?.FirstOrDefault()?.PublicIpAddressId ?? string.Empty;
-                    }
-
-                    if (!this.MyInvocation.BoundParameters.ContainsKey(
-                            Utilities.GetMemberName(() => this.TfoLBBackendAddressPoolId)))
-                    {
-                        this.TfoLBBackendAddressPoolId =
-                            vmNic.TfoIPConfigs?.FirstOrDefault()?.LBBackendAddressPoolIds?.ToArray();
-                    }
-
                     nicConfig = new ASRVMNicConfig
                     {
                         NicId = this.NicId,
@@ -395,42 +260,16 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         RecoveryNicName = this.RecoveryNicName,
                         RecoveryNicResourceGroupName = this.RecoveryNicResourceGroupName,
                         ReuseExistingNic = this.ReuseExistingNic,
-                        RecoveryVMSubnetName = this.RecoveryVMSubnetName,
                         RecoveryNetworkSecurityGroupId = this.RecoveryNetworkSecurityGroupId,
                         EnableAcceleratedNetworkingOnRecovery =
                             this.EnableAcceleratedNetworkingOnRecovery,
-                        RecoveryIPConfigs =
-                            new List<IPConfig>
-                            {
-                                new IPConfig
-                                {
-                                    StaticIPAddress = this.RecoveryNicStaticIPAddress,
-                                    PublicIpAddressId = this.RecoveryPublicIPAddressId,
-                                    LBBackendAddressPoolIds =
-                                        this.RecoveryLBBackendAddressPoolId?.ToList() ??
-                                        new List<string>()
-                                }
-                            },
-
+                        IPConfigs = this.IPConfigs?.ToList(),
                         TfoVMNetworkId = this.TfoVMNetworkId,
                         TfoNicName = this.TfoNicName,
                         TfoNicResourceGroupName = this.TfoNicResourceGroupName,
                         TfoReuseExistingNic = this.TfoReuseExistingNic,
-                        TfoVMSubnetName = this.TfoVMSubnetName,
                         TfoNetworkSecurityGroupId = this.TfoNetworkSecurityGroupId,
-                        EnableAcceleratedNetworkingOnTfo = this.EnableAcceleratedNetworkingOnTfo,
-                        TfoIPConfigs =
-                            new List<IPConfig>
-                            {
-                                new IPConfig
-                                {
-                                    StaticIPAddress = this.TfoNicStaticIPAddress,
-                                    PublicIpAddressId = this.TfoPublicIPAddressId,
-                                    LBBackendAddressPoolIds =
-                                        this.TfoLBBackendAddressPoolId?.ToList() ??
-                                        new List<string>()
-                                }
-                            }
+                        EnableAcceleratedNetworkingOnTfo = this.EnableAcceleratedNetworkingOnTfo
                     };
 
                     break;
