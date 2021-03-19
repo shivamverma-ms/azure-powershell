@@ -520,7 +520,18 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.Properties {
                 return ResourceManager.GetString("NicNotFoundInVM", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to IP config &quot;{0}&quot; not found in VM Nic..
+        /// </summary>
+        internal static string IPConfigNotFoundInVMNic
+        {
+            get
+            {
+                return ResourceManager.GetString("IPConfigNotFoundInVMNic", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Nic not found in VM.
         /// </summary>
@@ -1036,7 +1047,18 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.Properties {
                 return ResourceManager.GetString("UnsupportedReplicationProvidedForASRVMNicConfig", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Unsupported replication provider for ASR VM Nic Config..
+        /// </summary>
+        internal static string UnsupportedReplicationProvidedForASRVMNicIPConfig
+        {
+            get
+            {
+                return ResourceManager.GetString("UnsupportedReplicationProvidedForASRVMNicIPConfig", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Unsupported replication provider for network security group, public IP address, and/or backend address pool related updates..
         /// </summary>
