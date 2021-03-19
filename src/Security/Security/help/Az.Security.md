@@ -1,7 +1,7 @@
 ---
 Module Name: Az.Security
 Module Guid: 5e312bb4-9d3a-4c88-94c3-8e5bbb2e3da4
-Download Help Link: https://docs.microsoft.com/en-us/powershell/module/az.security
+Download Help Link: https://docs.microsoft.com/powershell/module/az.security
 Help Version: 0.1.0
 Locale: en-US
 ---
@@ -72,7 +72,7 @@ Gets security contacts that were configured on this subscription
 Gets the location where Azure Security Center will automatically save data for the specific subscription
 
 ### [Get-AzSecurityPricing](Get-AzSecurityPricing.md)
-Gets the pricing tier data for Azure Security Center for a scope.
+Gets the pricing data for the Azure Defender plans enabled in Azure Security Center for a subscription.
 
 ### [Get-AzSecurityTask](Get-AzSecurityTask.md)
 Gets the security tasks that Azure Security Center recommends you to do in order to strengthen your security posture.
@@ -135,7 +135,7 @@ Updates automatic provisioning setting
 Updates a security contact for a subscription.
 
 ### [Set-AzSecurityPricing](Set-AzSecurityPricing.md)
-Sets the pricing of Azure Security Center tier for a scope.
+Sets the pricing data for the Azure Defender plans enabled in Azure Security Center for a subscription.
 
 ### [Set-AzSecurityWorkspaceSetting](Set-AzSecurityWorkspaceSetting.md)
 Updates the workspace settings for the subscription.

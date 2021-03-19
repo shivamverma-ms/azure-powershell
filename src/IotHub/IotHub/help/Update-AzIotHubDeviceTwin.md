@@ -1,7 +1,7 @@
 ﻿---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.IotHub.dll-Help.xml
 Module Name: Az.IotHub
-online version: https://docs.microsoft.com/en-us/powershell/module/az.iothub/update-aziothubdevicetwin
+online version: https://docs.microsoft.com/powershell/module/az.iothub/update-aziothubdevicetwin
 schema: 2.0.0
 ---
 
@@ -60,6 +60,10 @@ Returns the device twin object with updated tags property.
 
 ### Example 4
 ```powershell
+PS C:\> $updatedTag = @{}
+PS C:\> $updatedTag.add("key0","value0")
+PS C:\> $updatedDesired =@{}
+PS C:\> $updatedDesired.add("desiredkey","desiredvalue")
 PS C:\> Update-AzIotHubDeviceTwin -ResourceGroupName "myresourcegroup" -IotHubName "myiothub" -DeviceId "myDevice1" -Tag $updatedTag -Desired $updatedDesired
 ```
 

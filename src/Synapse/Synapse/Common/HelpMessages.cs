@@ -6,6 +6,8 @@ namespace Microsoft.Azure.Commands.Synapse.Common
     {
         public const string ResourceGroupName = "Resource group name.";
 
+        public const string ScanId = "Scan Id.";
+
         public const string Location = "Azure region where the resource should be created.";
 
         public const string WorkspaceName = "Name of Synapse workspace.";
@@ -18,11 +20,15 @@ namespace Microsoft.Azure.Commands.Synapse.Common
 
         public const string DefaultDataLakeStorageFilesystem = "The default ADLS Gen2 file system.";
 
-        public const string ManagedVirtualNetwork = "Name of a Synapse-managed virtual network dedicated for the Azure Synapse workspace.";
+        public const string DeletionDate = "The deletion date of the Azure Synaspe SQL Database to retrieve backups for, with millisecond precision (e.g. 2016-02-23T00:21:22.847Z)";
+
+        public const string ManagedVirtualNetwork = "Managed Virtual Network Settings.";
 
         public const string DisallowAllConnection = "Azure Synapse Studio and other client tools will only be able to connect to the workspace endpoints if this parameter is not present. Connections from specific IP addresses or all Azure services can be allowed/disallowed after the workspace is provisioned.";
 
         public const string SqlAdministratorLoginCredential = "SQL administrator credentials.";
+
+        public const string DoNotAssignManagedIdentity = "Do not assign the workspace's system-assigned managed identity CONTROL permissions to SQL pools for pipeline integration.";
 
         public const string SparkPoolName = "Name of Synapse Spark pool.";
 
@@ -116,6 +122,8 @@ namespace Microsoft.Azure.Commands.Synapse.Common
 
         public const string ApplicationId = "The Application identifier of the session.";
 
+        public const string scanRecordObject = "The scan record object to use in order to convert a Vulnerability Assessment scan.";
+
         public const string SqlDatabaseName = "Name of Synapse SQL Database.";
 
         public const string SqlDatabaseResourceId = "Resource identifier of Synapse SQL Database.";
@@ -124,13 +132,19 @@ namespace Microsoft.Azure.Commands.Synapse.Common
 
         public const string SqlPoolName = "Name of Synapse SQL pool.";
 
+        public const string SqlPoolRestorePointName = "Name of Synapse SQL pool restore point name.";
+
         public const string SqlPoolVersion = "Version of Synapse SQL pool. For example, 2 or 3.";
 
         public const string SqlPoolNewName = "The new name to rename the SQL pool to.";
 
         public const string SqlPoolResourceId = "Resource identifier of Synapse SQL Pool.";
 
+        public const string SqlPoolRestorePointResourceId = "Resource identifier of Synapse SQL Pool Restore Point.";
+
         public const string SqlPoolObject = "SQL pool input object, usually passed through the pipeline.";
+
+        public const string SqlPoolRestorePointObject = "SQL pool restore point input object, usually passed through the pipeline.";
 
         public const string SuspendSqlPool = "Indicates to pause the SQL pool";
 
@@ -158,7 +172,7 @@ namespace Microsoft.Azure.Commands.Synapse.Common
 
         public const string SourceSqlPoolName = "The name of source SQL pool object to create from.";
 
-        public const string SourceSqlPoolId = "The resource identifier of source SQL pool object to create from.";
+        public const string SourceDatabaseId = "The resource ID of the database to restore.";
 
         public const string FromBackup = "Indicates to restore from the most recent backup of any SQL pool in this subscription.";
 
@@ -166,7 +180,78 @@ namespace Microsoft.Azure.Commands.Synapse.Common
 
         public const string RestorePoint = "Snapshot time to restore.";
 
+        public const string RestorePointLabel = "The label we associate a restore point with, may not be unique.";
+
         public const string SqlAdministratorLoginPassword = "The new SQL administrator password for the workspace.";
+
+        public const string DisplayName = "Specifies the display name of the user or group for whom to grant permissions. This display name must exist in the active directory associated with the current subscription.";
+
+        public const string ObjectId = "Specifies the object ID of the user or group in Azure Active Directory for which to grant permissions.";
+
+        // TODO: need to update to Synapse link in future
+        public const string AuditActionGroup =
+@"The recommended set of action groups to use is the following combination - this will audit all the queries and stored procedures executed against the database, as well as successful and failed logins:  
+  
+“BATCH_COMPLETED_GROUP“,  
+“SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP“,  
+“FAILED_DATABASE_AUTHENTICATION_GROUP“  
+This above combination is also the set that is configured by default. These groups cover all SQL statements and stored procedures executed against the database, and should not be used in combination with other groups as this will result in duplicate audit logs.
+For more information, see https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups.";
+
+        public const string AuditAction =
+@"The set of audit actions.  
+The supported actions to audit are:  
+SELECT  
+UPDATE  
+INSERT  
+DELETE  
+EXECUTE  
+RECEIVE  
+REFERENCES  
+The general form for defining an action to be audited is:
+[action] ON [object] BY [principal]
+Note that [object] in the above format can refer to an object like a table, view, or stored procedure, or an entire database or schema. For the latter cases, the forms DATABASE::[dbname] and SCHEMA::[schemaname] are used, respectively.
+For example:  
+SELECT on dbo.myTable by public  
+SELECT on DATABASE::myDatabase by public  
+SELECT on SCHEMA::mySchema by public  
+For more information, see https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions.";
+
+        public const string PredicateExpression = "The T-SQL predicate (WHERE clause) used to filter audit logs.";
+
+        public const string BlobStorageTargetState = "Indicates whether blob storage is a destination for audit records.";
+
+        public const string AuditStorageAccountResourceId = "The storage account resource id";
+
+        public const string StorageKeyType = "Specifies which of the storage access keys to use.";
+
+        public const string RetentionInDays = "The number of retention days for the audit logs.";
+
+        public const string NotificationRecipientsEmails = "A semicolon separated list of email addresses to send the alerts to.";
+
+        public const string EmailAdmins = "Defines whether to email administrators.";
+
+        public const string ExcludedDetectionType = "Detection types to exclude.";
+
+        public const string StorageAccountName = "The name of the storage account.";
+
+        public const string ScanResultsStorageAccountName = "The name of the storage account that will hold the scan results.";
+
+        public const string ScanResultsContainerName = "The name of the storage container that will hold the scan results.";
+
+        public const string BlobStorageSasUri = "A SAS URI to a storage container that will hold the scan results.";
+
+        public const string RecurringScansInterval = "The recurring scans interval.";
+
+        public const string ScanEmailAdmins = "A value indicating whether to email service and co-administrators on recurring scan completion.";
+
+        public const string NotificationEmail = "A list of mail addresses to send on recurring scan completion.";
+
+        public const string DoNotConfigureVulnerabilityAssessment = "Do not auto enable Vulnerability Assessment (This will not create a storage account).";
+
+        public const string DeploymentName = "Supply a custom name for Advanced Data Security deployment.";
+
+        public const string TransparentDataEncryptionState = "The Azure Synapse Analytics Sql Pool Transparent Data Encryption state.";
 
         public const string FirewallRuleName = "The firerwall rule name for the workspace.";
 
@@ -315,5 +400,25 @@ namespace Microsoft.Azure.Commands.Synapse.Common
         public const string DataFlowName = "The data flow name.";
 
         public const string DataFlowObject = "The data flow object.";
+
+        public const string EnableManagedIdentitySqlControlSetting = "Indicates whether to enable managed identity SQL control setting. Specify $True to enable managed identity SQL control setting, or $False to disable managed identity SQL control setting.";
+
+        public const string PreventDataExfiltration = "Indicates whether to prevent data exfiltration.";
+
+        public const string LinkedAccessCheckOnTargetResource = "Indicates whther to check linked access on target resource.";
+
+        public const string AllowedAadTenantIdsForLinking = "The allowed AAD tenant IDs for linking.";
+
+        public const string EncryptionKeyName = "The workspace encryption key name.";
+
+        public const string EncryptionKeyIdentifier = "Key identifier should be in the format of: https://{keyvaultname}.vault.azure.net/keys/{keyname}.";
+
+        public const string WorkspaceKeyName = "The name of the workspace key.";
+
+        public const string IsActiveCustomerManagedKey = "Indicates whether to activate the workspace after a customer managed key is provided.";
+
+        public const string KeyResourceId = "The resource identifier of Synapse SQL Pool.";
+
+        public const string KeyObject = "Workspace key input object, usually passed through the pipeline.";
     }
 }

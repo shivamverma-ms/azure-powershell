@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.HDInsight.dll-Help.xml
 Module Name: Az.HDInsight
-online version: https://docs.microsoft.com/en-us/powershell/module/az.hdinsight/set-azhdinsightgatewaycredential
+online version: https://docs.microsoft.com/powershell/module/az.hdinsight/set-azhdinsightgatewaycredential
 schema: 2.0.0
 ---
 
@@ -14,20 +14,21 @@ Sets the gateway HTTP credentials of an Azure HDInsight cluster.
 
 ### SetByNameParameterSet (Default)
 ```
-Set-AzHDInsightGatewayCredential -Name <String> [-HttpCredential] <PSCredential> [-ResourceGroupName <String>]
- [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-AzHDInsightGatewayCredential [-Name] <String> [-HttpCredential] <PSCredential>
+ [-ResourceGroupName <String>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### SetByInputObjectParameterSet
 ```
-Set-AzHDInsightGatewayCredential [-HttpCredential] <PSCredential> [-ResourceGroupName <String>] [-AsJob]
+Set-AzHDInsightGatewayCredential [-HttpCredential] <PSCredential> [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] -InputObject <AzureHDInsightCluster> [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
 ### SetByResourceIdParameterSet
 ```
-Set-AzHDInsightGatewayCredential [-HttpCredential] <PSCredential> [-ResourceGroupName <String>] [-AsJob]
+Set-AzHDInsightGatewayCredential [-HttpCredential] <PSCredential> [-AsJob]
  [-DefaultProfile <IAzureContextContainer>] -ResourceId <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -141,7 +142,7 @@ Parameter Sets: SetByNameParameterSet
 Aliases: ClusterName
 
 Required: True
-Position: Named
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -152,7 +153,7 @@ Gets or sets the name of the resource group.
 
 ```yaml
 Type: System.String
-Parameter Sets: (All)
+Parameter Sets: SetByNameParameterSet
 Aliases:
 
 Required: False

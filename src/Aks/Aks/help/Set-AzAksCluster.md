@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Aks.dll-Help.xml
 Module Name: Az.Aks
-online version: https://docs.microsoft.com/en-us/powershell/module/az.aks/set-azakscluster
+online version: https://docs.microsoft.com/powershell/module/az.aks/set-azakscluster
 schema: 2.0.0
 ---
 
@@ -331,7 +331,7 @@ The client id and client secret associated with the AAD application / service pr
 ```yaml
 Type: System.Management.Automation.PSCredential
 Parameter Sets: defaultParameterSet
-Aliases: ClientIdAndSecret
+Aliases:
 
 Required: False
 Position: 2

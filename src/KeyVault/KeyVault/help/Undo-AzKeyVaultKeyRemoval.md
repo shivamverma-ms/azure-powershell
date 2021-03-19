@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.KeyVault.dll-Help.xml
 Module Name: Az.KeyVault
-online version: https://docs.microsoft.com/en-us/powershell/module/az.keyvault/undo-azkeyvaultkeyremoval
+online version: https://docs.microsoft.com/powershell/module/az.keyvault/undo-azkeyvaultkeyremoval
 schema: 2.0.0
 ---
 
@@ -15,6 +15,12 @@ Recovers a deleted key in a key vault into an active state.
 ### Default (Default)
 ```
 Undo-AzKeyVaultKeyRemoval [-VaultName] <String> [-Name] <String> [-DefaultProfile <IAzureContextContainer>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### HsmInteractive
+```
+Undo-AzKeyVaultKeyRemoval -HsmName <String> [-Name] <String> [-DefaultProfile <IAzureContextContainer>]
  [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -67,6 +73,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -HsmName
+HSM name. Cmdlet constructs the FQDN of a managed HSM based on the name and currently selected environment.
+
+```yaml
+Type: System.String
+Parameter Sets: HsmInteractive
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -InputObject
 Deleted key object
 
@@ -88,7 +109,7 @@ Cmdlet constructs the FQDN of a key from vault name, currently selected environm
 
 ```yaml
 Type: System.String
-Parameter Sets: Default
+Parameter Sets: Default, HsmInteractive
 Aliases: KeyName
 
 Required: True

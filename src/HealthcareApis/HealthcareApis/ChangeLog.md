@@ -18,6 +18,14 @@
         - Additional information about change #1
 -->
 ## Upcoming Release
+* Added support for Acr LoginServers
+
+## Version 1.2.0
+* Added support for customer managed keys
+
+## Version 3.0.0
+* Updated the SDK version to 3.0.0
+* Added support for Private Link
 
 ## Version 1.1.0
 * Updated the SDK version to 1.1.0

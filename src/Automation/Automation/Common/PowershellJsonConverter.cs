@@ -19,7 +19,6 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Management.Automation;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace Microsoft.Azure.Commands.Automation.Common
 {
@@ -32,32 +31,39 @@ namespace Microsoft.Azure.Commands.Automation.Common
                 return null;
             }
 
-            return JsonConvert.SerializeObject(inputObject);
-        }
+            Hashtable parameters = new Hashtable();
+            parameters.Add(Constants.PsCommandParamInputObject, inputObject);
+            parameters.Add(Constants.PsCommandParamDepth, Constants.PsCommandValueDepth);
+            parameters.Add(Constants.PsCommandParamCompress, true);
+            var result = PowerShellJsonConverter.InvokeScript(Constants.PsCommandConvertToJson, parameters);
 
-        public static PSObject Deserialize(string json)
-        {
-            if (String.IsNullOrEmpty(json))
+            if (result.Count != 1)
             {
                 return null;
             }
 
-            try
-            {
-                object result = JsonConvert.DeserializeObject(json);
-                return new PSObject(result);
-            } catch
-            {
-                return json;
-            }
+            return result[0].ToString();
         }
 
-        /// <summary>
-        /// Invokes a powershell script using the same runspace as the caller.
-        /// </summary>
-        /// <param name="scriptName">script name</param>
-        /// <param name="parameters">parameters for the script</param>
-        /// <returns></returns>
+        public static PSObject Deserialize(string json)
+        {
+            if (string.IsNullOrEmpty(json))
+            {
+                return null;
+            }
+
+            Hashtable parameters = new Hashtable();
+            parameters.Add(Constants.PsCommandParamInputObject, json);
+            var result = PowerShellJsonConverter.InvokeScript(Constants.PsCommandConvertFromJson, parameters);
+            if (result.Count != 1)
+            {
+                return null;
+            }
+
+            //count == 1. return the first psobject
+            return result[0];
+        }
+
         private static Collection<PSObject> InvokeScript(string scriptName, Hashtable parameters)
         {
             using (var powerShell = System.Management.Automation.PowerShell.Create(RunspaceMode.CurrentRunspace))
@@ -67,10 +73,7 @@ namespace Microsoft.Azure.Commands.Automation.Common
                 {
                     powerShell.AddParameter(parameter.Key.ToString(), parameter.Value);
                 }
-
-
                 var result = powerShell.Invoke();
-
                 //Error handling
                 if (powerShell.HadErrors)
                 {
@@ -80,11 +83,9 @@ namespace Microsoft.Azure.Commands.Automation.Common
                         errorStringBuilder.AppendLine(error.InvocationInfo.MyCommand.Name + " : " + error.Exception.Message);
                         errorStringBuilder.AppendLine(error.InvocationInfo.PositionMessage);
                     }
-
                     throw new AzureAutomationOperationException(string.Format(CultureInfo.CurrentCulture,
                        Resources.PowershellJsonDecrypterFailed, errorStringBuilder.ToString()));
                 }
-
                 return result;
             }
         }

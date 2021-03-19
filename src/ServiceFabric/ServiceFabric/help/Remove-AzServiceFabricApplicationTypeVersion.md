@@ -1,14 +1,14 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.ServiceFabric.dll-Help.xml
 Module Name: Az.ServiceFabric
-online version: https://docs.microsoft.com/en-us/powershell/module/az.servicefabric/remove-azservicefabricapplicationtypeversion
+online version: https://docs.microsoft.com/powershell/module/az.servicefabric/remove-azservicefabricapplicationtypeversion
 schema: 2.0.0
 ---
 
 # Remove-AzServiceFabricApplicationTypeVersion
 
 ## SYNOPSIS
-Remove Service fabric an application type version from the cluster.
+Remove Service fabric an application type version from the cluster. Only supports ARM deployed application type versions.
 
 ## SYNTAX
 

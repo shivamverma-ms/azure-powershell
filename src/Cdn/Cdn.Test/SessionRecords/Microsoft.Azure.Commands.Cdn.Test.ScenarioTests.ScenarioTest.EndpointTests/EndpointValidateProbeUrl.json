@@ -1,22 +1,22 @@
 {
   "Entries": [
     {
-      "RequestUri": "/subscriptions/47f4bc68-6fe4-43a2-be8b-dfd0e290efa2/providers/Microsoft.Cdn/validateProbe?api-version=2019-04-15",
-      "EncodedRequestUri": "L3N1YnNjcmlwdGlvbnMvNDdmNGJjNjgtNmZlNC00M2EyLWJlOGItZGZkMGUyOTBlZmEyL3Byb3ZpZGVycy9NaWNyb3NvZnQuQ2RuL3ZhbGlkYXRlUHJvYmU/YXBpLXZlcnNpb249MjAxOS0wNC0xNQ==",
+      "RequestUri": "/subscriptions/27cafca8-b9a4-4264-b399-45d0c9cca1ab/providers/Microsoft.Cdn/validateProbe?api-version=2020-09-01",
+      "EncodedRequestUri": "L3N1YnNjcmlwdGlvbnMvMjdjYWZjYTgtYjlhNC00MjY0LWIzOTktNDVkMGM5Y2NhMWFiL3Byb3ZpZGVycy9NaWNyb3NvZnQuQ2RuL3ZhbGlkYXRlUHJvYmU/YXBpLXZlcnNpb249MjAyMC0wOS0wMQ==",
       "RequestMethod": "POST",
       "RequestBody": "{\r\n  \"probeURL\": \"https://azurecdn-files.azureedge.net/dsa-test/probe-v.txt\"\r\n}",
       "RequestHeaders": {
         "x-ms-client-request-id": [
-          "a8551a70-dc48-4c07-9e43-5ce578572aa6"
+          "372a7671-cb61-4a62-8f13-1475b674ac2f"
         ],
         "Accept-Language": [
           "en-US"
         ],
         "User-Agent": [
-          "FxVersion/4.6.27129.04",
+          "FxVersion/4.6.29812.02",
           "OSName/Windows",
-          "OSVersion/Microsoft.Windows.10.0.17763.",
-          "Microsoft.Azure.Management.Cdn.CdnManagementClient/4.2.2.0"
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.Cdn.CdnManagementClient/6.1.0.0"
         ],
         "Content-Type": [
           "application/json; charset=utf-8"
@@ -32,47 +32,38 @@
         "Pragma": [
           "no-cache"
         ],
-        "x-ms-request-id": [
-          "aa4cc0a2-6b2f-40d3-b0a3-62f236359f38"
-        ],
-        "x-ms-client-request-id": [
-          "a8551a70-dc48-4c07-9e43-5ce578572aa6"
-        ],
-        "OData-Version": [
-          "4.0"
-        ],
         "Strict-Transport-Security": [
           "max-age=31536000; includeSubDomains"
         ],
+        "x-ms-request-id": [
+          "b1267acb-bdd8-4f3d-9701-efe69a4cc1ad"
+        ],
+        "x-ms-client-request-id": [
+          "372a7671-cb61-4a62-8f13-1475b674ac2f"
+        ],
         "Server": [
-          "Microsoft-IIS/8.5"
-        ],
-        "X-AspNet-Version": [
-          "4.0.30319"
-        ],
-        "X-Powered-By": [
-          "ASP.NET"
+          "Kestrel"
         ],
         "x-ms-ratelimit-remaining-subscription-writes": [
           "1199"
         ],
         "x-ms-correlation-request-id": [
-          "7023405c-471c-4977-bc9f-ff75b4dbec55"
+          "5a90cf77-aead-4143-91b2-7ad8bdf0fe07"
         ],
         "x-ms-routing-request-id": [
-          "WESTUS2:20190510T233624Z:7023405c-471c-4977-bc9f-ff75b4dbec55"
+          "WESTCENTRALUS:20210309T223756Z:5a90cf77-aead-4143-91b2-7ad8bdf0fe07"
         ],
         "X-Content-Type-Options": [
           "nosniff"
         ],
         "Date": [
-          "Fri, 10 May 2019 23:36:24 GMT"
+          "Tue, 09 Mar 2021 22:37:56 GMT"
         ],
         "Content-Length": [
-          "56"
+          "50"
         ],
         "Content-Type": [
-          "application/json; odata.metadata=minimal"
+          "application/json; charset=utf-8"
         ],
         "Expires": [
           "-1"
@@ -82,22 +73,22 @@
       "StatusCode": 200
     },
     {
-      "RequestUri": "/subscriptions/47f4bc68-6fe4-43a2-be8b-dfd0e290efa2/providers/Microsoft.Cdn/validateProbe?api-version=2019-04-15",
-      "EncodedRequestUri": "L3N1YnNjcmlwdGlvbnMvNDdmNGJjNjgtNmZlNC00M2EyLWJlOGItZGZkMGUyOTBlZmEyL3Byb3ZpZGVycy9NaWNyb3NvZnQuQ2RuL3ZhbGlkYXRlUHJvYmU/YXBpLXZlcnNpb249MjAxOS0wNC0xNQ==",
+      "RequestUri": "/subscriptions/27cafca8-b9a4-4264-b399-45d0c9cca1ab/providers/Microsoft.Cdn/validateProbe?api-version=2020-09-01",
+      "EncodedRequestUri": "L3N1YnNjcmlwdGlvbnMvMjdjYWZjYTgtYjlhNC00MjY0LWIzOTktNDVkMGM5Y2NhMWFiL3Byb3ZpZGVycy9NaWNyb3NvZnQuQ2RuL3ZhbGlkYXRlUHJvYmU/YXBpLXZlcnNpb249MjAyMC0wOS0wMQ==",
       "RequestMethod": "POST",
       "RequestBody": "{\r\n  \"probeURL\": \"https://www.notexist.com/notexist/notexist.txt\"\r\n}",
       "RequestHeaders": {
         "x-ms-client-request-id": [
-          "f8974b94-6264-49fa-bdc0-ac33cb83e68c"
+          "965aa2da-dd44-4b0c-bd2d-794fce370bd2"
         ],
         "Accept-Language": [
           "en-US"
         ],
         "User-Agent": [
-          "FxVersion/4.6.27129.04",
+          "FxVersion/4.6.29812.02",
           "OSName/Windows",
-          "OSVersion/Microsoft.Windows.10.0.17763.",
-          "Microsoft.Azure.Management.Cdn.CdnManagementClient/4.2.2.0"
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.Cdn.CdnManagementClient/6.1.0.0"
         ],
         "Content-Type": [
           "application/json; charset=utf-8"
@@ -113,47 +104,38 @@
         "Pragma": [
           "no-cache"
         ],
-        "x-ms-request-id": [
-          "771112fe-e40c-4407-9387-c40f0141fe4f"
-        ],
-        "x-ms-client-request-id": [
-          "f8974b94-6264-49fa-bdc0-ac33cb83e68c"
-        ],
-        "OData-Version": [
-          "4.0"
-        ],
         "Strict-Transport-Security": [
           "max-age=31536000; includeSubDomains"
         ],
+        "x-ms-request-id": [
+          "00602c2d-a73e-48ad-85c1-749616fc6351"
+        ],
+        "x-ms-client-request-id": [
+          "965aa2da-dd44-4b0c-bd2d-794fce370bd2"
+        ],
         "Server": [
-          "Microsoft-IIS/8.5"
-        ],
-        "X-AspNet-Version": [
-          "4.0.30319"
-        ],
-        "X-Powered-By": [
-          "ASP.NET"
+          "Kestrel"
         ],
         "x-ms-ratelimit-remaining-subscription-writes": [
           "1198"
         ],
         "x-ms-correlation-request-id": [
-          "fd8afc3c-76d9-4916-bb1f-4b61b6f6981b"
+          "06bd23b1-4c59-40cf-a1dd-c09e3ce2e5a4"
         ],
         "x-ms-routing-request-id": [
-          "WESTUS2:20190510T233625Z:fd8afc3c-76d9-4916-bb1f-4b61b6f6981b"
+          "WESTCENTRALUS:20210309T223757Z:06bd23b1-4c59-40cf-a1dd-c09e3ce2e5a4"
         ],
         "X-Content-Type-Options": [
           "nosniff"
         ],
         "Date": [
-          "Fri, 10 May 2019 23:36:25 GMT"
+          "Tue, 09 Mar 2021 22:37:56 GMT"
         ],
         "Content-Length": [
-          "200"
+          "194"
         ],
         "Content-Type": [
-          "application/json; odata.metadata=minimal"
+          "application/json; charset=utf-8"
         ],
         "Expires": [
           "-1"
@@ -165,6 +147,6 @@
   ],
   "Names": {},
   "Variables": {
-    "SubscriptionId": "47f4bc68-6fe4-43a2-be8b-dfd0e290efa2"
+    "SubscriptionId": "27cafca8-b9a4-4264-b399-45d0c9cca1ab"
   }
 }

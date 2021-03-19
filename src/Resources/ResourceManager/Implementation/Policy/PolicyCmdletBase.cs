@@ -32,7 +32,7 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation
     /// <summary>
     /// Base class for policy cmdlets.
     /// </summary>
-    public abstract class PolicyCmdletBase : ResourceManagerCmdletBaseWithAPiVersion
+    public abstract class PolicyCmdletBase : ResourceManagerCmdletBaseWithApiVersion
     {
         public enum ListFilter
         {
@@ -102,6 +102,19 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation
                 .CoalesceEnumerable()
                 .Where(resource => resource != null)
                 .SelectArray(resource => new PsPolicySetDefinition(resource));
+        }
+
+        /// <summary>
+        /// Converts the resource object collection to a PsPolicyExemption collection.
+        /// </summary>
+        /// <param name="resourceType">The resource type of the objects to create</param>
+        /// <param name="resources">The policy definition resource object.</param>
+        protected PsPolicyExemption[] GetOutputPolicyExemptions(params JToken[] resources)
+        {
+            return resources
+                .CoalesceEnumerable()
+                .Where(resource => resource != null)
+                .SelectArray(resource => new PsPolicyExemption(resource));
         }
 
         /// <summary>
@@ -202,11 +215,11 @@ namespace Microsoft.Azure.Commands.ResourceManager.Cmdlets.Implementation
         /// <summary>
         /// Gets the resource Id from the supplied PowerShell parameters.
         /// </summary>
-        protected string MakePolicyAssignmentId(string scope, string resourceName)
+        protected string GetPolicyArtifactFullyQualifiedId(string scope, string resourceType, string resourceName)
         {
             return ResourceIdUtility.GetResourceId(
                 resourceId: scope ?? $"/{Constants.Subscriptions}/{DefaultContext.Subscription.Id}",
-                extensionResourceType: Constants.MicrosoftAuthorizationPolicyAssignmentType,
+                extensionResourceType: resourceType,
                 extensionResourceName: resourceName);
         }
 

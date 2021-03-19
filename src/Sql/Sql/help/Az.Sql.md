@@ -1,7 +1,7 @@
 ---
 Module Name: Az.Sql
 Module Guid: 150d9544-6348-4373-806f-10cd0b4de4cb
-Download Help Link: https://docs.microsoft.com/en-us/powershell/module/az.sql
+Download Help Link: https://docs.microsoft.com/powershell/module/az.sql
 Help Version: 4.4.0.0
 Locale: en-US
 ---
@@ -329,6 +329,9 @@ Gets the auditing settings of an Azure SQL server.
 ### [Get-AzSqlServerCommunicationLink](Get-AzSqlServerCommunicationLink.md)
 Gets communication links for elastic database transactions between database servers.
 
+### [Get-AzSqlServerMSSupportAudit](Get-AzSqlServerMSSupportAudit.md)
+Gets the Microsoft support operations auditing settings of an Azure SQL server.
+
 ### [Get-AzSqlServerDisasterRecoveryConfiguration](Get-AzSqlServerDisasterRecoveryConfiguration.md)
 Gets a database server system recovery configuration.
 
@@ -352,6 +355,9 @@ Gets service objectives for an Azure SQL Database server.
 
 ### [Get-AzSqlServerTransparentDataEncryptionProtector](Get-AzSqlServerTransparentDataEncryptionProtector.md)
 Gets the Transparent Data Encryption (TDE) protector
+
+### [Get-AzSqlServerTrustGroup](Get-AzSqlServerTrustGroup.md)
+Gets information about Server Trust Group.
 
 ### [Get-AzSqlServerUpgradeHint](Get-AzSqlServerUpgradeHint.md)
 Gets pricing tier hints for upgrading an Azure SQL Database server.
@@ -457,6 +463,9 @@ This command creates a new Azure SQL Server DNS Alias.
 
 ### [New-AzSqlServerFirewallRule](New-AzSqlServerFirewallRule.md)
 Creates a firewall rule for a SQL Database server.
+
+### [New-AzSqlServerTrustGroup](New-AzSqlServerTrustGroup.md)
+Creates a new Server Trust Group.
 
 ### [New-AzSqlServerVirtualNetworkRule](New-AzSqlServerVirtualNetworkRule.md)
 Creates an Azure SQL Server Virtual Network Rule. 
@@ -568,6 +577,12 @@ Deletes a firewall rule from a SQL Database server.
 
 ### [Remove-AzSqlServerKeyVaultKey](Remove-AzSqlServerKeyVaultKey.md)
 Removes a Key Vault key from a SQL server.
+
+### [Remove-AzSqlServerMSSupportAudit](Remove-AzSqlServerMSSupportAudit.md)
+Removes the Microsoft support operations auditing settings of an Azure SQL server.
+
+### [Remove-AzSqlServerTrustGroup](Remove-AzSqlServerTrustGroup.md)
+Deletes a Server Trust Group.
 
 ### [Remove-AzSqlServerVirtualNetworkRule](Remove-AzSqlServerVirtualNetworkRule.md)
 Deletes an Azure SQL Server Virtual Network Rule.
@@ -703,6 +718,9 @@ Modifies the server to which Azure SQL Server DNS Alias is pointing
 
 ### [Set-AzSqlServerFirewallRule](Set-AzSqlServerFirewallRule.md)
 Modifies a firewall rule in Azure SQL Database server.
+
+### [Set-AzSqlServerMSSupportAudit](Set-AzSqlServerMSSupportAudit.md)
+Changes the Microsoft support operations auditing settings for an Azure SQL database.
 
 ### [Set-AzSqlServerRecommendedActionState](Set-AzSqlServerRecommendedActionState.md)
 Updates the state of an Azure SQL Server recommended action.

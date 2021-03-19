@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.StreamAnalytics.dll-Help.xml
 Module Name: Az.StreamAnalytics
 ms.assetid: B5914F65-CAF8-4647-BA78-49B65DD6D67A
-online version: https://docs.microsoft.com/en-us/powershell/module/az.streamanalytics/start-azstreamanalyticsjob
+online version: https://docs.microsoft.com/powershell/module/az.streamanalytics/start-azstreamanalyticsjob
 schema: 2.0.0
 ---
 
@@ -23,8 +23,8 @@ The **Start-AzStreamAnalyticsJob** cmdlet asynchronously deploys and starts a St
 
 ## EXAMPLES
 
-### EXAMPLE 1: Start a Stream Analytics job
-```
+### Example 1: Start a Stream Analytics job
+```powershell
 PS C:\> Start-AzStreamAnalyticsJob -ResourceGroupName "StreamAnalytics-Default-West-US" -Name "StreamingJob" -OutputStartMode "CustomTime" -OutputStartTime "2014-07-03T01:00Z"
 ```
 

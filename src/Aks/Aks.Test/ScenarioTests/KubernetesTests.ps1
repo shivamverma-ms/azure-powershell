@@ -12,23 +12,19 @@ function Test-NewAzAksSimple
 
     try
     {
-        New-AzResourceGroup -Name $resourceGroupName -Location $location
+        New-AzResourceGroup -Name $resourceGroupName -Location 'eastus'
+        $credObject = $(createTestCredential "e65d50b0-0853-48a9-82d3-77d800f4a9bc" "V8-S-y6Er8jXy-.aM_WT95BF89N~X23lqb")
 
-        if (IsLive) {
-            $cred = $(createTestCredential "Unicorns" "Puppies")
-            New-AzAks -ResourceGroupName $resourceGroupName -Name $kubeClusterName -NodeVmSize $nodeVmSize -ClientIdAndSecret $cred
-        } else {
-            New-AzAks -ResourceGroupName $resourceGroupName -Name $kubeClusterName -NodeVmSize $nodeVmSize
-        }
-        $cluster = Get-AzAks -ResourceGroupName $resourceGroupName -Name $kubeClusterName
+        New-AzAksCluster -ResourceGroupName $resourceGroupName -Name $kubeClusterName -NodeVmSize $nodeVmSize -ServicePrincipalIdAndSecret $credObject
+        $cluster = Get-AzAksCluster -ResourceGroupName $resourceGroupName -Name $kubeClusterName
         Assert-NotNull $cluster.Fqdn
         Assert-NotNull $cluster.DnsPrefix
         Assert-AreEqual 1 $cluster.AgentPoolProfiles.Length
         Assert-AreEqual 3 $cluster.AgentPoolProfiles[0].Count;
-        $cluster = $cluster | Set-AzAks -NodeCount 2
+        $cluster = $cluster | Set-AzAksCluster -NodeCount 2
         Assert-AreEqual 2 $cluster.AgentPoolProfiles[0].Count;
         $cluster | Import-AzAksCredential -Force
-        $cluster | Remove-AzAks -Force
+        $cluster | Remove-AzAksCluster -Force
     }
     finally
     {
@@ -50,14 +46,11 @@ function Test-NewAzAksWithAcr
         New-AzResourceGroup -Name $resourceGroupName -Location $location
 
         New-AzContainerRegistry -ResourceGroupName $resourceGroupName -Name $acrName -Sku Standard
+        
+        $cred = $(createTestCredential "e65d50b0-0853-48a9-82d3-77d800f4a9bc" "V8-S-y6Er8jXy-.aM_WT95BF89N~X23lqb")
 
-        if (IsLive) {
-            $cred = $(createTestCredential "Unicorns" "Puppies")
-            New-AzAks -ResourceGroupName $resourceGroupName -Name $kubeClusterName -NodeVmSize $nodeVmSize -ClientIdAndSecret $cred -AcrNameToAttach $acrName
-        } else {
-            New-AzAks -ResourceGroupName $resourceGroupName -Name $kubeClusterName -NodeVmSize $nodeVmSize -AcrNameToAttach $acrName
-        }
-        $cluster = Get-AzAks -ResourceGroupName $resourceGroupName -Name $kubeClusterName
+        New-AzAksCluster -ResourceGroupName $resourceGroupName -Name $kubeClusterName -NodeVmSize $nodeVmSize -ServicePrincipalIdAndSecret $cred -AcrNameToAttach $acrName
+        $cluster = Get-AzAksCluster -ResourceGroupName $resourceGroupName -Name $kubeClusterName
         Assert-NotNull $cluster.Fqdn
         Assert-NotNull $cluster.DnsPrefix
         Assert-AreEqual 1 $cluster.AgentPoolProfiles.Length
@@ -65,7 +58,7 @@ function Test-NewAzAksWithAcr
         $cluster = $cluster | Set-AzAks -NodeCount 2
         Assert-AreEqual 2 $cluster.AgentPoolProfiles[0].Count;
         $cluster | Import-AzAksCredential -Force
-        $cluster | Remove-AzAks -Force
+        $cluster | Remove-AzAksCluster -Force
     }
     finally
     {
@@ -78,8 +71,8 @@ function Test-NewAzAks
     # Setup
     $resourceGroupName = Get-RandomResourceGroupName
     $kubeClusterName = Get-RandomClusterName
-    $location = Get-ProviderLocation "Microsoft.ContainerService/managedClusters"
-    $kubeVersion = "1.15.11"
+    $location = "eastus"
+    $kubeVersion = "1.18.10"
     $nodeVmSize = "Standard_D2_v2"
     $maxPodCount = 25
     $nodeName = "defnode"
@@ -95,25 +88,18 @@ function Test-NewAzAks
     $loadBalancerSku = "Standard"
     $linuxAdminUser = "linuxuser"
     $dnsNamePrefix = "mypre"
-    $updatedKubeVersion = "1.15.12"
+    $updatedKubeVersion = "1.18.14"
 
     try
     {
         New-AzResourceGroup -Name $resourceGroupName -Location $location
 
-        if (IsLive) {
-            $cred = $(createTestCredential "Unicorns" "Puppies")
-            New-AzAks -ResourceGroupName $resourceGroupName -Name $kubeClusterName -NetworkPlugin $networkPlugin `
-                -KubernetesVersion $kubeVersion -EnableRbac -LoadBalancerSku $loadBalancerSku -LinuxProfileAdminUserName $linuxAdminUser -DnsNamePrefix $dnsNamePrefix `
-                -NodeName $nodeName -NodeOsType $nodeOsType -EnableNodeAutoScaling -NodeCount $nodeCount -NodeOsDiskSize $nodeDiskSize -NodeVmSize $nodeVmSize `
-                -NodeMaxCount $nodeMaxCount -NodeMinCount $nodeMinCount -NodeMaxPodCount $maxPodCount -NodeSetPriority Regular -NodeScaleSetEvictionPolicy Deallocate -NodeVmSetType VirtualMachineScaleSets
-         } else {
-            New-AzAks -ResourceGroupName $resourceGroupName -Name $kubeClusterName -NetworkPlugin $networkPlugin `
-                -KubernetesVersion $kubeVersion -EnableRbac -LoadBalancerSku $loadBalancerSku -LinuxProfileAdminUserName $linuxAdminUser -DnsNamePrefix $dnsNamePrefix `
-                -NodeName $nodeName -NodeOsType $nodeOsType -EnableNodeAutoScaling -NodeCount $nodeCount -NodeOsDiskSize $nodeDiskSize -NodeVmSize $nodeVmSize `
-                -NodeMaxCount $nodeMaxCount -NodeMinCount $nodeMinCount -NodeMaxPodCount $maxPodCount -NodeSetPriority Regular -NodeScaleSetEvictionPolicy Deallocate -NodeVmSetType VirtualMachineScaleSets
-        }
-        $cluster = Get-AzAks -ResourceGroupName $resourceGroupName -Name $kubeClusterName
+        New-AzAksCluster -ResourceGroupName $resourceGroupName -Name $kubeClusterName -NetworkPlugin $networkPlugin `
+            -KubernetesVersion $kubeVersion -EnableRbac -LoadBalancerSku $loadBalancerSku -LinuxProfileAdminUserName $linuxAdminUser -DnsNamePrefix $dnsNamePrefix `
+            -NodeName $nodeName -EnableNodeAutoScaling -NodeCount $nodeCount -NodeOsDiskSize $nodeDiskSize -NodeVmSize $nodeVmSize `
+            -NodeMaxCount $nodeMaxCount -NodeMinCount $nodeMinCount -NodeMaxPodCount $maxPodCount -NodeSetPriority Regular -NodeScaleSetEvictionPolicy Deallocate -NodeVmSetType VirtualMachineScaleSets
+
+        $cluster = Get-AzAksCluster -ResourceGroupName $resourceGroupName -Name $kubeClusterName
         Assert-NotNull $cluster.Fqdn
         Assert-AreEqual $dnsNamePrefix $cluster.DnsPrefix
         Assert-AreEqual $kubeVersion $cluster.KubernetesVersion
@@ -133,12 +119,41 @@ function Test-NewAzAks
         Assert-AreEqual $enableAutoScaling $cluster.AgentPoolProfiles[0].EnableAutoScaling
 
         Assert-AreEqual 1 $cluster.AgentPoolProfiles.Length
-        $cluster = $cluster | Set-AzAks -NodeName $nodeName -NodeMinCount 2 -NodeMaxCount 28 -KubernetesVersion $updatedKubeVersion
+        $cluster = $cluster | Set-AzAksCluster -NodeName $nodeName -NodeMinCount 2 -NodeMaxCount 28 -KubernetesVersion $updatedKubeVersion
         Assert-AreEqual 2 $cluster.AgentPoolProfiles[0].MinCount
         Assert-AreEqual 28 $cluster.AgentPoolProfiles[0].MaxCount;
         Assert-AreEqual $updatedKubeVersion $cluster.KubernetesVersion
         $cluster | Import-AzAksCredential -Force
-        $cluster | Remove-AzAks -Force
+        $cluster | Remove-AzAksCluster -Force
+    }
+    finally
+    {
+        Remove-AzResourceGroup -Name $resourceGroupName -Force
+    }
+}
+
+function Test-NewAzAksByServicePrincipal
+{
+    # Setup
+    $resourceGroupName = Get-RandomResourceGroupName
+    $kubeClusterName = Get-RandomClusterName
+    $location = "eastus"
+
+    $ServicePrincipalId = "e65d50b0-0853-48a9-82d3-77d800f4a9bc"
+    $credObject = $(createTestCredential $ServicePrincipalId "V8-S-y6Er8jXy-.aM_WT95BF89N~X23lqb")
+
+    try
+    {
+        New-AzResourceGroup -Name $resourceGroupName -Location $location
+        
+
+        New-AzAksCluster -ResourceGroupName $resourceGroupName -Name $kubeClusterName `
+                -ServicePrincipalIdAndSecret $credObject
+        $cluster = Get-AzAksCluster -ResourceGroupName $resourceGroupName -Name $kubeClusterName
+        Assert-AreEqual $ServicePrincipalId $cluster.ServicePrincipalProfile.ClientId
+
+        $cluster | Import-AzAksCredential -Force
+        $cluster | Remove-AzAksCluster -Force
     }
     finally
     {
@@ -155,18 +170,17 @@ function Test-NewAzAksAddons
 
     try
     {
-        New-AzResourceGroup -Name $resourceGroupName -Location $location
+        New-AzResourceGroup -Name $resourceGroupName -Location 'eastus'
 
-        New-AzAks -ResourceGroupName $resourceGroupName -Name $kubeClusterName -AddOnNameToBeEnabled KubeDashboard,HttpApplicationRouting
-        $cluster = Get-AzAks -ResourceGroupName $resourceGroupName -Name $kubeClusterName
-        Assert-AreEqual $true $cluster.AddonProfiles['httpapplicationrouting'].Enabled
+        New-AzAksCluster -ResourceGroupName $resourceGroupName -Name $kubeClusterName -AddOnNameToBeEnabled KubeDashboard,HttpApplicationRouting
+        $cluster = Get-AzAksCluster -ResourceGroupName $resourceGroupName -Name $kubeClusterName
         Assert-AreEqual $true $cluster.AddonProfiles['httpapplicationrouting'].Enabled
 
         $cluster = $cluster | Disable-AzAksAddon -Name HttpApplicationRouting
         Assert-AreEqual $false $cluster.AddonProfiles['httpapplicationrouting'].Enabled
         $cluster = $cluster | Enable-AzAksAddon -Name HttpApplicationRouting
         Assert-AreEqual $true $cluster.AddonProfiles['httpapplicationrouting'].Enabled
-        $cluster | Remove-AzAks -Force
+        $cluster | Remove-AzAksCluster -Force
     }
     finally
     {

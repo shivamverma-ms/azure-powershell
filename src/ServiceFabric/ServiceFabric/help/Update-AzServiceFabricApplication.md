@@ -1,14 +1,14 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.ServiceFabric.dll-Help.xml
 Module Name: Az.ServiceFabric
-online version: https://docs.microsoft.com/en-us/powershell/module/az.servicefabric/update-azservicefabricapplication
+online version: https://docs.microsoft.com/powershell/module/az.servicefabric/update-azservicefabricapplication
 schema: 2.0.0
 ---
 
 # Update-AzServiceFabricApplication
 
 ## SYNOPSIS
-Update a service fabric application. This allows to update the application parameters and/or upgrade the application type version which will trigger an application upgrade.
+Update a service fabric application. This allows to update the application parameters and/or upgrade the application type version which will trigger an application upgrade. Only supports ARM deployed applications.
 
 ## SYNTAX
 

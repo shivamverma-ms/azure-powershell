@@ -1,7 +1,7 @@
 ---
 Module Name: Az.Monitor
 Module Guid: 698c387c-bd6b-41c6-82ce-721f1ef39548
-Download Help Link: https://docs.microsoft.com/en-us/powershell/module/az.monitor
+Download Help Link: https://docs.microsoft.com/powershell/module/az.monitor
 Help Version: 4.0.4.0
 Locale: en-US
 ---
@@ -56,6 +56,9 @@ Gets Autoscale settings.
 ### [Get-AzDiagnosticSetting](Get-AzDiagnosticSetting.md)
 Gets the logged categories and time grains.
 
+### [Get-AzDiagnosticSettingCategory](Get-AzDiagnosticSettingCategory.md)
+Get or list supported diagnostic setting category for Azure resource.
+
 ### [Get-AzInsightsPrivateLinkScope](Get-AzInsightsPrivateLinkScope.md)
 Get private link scope
 
@@ -103,6 +106,12 @@ Creates an Autoscale rule.
 
 ### [New-AzAutoscaleWebhook](New-AzAutoscaleWebhook.md)
 Creates an Autoscale webhook.
+
+### [New-AzDiagnosticDetailSetting](New-AzDiagnosticDetailSetting.md)
+Create PSDiagnosticDetailSetting Object, type could be metric or log
+
+### [New-AzDiagnosticSetting](New-AzDiagnosticSetting.md)
+Create PSServiceDiagnosticSettings object.
 
 ### [New-AzInsightsPrivateLinkScope](New-AzInsightsPrivateLinkScope.md)
 create private link scope

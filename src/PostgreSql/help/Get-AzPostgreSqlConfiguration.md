@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.PostgreSql
-online version: https://docs.microsoft.com/en-us/powershell/module/az.postgresql/get-azpostgresqlconfiguration
+online version: https://docs.microsoft.com/powershell/module/az.postgresql/get-azpostgresqlconfiguration
 schema: 2.0.0
 ---
 
@@ -35,7 +35,7 @@ Gets information about a configuration of server.
 
 ## EXAMPLES
 
-### Example 1: List all configurations in PostgreSql MySql server
+### Example 1: List all configurations in PostgreSql server
 ```powershell
 PS C:\> Get-AzPostgreSqlConfiguration -ResourceGroupName PostgreSqlTestRG -ServerName PostgreSqlTestServer
 

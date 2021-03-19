@@ -55,6 +55,7 @@ INPUTOBJECT <IMySqlIdentity>: Identity Parameter
   [DatabaseName <String>]: The name of the database.
   [FirewallRuleName <String>]: The name of the server firewall rule.
   [Id <String>]: Resource identity path
+  [KeyName <String>]: The name of the server key.
   [LocationName <String>]: The name of the location.
   [ResourceGroupName <String>]: The name of the resource group. The name is case insensitive.
   [SecurityAlertPolicyName <SecurityAlertPolicyName?>]: The name of the security alert policy.
@@ -66,7 +67,7 @@ PARAMETER <IFirewallRule>: Represents a server firewall rule.
   EndIPAddress <String>: The end IP address of the server firewall rule. Must be IPv4 format.
   StartIPAddress <String>: The start IP address of the server firewall rule. Must be IPv4 format.
 .Link
-https://docs.microsoft.com/en-us/powershell/module/az.mysql/update-azmysqlfirewallrule
+https://docs.microsoft.com/powershell/module/az.mysql/update-azmysqlfirewallrule
 #>
 function Update-AzMySqlFirewallRule {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20171201.IFirewallRule])]

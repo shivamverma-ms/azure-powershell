@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Cdn.dll-Help.xml
 Module Name: Az.Cdn
 ms.assetid: 91919242-59ED-4938-A3A3-23A66F85FBC1
-online version: https://docs.microsoft.com/en-us/powershell/module/az.cdn/get-azcdnorigin
+online version: https://docs.microsoft.com/powershell/module/az.cdn/get-azcdnorigin
 schema: 2.0.0
 ---
 
@@ -17,6 +17,12 @@ Gets a CDN origin server.
 ```
 Get-AzCdnOrigin [-OriginName <String>] -EndpointName <String> -ProfileName <String> -ResourceGroupName <String>
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+```
+
+### ByResourceIdParameterSet
+```
+Get-AzCdnOrigin [-OriginName <String>] -ResourceId <String> [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
 ```
 
 ### ByObjectParameterSet
@@ -113,6 +119,21 @@ Specifies the name of the resource group to which the origin server belongs.
 ```yaml
 Type: System.String
 Parameter Sets: ByFieldsParameterSet
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ResourceId
+The resource id of the Azure CDN origin.
+
+```yaml
+Type: System.String
+Parameter Sets: ByResourceIdParameterSet
 Aliases:
 
 Required: True

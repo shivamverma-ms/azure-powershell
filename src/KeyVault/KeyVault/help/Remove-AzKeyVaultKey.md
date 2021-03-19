@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.KeyVault.dll-Help.xml
 Module Name: Az.KeyVault
 ms.assetid: 817BF177-519F-47BA-86CF-4591FB402E2Dl
-online version: https://docs.microsoft.com/en-us/powershell/module/az.keyvault/remove-azkeyvaultkey
+online version: https://docs.microsoft.com/powershell/module/az.keyvault/remove-azkeyvaultkey
 schema: 2.0.0
 ---
 
@@ -16,6 +16,12 @@ Deletes a key in a key vault.
 ### ByVaultName (Default)
 ```
 Remove-AzKeyVaultKey [-VaultName] <String> [-Name] <String> [-Force] [-PassThru] [-InRemovedState]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### HsmByVaultName
+```
+Remove-AzKeyVaultKey -HsmName <String> [-Name] <String> [-Force] [-PassThru] [-InRemovedState]
  [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -109,6 +115,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -HsmName
+HSM name. Cmdlet constructs the FQDN of a managed HSM based on the name and currently selected environment.
+
+```yaml
+Type: System.String
+Parameter Sets: HsmByVaultName
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -InputObject
 KeyBundle Object
 
@@ -145,7 +166,7 @@ This cmdlet constructs the fully qualified domain name (FQDN) of a key based on 
 
 ```yaml
 Type: System.String
-Parameter Sets: ByVaultName
+Parameter Sets: ByVaultName, HsmByVaultName
 Aliases: KeyName
 
 Required: True

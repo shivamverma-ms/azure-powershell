@@ -18,6 +18,24 @@
         - Additional information about change #1
 -->
 ## Upcoming Release
+* Fixed the issue for starting Python3 runbooks with parameters
+
+## Version 1.5.1
+* Fixed te issue that complex object cannot be serialized correctly. [#14431]
+
+## Version 1.5.0
+* Fixed the issue that string cannot be serialized correctly. [#14215]
+* Added Support for Python3 Runbook Type
+
+## Version 1.4.3
+* Fixed the issue of processing `PSCustomObject` and `Array`.
+
+## Version 1.4.2
+* Fixed issue where description was not populated for update management schedules
+
+## Version 1.4.1
+* Fixed issue that parameters of `Start-AzAutomationRunbook` cannot convert PSObject wrapped string to JSON string [#13240]
+* Fixed location completer for New-AzAutomationUpdateManagementAzureQuery cmdlet
 
 ## Version 1.4.0
 * Added `-RunOn` parameters to `Set-AzAutomationWebhook` to specify a Hybrid Worker Group

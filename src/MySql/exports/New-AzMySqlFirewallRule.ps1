@@ -31,7 +31,7 @@ Name                                StartIPAddress EndIPAddress
 ----                                -------------- ------------
 ClientIPAddress_2020-08-11_18-19-27 0.0.0.1        0.0.0.1
 .Example
-PS C:\> New-AzMySqlFirewallRule -Name rule -ResourceGroupName PowershellMySqlTest -ServerName mysql-test -AllowAll
+PS C:\> New-AzMySqlFirewallRule -ResourceGroupName PowershellMySqlTest -ServerName mysql-test -AllowAll
 
 Name                         StartIPAddress EndIPAddress
 ----                         -------------- ------------
@@ -40,7 +40,7 @@ AllowAll_2020-08-11_18-19-27 0.0.0.0        255.255.255.255
 .Outputs
 Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20171201.IFirewallRule
 .Link
-https://docs.microsoft.com/en-us/powershell/module/az.mysql/new-azmysqlfirewallrule
+https://docs.microsoft.com/powershell/module/az.mysql/new-azmysqlfirewallrule
 #>
 function New-AzMySqlFirewallRule {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20171201.IFirewallRule])]

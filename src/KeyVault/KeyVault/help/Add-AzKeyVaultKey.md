@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.KeyVault.dll-Help.xml
 Module Name: Az.KeyVault
 ms.assetid: 846F781C-73A3-4BBE-ABD9-897371109FBE
-online version: https://docs.microsoft.com/en-us/powershell/module/az.keyvault/add-azkeyvaultkey
+online version: https://docs.microsoft.com/powershell/module/az.keyvault/add-azkeyvaultkey
 schema: 2.0.0
 ---
 
@@ -24,8 +24,22 @@ Add-AzKeyVaultKey [-VaultName] <String> [-Name] <String> -Destination <String> [
 ```
 Add-AzKeyVaultKey [-VaultName] <String> [-Name] <String> -KeyFilePath <String>
  [-KeyFilePassword <SecureString>] [-Destination <String>] [-Disable] [-KeyOps <String[]>]
- [-Expires <DateTime>] [-NotBefore <DateTime>] [-Tag <Hashtable>] [-DefaultProfile <IAzureContextContainer>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-Expires <DateTime>] [-NotBefore <DateTime>] [-Tag <Hashtable>] [-KeyType <String>] [-CurveName <String>]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### HsmInteractiveCreate
+```
+Add-AzKeyVaultKey -HsmName <String> [-Name] <String> [-Disable] [-KeyOps <String[]>] [-Expires <DateTime>]
+ [-NotBefore <DateTime>] [-Tag <Hashtable>] [-Size <Int32>] -KeyType <String> [-CurveName <String>]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### HsmInteractiveImport
+```
+Add-AzKeyVaultKey -HsmName <String> [-Name] <String> -KeyFilePath <String> [-KeyFilePassword <SecureString>]
+ [-Disable] [-KeyOps <String[]>] [-Expires <DateTime>] [-NotBefore <DateTime>] [-Tag <Hashtable>]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### InputObjectCreate
@@ -39,8 +53,23 @@ Add-AzKeyVaultKey [-InputObject] <PSKeyVault> [-Name] <String> -Destination <Str
 ```
 Add-AzKeyVaultKey [-InputObject] <PSKeyVault> [-Name] <String> -KeyFilePath <String>
  [-KeyFilePassword <SecureString>] [-Destination <String>] [-Disable] [-KeyOps <String[]>]
- [-Expires <DateTime>] [-NotBefore <DateTime>] [-Tag <Hashtable>] [-DefaultProfile <IAzureContextContainer>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-Expires <DateTime>] [-NotBefore <DateTime>] [-Tag <Hashtable>] [-KeyType <String>] [-CurveName <String>]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### HsmInputObjectCreate
+```
+Add-AzKeyVaultKey [-HsmObject] <PSManagedHsm> [-Name] <String> [-Disable] [-KeyOps <String[]>]
+ [-Expires <DateTime>] [-NotBefore <DateTime>] [-Tag <Hashtable>] [-Size <Int32>] -KeyType <String>
+ [-CurveName <String>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### HsmInputObjectImport
+```
+Add-AzKeyVaultKey [-HsmObject] <PSManagedHsm> [-Name] <String> -KeyFilePath <String>
+ [-KeyFilePassword <SecureString>] [-Disable] [-KeyOps <String[]>] [-Expires <DateTime>]
+ [-NotBefore <DateTime>] [-Tag <Hashtable>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### ResourceIdCreate
@@ -54,8 +83,23 @@ Add-AzKeyVaultKey [-ResourceId] <String> [-Name] <String> -Destination <String> 
 ```
 Add-AzKeyVaultKey [-ResourceId] <String> [-Name] <String> -KeyFilePath <String>
  [-KeyFilePassword <SecureString>] [-Destination <String>] [-Disable] [-KeyOps <String[]>]
- [-Expires <DateTime>] [-NotBefore <DateTime>] [-Tag <Hashtable>] [-DefaultProfile <IAzureContextContainer>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-Expires <DateTime>] [-NotBefore <DateTime>] [-Tag <Hashtable>] [-KeyType <String>] [-CurveName <String>]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### HsmResourceIdCreate
+```
+Add-AzKeyVaultKey -HsmResourceId <String> [-Name] <String> [-Disable] [-KeyOps <String[]>]
+ [-Expires <DateTime>] [-NotBefore <DateTime>] [-Tag <Hashtable>] [-Size <Int32>] -KeyType <String>
+ [-CurveName <String>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### HsmResourceIdImport
+```
+Add-AzKeyVaultKey -HsmResourceId <String> [-Name] <String> -KeyFilePath <String>
+ [-KeyFilePassword <SecureString>] [-Disable] [-KeyOps <String[]>] [-Expires <DateTime>]
+ [-NotBefore <DateTime>] [-Tag <Hashtable>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -241,9 +285,24 @@ PS C:\> $key = Add-AzKeyVaultKey -VaultName $vaultName -Name $keyName -Destinati
 ```
 
 Generates a key (referred to as a Key Exchange Key (KEK)). The KEK must be an RSA-HSM key that has only the import key operation. Only Key Vault Premium SKU supports RSA-HSM keys.
-For more details please refer to https://docs.microsoft.com/en-us/azure/key-vault/keys/hsm-protected-keys
+For more details please refer to https://docs.microsoft.com/azure/key-vault/keys/hsm-protected-keys
 
 ## PARAMETERS
+
+### -CurveName
+Specifies the curve name of elliptic curve cryptography, this value is valid when KeyType is EC.
+
+```yaml
+Type: System.String
+Parameter Sets: InteractiveImport, HsmInteractiveCreate, InputObjectImport, HsmInputObjectCreate, ResourceIdImport, HsmResourceIdCreate
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with azure
@@ -334,6 +393,51 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -HsmName
+HSM name. Cmdlet constructs the FQDN of a managed HSM based on the name and currently selected environment.
+
+```yaml
+Type: System.String
+Parameter Sets: HsmInteractiveCreate, HsmInteractiveImport
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -HsmObject
+HSM object.
+
+```yaml
+Type: Microsoft.Azure.Commands.KeyVault.Models.PSManagedHsm
+Parameter Sets: HsmInputObjectCreate, HsmInputObjectImport
+Aliases:
+
+Required: True
+Position: 0
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -HsmResourceId
+Resource ID of the HSM.
+
+```yaml
+Type: System.String
+Parameter Sets: HsmResourceIdCreate, HsmResourceIdImport
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### -InputObject
 Vault object.
 
@@ -357,7 +461,7 @@ name extension.
 
 ```yaml
 Type: System.Security.SecureString
-Parameter Sets: InteractiveImport, InputObjectImport, ResourceIdImport
+Parameter Sets: InteractiveImport, HsmInteractiveImport, InputObjectImport, HsmInputObjectImport, ResourceIdImport, HsmResourceIdImport
 Aliases:
 
 Required: False
@@ -378,7 +482,7 @@ When you specify this parameter, the *Destination* parameter is optional.
 
 ```yaml
 Type: System.String
-Parameter Sets: InteractiveImport, InputObjectImport, ResourceIdImport
+Parameter Sets: InteractiveImport, HsmInteractiveImport, InputObjectImport, HsmInputObjectImport, ResourceIdImport, HsmResourceIdImport
 Aliases:
 
 Required: True
@@ -407,6 +511,33 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -KeyType
+Specifies the key type of this key. When importing BYOK keys, it defaults to 'RSA'.
+
+```yaml
+Type: System.String
+Parameter Sets: InteractiveImport, InputObjectImport, ResourceIdImport
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+```yaml
+Type: System.String
+Parameter Sets: HsmInteractiveCreate, HsmInputObjectCreate, HsmResourceIdCreate
+Aliases:
+
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -468,7 +599,7 @@ RSA key size, in bits. If not specified, the service will provide a safe default
 
 ```yaml
 Type: System.Nullable`1[System.Int32]
-Parameter Sets: InteractiveCreate, InputObjectCreate, ResourceIdCreate
+Parameter Sets: InteractiveCreate, HsmInteractiveCreate, InputObjectCreate, HsmInputObjectCreate, ResourceIdCreate, HsmResourceIdCreate
 Aliases:
 
 Required: False

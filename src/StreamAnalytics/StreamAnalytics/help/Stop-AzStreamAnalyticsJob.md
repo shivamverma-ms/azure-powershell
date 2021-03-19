@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.StreamAnalytics.dll-Help.xml
 Module Name: Az.StreamAnalytics
 ms.assetid: 1EC96B4E-7731-4EE3-A0C1-EA0793F0FE5C
-online version: https://docs.microsoft.com/en-us/powershell/module/az.streamanalytics/stop-azstreamanalyticsjob
+online version: https://docs.microsoft.com/powershell/module/az.streamanalytics/stop-azstreamanalyticsjob
 schema: 2.0.0
 ---
 
@@ -25,8 +25,8 @@ You will not be charged for a job in the Stopped state.
 
 ## EXAMPLES
 
-### EXAMPLE 1: Stop a running job
-```
+### Example 1: Stop a running job
+```powershell
 PS C:\>Stop-AzStreamAnalyticsJob -ResourceGroupName "StreamAnalytics-Default-West-US" -Name "StreamingJob"
 ```
 

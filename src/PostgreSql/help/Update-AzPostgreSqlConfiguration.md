@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.PostgreSql
-online version: https://docs.microsoft.com/en-us/powershell/module/az.postgresql/update-azpostgresqlconfiguration
+online version: https://docs.microsoft.com/powershell/module/az.postgresql/update-azpostgresqlconfiguration
 schema: 2.0.0
 ---
 
@@ -9,6 +9,7 @@ schema: 2.0.0
 
 ## SYNOPSIS
 Updates a configuration of a server.
+Use Update-AzPostgreSqlServer instead if you want update AdministratorLoginPassword, sku, etc.
 
 ## SYNTAX
 
@@ -27,6 +28,7 @@ Update-AzPostgreSqlConfiguration -InputObject <IPostgreSqlIdentity> [-Source <St
 
 ## DESCRIPTION
 Updates a configuration of a server.
+Use Update-AzPostgreSqlServer instead if you want update AdministratorLoginPassword, sku, etc.
 
 ## EXAMPLES
 

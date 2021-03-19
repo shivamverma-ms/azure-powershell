@@ -20,6 +20,12 @@
 
 ## Upcoming Release
 
+## Version 1.7.0
+* Added cmdlets to support new AFD Premium / Standard SKUs
+  
+## Version 1.6.0
+* Added cmdlets to support multi-origin and private link functionality 
+
 ## Version 1.4.3
 * Fixed ChinaCDN related pricing SKU display
 

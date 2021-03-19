@@ -1,7 +1,7 @@
 ﻿---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.DataFactoryV2.dll-Help.xml
 Module Name: Az.DataFactory
-online version: https://docs.microsoft.com/en-us/powershell/module/az.datafactory/new-azdatafactoryv2linkedserviceencryptedcredential
+online version: https://docs.microsoft.com/powershell/module/az.datafactory/new-azdatafactoryv2linkedserviceencryptedcredential
 schema: 2.0.0
 ---
 
@@ -28,6 +28,10 @@ New-AzDataFactoryV2LinkedServiceEncryptedCredential [-IntegrationRuntimeName] <S
 
 ## DESCRIPTION
 The New-AzDataFactoryV2LinkedServiceEncryptedCredential cmdlet encrypt credential in linked service with specified integration runtime.
+
+Please ensure the following prerequisites are met:
+* **Remote access** option is enabled on the self-hosted integration runtime.
+* Powershell 7.0 or higher is used to execute the cmdlet.
 
 ## EXAMPLES
 

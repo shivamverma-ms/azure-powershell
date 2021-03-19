@@ -43,6 +43,7 @@ INPUTOBJECT <IMySqlIdentity>: Identity Parameter
   [DatabaseName <String>]: The name of the database.
   [FirewallRuleName <String>]: The name of the server firewall rule.
   [Id <String>]: Resource identity path
+  [KeyName <String>]: The name of the server key.
   [LocationName <String>]: The name of the location.
   [ResourceGroupName <String>]: The name of the resource group. The name is case insensitive.
   [SecurityAlertPolicyName <SecurityAlertPolicyName?>]: The name of the security alert policy.
@@ -71,7 +72,7 @@ PARAMETER <IServerForCreate>: Represents a server to be created.
     [(Any) <String>]: This indicates any property can be added to this object.
   [Version <ServerVersion?>]: Server version.
 .Link
-https://docs.microsoft.com/en-us/powershell/module/az.mysql/new-azmysqlserver
+https://docs.microsoft.com/powershell/module/az.mysql/new-azmysqlserver
 #>
 function New-AzMySqlServer {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20171201.IServer])]

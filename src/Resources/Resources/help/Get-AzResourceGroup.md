@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.ResourceManager.dll-Help.xml
 Module Name: Az.Resources
 ms.assetid: 5B17A241-BF36-48A6-BC29-4C32C08F5F94
-online version: https://docs.microsoft.com/en-us/powershell/module/az.resources/get-azresourcegroup
+online version: https://docs.microsoft.com/powershell/module/az.resources/get-azresourcegroup
 schema: 2.0.0
 ---
 
@@ -202,5 +202,4 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 [Remove-AzResourceGroup](./Remove-AzResourceGroup.md)
 
 [Set-AzResourceGroup](./Set-AzResourceGroup.md)
-
 

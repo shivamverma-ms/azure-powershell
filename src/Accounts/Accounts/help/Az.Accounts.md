@@ -1,7 +1,7 @@
 ---
 Module Name: Az.Accounts
 Module Guid: 342714fc-4009-4863-8afb-a9067e3db04b
-Download Help Link: https://docs.microsoft.com/en-us/powershell/module/az.accounts
+Download Help Link: https://docs.microsoft.com/powershell/module/az.accounts
 Help Version: 4.6.0.0
 Locale: en-US
 ---
@@ -37,7 +37,13 @@ Disables AzureRm prefix aliases for Az modules.
 Disconnects a connected Azure account and removes all credentials and contexts associated with that account.
 
 ### [Enable-AzContextAutosave](Enable-AzContextAutosave.md)
-Allow the azure credential, account and subscription information to be saved and automatically loaded when you open a PowerShell window. 
+Azure contexts are PowerShell objects representing your active subscription to run commands against,
+and the authentication information needed to connect to an Azure cloud. With Azure contexts, Azure
+PowerShell doesn't need to reauthenticate your account each time you switch subscriptions. For more
+information, see [Azure PowerShell context objects](https://docs.microsoft.com/powershell/azure/context-persistence).
+
+This cmdlet allows the Azure context information to be saved and automatically loaded when you start
+a PowerShell process. For example, when opening a new window.
 
 ### [Enable-AzDataCollection](Enable-AzDataCollection.md)
 Enables Azure PowerShell to collect data to improve the user experience with the Azure PowerShell
@@ -46,6 +52,9 @@ machine. Data is collected by default unless you explicitly opt out.
 
 ### [Enable-AzureRmAlias](Enable-AzureRmAlias.md)
 Enables AzureRm prefix aliases for Az modules.
+
+### [Get-AzAccessToken](Get-AzAccessToken.md)
+Get raw access token. When using -ResourceUrl, please make sure the value does match current Azure environment. You may refer to the value of `(Get-AzContext).Environment`.
 
 ### [Get-AzContext](Get-AzContext.md)
 Gets the metadata used to authenticate Azure Resource Manager requests.
@@ -59,9 +68,6 @@ Get the defaults set by the user in the current context.
 
 ### [Get-AzEnvironment](Get-AzEnvironment.md)
 Get endpoints and metadata for an instance of Azure services.
-
-### [Get-AzProfile](Get-AzProfile.md)
-Get the service profiles supported by installed modules.
 
 ### [Get-AzSubscription](Get-AzSubscription.md)
 Get subscriptions that the current account can access.
@@ -95,9 +101,6 @@ Saves the current authentication information for use in other PowerShell session
 
 ### [Select-AzContext](Select-AzContext.md)
 Select a subscription and account to target in Azure PowerShell cmdlets
-
-### [Select-AzProfile](Select-AzProfile.md)
-For modules that support multiple service profiles - load the cmdlets corresponding with the given service profile.
 
 ### [Send-Feedback](Send-Feedback.md)
 Sends feedback to the Azure PowerShell team via a set of guided prompts.

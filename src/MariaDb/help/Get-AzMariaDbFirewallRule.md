@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.MariaDb
-online version: https://docs.microsoft.com/en-us/powershell/module/az.mariadb/get-azmariadbfirewallrule
+online version: https://docs.microsoft.com/powershell/module/az.mariadb/get-azmariadbfirewallrule
 schema: 2.0.0
 ---
 
@@ -168,6 +168,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ALIASES
 
 COMPLEX PARAMETER PROPERTIES
+
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
 

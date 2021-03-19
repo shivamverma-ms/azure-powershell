@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.StreamAnalytics.dll-Help.xml
 Module Name: Az.StreamAnalytics
 ms.assetid: 04A6FD47-482C-4EA6-9375-D8B6FD1F2659
-online version: https://docs.microsoft.com/en-us/powershell/module/az.streamanalytics/get-azstreamanalyticsoutput
+online version: https://docs.microsoft.com/powershell/module/az.streamanalytics/get-azstreamanalyticsoutput
 schema: 2.0.0
 ---
 
@@ -23,15 +23,15 @@ The **Get-AzStreamAnalyticsOutput** cmdlet lists all of the outputs that are def
 
 ## EXAMPLES
 
-### EXAMPLE 1: Get information about job outputs
-```
+### Example 1: Get information about job outputs
+```powershell
 PS C:\>Get-AzStreamAnalyticsOutput -ResourceGroupName "StreamAnalytics-Default-West-US" -JobName "StreamingJob"
 ```
 
 This command returns information about the outputs defined on the job StreamingJob.
 
-### EXAMPLE 2: Get information about a specific job output
-```
+### Example 2: Get information about a specific job output
+```powershell
 PS C:\>Get-AzStreamAnalyticsOutput -ResourceGroupName "StreamAnalytics-Default-West-US" -JobName "StreamingJob" -Name "Output"
 ```
 

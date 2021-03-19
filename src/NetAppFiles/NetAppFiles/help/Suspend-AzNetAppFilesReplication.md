@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.NetAppFiles.dll-Help.xml
 Module Name: Az.NetAppFiles
-online version: https://docs.microsoft.com/en-us/powershell/module/az.netappfiles/suspend-aznetappfilesreplication
+online version: https://docs.microsoft.com/powershell/module/az.netappfiles/suspend-aznetappfilesreplication
 schema: 2.0.0
 ---
 
@@ -15,7 +15,7 @@ Suspend/break the replication connection on the destination volume
 ### ByFieldsParameterSet (Default)
 ```
 Suspend-AzNetAppFilesReplication -ResourceGroupName <String> -AccountName <String> -PoolName <String>
- -Name <String> [-PassThru] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
+ -Name <String> [-ForceBreak] [-PassThru] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
@@ -67,6 +67,21 @@ The credentials, account, tenant, and subscription used for communication with A
 Type: Microsoft.Azure.Commands.Common.Authentication.Abstractions.Core.IAzureContextContainer
 Parameter Sets: (All)
 Aliases: AzContext, AzureRmContext, AzureCredential
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ForceBreak
+If replication is in status transferring and you want to force break the replication, set to true
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: ByFieldsParameterSet
+Aliases:
 
 Required: False
 Position: Named

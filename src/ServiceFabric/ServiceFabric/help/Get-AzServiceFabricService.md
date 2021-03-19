@@ -1,14 +1,14 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.ServiceFabric.dll-Help.xml
 Module Name: Az.ServiceFabric
-online version: https://docs.microsoft.com/en-us/powershell/module/az.servicefabric/get-azservicefabricservice
+online version: https://docs.microsoft.com/powershell/module/az.servicefabric/get-azservicefabricservice
 schema: 2.0.0
 ---
 
 # Get-AzServiceFabricService
 
 ## SYNOPSIS
-Get Service Fabric service details under the specified application and cluster.
+Get Service Fabric service details under the specified application and cluster. Only supports ARM deployed services.
 
 ## SYNTAX
 

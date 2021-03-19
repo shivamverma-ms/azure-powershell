@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Sql.dll-Help.xml
 Module Name: Az.Sql
-online version: https://docs.microsoft.com/en-us/powershell/module/az.sql/new-azsqlinstance
+online version: https://docs.microsoft.com/powershell/module/az.sql/new-azsqlinstance
 schema: 2.0.0
 ---
 
@@ -19,8 +19,8 @@ New-AzSqlInstance [-Name] <String> [-ResourceGroupName] <String> -AdministratorC
  -Edition <String> -ComputeGeneration <String> [-Collation <String>] [-PublicDataEndpointEnabled]
  [-ProxyOverride <String>] [-TimezoneId <String>] [-Tag <Hashtable>] [-AssignIdentity]
  [-DnsZonePartner <String>] [-InstancePoolName <String>] [-MinimalTlsVersion <String>]
- [-BackupStorageRedundancy <String>] [-AsJob] [-Force] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-BackupStorageRedundancy <String>] [-MaintenanceConfigurationId <String>] [-AsJob] [-Force]
+ [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### NewByInstancePoolParentObjectParameterSet
@@ -29,7 +29,8 @@ New-AzSqlInstance [-InstancePool] <AzureSqlInstancePoolModel> [-Name] <String>
  -AdministratorCredential <PSCredential> [-StorageSizeInGB <Int32>] -VCore <Int32> [-Collation <String>]
  [-PublicDataEndpointEnabled] [-ProxyOverride <String>] [-TimezoneId <String>] [-Tag <Hashtable>]
  [-AssignIdentity] [-DnsZonePartner <String>] [-MinimalTlsVersion <String>] [-BackupStorageRedundancy <String>]
- [-AsJob] [-Force] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-MaintenanceConfigurationId <String>] [-AsJob] [-Force] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### NewByInstancePoolResourceIdParameterSet
@@ -37,8 +38,9 @@ New-AzSqlInstance [-InstancePool] <AzureSqlInstancePoolModel> [-Name] <String>
 New-AzSqlInstance [-InstancePoolResourceId] <String> [-Name] <String> -AdministratorCredential <PSCredential>
  [-StorageSizeInGB <Int32>] -VCore <Int32> [-Collation <String>] [-PublicDataEndpointEnabled]
  [-ProxyOverride <String>] [-TimezoneId <String>] [-Tag <Hashtable>] [-AssignIdentity]
- [-DnsZonePartner <String>] [-MinimalTlsVersion <String>] [-BackupStorageRedundancy <String>] [-AsJob] [-Force]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-DnsZonePartner <String>] [-MinimalTlsVersion <String>] [-BackupStorageRedundancy <String>]
+ [-MaintenanceConfigurationId <String>] [-AsJob] [-Force] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### NewBySkuNameParameterSetParameter
@@ -47,8 +49,9 @@ New-AzSqlInstance [-Name] <String> [-ResourceGroupName] <String> -AdministratorC
  -Location <String> -SubnetId <String> [-LicenseType <String>] [-StorageSizeInGB <Int32>] -VCore <Int32>
  -SkuName <String> [-Collation <String>] [-PublicDataEndpointEnabled] [-ProxyOverride <String>]
  [-TimezoneId <String>] [-Tag <Hashtable>] [-AssignIdentity] [-DnsZonePartner <String>]
- [-InstancePoolName <String>] [-MinimalTlsVersion <String>] [-BackupStorageRedundancy <String>] [-AsJob]
- [-Force] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-InstancePoolName <String>] [-MinimalTlsVersion <String>] [-BackupStorageRedundancy <String>]
+ [-MaintenanceConfigurationId <String>] [-AsJob] [-Force] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -171,6 +174,37 @@ InstancePoolName         : instancePool0
 ```
 
 This command creates a new instance in an instance pool with name instancePool0
+
+### Example 6: Create a new instance with maintenance configuration
+```powershell
+PS C:\>New-AzSqlInstance -Name managedInstance1 -ResourceGroupName resourcegroup01 -Location "westus" -AdministratorCredential (Get-Credential) -SubnetId "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/resourcegroup01/providers/Microsoft.Network/virtualNetworks/vnet_name/subnets/subnet_name" -VCore 8 -ComputeGeneration Gen5 -Edition GeneralPurpose -MaintenanceConfigurationId "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_WestUS_MI_2"
+Location                   : westus
+Id                         : /subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/resourcegroup01/providers/Microsoft.Sql/managedInstances/managedInstance1
+ResourceGroupName          : resourcegroup01
+ManagedInstanceName        : managedInstance1
+Tags                       :
+Identity                   :
+Sku                        : Microsoft.Azure.Management.Internal.Resources.Models.Sku
+FullyQualifiedDomainName   : managedInstance1.wusxxxxxxxxxxxxx.database.windows.net
+AdministratorLogin         : adminLogin1
+AdministratorPassword      :
+SubnetId                   : /subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/resourcegroup01/providers/Microsoft.Network/virtualNetworks/vnet_name/subnets/subnet_name
+LicenseType                : LicenseIncluded
+VCores                     : 8
+StorageSizeInGB            : 256
+Collation                  : SQL_Latin1_General_CP1_CI_AS
+PublicDataEndpointEnabled  : False
+ProxyOverride              :
+TimezoneId                 : UTC
+DnsZonePartner             :
+DnsZone                    : ad35cna0mw
+InstancePoolName           :
+MinimalTlsVersion          :
+BackupStorageRedundancy    : Geo
+MaintenanceConfigurationId : /subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_WestUS_MI_2
+```
+
+This command creates a new instance with maintenance configuration MI_2
 
 ## PARAMETERS
 
@@ -396,6 +430,21 @@ Parameter Sets: NewByEditionAndComputeGenerationParameterSet, NewBySkuNameParame
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -MaintenanceConfigurationId
+The Maintenance configuration id for the Sql Azure Managed Instance.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

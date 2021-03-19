@@ -1,7 +1,7 @@
 ﻿---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.DeviceProvisioningServices.dll-Help.xml
 Module Name: Az.DeviceProvisioningServices
-online version: https://docs.microsoft.com/en-us/powershell/module/az.deviceprovisioningservices/new-aziotdeviceprovisioningservice
+online version: https://docs.microsoft.com/powershell/module/az.deviceprovisioningservices/new-aziotdeviceprovisioningservice
 schema: 2.0.0
 ---
 
@@ -14,18 +14,20 @@ Create an Azure IoT Hub device provisioning service.
 
 ```
 New-AzIoTDeviceProvisioningService [-ResourceGroupName] <String> [-Name] <String> [-Location <String>]
- [-AllocationPolicy <String>] [-SkuName <String>] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+ [-AllocationPolicy <String>] [-SkuName <String>] [-Tag <Hashtable>] [-DefaultProfile <IAzureContextContainer>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-For an introduction to Azure IoT Hub Device Provisioning Service, see https://docs.microsoft.com/en-us/azure/iot-dps/about-iot-dps.
+For an introduction to Azure IoT Hub Device Provisioning Service, see https://docs.microsoft.com/azure/iot-dps/about-iot-dps.
 
 ## EXAMPLES
 
 ### Example 1
 ```
-PS C:\> New-AzIoTDeviceProvisioningService -ResourceGroupName "myresourcegroup" -Name "myiotdps"
+PS C:\> $tags = @{}
+PS C:\> $tags.Add('key1','value1')
+PS C:\> New-AzIoTDeviceProvisioningService -ResourceGroupName "myresourcegroup" -Name "myiotdps" -Tag $tags
 
 ResourceGroupName			: myresourcegroup
 Name						: myiotdps
@@ -35,13 +37,13 @@ ServiceOperationsHostName	: myiotdps.azure-devices-provisioning.net
 IotHubs						: 0
 State						: Active
 AllocationPolicy			: Hashed
-Tags						: {}
+Tags						: {[key1, value1]}
 SkuName						: S1
 SkuTier						: Standard
 Etag						: AAAAAAAT52k=
 ```
 
-Create an Azure IoT Hub device provisioning service with the standard pricing tier S1, in the region of the resource group.
+Create an Azure IoT Hub device provisioning service with the standard pricing tier S1 and tags, in the region of the resource group.
 
 ### Example 2
 ```
@@ -149,6 +151,21 @@ Type: System.String
 Parameter Sets: (All)
 Aliases:
 Accepted values: S1
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Tag
+IoT Device Provisioning Service instance tags. Property bag in key-value pairs in the form of a hash table.
+
+```yaml
+Type: System.Collections.Hashtable
+Parameter Sets: (All)
+Aliases:
 
 Required: False
 Position: Named

@@ -339,5 +339,40 @@ namespace Microsoft.Azure.Commands.Compute.Test.ScenarioTests
         {
             TestRunner.RunTestScript("Test-HostGroupPropertySetOnVirtualMachine");
         }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestVirtualMachineImageListTopOrderExpand()
+        {
+            TestRunner.RunTestScript("Test-VirtualMachineImageListTopOrderExpand");
+        }
+         
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.LiveOnly)]
+        public void TestVirtualMachineBootDiagnostics()
+        {
+            TestRunner.RunTestScript("Test-VirtualMachineBootDiagnostics");
+        }
+        
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestVirtualMachineGetVMNameAcrossResourceGroups()
+        {
+            TestRunner.RunTestScript("Test-VirtualMachineGetVMNameAcrossResourceGroups");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestVirtualMachineGetVMExtensionPiping()
+        {
+            TestRunner.RunTestScript("Test-VirtualMachineGetVMExtensionPiping");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestVirtualMachinePatchAPI()
+        {
+            TestRunner.RunTestScript("Test-VirtualMachinePatchAPI");
+        }
     }
 }

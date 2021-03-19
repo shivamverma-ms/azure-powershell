@@ -1,14 +1,14 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.ServiceFabric.dll-Help.xml
 Module Name: Az.ServiceFabric
-online version: https://docs.microsoft.com/en-us/powershell/module/az.servicefabric/remove-azservicefabricapplication
+online version: https://docs.microsoft.com/powershell/module/az.servicefabric/remove-azservicefabricapplication
 schema: 2.0.0
 ---
 
 # Remove-AzServiceFabricApplication
 
 ## SYNOPSIS
-Remove an application from the cluster. This will remove all the services under the application.
+Remove an application from the cluster. This will remove all the services under the application. Only supports ARM deployed applications.
 
 ## SYNTAX
 

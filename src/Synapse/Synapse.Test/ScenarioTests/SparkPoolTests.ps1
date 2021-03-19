@@ -4,23 +4,23 @@ Tests Synapse SparkPool Lifecycle (Create, Update, Get, List, Delete).
 #>
 function Test-SynapseSparkPool
 {
-    param
-    (
-        $resourceGroupName = (Get-ResourceGroupName),
-        $workspaceName = (Get-SynapseWorkspaceName),
-        $sparkPoolName = (Get-SynapseSparkPoolName),
-        $sparkPoolNameForAutoScale = $sparkPoolName + "1",
-        $sparkPoolNodeCount = 3,
-        $sparkAutoScaleMinNodeCount = 3,
-        $sparkAutoScaleMaxNodeCount = 6,
-        $sparkPoolNodeSize = "Small",
-        $sparkVersion = 2.4
-    )
+	# Setup
+	$testSuffix = getAssetName
+	Create-WorkspaceTestEnvironment $testSuffix
+	$params = Get-WorkspaceTestEnvironmentParameters $testSuffix
+
+    $resourceGroupName = $params.rgname
+    $workspaceName = $params.workspaceName
+    $sparkPoolName = $params.sparkPoolName
+    $sparkPoolNameForAutoScale = $sparkPoolName + "1"
+    $sparkPoolNodeCount = 3
+    $sparkAutoScaleMinNodeCount = 3
+    $sparkAutoScaleMaxNodeCount = 6
+    $sparkPoolNodeSize = "Small"
+    $sparkVersion = 2.4
 
     try
     {
-        $resourceGroupName = [Microsoft.Azure.Test.HttpRecorder.HttpMockServer]::GetVariable("resourceGroupName", $resourceGroupName)
-		$workspaceName = [Microsoft.Azure.Test.HttpRecorder.HttpMockServer]::GetVariable("workspaceName", $workspaceName)
         $workspace = Get-AzSynapseWorkspace -resourceGroupName $resourceGroupName -Name $workspaceName
         $location = $workspace.Location
 
@@ -125,8 +125,8 @@ function Test-SynapseSparkPool
         Assert-True {$found -eq 1} "SparkPool created earlier is not found when listing all in resource group: $resourceGroupName."
 
         # Delete SparkPool
-        Assert-True {Remove-AzSynapseSparkPool -ResourceGroupName $resourceGroupName -WorkspaceName $workspaceName -Name $sparkPoolName -PassThru} "Remove SparkPool failed."
-        Assert-True {Remove-AzSynapseSparkPool -ResourceGroupName $resourceGroupName -WorkspaceName $workspaceName -Name $sparkPoolNameForAutoScale -PassThru} "Remove SparkPool failed."
+        Assert-True {Remove-AzSynapseSparkPool -ResourceGroupName $resourceGroupName -WorkspaceName $workspaceName -Name $sparkPoolName -PassThru -Force} "Remove SparkPool failed."
+        Assert-True {Remove-AzSynapseSparkPool -ResourceGroupName $resourceGroupName -WorkspaceName $workspaceName -Name $sparkPoolNameForAutoScale -PassThru -Force} "Remove SparkPool failed."
 
         # Verify that it is gone by trying to get it again
         Assert-Throws {Get-AzSynapseSparkPool -ResourceGroupName $resourceGroupName -WorkspaceName $workspaceName -Name $sparkPoolName}
@@ -134,7 +134,55 @@ function Test-SynapseSparkPool
     finally
     {
         # cleanup the spark pool that was used in case it still exists. This is a best effort task, we ignore failures here.
-        Invoke-HandledCmdlet -Command {Remove-AzSynapseSparkPool -ResourceGroupName $resourceGroupName -WorkspaceName $workspaceName -Name $sparkPoolName -ErrorAction SilentlyContinue} -IgnoreFailures
-        Invoke-HandledCmdlet -Command {Remove-AzSynapseSparkPool -ResourceGroupName $resourceGroupName -WorkspaceName $workspaceName -Name $sparkPoolNameForAutoScale -ErrorAction SilentlyContinue} -IgnoreFailures
+        Invoke-HandledCmdlet -Command {Remove-AzSynapseSparkPool -ResourceGroupName $resourceGroupName -WorkspaceName $workspaceName -Name $sparkPoolName -ErrorAction SilentlyContinue -Force} -IgnoreFailures
+        Invoke-HandledCmdlet -Command {Remove-AzSynapseSparkPool -ResourceGroupName $resourceGroupName -WorkspaceName $workspaceName -Name $sparkPoolNameForAutoScale -ErrorAction SilentlyContinue -Force} -IgnoreFailures
     }
+}
+
+<#
+.SYNOPSIS
+Creates the test environment needed to perform the Synapse Spark related tests
+#>
+function Create-SparkTestEnvironmentWithParams ($params, $location)
+{
+	Create-BasicTestEnvironmentWithParams $params $location
+	New-AzSynapseSparkPool -ResourceGroupName $params.rgname -WorkspaceName $params.workspaceName -SqlPoolName $params.sqlPoolName -PerformanceLevel $params.perfLevel
+	Wait-Seconds 10
+}
+
+<#
+.SYNOPSIS
+Creates the test environment needed to perform the tests
+#>
+function Create-WorkspaceTestEnvironment ($testSuffix)
+{
+	$params = Get-WorkspaceTestEnvironmentParameters $testSuffix
+	Create-TestEnvironmentWithParams $params $params.location
+}
+
+<#
+.SYNOPSIS
+Gets the values of the parameters used at the tests
+#>
+function Get-WorkspaceTestEnvironmentParameters ($testSuffix)
+{
+	return @{ rgname = "ws-cmdlet-test-rg" +$testSuffix;
+			  workspaceName = "ws" +$testSuffix;
+			  storageAccountName = "wsstorage" + $testSuffix;
+			  fileSystemName = "wscmdletfs" + $testSuffix;
+			  loginName = "testlogin";
+			  pwd = "testp@ssMakingIt1007Longer";
+              location = "westcentralus";
+              sparkPoolName = "spool" + $testSuffix;
+		}
+}
+
+<#
+.SYNOPSIS
+Removes the test environment that was needed to perform the tests
+#>
+function Remove-WorkspaceTestEnvironment ($testSuffix)
+{
+	$params = Get-WorkspaceTestEnvironmentParameters $testSuffix
+	Remove-AzResourceGroup -Name $params.rgname -Force
 }

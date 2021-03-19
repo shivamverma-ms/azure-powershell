@@ -50,6 +50,7 @@ INPUTOBJECT <IMySqlIdentity>: Identity Parameter
   [DatabaseName <String>]: The name of the database.
   [FirewallRuleName <String>]: The name of the server firewall rule.
   [Id <String>]: Resource identity path
+  [KeyName <String>]: The name of the server key.
   [LocationName <String>]: The name of the location.
   [ResourceGroupName <String>]: The name of the resource group. The name is case insensitive.
   [SecurityAlertPolicyName <SecurityAlertPolicyName?>]: The name of the security alert policy.
@@ -61,7 +62,7 @@ PARAMETER <IVirtualNetworkRule>: A virtual network rule.
   VirtualNetworkSubnetId <String>: The ARM resource id of the virtual network subnet.
   [IgnoreMissingVnetServiceEndpoint <Boolean?>]: Create firewall rule before the virtual network has vnet service endpoint enabled.
 .Link
-https://docs.microsoft.com/en-us/powershell/module/az.mysql/update-azmysqlvirtualnetworkrule
+https://docs.microsoft.com/powershell/module/az.mysql/update-azmysqlvirtualnetworkrule
 #>
 function Update-AzMySqlVirtualNetworkRule {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20171201.IVirtualNetworkRule])]

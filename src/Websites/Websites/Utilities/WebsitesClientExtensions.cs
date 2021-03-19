@@ -38,11 +38,6 @@ namespace Microsoft.Azure.Management.WebSites
             return backupItems;
         }
 
-        public static IEnumerable<ResourceMetric> Value(this IEnumerable<ResourceMetric> resources)
-        {
-            return resources;
-        }
-
         public static IEnumerable<Site> Value(this IEnumerable<Site> sites)
         {
             return sites;
@@ -210,25 +205,6 @@ namespace Microsoft.Azure.Management.WebSites
             CsmPublishingProfileOptions publishingProfileOptions)
         {
             return webApp.ListPublishingProfileXmlWithSecrets(resourceGroupName, name, publishingProfileOptions);
-        }
-
-        public static IEnumerable<ResourceMetric> GetSiteMetrics(this IWebAppsOperations webApp,
-            string resourceGroupName, 
-            string name, 
-            bool? details = default(bool?), 
-            string filter = null)
-        {
-            return webApp.ListMetrics(resourceGroupName, name, details, filter);
-        }
-
-        public static IEnumerable<ResourceMetric> GetSiteMetricsSlot(this IWebAppsOperations webApp,
-            string resourceGroupName, 
-            string name, 
-            string slot, 
-            bool? details = default(bool?), 
-            string filter = null)
-        {
-            return webApp.ListMetricsSlot(resourceGroupName, name, slot, details, filter);
         }
 
         public static SiteConfigResource UpdateSiteConfigSlot(this IWebAppsOperations webApp,
@@ -466,12 +442,6 @@ namespace Microsoft.Azure.Management.WebSites
             return serverFarm.ListByResourceGroup(resourceGroupName);
         }
 
-        public static IEnumerable<ResourceMetric> GetServerFarmMetrics(this IAppServicePlansOperations serverFarm,
-            string resourceGroupName, string name, bool? details = default(bool?), string filter = null)
-        {
-            return serverFarm.ListMetrics(resourceGroupName, name, details, filter);
-        }
-
         private static bool? ToNullableBool(this string val)
         {
             if(string.IsNullOrWhiteSpace(val))
@@ -506,6 +476,10 @@ namespace Microsoft.Azure.Management.WebSites
             string resourceGroupName, string name)
         {
             certificate.Delete(resourceGroupName, name);
+        }
+        public static IAppServiceEnvironmentsOperations AppServiceEnvironments(this WebSiteManagementClient client)
+        {
+            return client.AppServiceEnvironments;
         }
 #else
         public static IWebAppsOperations WebApps(this WebSiteManagementClient client)

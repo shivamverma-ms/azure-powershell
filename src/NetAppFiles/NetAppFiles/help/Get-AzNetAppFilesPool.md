@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.NetAppFiles.dll-Help.xml
 Module Name: Az.NetAppFiles
-online version: https://docs.microsoft.com/en-us/powershell/module/az.netappfiles/get-aznetappfilespool
+online version: https://docs.microsoft.com/powershell/module/az.netappfiles/get-aznetappfilespool
 schema: 2.0.0
 ---
 
@@ -47,7 +47,10 @@ Type              : Microsoft.NetApp/netAppAccounts/capacityPools
 Tags              :
 PoolId            : a3a53a09-fd70-37ab-39dc-392a04cba525
 Size              : 4398046511104
-ServiceLevel      : Premium
+ServiceLevel	  : Premium
+TotalThroughputMibps: 262.144
+UtilizedThroughputMibps: 164.221
+QosType			  : Auto
 ProvisioningState : Succeeded
 ```
 

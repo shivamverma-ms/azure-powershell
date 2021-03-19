@@ -1,7 +1,7 @@
 ﻿---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.IotHub.dll-Help.xml
 Module Name: Az.IotHub
-online version: https://docs.microsoft.com/en-us/powershell/module/az.iothub/test-aziothubroute
+online version: https://docs.microsoft.com/powershell/module/az.iothub/test-aziothubroute
 schema: 2.0.0
 ---
 
@@ -94,6 +94,19 @@ Syntax error. error    1                 29                  1               30
 ```
 
 Test a specific route and showing the reason of failure.
+
+### Example 4
+```
+PS C:\> $ap = @{}
+PS C:\> $ap.add("key0","value0")
+PS C:\> $sp = @{}
+PS C:\> $sp.add("key1", "value1")
+PS C:\> Test-AzIotHubRoute -ResourceGroupName "myresourcegroup" -Name "myiothub" -RouteName R1 -AppProperty $ap -SystemProperty $sp
+
+Result : true
+```
+
+Test a specific route with AppProperty and SystemProperty.
 
 ## PARAMETERS
 

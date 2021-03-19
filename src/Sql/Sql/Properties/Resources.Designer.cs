@@ -295,6 +295,24 @@ namespace Microsoft.Azure.Commands.Sql.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You have not specified the value for backup storage redundancy which will default to geo-redundant storage. Note that database backups will be geo-replicated to the paired region. To learn more about Azure Paired Regions visit aka.ms/azure-ragrs-regions..
+        /// </summary>
+        internal static string BackupRedundancyNotChosenTakeGeoWarning {
+            get {
+                return ResourceManager.GetString("BackupRedundancyNotChosenTakeGeoWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have not specified the value for backup storage redundancy which will default to the source&apos;s backup storage redundancy. To learn more about Azure Paired Regions visit aka.ms/azure-ragrs-regions..
+        /// </summary>
+        internal static string BackupRedundancyNotChosenTakeSourceWarning {
+            get {
+                return ResourceManager.GetString("BackupRedundancyNotChosenTakeSourceWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to About to process resource.
         /// </summary>
         internal static string BaseConfirmActionProcessMessage {
@@ -556,20 +574,11 @@ namespace Microsoft.Azure.Commands.Sql.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Selected value for backup storage redundancy is geo-redundant storage. Note that database backups will be geo-replicated to the paired region. To learn more about Azure Paired Regions visit https://docs.microsoft.com/en-us/azure/best-practices-availability-paired-regions..
+        ///   Looks up a localized string similar to Selected value for backup storage redundancy is geo-redundant storage. Note that database backups will be geo-replicated to the paired region. To learn more about Azure Paired Regions visit aka.ms/azure-ragrs-regions..
         /// </summary>
         internal static string GeoBackupRedundancyChosenWarning {
             get {
                 return ResourceManager.GetString("GeoBackupRedundancyChosenWarning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to You have not specified the value for backup storage redundancy which will default to geo-redundant storage. Note that database backups will be geo-replicated to the paired region. To learn more about Azure Paired Regions visit https://docs.microsoft.com/en-us/azure/best-practices-availability-paired-regions..
-        /// </summary>
-        internal static string GeoBackupRedundancyNotChosenWarning {
-            get {
-                return ResourceManager.GetString("GeoBackupRedundancyNotChosenWarning", resourceCulture);
             }
         }
         
@@ -993,6 +1002,24 @@ namespace Microsoft.Azure.Commands.Sql.Properties {
         internal static string RemoveAzureSqlServerFirewallRuleWarning {
             get {
                 return ResourceManager.GetString("RemoveAzureSqlServerFirewallRuleWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Removing Azure Sql Server Trust Group &apos;{0}&apos; in location &apos;{1}&apos;..
+        /// </summary>
+        internal static string RemoveAzureSqlServerTrustGroupDescription {
+            get {
+                return ResourceManager.GetString("RemoveAzureSqlServerTrustGroupDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove the Azure Sql Server Trust Group &apos;{0}&apos; in location &apos;{1}&apos;?.
+        /// </summary>
+        internal static string RemoveAzureSqlServerTrustGroupWarning {
+            get {
+                return ResourceManager.GetString("RemoveAzureSqlServerTrustGroupWarning", resourceCulture);
             }
         }
         
@@ -1542,6 +1569,15 @@ namespace Microsoft.Azure.Commands.Sql.Properties {
         internal static string SyncMemberNameExists {
             get {
                 return ResourceManager.GetString("SyncMemberNameExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auditing policy cannot be defined for database edition {0}.
+        /// </summary>
+        internal static string UnsupportedDatabaseEditionForAuditingPolicy {
+            get {
+                return ResourceManager.GetString("UnsupportedDatabaseEditionForAuditingPolicy", resourceCulture);
             }
         }
         

@@ -21,13 +21,15 @@ if(-not $Isolated) {
   return
 }
 
-function DownloadModule ([bool]$predicate, [string]$path, [string]$moduleName, [string]$versionMinimum) {
+function DownloadModule ([bool]$predicate, [string]$path, [string]$moduleName, [string]$versionMinimum, [string]$requiredVersion) {
   if($predicate) {
     $module = Get-Module -ListAvailable -Name $moduleName
     if((-not $module) -or ($versionMinimum -and ($module | ForEach-Object { $_.Version } | Where-Object { $_ -ge [System.Version]$versionMinimum } | Measure-Object).Count -eq 0)) {
       $null = New-Item -ItemType Directory -Force -Path $path
       Write-Host -ForegroundColor Green "Installing local $moduleName module into '$path'..."
-      if($versionMinimum) {
+      if ($requiredVersion) {
+        Find-Module -Name $moduleName -RequiredVersion $requiredVersion -Repository PSGallery | Save-Module -Path $path
+      }elseif($versionMinimum) {
         Find-Module -Name $moduleName -MinimumVersion $versionMinimum -Repository PSGallery | Save-Module -Path $path
       } else {
         Find-Module -Name $moduleName -Repository PSGallery | Save-Module -Path $path
@@ -39,13 +41,13 @@ function DownloadModule ([bool]$predicate, [string]$path, [string]$moduleName, [
 $ProgressPreference = 'SilentlyContinue'
 $all = (@($Accounts.IsPresent, $Pester.IsPresent) | Select-Object -Unique | Measure-Object).Count -eq 1
 
-$localModulesPath = Join-Path $PSScriptRoot 'generated/modules'
+$localModulesPath = Join-Path $PSScriptRoot 'generated\modules'
 if(Test-Path -Path $localModulesPath) {
   $env:PSModulePath = "$localModulesPath$([IO.Path]::PathSeparator)$env:PSModulePath"
 }
 
-DownloadModule -predicate ($all -or $Accounts) -path $localModulesPath -moduleName 'Az.Accounts' -versionMinimum '1.7.4'
-DownloadModule -predicate ($all -or $Pester) -path $localModulesPath -moduleName 'Pester' -versionMinimum ''
+DownloadModule -predicate ($all -or $Accounts) -path $localModulesPath -moduleName 'Az.Accounts' -versionMinimum '2.2.3'
+DownloadModule -predicate ($all -or $Pester) -path $localModulesPath -moduleName 'Pester' -requiredVersion '4.10.1'
 
 $tools = Join-Path $PSScriptRoot 'tools'
 $resourceDir = Join-Path $tools 'Resources'
@@ -54,7 +56,7 @@ $resourceModule = Join-Path $HOME '.PSSharedModules\Resources\Az.Resources.TestS
 if ($Resources.IsPresent -and (-not (Test-Path -Path $resourceModule))) {
   Write-Host -ForegroundColor Green "Building local Resource module used for test..."
   Set-Location $resourceDir
-  $null = autorest-beta .\readme.md --output-folder=$HOME/.PSSharedModules/Resources
+  $null = autorest .\readme.md --use:@autorest/powershell@3.0.414 --output-folder=$HOME/.PSSharedModules/Resources
   $null = Copy-Item custom/* $HOME/.PSSharedModules/Resources/custom/
   Set-Location $HOME/.PSSharedModules/Resources
   $null = .\build-module.ps1

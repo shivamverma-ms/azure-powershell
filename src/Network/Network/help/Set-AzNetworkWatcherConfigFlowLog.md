@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Network.dll-Help.xml
 Module Name: Az.Network
-online version: https://docs.microsoft.com/en-us/powershell/module/az.network/set-aznetworkwatcherconfigflowlog
+online version: https://docs.microsoft.com/powershell/module/az.network/set-aznetworkwatcherconfigflowlog
 schema: 2.0.0
 ---
 
@@ -429,7 +429,7 @@ Accept wildcard characters: False
 ```
 
 ### -TrafficAnalyticsInterval
-Gets or sets the interval (in minutes) which would decide how frequently TA service should do flow analytics.
+Gets or sets the interval (in minutes) which would decide how frequently TA service should do flow analytics. Supported values are 10 and 60 minutes.
 
 ```yaml
 Type: System.Int32

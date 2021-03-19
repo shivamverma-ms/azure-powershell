@@ -18,7 +18,35 @@
         - Additional information about change #1
 -->
 ## Upcoming Release
+* Updated `Add-AzWebAppAccessRestrictionRule` to allow all supported Service Tags and validate against Service Tag API.
+
+## Version 2.4.0
+* Introduced an option to give custom timeout for `Publish-AzWebApp` 
+* Added support for App Service Environment
+    - `New-AzAppServiceEnvironment`
+    - `Remove-AzAppServiceEnvironment`
+    - `Get-AzAppServiceEnvironment`
+    - `New-AzAppServiceEnvironmentInboundServices`
+* Add-AzWebAppAccessRestrictionRule: When using subnet from another subscription, -IgnoreMissingServiceEndpoint must be used. Descriptive error message added.
+
+## Version 2.3.0
+* Added support for Importing a key vault certificate to WebApp.
+
+## Version 2.2.0
+* Added support for App Service Managed certificates
+    - `New-AzWebAppCertificate`
+    - `Remove-AzWebAppCertificate`
+* Fixed issue that causes Docker Password to be removed from appsettings in `Set-AzWebApp` and `Set-AzWebAppSlot`
+
+## Version 2.1.1
+* Prevent duplicate access restriction rules
+
+## Version 2.1.0
+* Added support for new access restriction features: ServiceTag, multi-ip and http-headers
+
+## Version 2.0.0
 * Added support for Premium V3 pricing tier
+* Updated the WebSites SDK to 3.1.0
 
 ## Version 1.11.0
 * Added support to perform operations for Slots not in the same resource group as the App Service Plan

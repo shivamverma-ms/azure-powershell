@@ -1,14 +1,14 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Reservations.dll-Help.xml
 Module Name: Az.Reservations
-online version: https://docs.microsoft.com/en-us/powershell/module/az.reservations/get-azreservationquote
+online version: https://docs.microsoft.com/powershell/module/az.reservations/get-azreservationquote
 schema: 2.0.0
 ---
 
 # Get-AzReservationQuote
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Get a quote for the reservation. This is passed to `New-AzReservation` to purchase.
 
 ## SYNTAX
 

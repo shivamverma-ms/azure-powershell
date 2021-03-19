@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Sql.dll-Help.xml
 Module Name: Az.Sql
-online version: https://docs.microsoft.com/en-us/powershell/module/az.sql/set-azsqlinstance
+online version: https://docs.microsoft.com/powershell/module/az.sql/set-azsqlinstance
 schema: 2.0.0
 ---
 
@@ -17,8 +17,9 @@ Sets properties for an Azure SQL Database Managed Instance.
 Set-AzSqlInstance [-Name] <String> [-ResourceGroupName] <String> [-AdministratorPassword <SecureString>]
  [-Edition <String>] [-LicenseType <String>] [-StorageSizeInGB <Int32>] [-VCore <Int32>]
  [-PublicDataEndpointEnabled <Boolean>] [-ProxyOverride <String>] [-Tag <Hashtable>] [-AssignIdentity]
- [-InstancePoolName <String>] [-MinimalTlsVersion <String>] [-Force] [-ComputeGeneration <String>] [-AsJob]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-InstancePoolName <String>] [-MinimalTlsVersion <String>] [-Force] [-ComputeGeneration <String>]
+ [-MaintenanceConfigurationId <String>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### SetInstanceFromAzureSqlManagedInstanceModelInstanceDefinition
@@ -26,8 +27,9 @@ Set-AzSqlInstance [-Name] <String> [-ResourceGroupName] <String> [-Administrator
 Set-AzSqlInstance [-InputObject] <AzureSqlManagedInstanceModel> [-AdministratorPassword <SecureString>]
  [-Edition <String>] [-LicenseType <String>] [-StorageSizeInGB <Int32>] [-VCore <Int32>]
  [-PublicDataEndpointEnabled <Boolean>] [-ProxyOverride <String>] [-Tag <Hashtable>] [-AssignIdentity]
- [-InstancePoolName <String>] [-MinimalTlsVersion <String>] [-Force] [-ComputeGeneration <String>] [-AsJob]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-InstancePoolName <String>] [-MinimalTlsVersion <String>] [-Force] [-ComputeGeneration <String>]
+ [-MaintenanceConfigurationId <String>] [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### SetInstanceFromAzureResourceId
@@ -35,8 +37,8 @@ Set-AzSqlInstance [-InputObject] <AzureSqlManagedInstanceModel> [-AdministratorP
 Set-AzSqlInstance [-ResourceId] <String> [-AdministratorPassword <SecureString>] [-Edition <String>]
  [-LicenseType <String>] [-StorageSizeInGB <Int32>] [-VCore <Int32>] [-PublicDataEndpointEnabled <Boolean>]
  [-ProxyOverride <String>] [-Tag <Hashtable>] [-AssignIdentity] [-InstancePoolName <String>]
- [-MinimalTlsVersion <String>] [-Force] [-ComputeGeneration <String>] [-AsJob]
- [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-MinimalTlsVersion <String>] [-Force] [-ComputeGeneration <String>] [-MaintenanceConfigurationId <String>]
+ [-AsJob] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -111,6 +113,68 @@ InstancePoolName         : instancePool0
 ```
 
 This command sets existing instance using new values for -AdministratorPassword, -LicenseType, -StorageSizeInGB and -VCore for an instance within an instance pool
+
+### Example 4: Update maintenance configuration for existing instance
+```powershell
+PS C:\> Set-AzSqlInstance -Name "managedInstance1" -ResourceGroupName "resourcegroup01" -MaintenanceConfigurationId "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_WestUS_MI_2"
+Location                   : westus
+Id                         : /subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/resourcegroup01/providers/Microsoft.Sql/managedInstances/managedInstance1
+ResourceGroupName          : resourcegroup01
+ManagedInstanceName        : managedInstance1
+Tags                       :
+Identity                   :
+Sku                        : Microsoft.Azure.Management.Internal.Resources.Models.Sku
+FullyQualifiedDomainName   : managedInstance1.wusxxxxxxxxxxxxx.database.windows.net
+AdministratorLogin         : adminLogin1
+AdministratorPassword      :
+SubnetId                   : /subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/resourcegroup01/providers/Microsoft.Network/virtualNetworks/vnet_name/subnets/subnet_name
+LicenseType                : LicenseIncluded
+VCores                     : 8
+StorageSizeInGB            : 256
+Collation                  : SQL_Latin1_General_CP1_CI_AS
+PublicDataEndpointEnabled  : False
+ProxyOverride              :
+TimezoneId                 : UTC
+DnsZonePartner             :
+DnsZone                    : ad35cna0mw
+InstancePoolName           :
+MinimalTlsVersion          :
+BackupStorageRedundancy    : Geo
+MaintenanceConfigurationId : /subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_WestUS_MI_2
+```
+
+This command updates existing instance with maintenance configuration MI_2
+
+### Example 5: Remove maintenance configuration from existing instance
+```powershell
+PS C:\> Set-AzSqlInstance -Name "managediInstance1" -ResourceGroupName "Resourcegroup01" -MaintenanceConfigurationId "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default"
+Location                   : westus
+Id                         : /subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/resourcegroup01/providers/Microsoft.Sql/managedInstances/managedInstance1
+ResourceGroupName          : resourcegroup01
+ManagedInstanceName        : managedInstance1
+Tags                       :
+Identity                   :
+Sku                        : Microsoft.Azure.Management.Internal.Resources.Models.Sku
+FullyQualifiedDomainName   : managedInstance1.wusxxxxxxxxxxxxx.database.windows.net
+AdministratorLogin         : adminLogin1
+AdministratorPassword      :
+SubnetId                   : /subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/resourcegroup01/providers/Microsoft.Network/virtualNetworks/vnet_name/subnets/subnet_name
+LicenseType                : LicenseIncluded
+VCores                     : 8
+StorageSizeInGB            : 256
+Collation                  : SQL_Latin1_General_CP1_CI_AS
+PublicDataEndpointEnabled  : False
+ProxyOverride              :
+TimezoneId                 : UTC
+DnsZonePartner             :
+DnsZone                    : ad35cna0mw
+InstancePoolName           :
+MinimalTlsVersion          :
+BackupStorageRedundancy    : Geo
+MaintenanceConfigurationId : /subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default
+```
+
+This command resets maintenance configuration to default for existing instance
 
 ## PARAMETERS
 
@@ -253,6 +317,21 @@ Accept wildcard characters: False
 Determines which License Type to use. Possible values are:
 - BasePrice - Azure Hybrid Benefit (AHB) discounted pricing for existing SQL Server license owners is applied. Managed Instance service price will be discounted for existing SQL Server license owners.
 - LicenseIncluded - Azure Hybrid Benefit (AHB) discount pricing for existing SQL Server license owners is not applied. Managed Instance service price will include a new SQL Server license costs.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -MaintenanceConfigurationId
+The Maintenance configuration id for the Sql Azure Managed Instance.
 
 ```yaml
 Type: System.String

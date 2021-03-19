@@ -17,9 +17,11 @@
 .Synopsis
 Updates an existing server.
 The request body can contain one to many of the properties present in the normal server definition.
+Use Update-AzPostSqlConfiguration instead if you want update server parameters such as wait_timeout or net_retry_count.
 .Description
 Updates an existing server.
 The request body can contain one to many of the properties present in the normal server definition.
+Use Update-AzPostSqlConfiguration instead if you want update server parameters such as wait_timeout or net_retry_count.
 .Example
 PS C:\> Update-AzPostgreSqlServer -ResourceGroupName PostgreSqlTestRG -ServerName PostgreSqlTestServer -SslEnforcement Disabled
 
@@ -54,7 +56,7 @@ INPUTOBJECT <IPostgreSqlIdentity>: Identity Parameter.
   [SubscriptionId <String>]: The ID of the target subscription.
   [VirtualNetworkRuleName <String>]: The name of the virtual network rule.
 .Link
-https://docs.microsoft.com/en-us/powershell/module/az.postgresql/update-azpostgresqlserver
+https://docs.microsoft.com/powershell/module/az.postgresql/update-azpostgresqlserver
 #>
 function Update-AzPostgreSqlServer {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.PostgreSql.Models.Api20171201.IServer])]
@@ -135,6 +137,14 @@ param(
     ${SslEnforcement},
 
     [Parameter()]
+    [ArgumentCompleter([Microsoft.Azure.PowerShell.Cmdlets.PostgreSql.Support.MinimalTlsVersionEnum])]
+    [Microsoft.Azure.PowerShell.Cmdlets.PostgreSql.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.PostgreSql.Support.MinimalTlsVersionEnum]
+    # Set the minimal TLS version for connections to server when SSL is enabled.
+    # Default is TLSEnforcementDisabled.accepted values: TLS1_0, TLS1_1, TLS1_2, TLSEnforcementDisabled.
+    ${MinimalTlsVersion},
+
+    [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PostgreSql.Category('Body')]
     [System.Int32]
     # Backup retention days for the server.
@@ -185,12 +195,14 @@ param(
     [ValidateNotNull()]
     [Microsoft.Azure.PowerShell.Cmdlets.PostgreSql.Category('Runtime')]
     [Microsoft.Azure.PowerShell.Cmdlets.PostgreSql.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline.
     ${HttpPipelineAppend},
 
     [Parameter(DontShow)]
     [ValidateNotNull()]
     [Microsoft.Azure.PowerShell.Cmdlets.PostgreSql.Category('Runtime')]
     [Microsoft.Azure.PowerShell.Cmdlets.PostgreSql.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline.
     ${HttpPipelinePrepend},
 
     [Parameter()]
@@ -202,17 +214,20 @@ param(
     [Parameter(DontShow)]
     [Microsoft.Azure.PowerShell.Cmdlets.PostgreSql.Category('Runtime')]
     [System.Uri]
+    # The URI for the proxy server to use.
     ${Proxy},
 
     [Parameter(DontShow)]
     [ValidateNotNull()]
     [Microsoft.Azure.PowerShell.Cmdlets.PostgreSql.Category('Runtime')]
     [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call.
     ${ProxyCredential},
 
     [Parameter(DontShow)]
     [Microsoft.Azure.PowerShell.Cmdlets.PostgreSql.Category('Runtime')]
     [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy.
     ${ProxyUseDefaultCredentials}
 )
 

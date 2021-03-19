@@ -1,14 +1,14 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Synapse.dll-Help.xml
 Module Name: Az.Synapse
-online version: https://docs.microsoft.com/en-us/powershell/module/az.synapse/new-azsynapsesqldatabase
+online version: https://docs.microsoft.com/powershell/module/az.synapse/new-azsynapsesqldatabase
 schema: 2.0.0
 ---
 
 # New-AzSynapseSqlDatabase
 
 ## SYNOPSIS
-Creates a Synapse Analytics SQL database.
+This feature is in a limited preview, initially accessible only to certain subscriptions. Creates a Synapse Analytics SQL database.
 
 ## SYNTAX
 
@@ -29,12 +29,11 @@ New-AzSynapseSqlDatabase -WorkspaceObject <PSSynapseWorkspace> -Name <String> [-
 ## DESCRIPTION
 The **Get-AzSynapseSqlDatabase** cmdlet gets information about an Azure Synapse Analytics SQL database.
 
-
 ## EXAMPLES
 
 ### Example 1
 ```powershell
-PS C:\> New-AzSynapseSqlDatabase -WorkspaceName ContosoWorkspace -Name ContosoSqlDatabase 
+PS C:\> New-AzSynapseSqlDatabase -WorkspaceName ContosoWorkspace -Name ContosoSqlDatabase
 ```
 
 This command creates an Azure Synapse Analytics SQL database.

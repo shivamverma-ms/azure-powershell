@@ -41,7 +41,7 @@ namespace Microsoft.Azure.Commands.Management.Storage.Models
         public PSDeleteRetentionPolicy DeleteRetentionPolicy { get; set; }
         [Ps1Xml(Label = "RestorePolicy.Enabled", Target = ViewControl.Table, ScriptBlock = "$_.RestorePolicy.Enabled", Position = 5)]
         [Ps1Xml(Label = "RestorePolicy.Days", Target = ViewControl.Table, ScriptBlock = "$_.RestorePolicy.Days", Position = 6)]
-        [Ps1Xml(Label = "RestorePolicy.LastEnabledTime", Target = ViewControl.Table, ScriptBlock = "$_.RestorePolicy.LastEnabledTime", Position = 7)]
+        [Ps1Xml(Label = "RestorePolicy.MinRestoreTime", Target = ViewControl.Table, ScriptBlock = "$_.RestorePolicy.MinRestoreTime", Position = 7)]
         public PSRestorePolicy RestorePolicy { get; set; }
         public PSCorsRules Cors { get; set; }
         public bool? IsVersioningEnabled { get; set; }
@@ -108,6 +108,7 @@ namespace Microsoft.Azure.Commands.Management.Storage.Models
     public class PSChangeFeed
     {
         public bool? Enabled { get; set; }
+        public int? RetentionInDays { get; set; }
 
         public PSChangeFeed()
         {
@@ -116,13 +117,15 @@ namespace Microsoft.Azure.Commands.Management.Storage.Models
         public PSChangeFeed(ChangeFeed changeFeed)
         {
             this.Enabled = changeFeed.Enabled;
+            this.RetentionInDays = changeFeed.RetentionInDays;
         }
 
         public ChangeFeed ParseChangeFeed()
         {
             return new ChangeFeed
             {
-                Enabled = this.Enabled
+                Enabled = this.Enabled,
+                RetentionInDays = this.RetentionInDays
             };
         }
     }
@@ -161,7 +164,6 @@ namespace Microsoft.Azure.Commands.Management.Storage.Models
     {
         public bool? Enabled { get; set; }
         public int? Days { get; set; }
-        public DateTime? LastEnabledTime { get; set; }
         public DateTime? MinRestoreTime { get; set; }
 
         public PSRestorePolicy()
@@ -172,7 +174,6 @@ namespace Microsoft.Azure.Commands.Management.Storage.Models
         {
             this.Enabled = policy.Enabled;
             this.Days = policy.Days;
-            this.LastEnabledTime = policy.LastEnabledTime;
             this.MinRestoreTime = policy.MinRestoreTime;
 
         }

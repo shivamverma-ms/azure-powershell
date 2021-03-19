@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.ResourceManager.dll-Help.xml
 Module Name: Az.Resources
 ms.assetid: 20CB842B-F7A9-4052-85D9-0DF9586D5FEA
-online version: https://docs.microsoft.com/en-us/powershell/module/az.resources/get-azresourcegroupdeployment
+online version: https://docs.microsoft.com/powershell/module/az.resources/get-azresourcegroupdeployment
 schema: 2.0.0
 ---
 
@@ -15,14 +15,14 @@ Gets the deployments in a resource group.
 
 ### GetByResourceGroupDeploymentName (Default)
 ```
-Get-AzResourceGroupDeployment [-ResourceGroupName] <String> [[-Name] <String>] [-ApiVersion <String>] [-Pre]
+Get-AzResourceGroupDeployment [-ResourceGroupName] <String> [[-Name] <String>] [-Pre]
  [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
 ```
 
 ### GetByResourceGroupDeploymentId
 ```
-Get-AzResourceGroupDeployment -Id <String> [-ApiVersion <String>] [-Pre]
- [-DefaultProfile <IAzureContextContainer>] [<CommonParameters>]
+Get-AzResourceGroupDeployment -Id <String> [-Pre] [-DefaultProfile <IAzureContextContainer>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -65,22 +65,6 @@ The command passes the resource groups to the current cmdlet by using the pipeli
 The current cmdlet gets all deployments of all resource groups in the subscription, and passes the results to the Format-Table cmdlet to display their **ResourceGroupName**, **DeploymentName**, and **ProvisioningState** property values.
 
 ## PARAMETERS
-
-### -ApiVersion
-Specifies the API version that is supported by the resource Provider.
-You can specify a different version than the default version.
-
-```yaml
-Type: System.String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
 
 ### -DefaultProfile
 The credentials, account, tenant, and subscription used for communication with azure

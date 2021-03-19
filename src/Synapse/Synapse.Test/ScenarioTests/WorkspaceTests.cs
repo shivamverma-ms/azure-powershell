@@ -32,11 +32,43 @@ namespace Microsoft.Azure.Commands.Synapse.Test.ScenarioTests
         [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestSynapseWorkspace()
         {
+            SynapseTestBase.NewInstance.RunPsTest(_logger, "Test-SynapseWorkspace");
+        }
+
+        [Fact(Skip = "Can't call Graph API through Service Principal.")]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestSynapseWorkspaceActiveDirectoryAdministrator()
+        {
             SynapseTestBase.NewInstance.RunPsTest(
                 _logger,
-                string.Format(
-                    "Test-SynapseWorkspace -location '{0}'",
-                    SynapseTestBase.ResourceGroupLocation));
+                "Test-SynapseWorkspaceActiveDirectoryAdministrator");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestSynapseWorkspaceSecurity()
+        {
+            SynapseTestBase.NewInstance.RunPsTest(
+                _logger,
+                "Test-SynapseWorkspaceSecurity");
+        }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestSynapseManagedIdentitySqlControlSetting()
+        {
+            SynapseTestBase.NewInstance.RunPsTest(
+                _logger,
+                "Test-SynapseManagedIdentitySqlControlSetting");
+        }
+
+        [Fact(Skip = "This test requires to create KeyVault beforehand and calls Graph API.")]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestSynapseWorkspaceKey()
+        {
+            SynapseTestBase.NewInstance.RunPsTest(
+                _logger,
+                "Test-SynapseWorkspaceKey");
         }
     }
 }

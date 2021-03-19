@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Sql.dll-Help.xml
 Module Name: Az.Sql
 ms.assetid: 3D4822DD-736B-42DF-8D9A-1CB23FEF052E
-online version: https://docs.microsoft.com/en-us/powershell/module/az.sql/new-azsqldatabaseexport
+online version: https://docs.microsoft.com/powershell/module/az.sql/new-azsqldatabaseexport
 schema: 2.0.0
 ---
 
@@ -26,6 +26,9 @@ New-AzSqlDatabaseExport [-DatabaseName] <String> [-ServerName] <String> -Storage
 The **New-AzSqlDatabaseExport** cmdlet exports an Azure SQL Database as a .bacpac file to a storage account.
 The get export database status request may be sent to retrieve status information for this request.
 This cmdlet is also supported by the SQL Server Stretch Database service on Azure.
+
+> [!IMPORTANT]
+> In order to make use of this cmdlet the firewall on the Azure SQL Server will need to be configured to "Allow Azure services and resources to access this server". If this is not configured then GatewayTimeout errors will be experienced.
 
 ## EXAMPLES
 

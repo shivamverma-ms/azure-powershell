@@ -1,22 +1,22 @@
 {
   "Entries": [
     {
-      "RequestUri": "/subscriptions/47f4bc68-6fe4-43a2-be8b-dfd0e290efa2/providers/Microsoft.Cdn/checkResourceUsage?api-version=2019-04-15",
-      "EncodedRequestUri": "L3N1YnNjcmlwdGlvbnMvNDdmNGJjNjgtNmZlNC00M2EyLWJlOGItZGZkMGUyOTBlZmEyL3Byb3ZpZGVycy9NaWNyb3NvZnQuQ2RuL2NoZWNrUmVzb3VyY2VVc2FnZT9hcGktdmVyc2lvbj0yMDE5LTA0LTE1",
+      "RequestUri": "/subscriptions/27cafca8-b9a4-4264-b399-45d0c9cca1ab/providers/Microsoft.Cdn/checkResourceUsage?api-version=2020-09-01",
+      "EncodedRequestUri": "L3N1YnNjcmlwdGlvbnMvMjdjYWZjYTgtYjlhNC00MjY0LWIzOTktNDVkMGM5Y2NhMWFiL3Byb3ZpZGVycy9NaWNyb3NvZnQuQ2RuL2NoZWNrUmVzb3VyY2VVc2FnZT9hcGktdmVyc2lvbj0yMDIwLTA5LTAx",
       "RequestMethod": "POST",
       "RequestBody": "",
       "RequestHeaders": {
         "x-ms-client-request-id": [
-          "206fb146-5e0e-4586-b31c-b3adc6f37bea"
+          "3ccac472-5b54-4043-9351-8c4120fd5169"
         ],
         "Accept-Language": [
           "en-US"
         ],
         "User-Agent": [
-          "FxVersion/4.6.27129.04",
+          "FxVersion/4.6.29812.02",
           "OSName/Windows",
-          "OSVersion/Microsoft.Windows.10.0.17763.",
-          "Microsoft.Azure.Management.Cdn.CdnManagementClient/4.2.2.0"
+          "OSVersion/Microsoft.Windows.10.0.19042.",
+          "Microsoft.Azure.Management.Cdn.CdnManagementClient/6.1.0.0"
         ]
       },
       "ResponseHeaders": {
@@ -26,58 +26,49 @@
         "Pragma": [
           "no-cache"
         ],
-        "x-ms-request-id": [
-          "0e47a5c0-9e35-4442-b625-cf1816b9b13f"
-        ],
-        "x-ms-client-request-id": [
-          "206fb146-5e0e-4586-b31c-b3adc6f37bea"
-        ],
-        "OData-Version": [
-          "4.0"
-        ],
         "Strict-Transport-Security": [
           "max-age=31536000; includeSubDomains"
         ],
+        "x-ms-request-id": [
+          "5f609af2-ace2-4f0a-acd8-c7a9436da023"
+        ],
+        "x-ms-client-request-id": [
+          "3ccac472-5b54-4043-9351-8c4120fd5169"
+        ],
         "Server": [
-          "Microsoft-IIS/8.5"
-        ],
-        "X-AspNet-Version": [
-          "4.0.30319"
-        ],
-        "X-Powered-By": [
-          "ASP.NET"
+          "Kestrel"
         ],
         "x-ms-ratelimit-remaining-subscription-writes": [
           "1199"
         ],
         "x-ms-correlation-request-id": [
-          "86686725-848a-48e1-8b43-08b2d67d8a3a"
+          "9fd1ee6d-d4df-4b0e-9d8a-49aad3fbb9b8"
         ],
         "x-ms-routing-request-id": [
-          "CENTRALUS:20190520T192600Z:86686725-848a-48e1-8b43-08b2d67d8a3a"
+          "WESTUS:20210309T213759Z:9fd1ee6d-d4df-4b0e-9d8a-49aad3fbb9b8"
         ],
         "X-Content-Type-Options": [
           "nosniff"
         ],
         "Date": [
-          "Mon, 20 May 2019 19:25:59 GMT"
+          "Tue, 09 Mar 2021 21:37:59 GMT"
         ],
         "Content-Length": [
-          "112"
+          "83"
         ],
         "Content-Type": [
-          "application/json; odata.metadata=minimal; odata.streaming=true"
+          "application/json; charset=utf-8"
         ],
         "Expires": [
           "-1"
         ]
       },
-      "ResponseBody": "{\r\n  \"value\": [\r\n    {\r\n      \"resourceType\": \"profile\",\r\n      \"unit\": \"count\",\r\n      \"currentValue\": 16,\r\n      \"limit\": 25\r\n    }\r\n  ]\r\n}",
+      "ResponseBody": "{\r\n  \"value\": [\r\n    {\r\n      \"resourceType\": \"profile\",\r\n      \"unit\": \"count\",\r\n      \"currentValue\": 96,\r\n      \"limit\": 200\r\n    }\r\n  ]\r\n}",
       "StatusCode": 200
     }
   ],
   "Names": {},
   "Variables": {
-    "SubscriptionId": "47f4bc68-6fe4-43a2-be8b-dfd0e290efa2"
+    "SubscriptionId": "27cafca8-b9a4-4264-b399-45d0c9cca1ab"
   }
 }

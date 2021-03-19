@@ -1,14 +1,14 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.ServiceFabric.dll-Help.xml
 Module Name: Az.ServiceFabric
-online version: https://docs.microsoft.com/en-us/powershell/module/az.servicefabric/get-azservicefabricapplicationtype
+online version: https://docs.microsoft.com/powershell/module/az.servicefabric/get-azservicefabricapplicationtype
 schema: 2.0.0
 ---
 
 # Get-AzServiceFabricApplicationType
 
 ## SYNOPSIS
-Get Service Fabric application type details.
+Get Service Fabric application type details. Only supports ARM deployed application types.
 
 ## SYNTAX
 

@@ -1,14 +1,14 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.ServiceFabric.dll-Help.xml
 Module Name: Az.ServiceFabric
-online version: https://docs.microsoft.com/en-us/powershell/module/az.servicefabric/remove-azservicefabricservice
+online version: https://docs.microsoft.com/powershell/module/az.servicefabric/remove-azservicefabricservice
 schema: 2.0.0
 ---
 
 # Remove-AzServiceFabricService
 
 ## SYNOPSIS
-Remove a service from the cluster.
+Remove a service from the cluster. Only supports ARM deployed services.
 
 ## SYNTAX
 

@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Aks.dll-Help.xml
 Module Name: Az.Aks
-online version: https://docs.microsoft.com/en-us/powershell/module/az.aks/new-azakscluster
+online version: https://docs.microsoft.com/powershell/module/az.aks/new-azakscluster
 schema: 2.0.0
 ---
 
@@ -14,7 +14,7 @@ Create a new managed Kubernetes cluster.
 
 ```
 New-AzAksCluster [-Force] [-GenerateSshKey] [-NodeVmSetType <String>] [-NodeVnetSubnetID <String>]
- [-NodeMaxPodCount <Int32>] [-NodeOsType <String>] [-NodeSetPriority <String>] [-NodePoolMode <String>]
+ [-NodeMaxPodCount <Int32>] [-NodeSetPriority <String>] [-NodePoolMode <String>]
  [-NodeScaleSetEvictionPolicy <String>] [-AddOnNameToBeEnabled <String[]>] [-WorkspaceResourceId <String>]
  [-SubnetName <String>] [-AcrNameToAttach <String>] [-EnableRbac] [-WindowsProfileAdminUserName <String>]
  [-WindowsProfileAdminUserPassword <SecureString>] [-NetworkPlugin <String>] [-LoadBalancerSku <String>]
@@ -35,7 +35,7 @@ Create a new Azure Kubernetes Service(AKS) cluster.
 ### New an AKS with default params.
 
 ```powershell
-PS C:\> New-AzAks -ResourceGroupName myResourceGroup -Name myCluster
+PS C:\> New-AzAksCluster -ResourceGroupName myResourceGroup -Name myCluster
 ```
 
 ### Create Windows Server container on an AKS.
@@ -44,7 +44,7 @@ To create Windows Server container on an AKS, you must specify at least four fol
 
 ```powershell
 PS C:\> $cred = ConvertTo-SecureString -AsPlainText "Password!!123" -Force
-PS C:\> New-AzAks -ResourceGroupName myResourceGroup -Name myCluster -WindowsProfileAdminUserName azureuser -WindowsProfileAdminUserPassword $cred -NetworkPlugin azure -NodeVmSetType VirtualMachineScaleSets
+PS C:\> New-AzAksCluster -ResourceGroupName myResourceGroup -Name myCluster -WindowsProfileAdminUserName azureuser -WindowsProfileAdminUserPassword $cred -NetworkPlugin azure -NodeVmSetType VirtualMachineScaleSets
 PS C:\> New-AzAksNodePool -ResourceGroupName myResourceGroup -ClusterName myCluster -Name win1 -OsType Windows -VmSetType VirtualMachineScaleSets
 ```
 
@@ -271,7 +271,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: azure
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -366,21 +366,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -NodeOsType
-OsType to be used to specify os type. Choose from Linux and Windows. Default to Linux.
-
-```yaml
-Type: System.String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -NodePoolMode
 NodePoolMode represents mode of an node pool.
 
@@ -436,7 +421,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: VirtualMachineScaleSets
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -492,7 +477,7 @@ The client id and client secret associated with the AAD application / service pr
 ```yaml
 Type: System.Management.Automation.PSCredential
 Parameter Sets: (All)
-Aliases: ClientIdAndSecret
+Aliases:
 
 Required: False
 Position: 2

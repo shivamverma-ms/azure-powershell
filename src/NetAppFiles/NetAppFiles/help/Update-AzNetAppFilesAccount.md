@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.NetAppFiles.dll-Help.xml
 Module Name: Az.NetAppFiles
-online version: https://docs.microsoft.com/en-us/powershell/module/az.netappfiles/update-aznetappfilesaccount
+online version: https://docs.microsoft.com/powershell/module/az.netappfiles/update-aznetappfilesaccount
 schema: 2.0.0
 ---
 
@@ -214,7 +214,9 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
+### System.String
+
+### Microsoft.Azure.Commands.NetAppFiles.Models.PSNetAppFilesAccount
 
 ## OUTPUTS
 

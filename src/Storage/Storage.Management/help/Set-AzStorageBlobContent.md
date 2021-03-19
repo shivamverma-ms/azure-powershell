@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Storage.dll-Help.xml
 Module Name: Az.Storage
 ms.assetid: F20A5FD3-6EC3-4EFE-988C-75F8583961A4
-online version: https://docs.microsoft.com/en-us/powershell/module/az.storage/set-azstorageblobcontent
+online version: https://docs.microsoft.com/powershell/module/az.storage/set-azstorageblobcontent
 schema: 2.0.0
 ---
 
@@ -17,17 +17,18 @@ Uploads a local file to an Azure Storage blob.
 ```
 Set-AzStorageBlobContent [-File] <String> [-Container] <String> [-Blob <String>] [-BlobType <String>]
  [-Properties <Hashtable>] [-Metadata <Hashtable>] [-PremiumPageBlobTier <PremiumPageBlobTier>]
- [-StandardBlobTier <String>] [-Force] [-AsJob] [-Context <IStorageContext>] [-ServerTimeoutPerRequest <Int32>]
- [-ClientTimeoutPerRequest <Int32>] [-DefaultProfile <IAzureContextContainer>] [-ConcurrentTaskCount <Int32>]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-StandardBlobTier <String>] [-EncryptionScope <String>] [-Force] [-AsJob] [-Context <IStorageContext>]
+ [-ServerTimeoutPerRequest <Int32>] [-ClientTimeoutPerRequest <Int32>]
+ [-DefaultProfile <IAzureContextContainer>] [-ConcurrentTaskCount <Int32>] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### ContainerPipeline
 ```
 Set-AzStorageBlobContent [-File] <String> [-Blob <String>] -CloudBlobContainer <CloudBlobContainer>
  [-BlobType <String>] [-Properties <Hashtable>] [-Metadata <Hashtable>]
- [-PremiumPageBlobTier <PremiumPageBlobTier>] [-StandardBlobTier <String>] [-Force] [-AsJob]
- [-Context <IStorageContext>] [-ServerTimeoutPerRequest <Int32>] [-ClientTimeoutPerRequest <Int32>]
+ [-PremiumPageBlobTier <PremiumPageBlobTier>] [-StandardBlobTier <String>] [-EncryptionScope <String>] [-Force]
+ [-AsJob] [-Context <IStorageContext>] [-ServerTimeoutPerRequest <Int32>] [-ClientTimeoutPerRequest <Int32>]
  [-DefaultProfile <IAzureContextContainer>] [-ConcurrentTaskCount <Int32>] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
@@ -35,10 +36,10 @@ Set-AzStorageBlobContent [-File] <String> [-Blob <String>] -CloudBlobContainer <
 ### BlobPipeline
 ```
 Set-AzStorageBlobContent [-File] <String> -CloudBlob <CloudBlob> [-BlobType <String>] [-Properties <Hashtable>]
- [-Metadata <Hashtable>] [-PremiumPageBlobTier <PremiumPageBlobTier>] [-StandardBlobTier <String>] [-Force]
- [-AsJob] [-Context <IStorageContext>] [-ServerTimeoutPerRequest <Int32>] [-ClientTimeoutPerRequest <Int32>]
- [-DefaultProfile <IAzureContextContainer>] [-ConcurrentTaskCount <Int32>] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [-Metadata <Hashtable>] [-PremiumPageBlobTier <PremiumPageBlobTier>] [-StandardBlobTier <String>]
+ [-EncryptionScope <String>] [-Force] [-AsJob] [-Context <IStorageContext>] [-ServerTimeoutPerRequest <Int32>]
+ [-ClientTimeoutPerRequest <Int32>] [-DefaultProfile <IAzureContextContainer>] [-ConcurrentTaskCount <Int32>]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -92,10 +93,28 @@ The blob includes the metadata stored in $Metadata, and has PremiumPageBlobTier 
 
 ### Example 6: Upload a file to blob with specified blob properties, and set StandardBlobTier as Cool
 ```
-PS C:\> Set-AzStorageBlobContent -File "ContosoPlanning" -Container "ContosoUploads" -Properties @{"ContentType" = "image/jpeg"; "ContentMD5" = "i727sP7HigloQDsqadNLHw=="} -StandardBlobTier Cool
+PS C:\> $filepath = "c:\temp\index.html"
+PS C:\> Set-AzStorageBlobContent -File $filepath -Container "contosouploads" -Properties @{"ContentType" = [System.Web.MimeMapping]::GetMimeMapping($filepath); "ContentMD5" = "i727sP7HigloQDsqadNLHw=="} -StandardBlobTier Cool
+
+   AccountName: storageaccountname, ContainerName: contosouploads
+
+Name                 BlobType  Length          ContentType                    LastModified         AccessTier SnapshotTime                 IsDeleted  VersionId                     
+----                 --------  ------          -----------                    ------------         ---------- ------------                 ---------  ---------                     
+index.html           BlockBlob 403116          text/html                      2020-09-22 08:06:53Z Cool                                    False
 ```
 
-This command  uploads the file that is named ContosoPlanning to the container named ContosoUploads with specified blob properties, and set StandardBlobTier as Cool.
+This command uploads the file c:\temp\index.html to the container named contosouploads with specified blob properties, and set StandardBlobTier as Cool.
+This command gets ContentType value set to blob properties by [System.Web.MimeMapping]::GetMimeMapping() API.
+
+### Example 7: Upload a file to a blob with Encryption Scope
+```
+PS C:\> $blob = Set-AzStorageBlobContent  -File "mylocalfile" -Container "mycontainer" -Blob "myblob"  -EncryptionScope "myencryptscope"
+
+PS C:\> $blob.BlobProperties.EncryptionScope
+myencryptscope
+```
+
+This command  uploads a file to a blob with Encryption Scope.
 
 ## PARAMETERS
 
@@ -135,6 +154,7 @@ Specifies the type for the blob that this cmdlet uploads.
 The acceptable values for this parameter are:
 - Block
 - Page
+- Append
 The default value is Block.
 
 ```yaml
@@ -267,6 +287,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -EncryptionScope
+Encryption scope to be used when making requests to the blob.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -File
 Specifies a local file path for a file to upload as blob content.
 
@@ -374,7 +409,7 @@ Accept wildcard characters: False
 
 ### -StandardBlobTier
 Block Blob Tier, valid values are Hot/Cool/Archive.
-See detail in https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+See detail in https://docs.microsoft.com/azure/storage/blobs/storage-blob-storage-tiers
 
 ```yaml
 Type: System.String

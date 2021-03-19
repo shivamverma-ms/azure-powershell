@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.Databricks
-online version: https://docs.microsoft.com/en-us/powershell/module/az.databricks/update-azdatabricksworkspace
+online version: https://docs.microsoft.com/powershell/module/az.databricks/update-azdatabricksworkspace
 schema: 2.0.0
 ---
 
@@ -56,10 +56,13 @@ workspaceypae6l East US 2 EUAP /subscriptions/0140911e-1040-48da-8bc9-b99fb3dd88
 ```
 
 Enabling encryption on a Databricks workspace takes three steps:
-
-1. Update the workspace with `-PrepareEncryption` (if it was not created so).
-1. Find `StorageAccountIdentityPrincipalId` in the output of the last step. Grant key permissions to the principal.
-1. Update the workspace again to fill in information about the encryption key:
+1.
+Update the workspace with `-PrepareEncryption` (if it was not created so).
+1.
+Find `StorageAccountIdentityPrincipalId` in the output of the last step.
+Grant key permissions to the principal.
+1.
+Update the workspace again to fill in information about the encryption key:
     - `-EncryptionKeySource`
     - `-EncryptionKeyVaultUri`
     - `-EncryptionKeyName`

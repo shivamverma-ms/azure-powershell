@@ -80,17 +80,6 @@ function Test-AzureFirewallCRUD {
     $networkRule1Protocol3 = "ICMP"
     $networkRule1DestinationPort1 = "90"
 
-    # AzureFirewallNetworkRule 2
-    $networkRule2Name = "networkRule2"
-    $networkRule2Desc = "desc2"
-    $networkRule2SourceAddress1 = "10.0.0.0"
-    $networkRule2SourceAddress2 = "111.1.0.0/24"
-    $networkRule2DestinationFqdn1 = "www.bing.com"
-    $networkRule2Protocol1 = "UDP"
-    $networkRule2Protocol2 = "TCP"
-    $networkRule2Protocol3 = "ICMP"
-    $networkRule2DestinationPort1 = "80"
-
     # AzureFirewallNatRuleCollection
     $natRcName = "natRc"
     $natRcPriority = 200
@@ -132,7 +121,7 @@ function Test-AzureFirewallCRUD {
         $publicip = New-AzPublicIpAddress -ResourceGroupName $rgname -name $publicIpName -location $location -AllocationMethod Static -Sku Standard
 
         # Create AzureFirewall (with no rules, ThreatIntel is in Alert mode by default)
-        $azureFirewall = New-AzFirewall -Name $azureFirewallName -ResourceGroupName $rgname -Location $location -VirtualNetworkName $vnetName -PublicIpName $publicIpName -DnsProxyNotRequiredForNetworkRule
+        $azureFirewall = New-AzFirewall -Name $azureFirewallName -ResourceGroupName $rgname -Location $location -VirtualNetworkName $vnetName -PublicIpName $publicIpName
 
         # Get AzureFirewall
         $getAzureFirewall = Get-AzFirewall -name $azureFirewallName -ResourceGroupName $rgname
@@ -211,13 +200,6 @@ function Test-AzureFirewallCRUD {
         # Create Network Rule Collection
         $netRc = New-AzFirewallNetworkRuleCollection -Name $networkRcName -Priority $networkRcPriority -Rule $networkRule -ActionType $networkRcActionType
 
-        # Create Second Network Rule
-        $networkRule2 = New-AzFirewallNetworkRule -Name $networkRule2Name -Description $networkRule2Desc -Protocol $networkRule2Protocol1, $networkRule2Protocol2 -SourceAddress $networkRule2SourceAddress1, $networkRule2SourceAddress2 -DestinationFqdn $networkRule2DestinationFqdn1 -DestinationPort $networkRule2DestinationPort1
-        $networkRule2.AddProtocol($networkRule2Protocol3)
-
-        # Add this second Network Rule to the rule collection
-        $netRc.AddRule($networkRule2)
-
         # Create a NAT rule
         $natRule = New-AzFirewallNatRule -Name $natRule1Name -Description $natRule1Desc -Protocol $natRule1Protocol1 -SourceAddress $natRule1SourceAddress1, $natRule1SourceAddress2 -DestinationAddress $publicip.IpAddress -DestinationPort $natRule1DestinationPort1 -TranslatedAddress $natRule1TranslatedAddress -TranslatedPort $natRule1TranslatedPort
         $natRule.AddProtocol($natRule1Protocol2)
@@ -284,7 +266,7 @@ function Test-AzureFirewallCRUD {
         Assert-AreEqual 2 @($getAzureFirewall.NatRuleCollections[0].Rules).Count
 
         Assert-AreEqual 1 @($getAzureFirewall.NetworkRuleCollections).Count
-        Assert-AreEqual 2 @($getAzureFirewall.NetworkRuleCollections[0].Rules).Count
+        Assert-AreEqual 1 @($getAzureFirewall.NetworkRuleCollections[0].Rules).Count
 
         $appRc = $getAzureFirewall.GetApplicationRuleCollectionByName($appRcName)
         $appRule = $appRc.GetRuleByName($appRule1Name)
@@ -439,26 +421,6 @@ function Test-AzureFirewallCRUD {
 
         Assert-AreEqual 1 $networkRule.DestinationPorts.Count 
         Assert-AreEqual $networkRule1DestinationPort1 $networkRule.DestinationPorts[0]
-
-        $networkRule2 = $networkRc.GetRuleByName($networkRule2Name)
-
-        Assert-AreEqual $networkRule2Name $networkRule2.Name
-        Assert-AreEqual $networkRule2Desc $networkRule2.Description
-
-        Assert-AreEqual 2 $networkRule2.SourceAddresses.Count 
-        Assert-AreEqual $networkRule2SourceAddress1 $networkRule2.SourceAddresses[0]
-        Assert-AreEqual $networkRule2SourceAddress2 $networkRule2.SourceAddresses[1]
-
-        Assert-AreEqual 1 $networkRule2.DestinationFqdns.Count 
-        Assert-AreEqual $networkRule2DestinationFqdn1 $networkRule2.DestinationFqdns[0]
-
-        Assert-AreEqual 3 $networkRule2.Protocols.Count
-        Assert-AreEqual $networkRule2Protocol1 $networkRule2.Protocols[0]
-        Assert-AreEqual $networkRule2Protocol2 $networkRule2.Protocols[1]
-        Assert-AreEqual $networkRule2Protocol3 $networkRule2.Protocols[2]
-
-        Assert-AreEqual 1 $networkRule2.DestinationPorts.Count 
-        Assert-AreEqual $networkRule2DestinationPort1 $networkRule2.DestinationPorts[0]
 
         # Delete AzureFirewall
         $delete = Remove-AzFirewall -ResourceGroupName $rgname -name $azureFirewallName -PassThru -Force
@@ -1224,8 +1186,8 @@ function Test-AzureFirewallVirtualHubCRUD {
     $policyLocation = "westcentralus"
     $location = Get-ProviderLocation $resourceTypeParent
     $azureFirewallPolicyName = Get-ResourceName
-    $sku = "AZFW_Hub"
-    $tier = "Standard"
+    $skuName = "AZFW_Hub"
+    $skuTier = "Standard"
 
     try {
         # Create the resource group
@@ -1243,7 +1205,7 @@ function Test-AzureFirewallVirtualHubCRUD {
 
         $azureFirewallPolicyId = $getazureFirewallPolicy.Id
 
-        New-AzFirewall –Name $azureFirewallName -ResourceGroupName $rgname -Location $location -Sku $sku -FirewallPolicyId $azureFirewallPolicyId
+        New-AzFirewall -Name $azureFirewallName -ResourceGroupName $rgname -Location $location -SkuName $skuName -SkuTier $skuTier -FirewallPolicyId $azureFirewallPolicyId
 
         # Get AzureFirewall
         $getAzureFirewall = Get-AzFirewall -name $azureFirewallName -ResourceGroupName $rgname
@@ -1253,9 +1215,9 @@ function Test-AzureFirewallVirtualHubCRUD {
         Assert-AreEqual $azureFirewallName $getAzureFirewall.Name
         Assert-NotNull $getAzureFirewall.Location
         Assert-AreEqual (Normalize-Location $location) $getAzureFirewall.Location
-        Assert-NotNull $sku $getAzureFirewall.Sku
-        Assert-AreEqual $sku $getAzureFirewall.Sku.Name
-        Assert-AreEqual $tier $getAzureFirewall.Sku.Tier
+        Assert-NotNull $getAzureFirewall.Sku
+        Assert-AreEqual $skuName $getAzureFirewall.Sku.Name
+        Assert-AreEqual $skuTier $getAzureFirewall.Sku.Tier
         Assert-NotNull $getAzureFirewall.FirewallPolicy
         Assert-AreEqual $azureFirewallPolicyId $getAzureFirewall.FirewallPolicy.Id
     }
@@ -1404,6 +1366,9 @@ function Test-AzureFirewallWithDNSProxy {
     $networkRule2Protocol3 = "ICMP"
     $networkRule2DestinationPort1 = "80"
 
+    $skuName = "AZFW_VNet"
+    $skuTier = "Standard"
+
     try {
         # Create the resource group
         $resourceGroup = New-AzResourceGroup -Name $rgname -Location $location -Tags @{ testtag = "testval" }
@@ -1437,7 +1402,7 @@ function Test-AzureFirewallWithDNSProxy {
         $netRc.AddRule($networkRule2)
 
         # Create AzureFirewall with DNSProxy enabled and DNS Servers provided
-        $azureFirewall = New-AzFirewall -Name $azureFirewallName -ResourceGroupName $rgname -Location $location -VirtualNetworkName $vnetName -PublicIpName $publicIpName -NetworkRuleCollection $netRc -EnableDnsProxy -DnsServer $dnsServers
+        $azureFirewall = New-AzFirewall -Name $azureFirewallName -ResourceGroupName $rgname -Location $location -VirtualNetworkName $vnetName -PublicIpName $publicIpName -NetworkRuleCollection $netRc -EnableDnsProxy -DnsServer $dnsServers -SkuName $skuName -SkuTier $skuTier
 
         # Get AzureFirewall
         $getAzureFirewall = Get-AzFirewall -name $azureFirewallName -ResourceGroupName $rgname
@@ -1445,6 +1410,8 @@ function Test-AzureFirewallWithDNSProxy {
         # Verification
         Assert-AreEqual $rgName $getAzureFirewall.ResourceGroupName
         Assert-AreEqual $azureFirewallName $getAzureFirewall.Name
+        Assert-AreEqual $skuName $getAzureFirewall.Sku.Name
+        Assert-AreEqual $skuTier $getAzureFirewall.Sku.Tier
 
         # Check rule collections
         Assert-AreEqual 1 @($getAzureFirewall.NetworkRuleCollections).Count
@@ -1485,8 +1452,8 @@ function Test-AzureFirewallVirtualHubMultiPublicIPCRUD {
     $virtualHubName = Get-ResourceName
     $virtualHubAddressPrefix = "10.0.0.0/16"
     $firewallPIPCount = "2"
-    $sku = "AZFW_Hub"
-    $tier = "Standard"
+    $skuName = "AZFW_Hub"
+    $skuTier = "Standard"
 
     try {
         # Create the resource group
@@ -1494,7 +1461,7 @@ function Test-AzureFirewallVirtualHubMultiPublicIPCRUD {
 
         $fwpips = New-AzFirewallHubPublicIpAddress -Count $firewallPIPCount
         $hubIpAddresses = New-AzFirewallHubIpAddress -PublicIP $fwpips
-        $fw= New-AzFirewall -Name $azureFirewallName -ResourceGroupName $rgname -Location $location -Sku AZFW_Hub -HubIPAddress $hubIpAddresses
+        $fw= New-AzFirewall -Name $azureFirewallName -ResourceGroupName $rgname -Location $location -SkuName $skuName -SkuTier $skuTier -HubIPAddress $hubIpAddresses
 
         # Get AzureFirewall
         $getAzureFirewall = Get-AzFirewall -name $azureFirewallName -ResourceGroupName $rgname
@@ -1504,9 +1471,9 @@ function Test-AzureFirewallVirtualHubMultiPublicIPCRUD {
         Assert-AreEqual $azureFirewallName $getAzureFirewall.Name
         Assert-NotNull $getAzureFirewall.Location
         Assert-AreEqual (Normalize-Location $location) $getAzureFirewall.Location
-        Assert-NotNull $sku $getAzureFirewall.Sku
-        Assert-AreEqual $sku $getAzureFirewall.Sku.Name
-        Assert-AreEqual $tier $getAzureFirewall.Sku.Tier
+        Assert-NotNull $getAzureFirewall.Sku
+        Assert-AreEqual $skuName $getAzureFirewall.Sku.Name
+        Assert-AreEqual $skuTier $getAzureFirewall.Sku.Tier
         Assert-NotNull $getAzureFirewall.HubIPAddresses
         Assert-NotNull $getAzureFirewall.HubIPAddresses.PublicIPs
         Assert-AreEqual $firewallPIPCount $getAzureFirewall.HubIPAddresses.PublicIPs.Count
@@ -1555,6 +1522,92 @@ function Test-AzureFirewallCRUDAllowActiveFTP {
         $azfw = Get-AzFirewall -Name $azureFirewallName -ResourceGroupName $rgname
         
         Assert-AreEqual false $azfw.AllowActiveFTP
+    }
+    finally {
+        # Cleanup
+        Clean-ResourceGroup $rgname
+    }
+}
+
+<#
+.SYNOPSIS
+Tests AzureFirewall NoDataPip
+#>
+function Test-AzureFirewallNoDataPip {
+    # Setup
+    $rgname = Get-ResourceGroupName
+    $azureFirewallName = Get-ResourceName
+    $resourceTypeParent = "Microsoft.Network/AzureFirewalls"
+    $location = Get-ProviderLocation $resourceTypeParent "centraluseuap"
+
+    $vnetName = Get-ResourceName
+    $subnetName = "AzureFirewallSubnet"
+	$mgmtSubnetName = "AzureFirewallManagementSubnet"
+    $mgmtPublicIpName = Get-ResourceName
+    $publicIp1Name = Get-ResourceName
+
+    try {
+        # Create the resource group
+        $resourceGroup = New-AzResourceGroup -Name $rgname -Location $location -Tags @{ testtag = "testval" }
+
+        # Create the Virtual Network
+        $subnet = New-AzVirtualNetworkSubnetConfig -Name $subnetName -AddressPrefix 10.0.0.0/24
+        $mgmtSubnet = New-AzVirtualNetworkSubnetConfig -Name $mgmtSubnetName -AddressPrefix 10.0.100.0/24
+        $vnet = New-AzVirtualNetwork -Name $vnetName -ResourceGroupName $rgname -Location $location -AddressPrefix 10.0.0.0/16 -Subnet $subnet,$mgmtSubnet
+        
+        # Get full subnet details
+        $subnet = Get-AzVirtualNetworkSubnetConfig -VirtualNetwork $vnet -Name $subnetName
+        $mgmtSubnet = Get-AzVirtualNetworkSubnetConfig -VirtualNetwork $vnet -Name $mgmtSubnetName
+
+        # Create mgmt public ip
+        $mgmtPublicIp = New-AzPublicIpAddress -ResourceGroupName $rgname -name $mgmtPublicIpName -location $location -AllocationMethod Static -Sku Standard
+
+        # Create AzureFirewall with a management IP, without data PIP
+        $azureFirewall = New-AzFirewall -Name $azureFirewallName -ResourceGroupName $rgname -Location $location -VirtualNetwork $vnet -ManagementPublicIpAddress $mgmtPublicIp
+
+        # Get AzureFirewall
+        $getAzureFirewall = Get-AzFirewall -name $azureFirewallName -ResourceGroupName $rgname
+
+        # Verify creating firewall without data PIP
+        Assert-AreEqual $rgName $getAzureFirewall.ResourceGroupName
+        Assert-AreEqual $azureFirewallName $getAzureFirewall.Name
+        Assert-NotNull $getAzureFirewall.Location
+        Assert-AreEqual (Normalize-Location $location) $getAzureFirewall.Location
+        Assert-NotNull $getAzureFirewall.Etag
+        Assert-AreEqual 1 @($getAzureFirewall.IpConfigurations).Count
+        Assert-Null $getAzureFirewall.IpConfigurations[0].PublicIpAddress.Id
+        Assert-NotNull $getAzureFirewall.IpConfigurations[0].Subnet.Id
+        Assert-NotNull $getAzureFirewall.IpConfigurations[0].PrivateIpAddress
+        Assert-AreEqual $subnet.Id $getAzureFirewall.IpConfigurations[0].Subnet.Id
+        Assert-NotNull $getAzureFirewall.ManagementIpConfiguration
+        Assert-NotNull $getAzureFirewall.ManagementIpConfiguration.Subnet.Id
+        Assert-NotNull $getAzureFirewall.ManagementIpConfiguration.PublicIpAddress.Id
+        Assert-AreEqual $mgmtSubnet.Id $getAzureFirewall.ManagementIpConfiguration.Subnet.Id
+        Assert-AreEqual $mgmtPublicIp.Id $getAzureFirewall.ManagementIpConfiguration.PublicIpAddress.Id
+
+        # Verify adding a data PIP to firewall
+        $publicip1 = New-AzPublicIpAddress -ResourceGroupName $rgname -name $publicIp1Name -location $location -AllocationMethod Static -Sku Standard
+        $getAzureFirewall.AddPublicIpAddress($publicip1)
+        Set-AzFirewall -AzureFirewall $getAzureFirewall
+        Assert-NotNull $getAzureFirewall.IpConfigurations[0].PublicIpAddress.Id
+        Assert-AreEqual $publicip1.Id $getAzureFirewall.IpConfigurations.PublicIpAddress.Id
+
+        # Verify removing data PIP from exisiting FT firewall
+        $getAzureFirewall.RemovePublicIpAddress($publicip1)
+        Set-AzFirewall -AzureFirewall $getAzureFirewall
+        Assert-AreEqual 1 @($getAzureFirewall.IpConfigurations).Count
+        Assert-Null $getAzureFirewall.IpConfigurations[0].PublicIpAddress.Id
+
+        # Delete AzureFirewall
+        $delete = Remove-AzFirewall -ResourceGroupName $rgname -name $azureFirewallName -PassThru -Force
+        Assert-AreEqual true $delete
+
+        # Delete VirtualNetwork 
+        $delete = Remove-AzVirtualNetwork -ResourceGroupName $rgname -name $vnetName -PassThru -Force
+        Assert-AreEqual true $delete
+
+        $list = Get-AzFirewall -ResourceGroupName $rgname
+        Assert-AreEqual 0 @($list).Count
     }
     finally {
         # Cleanup

@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.StreamAnalytics.dll-Help.xml
 Module Name: Az.StreamAnalytics
 ms.assetid: 8FF53426-D4AE-455E-A182-D7FBC7262FE1
-online version: https://docs.microsoft.com/en-us/powershell/module/az.streamanalytics/new-azstreamanalyticstransformation
+online version: https://docs.microsoft.com/powershell/module/az.streamanalytics/new-azstreamanalyticstransformation
 schema: 2.0.0
 ---
 
@@ -28,16 +28,16 @@ If you specify the *Force* parameter and specify an existing transformation name
 
 ## EXAMPLES
 
-### EXAMPLE 1: Create or replace a transformation in a job
-```
+### Example 1: Create or replace a transformation in a job
+```powershell
 PS C:\>New-AzStreamAnalyticsTransformation -ResourceGroupName "StreamAnalytics-Default-West-US" -File "C:\Transformation.json" -JobName "StreamingJob" -Name "StreamingJobTransform"
 ```
 
 This command creates a transformation called StreamingJobTransform in the job called StreamingJob.
 If an existing transformation is already defined with that name, the cmdlet will ask whether or not to replace it.
 
-### EXAMPLE 2: Replace a transformation in a job
-```
+### Example 2: Replace a transformation in a job
+```powershell
 PS C:\>New-AzStreamAnalyticsTransformation -ResourceGroupName "StreamAnalytics-Default-West-US" -File "C:\Transformation.json" -JobName "StreamingJob" -Name "StreamingJobTransform" -Force
 ```
 

@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Network.dll-Help.xml
 Module Name: Az.Network
-online version: https://docs.microsoft.com/en-us/powershell/module/az.network/get-azpublicipprefix
+online version: https://docs.microsoft.com/powershell/module/az.network/get-azpublicipprefix
 schema: 2.0.0
 ---
 
@@ -47,7 +47,8 @@ IPPrefix               : xx.xx.xx.xx/xx
 IdleTimeoutInMinutes   :
 Zones                  : {}
 Sku                    : {
-                           "Name": "Standard"
+                           "Name": "Standard",
+                           "Tier":"Regional"
                          }
 IpTags                 : []
 PublicIpAddresses      : []
@@ -74,7 +75,8 @@ IPPrefix               : xx.xx.xx.xx/xx
 IdleTimeoutInMinutes   :
 Zones                  : {}
 Sku                    : {
-                           "Name": "Standard"
+                           "Name": "Standard",
+                           "Tier": "Regional"
                          }
 IpTags                 : []
 PublicIpAddresses      : []

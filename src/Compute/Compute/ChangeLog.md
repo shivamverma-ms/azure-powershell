@@ -22,6 +22,60 @@
 ## Upcoming Release
 * Fixed issue in `Update-ASRRecoveryPlan` by populating FailoverTypes
 
+## Version 4.10.0
+* Added parameter `-EnableHotpatching` to the `Set-AzVMOperatingSystem` cmdlet for Windows machines. 
+* Added parameter `-PatchMode` to the Linux parameter sets in the cmdlet `Set-AzVMOperatingSystem`. 
+* [Breaking Change] Breaking changes for users in the public preview for the VM Guest Patching feature.
+    - Removed property `RebootStatus` from the `Microsoft.Azure.Management.Compute.Models.LastPatchInstallationSummary` object. 
+    - Removed property `StartedBy` from the `Microsoft.Azure.Management.Compute.Models.LastPatchInstallationSummary` object.
+    - Renamed property `Kbid` to `KbId` in the `Microsoft.Azure.Management.Compute.Models.VirtualMachineSoftwarePatchProperties` object. 
+    - Renamed property `patches` to `availablePatches` in the `Microsoft.Azure.Management.Compute.Models.VirtualMachineAssessPatchesResult` object. 
+    - Renamed object `Microsoft.Azure.Management.Compute.Models.SoftwareUpdateRebootBehavior` to `Microsoft.Azure.Management.Compute.Models.VMGuestPatchRebootBehavior`.
+    - Renamed object `Microsoft.Azure.Management.Compute.Models.InGuestPatchMode` to `Microsoft.Azure.Management.Compute.Models.WindowsVMGuestPatchMode`.
+* [Breaking Change] Removed all `ContainerService` cmdlets. The Container Service API was deprecated in January 2020. 
+    - `Add-AzContainerServiceAgentPoolProfile`
+    - `Get-AzContainerService`
+    - `New-AzContainerService`
+    - `New-AzContainerServiceConfig`
+    - `Remove-AzContainerService`
+    - `Remove-AzContainerServiceAgentPoolProfile`
+    - `Update-AzContainerService`
+
+## Version 4.9.0
+* Added parameter `-EnableAutomaticUpgrade` to `Set-AzVmExtension` and `Add-AzVmssExtension`.
+* Removed FilterExpression parameter from `Get-AzVMImage` cmdlet documentation. 
+* Added deprecation message to the ContainerService cmdlets:
+    - `Add-AzureRmContainerServiceAgentPoolProfileCommand`
+    - `Get-AzContainerService`
+    - `New-AzContainerService`
+    - `New-AzContainerServiceConfig`
+    - `Remove-AzContainerService`
+    - `Remove-AzContainerServiceAgentPoolProfile`
+    - `Update-AzContainerService`
+* Added parameter `-BurstingEnabled` to `New-AzDiskConfig` and `New-AzDiskUpdateConfig`
+* Added `-GroupByApplicationId` and `-GroupByUserAgent` parameters to the `Export-AzLogAnalyticThrottledRequest` and `Export-AzLogAnalyticRequestRateByInterval` cmdlets.
+* Added `VMParameterSet` parameter set to `Get-AzVMExtension` cmdlet. Added new parameter `-VM` to this parameter set. 
+
+## Version 4.8.0
+* New parameter `VM` in new parameter set `VMParameterSet` added to `Get-AzVMDscExtensionStatus` and `Get-AzVMDscExtension` cmdlets. 
+* Edited `New-AzSnapshot` cmdlet to check for existing snapshot with the same name in the same resource group. 
+    - Throws an error if a duplicate snapshot exists. 
+
+## Version 4.7.0
+* Edited Get-AzVm to filter by `-Name` prior to checking for throttling due to too many resources. 
+* New cmdlet `Start-AzVmssRollingExtensionUpgrade`.
+## Version 4.6.0
+* Added `-VmssId` parameter to `New-AzVm`
+* Added `PlatformFaultDomainCount` parameter to the `New-AzVmss` cmdlet.
+* New cmdlet `Get-AzDiskEncryptionSetAssociatedResource`
+* Added `Tier` and `LogicalSectorSize` optional parameters to the New-AzDiskConfig cmdlet. 
+* Added `Tier`, `MaxSharesCount`, `DiskIOPSReadOnly`, and `DiskMBpsReadOnly` optional parameters to the `New-AzDiskUpdateConfig` cmdlet. 
+* Modified `Get-AzVmBootDiagnostics` cmdlet to use the new RetrieveBootDiagnosticsData API instead of directly accessing the BootDiagnostics properties on the virtual machine.  
+
+## Version 4.5.0
+* Fixed issue in `Update-ASRRecoveryPlan` by populating FailoverTypes
+* Added the `-Top` and `-OrderBy` optional parameters to the `Get-AzVmImage` cmdlet. 
+
 ## Version 4.4.0
 * Added the `-EncryptionType` optional parameter to `New-AzVmDiskEncryptionSetConfig`
 * New cmdlets for new resource type: DiskAccess `Get-AzDiskAccess`, `New-AzDiskAccess`, `Get-AzDiskAccess`

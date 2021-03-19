@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.KeyVault.dll-Help.xml
 Module Name: Az.KeyVault
 ms.assetid: A7C287C4-E9FD-407A-91BD-EFA17C33FC8B
-online version: https://docs.microsoft.com/en-us/powershell/module/az.keyvault/get-azkeyvault
+online version: https://docs.microsoft.com/powershell/module/az.keyvault/get-azkeyvault
 schema: 2.0.0
 ---
 
@@ -240,7 +240,7 @@ Required: False
 Position: 1
 Default value: None
 Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
+Accept wildcard characters: True
 ```
 
 ### -Tag
@@ -271,7 +271,7 @@ Required: False
 Position: 0
 Default value: None
 Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
+Accept wildcard characters: True
 ```
 
 ```yaml
@@ -283,7 +283,7 @@ Required: True
 Position: 0
 Default value: None
 Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
+Accept wildcard characters: True
 ```
 
 ### CommonParameters

@@ -49,6 +49,7 @@ INPUTOBJECT <IMySqlIdentity>: Identity Parameter
   [DatabaseName <String>]: The name of the database.
   [FirewallRuleName <String>]: The name of the server firewall rule.
   [Id <String>]: Resource identity path
+  [KeyName <String>]: The name of the server key.
   [LocationName <String>]: The name of the location.
   [ResourceGroupName <String>]: The name of the resource group. The name is case insensitive.
   [SecurityAlertPolicyName <SecurityAlertPolicyName?>]: The name of the security alert policy.
@@ -57,7 +58,7 @@ INPUTOBJECT <IMySqlIdentity>: Identity Parameter
   [VirtualNetworkRuleName <String>]: The name of the virtual network rule.
 
 PARAMETER <IServerUpdateParameters>: Parameters allowed to update for a server.
-  [AdministratorLoginPassword <String>]: The password of the administrator login.
+  [AdministratorLoginPassword <SecureString>]: The password of the administrator login.
   [IdentityType <IdentityType?>]: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
   [MinimalTlsVersion <MinimalTlsVersionEnum?>]: Enforce a minimal Tls version for the server.
   [PublicNetworkAccess <PublicNetworkAccessEnum?>]: Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled' or 'Disabled'
@@ -76,7 +77,7 @@ PARAMETER <IServerUpdateParameters>: Parameters allowed to update for a server.
     [(Any) <String>]: This indicates any property can be added to this object.
   [Version <ServerVersion?>]: The version of a server.
 .Link
-https://docs.microsoft.com/en-us/powershell/module/az.mysql/update-azmysqlserver
+https://docs.microsoft.com/powershell/module/az.mysql/update-azmysqlserver
 #>
 function Update-AzMySqlServer {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.MySql.Models.Api20171201.IServer])]
@@ -125,7 +126,7 @@ param(
     [Parameter(ParameterSetName='UpdateExpanded')]
     [Parameter(ParameterSetName='UpdateViaIdentityExpanded')]
     [Microsoft.Azure.PowerShell.Cmdlets.MySql.Category('Body')]
-    [System.String]
+    [System.Security.SecureString]
     # The password of the administrator login.
     ${AdministratorLoginPassword},
 

@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Tags.dll-Help.xml
 Module Name: Az.Resources
 ms.assetid: 07c6e327-05f4-4279-a5fb-d4e860c897d4
-online version: https://docs.microsoft.com/en-us/powershell/module/az.resources/update-aztag
+online version: https://docs.microsoft.com/powershell/module/az.resources/update-aztag
 schema: 2.0.0
 ---
 
@@ -17,7 +17,7 @@ Selectively updates the set of tags on a resource or subscription.
 ```powershell
 Update-AzTag
    -ResourceId <String>
-   -Operation <TagPatchOpeation>
+   -Operation <TagPatchOperation>
    -Tag <Hashtable>
    [-DefaultProfile <IAzureContextContainer>]
    [-WhatIf]
@@ -139,7 +139,7 @@ Accept wildcard characters: False
 The update operation. Options are Merge, Replace and Delete.
 
 ```yaml
-Type: Microsoft.Azure.Commands.Tags.Model.TagPatchOpeation
+Type: Microsoft.Azure.Commands.Tags.Model.TagPatchOperation
 Parameter Sets: (All)
 Aliases:
 Accepted values: Merge, Replace, Delete
@@ -189,7 +189,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### System.String
 
-### Microsoft.Azure.Commands.Tags.Model.TagPatchOpeation
+### Microsoft.Azure.Commands.Tags.Model.TagPatchOperation
 
 ### System.Collections.Hashtable
 

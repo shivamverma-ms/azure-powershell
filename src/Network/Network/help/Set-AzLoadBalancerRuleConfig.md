@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Network.dll-Help.xml
 Module Name: Az.Network
 ms.assetid: 2638B226-B974-43B6-ACC2-D67573CF6B56
-online version: https://docs.microsoft.com/en-us/powershell/module/az.network/set-azloadbalancerruleconfig
+online version: https://docs.microsoft.com/powershell/module/az.network/set-azloadbalancerruleconfig
 schema: 2.0.0
 ---
 
@@ -41,6 +41,7 @@ The **Set-AzLoadBalancerRuleConfig** cmdlet updates a rule configuration for a l
 PS C:\>$slb = Get-AzLoadBalancer -Name "MyLoadBalancer" -ResourceGroupName "MyResourceGroup"
 PS C:\> $slb | Add-AzLoadBalancerRuleConfig -Name "NewRule" -FrontendIPConfiguration $slb.FrontendIpConfigurations[0] -Protocol "Tcp" -FrontendPort 3350 -BackendPort 3350 -EnableFloatingIP
 PS C:\> $slb | Set-AzLoadBalancerRuleConfig -Name "NewRule" -FrontendIPConfiguration $slb.FrontendIpConfigurations[0] -Protocol "Tcp" -FrontendPort 3350 -BackendPort 3350
+PS C:\> $slb | Set-AzLoadBalancer
 ```
 
 The first command gets the load balancer named MyLoadBalancer, and then stores it in the $slb variable.

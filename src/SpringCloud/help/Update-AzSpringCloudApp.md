@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.SpringCloud
-online version: https://docs.microsoft.com/en-us/powershell/module/az.springcloud/update-azspringcloudapp
+online version: https://docs.microsoft.com/powershell/module/az.springcloud/update-azspringcloudapp
 schema: 2.0.0
 ---
 
@@ -394,7 +394,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.SpringCloud.Models.Api20190501Preview.IAppResource
+### Microsoft.Azure.PowerShell.Cmdlets.SpringCloud.Models.Api20200701.IAppResource
 
 ## NOTES
 

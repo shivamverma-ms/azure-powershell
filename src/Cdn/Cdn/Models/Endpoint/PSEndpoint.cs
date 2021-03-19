@@ -12,9 +12,9 @@
 // limitations under the License.
 // ----------------------------------------------------------------------------------
 
-using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Microsoft.Azure.Management.Cdn.Models;
 
 namespace Microsoft.Azure.Commands.Cdn.Models.Endpoint
 {
@@ -55,6 +55,8 @@ namespace Microsoft.Azure.Commands.Cdn.Models.Endpoint
         public PSDeliveryPolicy DeliveryPolicy { get; set; }
 
         public PSEndpointResourceState ResourceState { get; set; }
+
+        public ResourceReference DefaultOriginGroup { get; set; }
 
         public string ResourceGroupName
         {

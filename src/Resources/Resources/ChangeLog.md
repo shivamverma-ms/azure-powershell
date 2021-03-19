@@ -17,7 +17,55 @@
     * Overview of change #1
         - Additional information about change #1
 -->
+
 ## Upcoming Release
+* Redirected bicep message to verbose stream
+* Removed the logic of copying Bicep template file to temp folder.
+* Add support of policy exemption resource type
+
+## Version 3.3.0
+* Added support for Azure resources deployment in Bicep language
+* Fixed issues with TemplateSpec deployments in `New-AzTenantDeployment` and `New-AzManagementGroupDeployment`
+* Added support for `-QueryString` parameter in `Test-Az*Deployments` cmdlets
+* Fixed issue with dynamic parameters when `New-Az*Deployments` is used with `-QueryString`
+* Added support for `-TemplateParameterObject` parameter while using `-TemplateSpecId` parameter in `New-Az*Deployments` cmdlets
+* Fixed the inaccurate error message received on trying to deploy a non-existent template spec
+* Added support for policy export format to ```New-AzPolicyDefinition -Policy```
+* Add support for property updates from ```Set-AzPolicyAssignment -InputObject```
+
+## Version 3.2.1
+* Removed principal type on New-AzRoleAssignment and Set-AzRoleAssignment because current mapping was breaking certain scenarios
+
+## Version 3.2.0
+* Added support for -QueryString parameter in New-Az*Deployments cmdlets
+
+## Version 3.1.1
+* Fixed a NullRef exception issue in `New-AzureManagedApplication` and `Set-AzureManagedApplication`.
+* Updated Azure Resource Manager SDK to use latest DeploymentScripts GA api-version: 2020-10-01.
+
+## Version 3.1.0
+* Added `-Tag` parameter support to `Set-AzTemplateSpec` and `New-AzTemplateSpec`
+* Added Tag display support to default formatter for Template Specs 
+
+## Version 3.0.1
+* Fixed an issue where What-If shows two resource group scopes with different casing
+* Updated `Export-AzResourceGroup` to use the SDK.
+* Added culture info to parse methods
+* Fixed issue where attempts to deploy template specs from a subscription outside of the current subscription context would fail
+* Changed Double parser for version parser
+* Changed New-AzRoleAssignment to include principal type during calls
+* Changed Set-AzRoleAssignment to include principal type during calls
+
+## Version 3.0.0
+* Fixed parsing bug
+* Updated ARM template What-If cmdlets to remove preview message from results
+* Fixed an issue where template deployment cmdlets crash if `-WhatIf` is set at a higher scope [#13038]
+* Fixed an issue where template deployment cmdlets does not preserve case for template parameters
+* Added a default API version to be used in `Export-AzResourceGroup` cmdlet
+* Added cmdlets for Template Specs (`Get-AzTemplateSpec`, `Set-AzTemplateSpec`, `New-AzTemplateSpec`, `Remove-AzTemplateSpec`, `Export-AzTemplateSpec`)
+* Added support for deploying Template Specs using existing deployment cmdlets (via the new -TemplateSpecId parameter) 
+* Updated `Get-AzResourceGroupDeploymentOperation` to use the SDK.
+* Removed `-ApiVersion` parameter from `*-AzDeployment` cmdlets.
 
 ## Version 2.5.1
 * Added missing check for Set-AzRoleAssignment
@@ -33,7 +81,6 @@
 * Overrode `-WhatIf` and `-Confirm` for `New-AzManagementGroupDeployment` and `New-AzTenantDeployment` to use ARM template What-If results
 * Fixed the behaviors of `-WhatIf` and `-Confirm` for new deployment cmdlets so they comply with $WhatIfPreference and $ConfrimPreference
 * Fixed serialization error for `-TemplateObject` and `TemplateParameterObject` [#1528] [#6292]
-* Added breaking change attribute to `Get-AzResourceGroupDeploymentOperation` for the upcoming output type change
 
 ## Version 2.4.0
 * Added properties "Condition", "ConditionVersion" and "Description" to `New-AzRoleAssignment`

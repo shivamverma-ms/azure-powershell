@@ -47,6 +47,13 @@ namespace Microsoft.Azure.Commands.Management.Storage.Test.ScenarioTests
 
         [Fact]
         [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestStorageBlobContainerEncryptionScope()
+        {
+            TestController.NewInstance.RunPsTest(_logger, "Test-StorageBlobContainerEncryptionScope");
+        }        
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
         public void TestStorageBlobContainerLegalHold()
         {
             TestController.NewInstance.RunPsTest(_logger, "Test-StorageBlobContainerLegalHold");
@@ -79,5 +86,12 @@ namespace Microsoft.Azure.Commands.Management.Storage.Test.ScenarioTests
         {
             TestController.NewInstance.RunPsTest(_logger, "Test-StorageBlobRestore");
         }
+
+        [Fact]
+        [Trait(Category.AcceptanceType, Category.CheckIn)]
+        public void TestStorageBlobChangeFeed()
+        {
+            TestController.NewInstance.RunPsTest(_logger, "Test-StorageBlobChangeFeed");
+        }        
     }
 }

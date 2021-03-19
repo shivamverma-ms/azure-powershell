@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.KeyVault.dll-Help.xml
 Module Name: Az.KeyVault
-online version: https://docs.microsoft.com/en-us/powershell/module/az.keyvault/add-azkeyvaultnetworkrule
+online version: https://docs.microsoft.com/powershell/module/az.keyvault/add-azkeyvaultnetworkrule
 schema: 2.0.0
 ---
 
@@ -36,7 +36,7 @@ Add-AzKeyVaultNetworkRule [-ResourceId] <String> [-IpAddressRange <String[]>]
 ## DESCRIPTION
 The **Add-AzKeyVaultNetworkRule** cmdlet grants or restricts access to a key vault to a set of caller designated by their IP addresses or the virtual network to which they belong. The rule has the potential to restrict access for other users, applications, or security groups which have been granted permissions via the access policy.
 
-Please note that any IP range inside `10.0.0.0–10.255.255.255` (private IP addresses) cannot be used to add network rules.
+Please note that any IP range inside `10.0.0.0-10.255.255.255` (private IP addresses) cannot be used to add network rules.
 
 ## EXAMPLES
 

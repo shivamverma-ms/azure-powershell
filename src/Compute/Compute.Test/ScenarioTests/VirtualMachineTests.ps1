@@ -2007,11 +2007,11 @@ function Test-VMImageCmdletOutputFormat
 
     Assert-OutputContains " Get-AzVMImagePublisher -Location '$locStr' | ? { `$_.PublisherName -eq `'$publisher`' } | Get-AzVMImageOffer | Get-AzVMImageSku " @('Publisher', 'Offer', 'Skus');
 
-    Assert-OutputContains " Get-AzVMImagePublisher -Location '$locStr' | ? { `$_.PublisherName -eq `'$publisher`' } | Get-AzVMImageOffer | Get-AzVMImageSku | Get-AzVMImage " @('Version', 'FilterExpression', 'Skus');
+    Assert-OutputContains " Get-AzVMImagePublisher -Location '$locStr' | ? { `$_.PublisherName -eq `'$publisher`' } | Get-AzVMImageOffer | Get-AzVMImageSku | Get-AzVMImage " @('Version', 'Skus');
 
-    Assert-OutputContains " Get-AzVMImage -Location '$locStr' -PublisherName $publisher -Offer $offer -Skus $sku -Version $ver " @('Id', 'Location', 'PublisherName', 'Offer', 'Sku', 'Version', 'FilterExpression', 'Name', 'DataDiskImages', 'OSDiskImage', 'PurchasePlan');
+    Assert-OutputContains " Get-AzVMImage -Location '$locStr' -PublisherName $publisher -Offer $offer -Skus $sku -Version $ver " @('Id', 'Location', 'PublisherName', 'Offer', 'Sku', 'Version', 'Name', 'DataDiskImages', 'OSDiskImage', 'PurchasePlan');
 
-    Assert-OutputContains " Get-AzVMImage -Location '$locStr' -PublisherName $publisher -Offer $offer -Skus $sku -Version $ver " @('Id', 'Location', 'PublisherName', 'Offer', 'Sku', 'Version', 'FilterExpression', 'Name', 'DataDiskImages', 'OSDiskImage', 'PurchasePlan');
+    Assert-OutputContains " Get-AzVMImage -Location '$locStr' -PublisherName $publisher -Offer $offer -Skus $sku -Version $ver " @('Id', 'Location', 'PublisherName', 'Offer', 'Sku', 'Version', 'Name', 'DataDiskImages', 'OSDiskImage', 'PurchasePlan');
 }
 
 # Test Get VM Size from All Locations
@@ -3612,7 +3612,7 @@ function Test-VirtualMachineManagedDisk
         # Create OS snapshot from the VM
         $snapshotConfig = New-AzSnapshotConfig -SourceUri $vm.Storageprofile.OsDisk.ManagedDisk.Id -Location $loc -CreateOption Copy;
         $snapshotname = "ossnapshot";
-        New-AzSnapshot -Snapshot $snapshotConfig -SnapshotName $snapshotname -ResourceGroupName $rgname;
+        Update-AzSnapshot -Snapshot $snapshotConfig -SnapshotName $snapshotname -ResourceGroupName $rgname;
         $snapshot = Get-AzSnapshot -SnapshotName $snapshotname -ResourceGroupName $rgname;
 
         Assert-NotNull $snapshot.Id;
@@ -4372,3 +4372,249 @@ function Test-HostGroupPropertySetOnVirtualMachine
     }
 }
 
+<#
+.SYNOPSIS
+Test Get-AzVMImage new parameters -OrderBy and -Top.
+#>
+function Test-VirtualMachineImageListTopOrderExpand
+{
+    # Setup
+    $loc = Get-ComputeVMLocation;
+
+    try
+    {
+        $pubNames = "MicrosoftWindowsServer";
+        $pubNameFilter = '*Windows*';
+        $offer = "windowsserver";
+        $sku = "2012-R2-Datacenter";
+        $numRecords = 3;
+        $orderNameDesc = "name desc";
+        $orderNameAsc = "name asc";
+
+        # Test -Top
+        $vmImagesTop = Get-AzVMImage -Location $loc -PublisherName $pubNames -Offer $offer -Sku $sku -Top $numRecords;
+        Assert-AreEqual $numRecords $vmImagesTop.Count; 
+
+        # Test -OrderBy
+        $vmImagesOrderDesc = Get-AzVMImage -Location $loc -PublisherName $pubNames -Offer $offer -Sku $sku -OrderBy $orderNameDesc;
+        $vmImagesOrderAsc = Get-AzVMImage -Location $loc -PublisherName $pubNames -Offer $offer -Sku $sku -OrderBy $orderNameAsc;
+
+        if ($vmImagesOrderDesc.Count -gt 0)
+        {
+            $isLessThan = $vmImagesOrderDesc[0].Version -ge $vmImagesOrderAsc[0].Version;
+            Assert-True { $isLessThan };
+        }
+    }
+    finally 
+    {
+    
+	}
+
+}
+
+<#
+.SYNOPSIS
+This test can only run in Record mode. Several lines need to be uncommented for it to test the cmdlet. 
+Downloads the managed boot diagnostics of a Windows machine to a local file path. 
+#>
+function Test-VirtualMachineBootDiagnostics
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName;
+    $loc = Get-ComputeVMLocation;
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vmsize = 'Standard_DS1_v2';
+        $vmname = 'vm' + $rgname;
+        # Create the file path on your machine, then set this variable to it. 
+        # $localPath = "C:\Users\adsandor\Documents\bootDiags"
+
+        $p = New-AzVMConfig -VMName $vmname -VMSize $vmsize;
+
+        # NRP
+        $subnet = New-AzVirtualNetworkSubnetConfig -Name ('subnet' + $rgname) -AddressPrefix "10.0.0.0/24";
+        $vnet = New-AzVirtualNetwork -Force -Name ('vnet' + $rgname) -ResourceGroupName $rgname -Location $loc -AddressPrefix "10.0.0.0/16" -Subnet $subnet;
+        $vnet = Get-AzVirtualNetwork -Name ('vnet' + $rgname) -ResourceGroupName $rgname;
+        $subnetId = $vnet.Subnets[0].Id;
+        #1
+        $pubip = New-AzPublicIpAddress -Force -Name ('pubip' + $rgname) -ResourceGroupName $rgname -Location $loc -AllocationMethod Dynamic -DomainNameLabel ('pubip' + $rgname);
+        $pubip = Get-AzPublicIpAddress -Name ('pubip' + $rgname) -ResourceGroupName $rgname;
+        $pubipId = $pubip.Id;
+        $nic = New-AzNetworkInterface -Force -Name ('nic' + $rgname) -ResourceGroupName $rgname -Location $loc -SubnetId $subnetId -PublicIpAddressId $pubip.Id;
+        $nic = Get-AzNetworkInterface -Name ('nic' + $rgname) -ResourceGroupName $rgname;
+        $nicId = $nic.Id;
+
+        $p = Add-AzVMNetworkInterface -VM $p -Id $nicId;
+
+        # OS & Image
+        $user = "Foo2";
+        $password = $PLACEHOLDER;
+        $securePassword = ConvertTo-SecureString $password -AsPlainText -Force;
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+        $computerName = 'test';
+
+        # Windows OS test case. 
+        $p = Set-AzVMOperatingSystem -VM $p -Windows -ComputerName $computerName -Credential $cred;
+
+        $imgRef = Get-DefaultCRPImage -loc $loc;
+        $p = ($imgRef | Set-AzVMSourceImage -VM $p);
+
+        # Virtual Machine
+        $vm = New-AzVM -ResourceGroupName $rgname -Location $loc -VM $p;
+        Assert-NotNull $vm;
+
+        # Get Managed Boot Diagnostics 
+        # uncomment this when running locally. 
+        # Get-AzVmBootDiagnosticsData -ResourceGroupName $rgname -Name $vmname -Windows -LocalPath $localPath;
+    }
+    finally
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname
+	  }
+}
+
+<#
+.SYNOPSIS
+Test the Get-AzVm cmdlet when using VMs with the 
+same name across multiple Resource Groups. 
+#>
+function Test-VirtualMachineGetVMNameAcrossResourceGroups
+{
+    # Setup
+    $loc = "eastus";
+    $rgname = Get-ComputeTestResourceName;
+    $rgname2 = Get-ComputeTestResourceName;
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+        New-AzResourceGroup -Name $rgname2 -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vmsize = 'Standard_E2s_v3';
+        $vmname1 = 'v' + $rgname;
+        $vmname3 = 'v3' + $rgname;
+
+        # Creating a VM using simple parameter set
+        $username = "admin01"
+        $password = Get-PasswordForVM | ConvertTo-SecureString -AsPlainText -Force
+        $cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $username, $password
+
+        $domainNameLabel1 = "domain1" + $rgname;
+        $domainNameLabel2 = "domain2" + $rgname;
+        $domainNameLabel3 = "domain3" + $rgname;
+
+        $vm1 = New-AzVM -ResourceGroupName $rgname -Location $loc -Name $vmname1 -Credential $cred -Zone "2" -Size $vmsize -DomainNameLabel $domainNameLabel1;
+        $vm2 = New-AzVM -ResourceGroupName $rgname2 -Location $loc -Name $vmname1 -Credential $cred -Zone "2" -Size $vmsize -DomainNameLabel $domainNameLabel2;
+        $vm3 = New-AzVM -ResourceGroupName $rgname2 -Location $loc -Name $vmname3 -Credential $cred -Zone "2" -Size $vmsize -DomainNameLabel $domainNameLabel3;
+
+        $vms = Get-AzVm -Name $vmname1 -Status;
+
+        Assert-AreEqual 2 $vms.Count;
+    }
+    finally
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname;
+        Clean-ResourceGroup $rgname2;
+    }
+}
+
+<#
+.SYNOPSIS
+
+#>
+function Test-VirtualMachineGetVMExtensionPiping
+{
+    # Setup
+    $loc = "eastus";
+    $rgname = Get-ComputeTestResourceName;
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vmsize = 'Standard_E2s_v3';
+        $vmname = 'v' + $rgname;
+
+        # Creating a VM using simple parameter set
+        $username = "admin01"
+        $password = Get-PasswordForVM | ConvertTo-SecureString -AsPlainText -Force
+        $cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $username, $password
+        $domainNameLabel1 = "domain1" + $rgname;
+
+        $vm1 = New-AzVM -ResourceGroupName $rgname -Location $loc -Name $vmname -Credential $cred -Zone "2" -Size $vmsize -DomainNameLabel $domainNameLabel1;
+        
+        # No error is thrown
+        $vmExt = Get-AzVM -VM $vm1 | Get-AzVMExtension;
+
+        # Test expected error message when missing ResourceGroup. 
+        $vmname2 = "errorvm";
+        $vmConfig = New-AzVMConfig -Name $vmname2 -VMSize $vmsize;
+        Assert-ThrowsContains {
+            $vmError = $vmconfig | Get-AzVMExtension; } "The incoming virtual machine must have a 'resourceGroupName'.";
+    }
+    finally 
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname;
+    }
+}
+
+<#
+.SYNOPSIS
+Windows machine enable hot patching, linux machines patchmode
+#>
+function Test-VirtualMachinePatchAPI
+{
+    # Setup
+    $rgname = Get-ComputeTestResourceName;
+    $loc = Get-ComputeVMLocation;
+
+    try
+    {
+        New-AzResourceGroup -Name $rgname -Location $loc -Force;
+
+        # VM Profile & Hardware
+        $vmsize = 'Standard_E2s_v3';
+        $vmname0 = 'v' + $rgname;
+
+        # Creating a VM using simple parameter set
+        $username = "admin01";
+        $password = Get-PasswordForVM | ConvertTo-SecureString -AsPlainText -Force;
+        $cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $username, $password;
+        [string]$domainNameLabel = "d"+ $rgname;
+        $computerName = 'test';
+        $patchMode = "AutomaticByPlatform";
+
+        # EnableHotPatching for Windows machine. 
+        $vm0 = New-AzVM -ResourceGroupName $rgname -Location $loc -Name $vmname0 -Credential $cred -Zone "2" -Size $vmsize -DomainNameLabel $domainNameLabel;
+        $p = Set-AzVMOperatingSystem -VM $vm0 -Windows -ComputerName $computerName -Credential $cred -EnableHotpatching -PatchMode $patchMode;
+        Assert-True {$vm0.OSProfile.WindowsConfiguration.PatchSettings.EnableHotpatching};
+        Assert-AreEqual $vm0.OSProfile.WindowsConfiguration.PatchSettings.PatchMode $patchMode;
+
+        # Test Linux VM PatchMode scenario. 
+        # This currently requires creating a Linux (Ubuntu) VM manually in the Azure Portal as the DefaultCRPLinuxImageOffline cmd uses a 
+        # storage account that Compute does not currently support. 
+        $rgname2 = "adamddeast";
+        $vmname = "linuxtest";
+        $linuxvm = Get-AzVM -ResourceGroupName $rgname2 -Name $vmname;
+        $securePassword = Get-PasswordForVM | ConvertTo-SecureString -AsPlainText -Force;
+        $user = "usertest";
+        $cred = New-Object System.Management.Automation.PSCredential ($user, $securePassword);
+        $vmset = Set-AzVMOperatingSystem -VM $linuxvm -Linux -ComputerName $computerName -Credential $cred -PatchMode $patchMode;
+
+        Assert-AreEqual $linuxvm.OSProfile.LinuxConfiguration.PatchSettings.PatchMode $patchMode;
+    }
+    finally
+    {
+        # Cleanup
+        Clean-ResourceGroup $rgname
+	}
+}

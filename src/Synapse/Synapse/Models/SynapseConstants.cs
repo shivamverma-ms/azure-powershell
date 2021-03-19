@@ -32,6 +32,36 @@ namespace Microsoft.Azure.Commands.Synapse.Models
 
         public const string SqlPool = nameof(SqlPool);
 
+        public const string SqlPoolGeoBackup = nameof(SqlPoolGeoBackup);
+
+        public const string DroppedSqlPool = nameof(DroppedSqlPool);
+
+        public const string VulnerabilityAssessmentScanRecord = nameof(VulnerabilityAssessmentScanRecord);
+
+        public const string VulnerabilityAssessmentScan = nameof(VulnerabilityAssessmentScan);
+
+        public const string SqlPoolName = nameof(SqlPoolName);
+
+        public const string RestorePoint = nameof(RestorePoint);
+
+        public const string Sql = nameof(Sql);
+
+        public const string AuditSetting = nameof(AuditSetting);
+
+        public const string ActiveDirectoryAdministrator = nameof(ActiveDirectoryAdministrator);
+
+        public const string AdvancedThreatProtectionSetting = nameof(AdvancedThreatProtectionSetting);
+
+        public const string VulnerabilityAssessmentSetting = nameof(VulnerabilityAssessmentSetting);
+
+        public const string TransparentDataEncryption = nameof(TransparentDataEncryption);
+
+        public const string AdvancedDataSecurity = nameof(AdvancedDataSecurity);
+
+        public const string AdvancedDataSecurityPolicy = nameof(AdvancedDataSecurityPolicy);
+
+        public const string ManagedIdentitySqlControlSetting = nameof(ManagedIdentitySqlControlSetting);
+
         public const string SqlDatabase = nameof(SqlDatabase);
 
         public const string SparkPoolName = nameof(SparkPoolName);
@@ -113,6 +143,24 @@ namespace Microsoft.Azure.Commands.Synapse.Models
 
         public const string DataFlow = nameof(DataFlow);
 
+        public const string SensitivityRecommendation = nameof(SensitivityRecommendation);
+
+        public const string PointInTime = nameof(PointInTime);
+
+        public const string TargetSqlPoolName = nameof(TargetSqlPoolName);
+
+        public const string DefaultName = "default";
+
+        public const string ManagedVirtualNetworkConfig = nameof(ManagedVirtualNetworkConfig);
+
+        public const string EncryptionConfig = nameof(EncryptionConfig);
+
+        public const string WorkspaceKey = nameof(WorkspaceKey);
+
+        public const string WorkspaceKeyName = nameof(WorkspaceKeyName);
+
+        public const string KeyName = nameof(KeyName);
+
         public static Dictionary<string, ComputeNodeSize> ComputeNodeSizes = new Dictionary<string, ComputeNodeSize>
         {
             {
@@ -161,5 +209,25 @@ namespace Microsoft.Azure.Commands.Synapse.Models
         public const string AllowAllEndIpAddress = "255.255.255.255";
 
         public const string StorageBlobDataContributorRoleName = "Azure Blob Data Contributor";
+
+        public class Security
+        {
+            // Parameters Names:
+            public const string Enabled = "Enabled";
+            public const string Disabled = "Disabled";
+
+            public const string Primary = "Primary";
+            public const string Secondary = "Secondary";
+        }
+
+        public class DetectionType
+        {
+            public const string Sql_Injection = "Sql_Injection";
+            public const string Sql_Injection_Vulnerability = "Sql_Injection_Vulnerability";
+            public const string Access_Anomaly = "Access_Anomaly";
+            public const string Data_Exfiltration = "Data_Exfiltration";
+            public const string Unsafe_Action = "Unsafe_Action";
+            public const string None = "None";
+        }
     }
 }

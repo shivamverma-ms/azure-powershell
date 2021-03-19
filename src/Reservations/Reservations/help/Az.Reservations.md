@@ -1,7 +1,7 @@
 ---
 Module Name: Az.Reservations
 Module Guid: 43d3b085-6323-4ac4-a7c3-81d75ea036e5
-Download Help Link: https://docs.microsoft.com/en-us/powershell/module/az.reservations
+Download Help Link: https://docs.microsoft.com/powershell/module/az.reservations
 Help Version: 1.0.0.0
 Locale: en-US
 ---
@@ -27,7 +27,7 @@ Get `ReservationOrder`
 Get list of applicable `ReservationOrder` Ids.
 
 ### [Get-AzReservationQuote](Get-AzReservationQuote.md)
-{{ Fill in the Synopsis }}
+Get a quote for the reservation. This is passed to `New-AzReservation` to purchase.
 
 ### [Merge-AzReservation](Merge-AzReservation.md)
 Merges two `Reservation`s.

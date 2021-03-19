@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.PostgreSql
-online version: https://docs.microsoft.com/en-us/powershell/module/az.postgresql/remove-azpostgresqlserver
+online version: https://docs.microsoft.com/powershell/module/az.postgresql/remove-azpostgresqlserver
 schema: 2.0.0
 ---
 
@@ -39,7 +39,7 @@ This cmdlet removes PostgreSql server by resourceGroup and server name.
 
 ### Example 2: Remove PostgreSql server by identity
 ```powershell
-PS C:\> $ID = "/subscriptions/<SubscriptionId>/resourceGroups/PostgreSqlTestRG/providers/Microsoft.DBforMySQL/servers/PostgreSqlTestServer"
+PS C:\> $ID = "/subscriptions/<SubscriptionId>/resourceGroups/PostgreSqlTestRG/providers/Microsoft.DBforPostgreSQL/servers/PostgreSqlTestServer"
 PS C:\> Remove-AzPostgreSqlServer -InputObject $ID
  
 ```

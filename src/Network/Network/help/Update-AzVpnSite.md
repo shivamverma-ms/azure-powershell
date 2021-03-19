@@ -1,7 +1,7 @@
 ---
 external help file: Microsoft.Azure.PowerShell.Cmdlets.Network.dll-Help.xml
 Module Name: Az.Network
-online version: https://docs.microsoft.com/en-us/powershell/module/az.network/update-azvpnsite
+online version: https://docs.microsoft.com/powershell/module/az.network/update-azvpnsite
 schema: 2.0.0
 ---
 
@@ -327,6 +327,21 @@ Parameter Sets: ByVpnSiteNameNoVirtualWanUpdate, ByVpnSiteNameByVirtualWanName, 
 Aliases: ResourceName, VpnSiteName
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -O365Policy
+The office 365 traffic breakout policy for this VpnSite.
+
+```yaml
+Type: Microsoft.Azure.Commands.Network.Models.PSO365PolicyProperties
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

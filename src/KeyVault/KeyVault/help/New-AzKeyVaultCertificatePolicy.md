@@ -2,7 +2,7 @@
 external help file: Microsoft.Azure.PowerShell.Cmdlets.KeyVault.dll-Help.xml
 Module Name: Az.KeyVault
 ms.assetid: 25E0F0E9-BF8C-49DF-87BA-31E2103A29A9
-online version: https://docs.microsoft.com/en-us/powershell/module/az.keyvault/new-azkeyvaultcertificatepolicy
+online version: https://docs.microsoft.com/powershell/module/az.keyvault/new-azkeyvaultcertificatepolicy
 schema: 2.0.0
 ---
 
@@ -409,7 +409,11 @@ Accept wildcard characters: False
 ```
 
 ### -SubjectName
-Specifies the subject name of the certificate.
+Specifies the subject name of the certificate. 
+
+> [!NOTE]
+> If you must use a comma (,) or a period (.) within a property in the `SubjectName` parameter, 
+> you must enclose the property field in quotation marks. For example, you may use O="Contoso, Ltd." in the Organization Name field.
 
 ```yaml
 Type: System.String

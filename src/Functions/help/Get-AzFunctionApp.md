@@ -1,7 +1,7 @@
 ---
 external help file:
 Module Name: Az.Functions
-online version: https://docs.microsoft.com/en-us/powershell/module/az.functions/get-azfunctionapp
+online version: https://docs.microsoft.com/powershell/module/az.functions/get-azfunctionapp
 schema: 2.0.0
 ---
 
@@ -14,25 +14,24 @@ Gets function apps in a subscription.
 
 ### GetAll (Default)
 ```
-Get-AzFunctionApp [-SubscriptionId <String[]>] [-IncludeSlot] [-DefaultProfile <PSObject>]
- [<CommonParameters>]
+Get-AzFunctionApp [-SubscriptionId <String[]>] [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
 ### ByLocation
 ```
-Get-AzFunctionApp -Location <String> [-SubscriptionId <String[]>] [-IncludeSlot] [-DefaultProfile <PSObject>]
+Get-AzFunctionApp -Location <String> [-SubscriptionId <String[]>] [-DefaultProfile <PSObject>]
  [<CommonParameters>]
 ```
 
 ### ByName
 ```
-Get-AzFunctionApp -Name <String> -ResourceGroupName <String> [-SubscriptionId <String[]>] [-IncludeSlot]
+Get-AzFunctionApp -Name <String> -ResourceGroupName <String> [-SubscriptionId <String[]>]
  [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
 ### ByResourceGroupName
 ```
-Get-AzFunctionApp [-ResourceGroupName <String>] [-SubscriptionId <String[]>] [-IncludeSlot]
+Get-AzFunctionApp -ResourceGroupName <String> [-SubscriptionId <String[]>] [-IncludeSlot]
  [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
@@ -119,7 +118,7 @@ Use to specify whether to include deployment slots in results.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: ByResourceGroupName
 Aliases:
 
 Required: False

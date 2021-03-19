@@ -19,7 +19,14 @@ Creates a new replica from an existing database.
 .Description
 Creates a new replica from an existing database.
 .Example
-PS C:\> Get-AzPostgreSqlServer -ResourceGroupName PostgreSqlTestRG -ServerName PostgreSqlTestServer | New-AzPostgreSqReplica -Name PostgreSqlTestServerReplica -ResourceGroupName PostgreSqlTestRG
+PS C:\> Get-AzPostgreSqlServer -ResourceGroupName PostgreSqlTestRG -ServerName PostgreSqlTestServer | New-AzPostgreSqlReplica -ReplicaName PostgreSqlTestServerReplica -ResourceGroupName PostgreSqlTestRG
+
+Name                        Location AdministratorLogin Version StorageProfileStorageMb SkuName   SkuTier        SslEnforcement
+----                        -------- ------------------ ------- ----------------------- -------   -------        --------------
+postgresqltestserverreplica eastus   pwsh               9.6     5120                    GP_Gen5_4 GeneralPurpose Enabled
+.Example
+PS C:\> $pgDb = Get-AzPostgreSqlServer -ResourceGroupName PostgreSqlTestRG -ServerName PostgreSqlTestServer 
+PS C:\> New-AzPostgreSqlReplica -Master $pgDb -ReplicaName PostgreSqlTestServerReplica -ResourceGroupName PostgreSqlTestRG
 
 Name                        Location AdministratorLogin Version StorageProfileStorageMb SkuName   SkuTier        SslEnforcement
 ----                        -------- ------------------ ------- ----------------------- -------   -------        --------------
@@ -34,9 +41,9 @@ COMPLEX PARAMETER PROPERTIES
 
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
-INPUTOBJECT <IServer>: The source server object to create replica from.
-  Location <String>: The location the resource resides in.
-  [Tag <ITrackedResourceTags>]: Application-specific metadata in the form of key-value pairs.
+MASTER <IServer>: The source server object to create replica from.
+  Location <String>: The geo-location where the resource lives
+  [Tag <ITrackedResourceTags>]: Resource tags.
     [(Any) <String>]: This indicates any property can be added to this object.
   [AdministratorLogin <String>]: The administrator's login name of a server. Can only be specified when the server is being created (and is required for creation).
   [EarliestRestoreDate <DateTime?>]: Earliest restore point creation time (ISO8601 format)
@@ -61,18 +68,18 @@ INPUTOBJECT <IServer>: The source server object to create replica from.
   [UserVisibleState <ServerState?>]: A state of a server that is visible to user.
   [Version <ServerVersion?>]: Server version.
 .Link
-https://docs.microsoft.com/en-us/powershell/module/az.postgresql/new-azpostgresqlreplica
+https://docs.microsoft.com/powershell/module/az.postgresql/new-azpostgresqlreplica
 #>
 function New-AzPostgreSqlReplica {
 [OutputType([Microsoft.Azure.PowerShell.Cmdlets.PostgreSql.Models.Api20171201.IServer])]
 [CmdletBinding(DefaultParameterSetName='CreateExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
     [Parameter(Mandatory)]
-    [Alias('ReplicaServerName')]
+    [Alias('ReplicaServerName', 'Name')]
     [Microsoft.Azure.PowerShell.Cmdlets.PostgreSql.Category('Path')]
     [System.String]
     # The name of the server.
-    ${Name},
+    ${ReplicaName},
 
     [Parameter(Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.PostgreSql.Category('Path')]
@@ -88,11 +95,12 @@ param(
     ${SubscriptionId},
 
     [Parameter(Mandatory, ValueFromPipeline)]
+    [Alias('InputObject')]
     [Microsoft.Azure.PowerShell.Cmdlets.PostgreSql.Category('Body')]
     [Microsoft.Azure.PowerShell.Cmdlets.PostgreSql.Models.Api20171201.IServer]
     # The source server object to create replica from.
-    # To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
-    ${InputObject},
+    # To construct, see NOTES section for MASTER properties and create a hash table.
+    ${Master},
 
     [Parameter()]
     [Microsoft.Azure.PowerShell.Cmdlets.PostgreSql.Category('Body')]
