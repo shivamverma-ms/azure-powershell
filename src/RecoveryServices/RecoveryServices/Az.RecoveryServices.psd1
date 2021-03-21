@@ -191,7 +191,10 @@ CmdletsToExport = 'Get-AzRecoveryServicesBackupProperty',
                'Undo-AzRecoveryServicesBackupItemDeletion', 
                'Set-AzRecoveryServicesVaultProperty', 
                'Get-AzRecoveryServicesVaultProperty', 
-               'Copy-AzRecoveryServicesVault', 'Update-AzRecoveryServicesVault'
+               'Copy-AzRecoveryServicesVault',
+               'Update-AzRecoveryServicesVault',
+               'New-AzRecoveryServicesAsrInMageRcmDiskInput',
+               'Start-AzRecoveryServicesAsrCancelFailoverJob'
 
 # Variables to export from this module
 # VariablesToExport = @()
@@ -238,7 +241,10 @@ AliasesToExport = 'Get-AzRecoveryServicesBackupProperties',
                'Update-ASRProtectionDirection', 'Update-ASRRecoveryPlan', 
                'Update-ASRServicesProvider', 'Update-ASRvCenter', 
                'Set-AzRecoveryServicesBackupProperties', 
-               'Get-AzRecoveryServicesBackupJobDetails'
+               'Get-AzRecoveryServicesBackupJobDetails',
+               'New-ASRInMageRcmDiskInput',
+               'Start-ASRCancelFailover', 
+               'Start-ASRCancelFailoverJob'
 
 # DSC resources to export from this module
 # DscResourcesToExport = @()
