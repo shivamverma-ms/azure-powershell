@@ -60,15 +60,15 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
             Mandatory = false,
-            HelpMessage = "Specify if the IP config is primary.")]
+            HelpMessage = "Specify whether the IP config is primary.")]
         public bool IsPrimary { get; set; }
 
         /// <summary>
-        ///     Gets or sets whether an existing IP config is selected for tfo/failover.
+        ///     Gets or sets whether an existing IP config is selected for test failover/failover.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
             Mandatory = false,
-            HelpMessage = "Specifies whether an existing IP config is selected for tfo/failover.")]
+            HelpMessage = "Specifies whether an existing IP config is selected for test failover/failover.")]
         [ValidateNotNullOrEmpty]
         public SwitchParameter IsSelectedForFailover { get; set; }
 
@@ -143,8 +143,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             HelpMessage = "Specifies the IDs of backend address pools for the test failover IP config.")]
         [ValidateNotNull]
         public string[] TfoLBBackendAddressPoolIds { get; set; }
-
-
 
         #endregion Parameters
 
