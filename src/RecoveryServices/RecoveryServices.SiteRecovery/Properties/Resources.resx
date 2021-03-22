@@ -480,6 +480,9 @@ Recommended Action: To cleanup the resources created by Test failover run the Te
   <data name="NicNotFoundInVM" xml:space="preserve">
     <value>Nic "{0}" not found in VM.</value>
   </data>
+  <data name="IPConfigNotFoundInVMNic" xml:space="preserve">
+    <value>IP Config "{0}" not found in VM NIC.</value>
+  </data>
   <data name="RecoveryNetworkIdConflictInASRVMNics" xml:space="preserve">
     <value>Different recovery virtual network Ids present in ASRVMNics.</value>
   </data>
@@ -503,6 +506,9 @@ Recommended Action: To cleanup the resources created by Test failover run the Te
   </data>
   <data name="UnsupportedReplicationProvidedForASRVMNicConfig" xml:space="preserve">
     <value>Unsupported replication provider for ASR VM Nic Config.</value>
+  </data>
+  <data name="UnsupportedReplicationProvidedForASRVMNicIPConfig" xml:space="preserve">
+    <value>Unsupported replication provider for ASR VM Nic IP Config.</value>
   </data>
   <data name="UnsupportedReplicationProvidedForNetworkingResources" xml:space="preserve">
     <value>Unsupported replication provider for network security group, public IP address, and/or backend address pool related updates.</value>

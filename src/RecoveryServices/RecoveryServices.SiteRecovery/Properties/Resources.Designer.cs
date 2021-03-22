@@ -524,8 +524,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.Properties {
         /// <summary>
         ///   Looks up a localized string similar to IP config &quot;{0}&quot; not found in VM Nic..
         /// </summary>
-        internal static string IPConfigNotFoundInVMNic
-        {
+        internal static string IPConfigNotFoundInVMNic {
             get
             {
                 return ResourceManager.GetString("IPConfigNotFoundInVMNic", resourceCulture);
