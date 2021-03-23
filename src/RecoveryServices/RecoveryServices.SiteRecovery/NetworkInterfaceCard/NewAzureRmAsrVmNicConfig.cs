@@ -158,7 +158,9 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// <summary>
         ///     Gets or sets the test failover and failover NIC IP configuration details.
         /// </summary>
-        [Parameter]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
+            Mandatory = false,
+            HelpMessage = "Specifies test failover/failover settings of NIC IP configs.")]
         [ValidateNotNull]
         public IPConfigInputDetails[] IPConfigs { get; set; }
 
