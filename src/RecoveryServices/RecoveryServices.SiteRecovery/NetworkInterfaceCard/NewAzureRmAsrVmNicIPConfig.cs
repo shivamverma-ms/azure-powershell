@@ -31,23 +31,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
     {
         #region Parameters
         /// <summary>
-        ///    Gets or sets the NIC Id.
-        /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
-            Mandatory = true,
-            HelpMessage = "Specify the ASR NIC GUID.")]
-        public string NicId { get; set; }
-
-        /// <summary>
-        ///    Specify the ASR Replication Protected Item.
-        /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
-            Mandatory = true,
-            HelpMessage = "Specify the ASR Replication Protected Item.")]
-        public ASRReplicationProtectedItem ReplicationProtectedItem { get; set; }
-
-
-        /// <summary>
         ///    Gets or sets the IP config name.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
@@ -56,20 +39,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public string IpConfigName { get; set; }
 
         /// <summary>
-        ///    Gets or sets the if the IP config is primary on NIC.
-        /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
-            Mandatory = false,
-            HelpMessage = "Specify whether the IP config is primary.")]
-        public bool IsPrimary { get; set; }
-
-        /// <summary>
         ///     Gets or sets whether an existing IP config is selected for test failover/failover.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
             Mandatory = false,
             HelpMessage = "Specifies whether an existing IP config is selected for test failover/failover.")]
-        [ValidateNotNullOrEmpty]
         public SwitchParameter IsSelectedForFailover { get; set; }
 
         /// <summary>
@@ -172,101 +146,9 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             {
                 case ASRParameterSets.AzureToAzure:
 
-                    var providerSpecificDetails =
-                        this.ReplicationProtectedItem.ProviderSpecificDetails;
-
-                    if (!(providerSpecificDetails is ASRAzureToAzureSpecificRPIDetails))
-                    {
-                        this.WriteWarning(
-                            Resources.UnsupportedReplicationProvidedForASRVMNicIPConfig);
-                        return;
-                    }
-
-                    var vmNicDetailsList =
-                        this.ReplicationProtectedItem.NicDetailsList ??
-                        new List<ASRVMNicDetails>();
-
-                    var vmNic =
-                        vmNicDetailsList.FirstOrDefault(
-                            nic => nic.NicId.Equals(
-                                this.NicId, StringComparison.OrdinalIgnoreCase));
-
-                    if (vmNic == null)
-                    {
-                        this.WriteWarning(string.Format(Resources.NicNotFoundInVM, this.NicId));
-                        return;
-                    }
-
-                    var vmNicIPConfig = vmNic.IpConfigs.FirstOrDefault(
-                        ip => ip.Name.Equals(
-                            this.IpConfigName, StringComparison.OrdinalIgnoreCase));
-
-                    if (vmNicIPConfig == null)
-                    {
-                        this.WriteWarning(string.Format(Resources.IPConfigNotFoundInVMNic, this.IpConfigName));
-                        return;
-                    }
-
-                    if (!this.MyInvocation.BoundParameters.ContainsKey(
-                            Utilities.GetMemberName(() => this.IsPrimary)))
-                    {
-                        this.IsPrimary = (bool)vmNicIPConfig.IsPrimary;
-                    }
-
-                    if (!this.MyInvocation.BoundParameters.ContainsKey(
-                            Utilities.GetMemberName(() => this.RecoverySubnetName)))
-                    {
-                        this.RecoverySubnetName = vmNicIPConfig.RecoverySubnetName;
-                    }
-
-                    if (!this.MyInvocation.BoundParameters.ContainsKey(
-                           Utilities.GetMemberName(() => this.RecoveryStaticIPAddress)))
-                    {
-                        this.RecoveryStaticIPAddress = vmNicIPConfig.RecoveryStaticIPAddress;
-                    }
-
-                    if (!this.MyInvocation.BoundParameters.ContainsKey(
-                            Utilities.GetMemberName(() => this.RecoveryPublicIPAddressId)))
-                    {
-                        this.RecoveryPublicIPAddressId = vmNicIPConfig.RecoveryPublicIPAddressId;
-                    }
-
-                    if (!this.MyInvocation.BoundParameters.ContainsKey(
-                            Utilities.GetMemberName(() => this.RecoveryLBBackendAddressPoolIds)))
-                    {
-                        this.RecoveryLBBackendAddressPoolIds =
-                            vmNicIPConfig.RecoveryLBBackendAddressPoolIds?.ToArray();
-                    }
-
-                    if (!this.MyInvocation.BoundParameters.ContainsKey(
-                            Utilities.GetMemberName(() => this.TfoSubnetName)))
-                    {
-                        this.TfoSubnetName = vmNicIPConfig.TfoSubnetName;
-                    }
-
-                    if (!this.MyInvocation.BoundParameters.ContainsKey(
-                           Utilities.GetMemberName(() => this.TfoStaticIPAddress)))
-                    {
-                        this.TfoStaticIPAddress = vmNicIPConfig.TfoStaticIPAddress;
-                    }
-
-                    if (!this.MyInvocation.BoundParameters.ContainsKey(
-                            Utilities.GetMemberName(() => this.TfoPublicIPAddressId)))
-                    {
-                        this.TfoPublicIPAddressId = vmNicIPConfig.TfoPublicIPAddressId;
-                    }
-
-                    if (!this.MyInvocation.BoundParameters.ContainsKey(
-                            Utilities.GetMemberName(() => this.TfoLBBackendAddressPoolIds)))
-                    {
-                        this.TfoLBBackendAddressPoolIds =
-                            vmNicIPConfig.TfoLBBackendAddressPoolIds?.ToArray();
-                    }
-
                     ipConfig = new IPConfigInputDetails
                     {
                         IpConfigName = this.IpConfigName,
-                        IsPrimary = this.IsPrimary,
                         IsSeletedForFailover = this.IsSelectedForFailover,
                         RecoverySubnetName = this.RecoverySubnetName,
                         RecoveryStaticIPAddress = this.RecoveryStaticIPAddress,

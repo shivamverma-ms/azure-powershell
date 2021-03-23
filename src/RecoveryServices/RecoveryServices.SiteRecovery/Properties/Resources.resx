@@ -507,9 +507,6 @@ Recommended Action: To cleanup the resources created by Test failover run the Te
   <data name="UnsupportedReplicationProvidedForASRVMNicConfig" xml:space="preserve">
     <value>Unsupported replication provider for ASR VM Nic Config.</value>
   </data>
-  <data name="UnsupportedReplicationProvidedForASRVMNicIPConfig" xml:space="preserve">
-    <value>Unsupported replication provider for ASR VM Nic IP Config.</value>
-  </data>
   <data name="UnsupportedReplicationProvidedForNetworkingResources" xml:space="preserve">
     <value>Unsupported replication provider for network security group, public IP address, and/or backend address pool related updates.</value>
   </data>

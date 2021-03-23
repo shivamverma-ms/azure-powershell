@@ -172,16 +172,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             base.ExecuteSiteRecoveryCmdlet();
             ASRVMNicConfig nicConfig = null;
 
-
-            // how to verify if tfo/fo update input is provided and check corresponding network id.
-            if (!string.IsNullOrEmpty(this.RecoveryVMNetworkId) &&
-                !string.IsNullOrEmpty(this.TfoVMNetworkId))
-            {
-                this.WriteWarning(Resources.RecoveryNetworkInformationMissing);
-                return;
-            }
-          
-
             switch (this.ParameterSetName)
             {
                 case ASRParameterSets.AzureToAzure:
@@ -209,6 +199,14 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     {
                         this.WriteWarning(string.Format(Resources.NicNotFoundInVM, this.NicId));
                         return;
+                    }
+
+                    if (this.IPConfigs != null)
+                    {
+                        if (!validateAndPopulateIPConfigs(vmNic))
+                        {
+                            return;
+                        }
                     }
 
                     if (!this.MyInvocation.BoundParameters.ContainsKey(
@@ -276,6 +274,92 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             }
 
             this.WriteObject(nicConfig);
+        }
+
+        // validates IP configs and populate values not provided in input from DB NIC entiry.
+        // returns false in case of validation error.
+        private bool validateAndPopulateIPConfigs(ASRVMNicDetails vmNic)
+        {
+            bool isTfoNetworkRequired = false;
+            bool isRecoveryNetworkRequired = false;
+
+            foreach (var ipConfig in this.IPConfigs)
+            {
+                if (!string.IsNullOrEmpty(ipConfig.TfoSubnetName))
+                {
+                    isTfoNetworkRequired = true;
+                }
+
+                if (!string.IsNullOrEmpty(ipConfig.RecoverySubnetName))
+                {
+                    isRecoveryNetworkRequired = true;
+                }
+
+                var vmNicIPConfig = vmNic.IpConfigs.FirstOrDefault(
+                    ip => ip.Name.Equals(
+                        ipConfig.IpConfigName, StringComparison.OrdinalIgnoreCase));
+
+                if (vmNicIPConfig == null)
+                {
+                    this.WriteWarning(string.Format(Resources.IPConfigNotFoundInVMNic, ipConfig.IpConfigName));
+                    return false;
+                }
+
+                ipConfig.IsPrimary = vmNicIPConfig.IsPrimary;
+                if (string.IsNullOrEmpty(ipConfig.RecoverySubnetName))
+                {
+                    ipConfig.RecoverySubnetName = vmNicIPConfig.RecoverySubnetName;
+                }
+
+                if (ipConfig.RecoveryStaticIPAddress == null)
+                {
+                    ipConfig.RecoveryStaticIPAddress = vmNicIPConfig.RecoveryStaticIPAddress;
+                }
+
+                if (string.IsNullOrEmpty(ipConfig.RecoveryPublicIPAddressId))
+                {
+                    ipConfig.RecoveryPublicIPAddressId = vmNicIPConfig.RecoveryPublicIPAddressId;
+                }
+
+                if (ipConfig.RecoveryLBBackendAddressPoolIds.Count == 0)
+                {
+                    ipConfig.RecoveryLBBackendAddressPoolIds = vmNicIPConfig.RecoveryLBBackendAddressPoolIds;
+                }
+
+                if (string.IsNullOrEmpty(ipConfig.TfoSubnetName))
+                {
+                    ipConfig.TfoSubnetName = vmNicIPConfig.TfoSubnetName;
+                }
+
+                if (ipConfig.TfoStaticIPAddress == null)
+                {
+                    ipConfig.TfoStaticIPAddress = vmNicIPConfig.TfoStaticIPAddress;
+                }
+
+                if (string.IsNullOrEmpty(ipConfig.TfoPublicIPAddressId))
+                {
+                    ipConfig.TfoPublicIPAddressId = vmNicIPConfig.TfoPublicIPAddressId;
+                }
+
+                if (ipConfig.TfoLBBackendAddressPoolIds.Count == 0)
+                {
+                    ipConfig.TfoPublicIPAddressId = vmNicIPConfig.TfoPublicIPAddressId;
+                }
+            }
+
+            if (isTfoNetworkRequired && string.IsNullOrEmpty(this.TfoVMNetworkId))
+            {
+                this.WriteWarning(Resources.TfoNetworkInformationMissing);
+                return false; ;
+            }
+
+            if (isRecoveryNetworkRequired && string.IsNullOrEmpty(this.RecoveryVMNetworkId))
+            {
+                this.WriteWarning(Resources.TfoNetworkInformationMissing);
+                return false; ;
+            }
+
+            return true;
         }
     }
 }

@@ -1048,17 +1048,6 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.Properties {
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to Unsupported replication provider for ASR VM Nic Config..
-        /// </summary>
-        internal static string UnsupportedReplicationProvidedForASRVMNicIPConfig
-        {
-            get
-            {
-                return ResourceManager.GetString("UnsupportedReplicationProvidedForASRVMNicIPConfig", resourceCulture);
-            }
-        }
-
-        /// <summary>
         ///   Looks up a localized string similar to Unsupported replication provider for network security group, public IP address, and/or backend address pool related updates..
         /// </summary>
         internal static string UnsupportedReplicationProvidedForNetworkingResources {
