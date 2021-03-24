@@ -760,6 +760,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     .ConvertAll(disk => new ASRHyperVReplicaAzureVmDiskDetails(disk));
             }
             this.LicenseType = details.LicenseType;
+            this.SqlServerLicenseType = details.SqlServerLicenseType;
+            this.RecoveryVmTag = details.TargetVmTags;
+            this.RecoveryNicTag = details.TargetNicTags;
+            this.DiskTag = details.TargetManagedDiskTags;
         }
 
         /// <summary>
@@ -864,6 +868,25 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// </summary>
         public string RecoveryProximityPlacementGroupId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the SQL Server license type to the machine to in the event of a failover.
+        /// </summary>
+        public string SqlServerLicenseType { get; set; }
+
+        /// <summary>
+        /// Gets or sets target VM tags.
+        /// </summary>
+        public IDictionary<string, string> RecoveryVmTag { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tags for the disks.
+        /// </summary>
+        public IDictionary<string, string> DiskTag { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tags for the target NICs.
+        /// </summary>
+        public IDictionary<string, string> RecoveryNicTag { get; set; }
     }
 
     /// <summary>
@@ -918,6 +941,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             this.VmProtectionStateDescription = details.VmProtectionStateDescription;
             this.RecoveryAvailabilityZone = details.TargetAvailabilityZone;
             this.RecoveryProximityPlacementGroupId = details.TargetProximityPlacementGroupId;
+            this.SqlServerLicenseType = details.SqlServerLicenseType;
+            this.RecoveryVmTag = details.TargetVmTags;
+            this.RecoveryNicTag = details.TargetNicTags;
+            this.DiskTag = details.TargetManagedDiskTags;
             if (details.ProtectedDisks != null)
             {
                 this.ProtectedDiskDetails = new List<AsrVirtualHardDisk>();
@@ -1182,6 +1209,26 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         ///     Gets or sets the proximity placement group Id for replication protected item after failover.
         /// </summary>
         public string RecoveryProximityPlacementGroupId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the SQL Server license type to the machine to in the event of a failover.
+        /// </summary>
+        public string SqlServerLicenseType { get; set; }
+
+        /// <summary>
+        /// Gets or sets target VM tags.
+        /// </summary>
+        public IDictionary<string, string> RecoveryVmTag { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tags for the disks.
+        /// </summary>
+        public IDictionary<string, string> DiskTag { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tags for the target NICs.
+        /// </summary>
+        public IDictionary<string, string> RecoveryNicTag { get; set; }
     }
 
     /// <summary>
