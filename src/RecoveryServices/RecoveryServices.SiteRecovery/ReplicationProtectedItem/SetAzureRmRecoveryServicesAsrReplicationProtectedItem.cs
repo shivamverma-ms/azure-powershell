@@ -146,21 +146,21 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// </summary>
         [Parameter]
         [ValidateNotNullOrEmpty]
-        public IDictionary<string, string> TargetVmTags { get; set; }
+        public IDictionary<string, string> RecoveryVmTag { get; set; }
 
         /// <summary>
         /// Gets or sets the tags for the disks.
         /// </summary>
         [Parameter]
         [ValidateNotNullOrEmpty]
-        public IDictionary<string, string> DiskTags { get; set; }
+        public IDictionary<string, string> DiskTag { get; set; }
 
         /// <summary>
         /// Gets or sets the tags for the target NICs.
         /// </summary>
         [Parameter]
         [ValidateNotNullOrEmpty]
-        public IDictionary<string, string> TargetNicTags { get; set; }
+        public IDictionary<string, string> RecoveryNicTag { get; set; }
 
         // <summary>
         ///     Gets or sets the resource ID of the availability zone to failover this virtual machine to.
@@ -375,9 +375,9 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 var primaryNic = this.PrimaryNic;
                 var diskIdToDiskEncryptionMap = this.DiskIdToDiskEncryptionSetMap;
                 var sqlServerLicenseType = this.SqlServerLicenseType;
-                var targetVmTags = this.TargetVmTags;
-                var targetNicTags = this.TargetNicTags;
-                var diskTags = this.DiskTags;
+                var recoveryVmTag = this.RecoveryVmTag;
+                var recoveryNicTag = this.RecoveryNicTag;
+                var diskTag = this.DiskTag;
                 var tfoNetworkId = string.Empty;
                 var vMNicInputDetailsList = new List<VMNicInputDetails>();
                 var providerSpecificInput = new UpdateReplicationProtectedItemProviderInput();
@@ -450,22 +450,22 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                             ToDictionary(x => x.DiskId, x => x.DiskEncryptionSetId);
                     }
 
-                    if (this.TargetVmTags == null ||
-                       this.TargetVmTags.Count == 0)
+                    if (this.RecoveryVmTag == null ||
+                       this.RecoveryVmTag.Count == 0)
                     {
-                        targetVmTags = providerSpecificDetails.TargetVmTags;
+                        recoveryVmTag = providerSpecificDetails.TargetVmTags;
                     }
 
-                    if (this.TargetNicTags == null ||
-                       this.TargetNicTags.Count == 0)
+                    if (this.RecoveryNicTag == null ||
+                       this.RecoveryNicTag.Count == 0)
                     {
-                        targetNicTags = providerSpecificDetails.TargetNicTags;
+                        recoveryNicTag = providerSpecificDetails.TargetNicTags;
                     }
 
-                    if (this.DiskTags == null ||
-                      this.DiskTags.Count == 0)
+                    if (this.DiskTag == null ||
+                      this.DiskTag.Count == 0)
                     {
-                        diskTags = providerSpecificDetails.TargetManagedDiskTags;
+                        diskTag = providerSpecificDetails.TargetManagedDiskTags;
                     }
 
                     var deploymentType = Utilities.GetValueFromArmId(
@@ -493,9 +493,9 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                                 TargetAvailabilityZone = availabilityZone,
                                 TargetProximityPlacementGroupId = proximityPlacementGroupId,
                                 SqlServerLicenseType = sqlServerLicenseType,
-                                TargetVmTags = targetVmTags,
-                                TargetManagedDiskTags = diskTags,
-                                TargetNicTags = targetNicTags
+                                TargetVmTags = recoveryVmTag,
+                                TargetManagedDiskTags = diskTag,
+                                TargetNicTags = recoveryNicTag
                             };
                     }
 
@@ -556,22 +556,22 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         primaryNic = providerSpecificDetails.SelectedSourceNicId;
                     }
 
-                    if (this.TargetVmTags == null ||
-                       this.TargetVmTags.Count == 0)
+                    if (this.RecoveryVmTag == null ||
+                       this.RecoveryVmTag.Count == 0)
                     {
-                        targetVmTags = providerSpecificDetails.TargetVmTags;
+                        recoveryVmTag = providerSpecificDetails.TargetVmTags;
                     }
 
-                    if (this.TargetNicTags == null ||
-                       this.TargetNicTags.Count == 0)
+                    if (this.RecoveryNicTag == null ||
+                       this.RecoveryNicTag.Count == 0)
                     {
-                        targetNicTags = providerSpecificDetails.TargetNicTags;
+                        recoveryNicTag = providerSpecificDetails.TargetNicTags;
                     }
 
-                    if (this.DiskTags == null ||
-                      this.DiskTags.Count == 0)
+                    if (this.DiskTag == null ||
+                      this.DiskTag.Count == 0)
                     {
-                        diskTags = providerSpecificDetails.TargetManagedDiskTags;
+                        diskTag = providerSpecificDetails.TargetManagedDiskTags;
                     }
 
                     var deploymentType = Utilities.GetValueFromArmId(
@@ -598,9 +598,9 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                                 TargetAvailabilityZone = availabilityZone,
                                 TargetProximityPlacementGroupId = proximityPlacementGroupId,
                                 SqlServerLicenseType = sqlServerLicenseType,
-                                TargetVmTags = targetVmTags,
-                                TargetNicTags = targetNicTags,
-                                TargetManagedDiskTags = diskTags
+                                TargetVmTags = recoveryVmTag,
+                                TargetNicTags = recoveryNicTag,
+                                TargetManagedDiskTags = diskTag
                             };
                     }
                     vMNicInputDetailsList = getNicListToUpdate(providerSpecificDetails.VmNics);

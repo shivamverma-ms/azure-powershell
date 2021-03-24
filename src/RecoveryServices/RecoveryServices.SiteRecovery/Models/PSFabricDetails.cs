@@ -761,9 +761,9 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             }
             this.LicenseType = details.LicenseType;
             this.SqlServerLicenseType = details.SqlServerLicenseType;
-            this.TargetVmTags = details.TargetVmTags;
-            this.TargetNicTags = details.TargetNicTags;
-            this.DiskTags = details.TargetManagedDiskTags;
+            this.RecoveryVmTag = details.TargetVmTags;
+            this.RecoveryNicTag = details.TargetNicTags;
+            this.DiskTag = details.TargetManagedDiskTags;
         }
 
         /// <summary>
@@ -876,17 +876,17 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// <summary>
         /// Gets or sets target VM tags.
         /// </summary>
-        public IDictionary<string, string> TargetVmTags { get; set; }
+        public IDictionary<string, string> RecoveryVmTag { get; set; }
 
         /// <summary>
         /// Gets or sets the tags for the disks.
         /// </summary>
-        public IDictionary<string, string> DiskTags { get; set; }
+        public IDictionary<string, string> DiskTag { get; set; }
 
         /// <summary>
         /// Gets or sets the tags for the target NICs.
         /// </summary>
-        public IDictionary<string, string> TargetNicTags { get; set; }
+        public IDictionary<string, string> RecoveryNicTag { get; set; }
     }
 
     /// <summary>
@@ -942,9 +942,9 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             this.RecoveryAvailabilityZone = details.TargetAvailabilityZone;
             this.RecoveryProximityPlacementGroupId = details.TargetProximityPlacementGroupId;
             this.SqlServerLicenseType = details.SqlServerLicenseType;
-            this.TargetVmTags = details.TargetVmTags;
-            this.TargetNicTags = details.TargetNicTags;
-            this.DiskTags = details.TargetManagedDiskTags;
+            this.RecoveryVmTag = details.TargetVmTags;
+            this.RecoveryNicTag = details.TargetNicTags;
+            this.DiskTag = details.TargetManagedDiskTags;
             if (details.ProtectedDisks != null)
             {
                 this.ProtectedDiskDetails = new List<AsrVirtualHardDisk>();
@@ -1218,17 +1218,17 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// <summary>
         /// Gets or sets target VM tags.
         /// </summary>
-        public IDictionary<string, string> TargetVmTags { get; set; }
+        public IDictionary<string, string> RecoveryVmTag { get; set; }
 
         /// <summary>
         /// Gets or sets the tags for the disks.
         /// </summary>
-        public IDictionary<string, string> DiskTags { get; set; }
+        public IDictionary<string, string> DiskTag { get; set; }
 
         /// <summary>
         /// Gets or sets the tags for the target NICs.
         /// </summary>
-        public IDictionary<string, string> TargetNicTags { get; set; }
+        public IDictionary<string, string> RecoveryNicTag { get; set; }
     }
 
     /// <summary>

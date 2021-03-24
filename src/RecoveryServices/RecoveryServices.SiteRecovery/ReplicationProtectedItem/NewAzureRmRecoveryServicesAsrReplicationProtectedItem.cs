@@ -338,7 +338,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter(ParameterSetName = VMwareToAzureParameterSet, HelpMessage = "Specify the SQL Server license type of the VM.")]
         [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, HelpMessage = "Specify the SQL Server license type of the VM.")]
         [ValidateNotNullOrEmpty]
-        public IDictionary<string, string> TargetVmTags { get; set; }
+        public IDictionary<string, string> RecoveryVmTag { get; set; }
 
         /// <summary>
         /// Gets or sets the tags for the disks.
@@ -347,7 +347,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter(ParameterSetName = VMwareToAzureParameterSet, HelpMessage = "Specify the SQL Server license type of the VM.")]
         [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, HelpMessage = "Specify the SQL Server license type of the VM.")]
         [ValidateNotNullOrEmpty]
-        public IDictionary<string, string> DiskTags { get; set; }
+        public IDictionary<string, string> DiskTag { get; set; }
 
         /// <summary>
         /// Gets or sets the tags for the target NICs.
@@ -356,7 +356,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter(ParameterSetName = VMwareToAzureParameterSet, HelpMessage = "Specify the tags for the target NICs of the VM.")]
         [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, HelpMessage = "Specify the tags for the target NICs of the VM.")]
         [ValidateNotNullOrEmpty]
-        public IDictionary<string, string> TargetNicTags { get; set; }
+        public IDictionary<string, string> RecoveryNicTag { get; set; }
 
         /// <summary>
         ///     Gets or sets if the Azure virtual machine that is created on failover should use managed disks.
@@ -564,10 +564,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 TargetAvailabilitySetId = this.RecoveryAvailabilitySetId,
                 TargetVmSize = this.Size,
                 SqlServerLicenseType = this.SqlServerLicenseType,
-                TargetVmTags = this.TargetVmTags,
-                TargetNicTags = this.TargetNicTags,
-                SeedManagedDiskTags = this.DiskTags,
-                TargetManagedDiskTags = this.DiskTags
+                TargetVmTags = this.RecoveryVmTag,
+                TargetNicTags = this.RecoveryNicTag,
+                SeedManagedDiskTags = this.DiskTag,
+                TargetManagedDiskTags = this.DiskTag
             };
 
             if (this.IsParameterBound(c => c.InMageAzureV2DiskInput))
@@ -666,10 +666,9 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             providerSettings.TargetAvailabilitySetId = this.RecoveryAvailabilitySetId;
             providerSettings.TargetVmSize = this.Size;
             providerSettings.SqlServerLicenseType = this.SqlServerLicenseType;
-            providerSettings.TargetVmTags = this.TargetVmTags;
-            providerSettings.SeedManagedDiskTags = this.DiskTags;
-            providerSettings.TargetManagedDiskTags = this.DiskTags;
-            providerSettings.TargetNicTags = this.TargetNicTags;
+            providerSettings.TargetVmTags = this.RecoveryVmTag;
+            providerSettings.TargetManagedDiskTags = this.DiskTag;
+            providerSettings.TargetNicTags = this.RecoveryNicTag;
 
             if (!string.IsNullOrEmpty(this.RecoveryAzureNetworkId))
             {
