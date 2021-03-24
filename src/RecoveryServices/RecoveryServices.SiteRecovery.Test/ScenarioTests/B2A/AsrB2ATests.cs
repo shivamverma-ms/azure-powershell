@@ -126,9 +126,6 @@ namespace RecoveryServices.SiteRecovery.Test
             Category.CheckIn)]
         public void TestUpdateRPIWithDES()
         {
-            this.VaultSettingsFilePath = System.IO.Path.Combine(
-                System.AppDomain.CurrentDomain.BaseDirectory,
-                "ScenarioTests", "B2A", "CMKInput", "B2A.VaultCredentials");
             this.RunPowerShellTest(
                 _logger,
                 Constants.NewModel,
@@ -143,9 +140,6 @@ namespace RecoveryServices.SiteRecovery.Test
             Category.CheckIn)]
         public void TestCreateRPIWithPPG()
         {
-            this.VaultSettingsFilePath = System.IO.Path.Combine(
-                System.AppDomain.CurrentDomain.BaseDirectory,
-                "ScenarioTests", "B2A", "B2AInput", "B2A.VaultCredentials");
             this.RunPowerShellTest(
                 _logger,
                 Constants.NewModel,
@@ -160,9 +154,6 @@ namespace RecoveryServices.SiteRecovery.Test
             Category.CheckIn)]
         public void TestUpdateRPIWithPPG()
         {
-            this.VaultSettingsFilePath = System.IO.Path.Combine(
-                System.AppDomain.CurrentDomain.BaseDirectory,
-                "ScenarioTests", "B2A", "B2AInput", "B2A.VaultCredentials");
             this.RunPowerShellTest(
                 _logger,
                 Constants.NewModel,
@@ -177,9 +168,6 @@ namespace RecoveryServices.SiteRecovery.Test
             Category.CheckIn)]
         public void TestCreateRPIWithAvZone()
         {
-            this.VaultSettingsFilePath = System.IO.Path.Combine(
-                System.AppDomain.CurrentDomain.BaseDirectory,
-                "ScenarioTests", "B2A", "B2AInput", "B2A.VaultCredentials");
             this.RunPowerShellTest(
                 _logger,
                 Constants.NewModel,
@@ -194,9 +182,6 @@ namespace RecoveryServices.SiteRecovery.Test
             Category.CheckIn)]
         public void TestUpdateRPIWithAvZone()
         {
-            this.VaultSettingsFilePath = System.IO.Path.Combine(
-                System.AppDomain.CurrentDomain.BaseDirectory,
-                "ScenarioTests", "B2A", "B2AInput", "B2A.VaultCredentials");
             this.RunPowerShellTest(
                 _logger,
                 Constants.NewModel,
@@ -211,9 +196,6 @@ namespace RecoveryServices.SiteRecovery.Test
             Category.CheckIn)]
         public void TestCreateRPIWithManagedDisk()
         {
-            this.VaultSettingsFilePath = System.IO.Path.Combine(
-                System.AppDomain.CurrentDomain.BaseDirectory,
-                "ScenarioTests", "B2A", "B2AInput", "B2A.VaultCredentials");
             this.RunPowerShellTest(
                 _logger,
                 Constants.NewModel,
