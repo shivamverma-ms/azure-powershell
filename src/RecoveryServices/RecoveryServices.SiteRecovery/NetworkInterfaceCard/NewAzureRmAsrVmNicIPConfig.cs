@@ -80,7 +80,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             Mandatory = false,
             HelpMessage = "Specifies the IDs of backend address pools for the recovery IP config.")]
         [ValidateNotNull]
-        public string[] RecoveryLBBackendAddressPoolIds { get; set; }
+        public string[] RecoveryLBBackendAddressPoolId { get; set; }
 
         /// <summary>
         ///     Gets or sets the name of the test failover subnet.
@@ -116,7 +116,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             Mandatory = false,
             HelpMessage = "Specifies the IDs of backend address pools for the test failover IP config.")]
         [ValidateNotNull]
-        public string[] TfoLBBackendAddressPoolIds { get; set; }
+        public string[] TfoLBBackendAddressPoolId { get; set; }
 
         #endregion Parameters
 
@@ -153,11 +153,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         RecoverySubnetName = this.RecoverySubnetName,
                         RecoveryStaticIPAddress = this.RecoveryStaticIPAddress,
                         RecoveryPublicIPAddressId = this.RecoveryPublicIPAddressId,
-                        RecoveryLBBackendAddressPoolIds = this.RecoveryLBBackendAddressPoolIds?.ToList(),
+                        RecoveryLBBackendAddressPoolIds = this.RecoveryLBBackendAddressPoolId?.ToList(),
                         TfoSubnetName = this.TfoSubnetName,
                         TfoStaticIPAddress = this.TfoStaticIPAddress,
                         TfoPublicIPAddressId = this.TfoPublicIPAddressId,
-                        TfoLBBackendAddressPoolIds = this.TfoLBBackendAddressPoolIds?.ToList()
+                        TfoLBBackendAddressPoolIds = this.TfoLBBackendAddressPoolId?.ToList()
                     };
 
                     break;

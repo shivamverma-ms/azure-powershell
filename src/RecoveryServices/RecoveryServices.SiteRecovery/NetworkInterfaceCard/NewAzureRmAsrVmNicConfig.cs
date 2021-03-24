@@ -162,7 +162,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             Mandatory = false,
             HelpMessage = "Specifies test failover/failover settings of NIC IP configs.")]
         [ValidateNotNull]
-        public IPConfigInputDetails[] IPConfigs { get; set; }
+        public IPConfigInputDetails[] IPConfig { get; set; }
 
         #endregion Parameters
 
@@ -203,7 +203,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         return;
                     }
 
-                    if (this.IPConfigs != null)
+                    if (this.IPConfig != null)
                     {
                         if (!ValidateAndPopulateIPConfigs(vmNic))
                         {
@@ -263,7 +263,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         RecoveryNetworkSecurityGroupId = this.RecoveryNetworkSecurityGroupId,
                         EnableAcceleratedNetworkingOnRecovery =
                             this.EnableAcceleratedNetworkingOnRecovery,
-                        IPConfigs = this.IPConfigs?.ToList(),
+                        IPConfigs = this.IPConfig?.ToList(),
                         TfoVMNetworkId = this.TfoVMNetworkId,
                         TfoNicName = this.TfoNicName,
                         TfoNicResourceGroupName = this.TfoNicResourceGroupName,
@@ -285,7 +285,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             bool isTfoNetworkRequired = false;
             bool isRecoveryNetworkRequired = false;
 
-            foreach (var ipConfig in this.IPConfigs)
+            foreach (var ipConfig in this.IPConfig)
             {
                 if (!string.IsNullOrEmpty(ipConfig.TfoSubnetName))
                 {
