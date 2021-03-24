@@ -40,7 +40,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public string NicId { get; set; }
 
         /// <summary>
-        ///    Specify the ASR Replication Protected Item.
+        ///    Gets or sets the ASR Replication Protected Item.
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
             Mandatory = true,
@@ -205,7 +205,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 
                     if (this.IPConfigs != null)
                     {
-                        if (!validateAndPopulateIPConfigs(vmNic))
+                        if (!ValidateAndPopulateIPConfigs(vmNic))
                         {
                             return;
                         }
@@ -280,7 +280,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 
         // validates IP configs and populate values not provided in input from DB NIC entiry.
         // returns false in case of validation error.
-        private bool validateAndPopulateIPConfigs(ASRVMNicDetails vmNic)
+        private bool ValidateAndPopulateIPConfigs(ASRVMNicDetails vmNic)
         {
             bool isTfoNetworkRequired = false;
             bool isRecoveryNetworkRequired = false;
