@@ -334,18 +334,18 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// <summary>
         /// Gets or sets target VM tags.
         /// </summary>
-        [Parameter(ParameterSetName = VMwareToAzureWithDiskType, HelpMessage = "Specify the SQL Server license type of the VM.")]
-        [Parameter(ParameterSetName = VMwareToAzureParameterSet, HelpMessage = "Specify the SQL Server license type of the VM.")]
-        [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, HelpMessage = "Specify the SQL Server license type of the VM.")]
+        [Parameter(ParameterSetName = VMwareToAzureWithDiskType, HelpMessage = "Specify the tags for target VM.")]
+        [Parameter(ParameterSetName = VMwareToAzureParameterSet, HelpMessage = "Specify the tags for target VM.")]
+        [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, HelpMessage = "Specify the tags for target VM.")]
         [ValidateNotNullOrEmpty]
         public IDictionary<string, string> RecoveryVmTag { get; set; }
 
         /// <summary>
         /// Gets or sets the tags for the disks.
         /// </summary>
-        [Parameter(ParameterSetName = VMwareToAzureWithDiskType, HelpMessage = "Specify the SQL Server license type of the VM.")]
-        [Parameter(ParameterSetName = VMwareToAzureParameterSet, HelpMessage = "Specify the SQL Server license type of the VM.")]
-        [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, HelpMessage = "Specify the SQL Server license type of the VM.")]
+        [Parameter(ParameterSetName = VMwareToAzureWithDiskType, HelpMessage = "Specify the tags for the disks of the VM.")]
+        [Parameter(ParameterSetName = VMwareToAzureParameterSet, HelpMessage = "Specify the tags for the disks of the VM.")]
+        [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, HelpMessage = "Specify the tags for the disks of the VM.")]
         [ValidateNotNullOrEmpty]
         public IDictionary<string, string> DiskTag { get; set; }
 
