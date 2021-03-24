@@ -303,7 +303,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 
                 if (vmNicIPConfig == null)
                 {
-                    this.WriteWarning(string.Format(Resources.IPConfigNotFoundInVMNic, ipConfig.IpConfigName));
+                    this.WriteWarning(string.Format(Resources.IPConfigNotFoundInVMNic, ipConfig.IpConfigName, vmNic.NicId));
                     return false;
                 }
 
@@ -318,12 +318,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     ipConfig.RecoveryStaticIPAddress = vmNicIPConfig.RecoveryStaticIPAddress;
                 }
 
-                if (string.IsNullOrEmpty(ipConfig.RecoveryPublicIPAddressId))
+                if (ipConfig.RecoveryPublicIPAddressId == null)
                 {
                     ipConfig.RecoveryPublicIPAddressId = vmNicIPConfig.RecoveryPublicIPAddressId;
                 }
 
-                if (ipConfig.RecoveryLBBackendAddressPoolIds.Count == 0)
+                if (ipConfig.RecoveryLBBackendAddressPoolIds == null)
                 {
                     ipConfig.RecoveryLBBackendAddressPoolIds = vmNicIPConfig.RecoveryLBBackendAddressPoolIds;
                 }
@@ -338,14 +338,14 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     ipConfig.TfoStaticIPAddress = vmNicIPConfig.TfoStaticIPAddress;
                 }
 
-                if (string.IsNullOrEmpty(ipConfig.TfoPublicIPAddressId))
+                if (ipConfig.TfoPublicIPAddressId == null)
                 {
                     ipConfig.TfoPublicIPAddressId = vmNicIPConfig.TfoPublicIPAddressId;
                 }
 
-                if (ipConfig.TfoLBBackendAddressPoolIds.Count == 0)
+                if (ipConfig.TfoLBBackendAddressPoolIds == null)
                 {
-                    ipConfig.TfoPublicIPAddressId = vmNicIPConfig.TfoPublicIPAddressId;
+                    ipConfig.TfoLBBackendAddressPoolIds = vmNicIPConfig.TfoLBBackendAddressPoolIds;
                 }
             }
 

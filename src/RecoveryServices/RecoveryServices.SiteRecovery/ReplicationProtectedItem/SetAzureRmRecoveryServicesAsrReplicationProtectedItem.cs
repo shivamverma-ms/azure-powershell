@@ -823,7 +823,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                                 RecoveryStaticIPAddress = ip.RecoveryStaticIPAddress,
                                 RecoveryPublicIPAddressId = ip.RecoveryPublicIPAddressId,
                                 RecoveryLBBackendAddressPoolIds = ip.RecoveryLBBackendAddressPoolIds
-                            }).ToList();
+                            })?.ToList();
                         vMNicInputDetails.EnableAcceleratedNetworkingOnRecovery = nDetails.EnableAcceleratedNetworkingOnRecovery;
                         vMNicInputDetails.RecoveryNetworkSecurityGroupId =
                             nDetails.RecoveryNetworkSecurityGroupId;

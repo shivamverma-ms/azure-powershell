@@ -70,7 +70,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
             Mandatory = false,
             HelpMessage = "Specifies the ID of the public IP address associated with the recovery IP config.")]
-        [ValidateNotNullOrEmpty]
+        [ValidateNotNull]
         public string RecoveryPublicIPAddressId { get; set; }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure,
             Mandatory = false,
             HelpMessage = "Specifies the ID of the public IP address associated with the test failover IP config.")]
-        [ValidateNotNullOrEmpty]
+        [ValidateNotNull]
         public string TfoPublicIPAddressId { get; set; }
 
         /// <summary>
@@ -153,13 +153,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         RecoverySubnetName = this.RecoverySubnetName,
                         RecoveryStaticIPAddress = this.RecoveryStaticIPAddress,
                         RecoveryPublicIPAddressId = this.RecoveryPublicIPAddressId,
-                        RecoveryLBBackendAddressPoolIds = this.RecoveryLBBackendAddressPoolIds?.ToList() ??
-                            new List<string>(),
+                        RecoveryLBBackendAddressPoolIds = this.RecoveryLBBackendAddressPoolIds?.ToList(),
                         TfoSubnetName = this.TfoSubnetName,
                         TfoStaticIPAddress = this.TfoStaticIPAddress,
                         TfoPublicIPAddressId = this.TfoPublicIPAddressId,
-                        TfoLBBackendAddressPoolIds = this.TfoLBBackendAddressPoolIds?.ToList() ??
-                            new List<string>()
+                        TfoLBBackendAddressPoolIds = this.TfoLBBackendAddressPoolIds?.ToList()
                     };
 
                     break;
