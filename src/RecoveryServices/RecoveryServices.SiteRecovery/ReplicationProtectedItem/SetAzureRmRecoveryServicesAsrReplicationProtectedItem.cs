@@ -752,27 +752,18 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         vMNicInputDetails.RecoveryNicName = nic.RecoveryNicName;
                         vMNicInputDetails.RecoveryNicResourceGroupName = nic.RecoveryNicResourceGroupName;
                         vMNicInputDetails.ReuseExistingNic = nic.ReuseExistingNic;
-                        vMNicInputDetails.RecoveryVMSubnetName = nic.RecoveryVMSubnetName;
                         vMNicInputDetails.EnableAcceleratedNetworkingOnRecovery =
                             nic.EnableAcceleratedNetworkingOnRecovery;
                         vMNicInputDetails.RecoveryNetworkSecurityGroupId =
                             nic.RecoveryNetworkSecurityGroupId;
-                        vMNicInputDetails.ReplicaNicStaticIPAddress =
-                            nic.RecoveryIPConfigs?.FirstOrDefault()?.StaticIPAddress;
-                        vMNicInputDetails.RecoveryPublicIpAddressId =
-                            nic.RecoveryIPConfigs?.FirstOrDefault()?.PublicIpAddressId;
-                        vMNicInputDetails.RecoveryLBBackendAddressPoolIds =
-                            nic.RecoveryIPConfigs?.FirstOrDefault()?.LBBackendAddressPoolIds;
-
+                        vMNicInputDetails.IpConfigs = nic.IPConfigs;
                         vMNicInputDetails.TfoNicName = nic.TfoNicName;
                         vMNicInputDetails.TfoNicResourceGroupName = nic.TfoNicResourceGroupName;
                         vMNicInputDetails.TfoReuseExistingNic = nic.TfoReuseExistingNic;
-                        vMNicInputDetails.TfoVMSubnetName = nic.TfoVMSubnetName;
                         vMNicInputDetails.EnableAcceleratedNetworkingOnTfo =
                             nic.EnableAcceleratedNetworkingOnTfo;
                         vMNicInputDetails.TfoNetworkSecurityGroupId =
                             nic.TfoNetworkSecurityGroupId;
-                        vMNicInputDetails.TfoIPConfigs = nic.TfoIPConfigs;
 
                         vMNicInputDetails.SelectionType =
                             string.IsNullOrEmpty(this.NicSelectionType)
@@ -791,16 +782,17 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         && string.Compare(nDetails.NicId, this.UpdateNic, StringComparison.OrdinalIgnoreCase) == 0)
                     {
                         vMNicInputDetails.NicId = this.UpdateNic;
-                        vMNicInputDetails.RecoveryVMSubnetName = this.RecoveryNicSubnetName;
-                        vMNicInputDetails.ReplicaNicStaticIPAddress =
-                            this.RecoveryNicStaticIPAddress;
+                        var ipConfig = new IPConfigInputDetails()
+                        {
+                            RecoverySubnetName = this.RecoveryNicSubnetName,
+                            RecoveryStaticIPAddress = this.RecoveryNicStaticIPAddress,
+                            RecoveryPublicIPAddressId = this.RecoveryPublicIPAddressId,
+                            RecoveryLBBackendAddressPoolIds = this.RecoveryLBBackendAddressPoolId?.ToList()
+                        };
+                        vMNicInputDetails.IpConfigs = new List<IPConfigInputDetails>() { ipConfig };
                         vMNicInputDetails.SelectionType =
                             string.IsNullOrEmpty(this.NicSelectionType)
                                 ? Constants.SelectedByUser : this.NicSelectionType;
-                        vMNicInputDetails.RecoveryLBBackendAddressPoolIds =
-                            this.RecoveryLBBackendAddressPoolId?.ToList();
-                        vMNicInputDetails.RecoveryPublicIpAddressId =
-                            this.RecoveryPublicIPAddressId;
                         vMNicInputDetails.RecoveryNetworkSecurityGroupId =
                             this.RecoveryNetworkSecurityGroupId;
                         vMNicInputDetailsList.Add(vMNicInputDetails);
@@ -820,18 +812,22 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     else
                     {
                         vMNicInputDetails.NicId = nDetails.NicId;
-                        vMNicInputDetails.RecoveryVMSubnetName = nDetails.RecoveryVMSubnetName;
-                        vMNicInputDetails.ReplicaNicStaticIPAddress =
-                            nDetails.ReplicaNicStaticIPAddress;
                         vMNicInputDetails.SelectionType = nDetails.SelectionType;
-                        vMNicInputDetailsList.Add(vMNicInputDetails);
+                        vMNicInputDetails.IpConfigs = nDetails.IpConfigs?.Select(ip =>
+                            new IPConfigInputDetails()
+                            {
+                                IpConfigName = ip.Name,
+                                IsPrimary = ip.IsPrimary,
+                                IsSeletedForFailover = ip.IsSeletedForFailover,
+                                RecoverySubnetName = ip.RecoverySubnetName,
+                                RecoveryStaticIPAddress = ip.RecoveryStaticIPAddress,
+                                RecoveryPublicIPAddressId = ip.RecoveryPublicIPAddressId,
+                                RecoveryLBBackendAddressPoolIds = ip.RecoveryLBBackendAddressPoolIds
+                            })?.ToList();
                         vMNicInputDetails.EnableAcceleratedNetworkingOnRecovery = nDetails.EnableAcceleratedNetworkingOnRecovery;
-                        vMNicInputDetails.RecoveryLBBackendAddressPoolIds =
-                            nDetails.RecoveryLBBackendAddressPoolIds;
-                        vMNicInputDetails.RecoveryPublicIpAddressId =
-                            nDetails.RecoveryPublicIpAddressId;
                         vMNicInputDetails.RecoveryNetworkSecurityGroupId =
                             nDetails.RecoveryNetworkSecurityGroupId;
+                        vMNicInputDetailsList.Add(vMNicInputDetails);
                     }
                 }
             }

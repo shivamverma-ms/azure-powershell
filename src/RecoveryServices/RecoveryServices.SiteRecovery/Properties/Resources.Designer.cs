@@ -441,6 +441,15 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IP Config &quot;{0}&quot; not found in VM NIC &quot;{1}&quot;..
+        /// </summary>
+        internal static string IPConfigNotFoundInVMNic {
+            get {
+                return ResourceManager.GetString("IPConfigNotFoundInVMNic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Location is not specified for creating Azure fabric..
         /// </summary>
         internal static string LocationNotSpecifiedForAzureFabric {
