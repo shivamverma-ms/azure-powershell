@@ -303,8 +303,60 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// </summary>
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure)]
         [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithoutDiskDetails)]
+        [Parameter(ParameterSetName = VMwareToAzureWithDiskType, HelpMessage = "Specify the availability set Id to be used by the failover Vm in target recovery region.")]
+        [Parameter(ParameterSetName = VMwareToAzureParameterSet, HelpMessage = "Specify the availability set Id to be used by the failover Vm in target recovery region.")]
+        [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, HelpMessage = "Specify the availability set Id to be used by the failover Vm in target recovery region.")]
         [ValidateNotNullOrEmpty]
         public string RecoveryAvailabilitySetId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the target VM size in the event of a failover.
+        /// </summary>
+        [Parameter(ParameterSetName = VMwareToAzureWithDiskType, HelpMessage = "Specify the recovery virtual machine size.")]
+        [Parameter(ParameterSetName = VMwareToAzureParameterSet, HelpMessage = "Specify the recovery virtual machine size.")]
+        [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, HelpMessage = "Specify the recovery virtual machine size.")]
+        [ValidateNotNullOrEmpty]
+        public string Size { get; set; }
+
+        /// <summary>
+        /// Gets or sets the SQL Server license type to the machine to in the event of a failover.
+        /// </summary>
+        [Parameter(ParameterSetName = VMwareToAzureWithDiskType, HelpMessage = "Specify the SQL Server license type of the VM.")]
+        [Parameter(ParameterSetName = VMwareToAzureParameterSet, HelpMessage = "Specify the SQL Server license type of the VM.")]
+        [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, HelpMessage = "Specify the SQL Server license type of the VM.")]
+        [ValidateNotNullOrEmpty]
+        [ValidateSet(
+            Constants.NoLicenseType,
+            Constants.LicenseTypePAYG,
+            Constants.LicenseTypeAHUB)]
+        public string SqlServerLicenseType { get; set; }
+
+        /// <summary>
+        /// Gets or sets target VM tags.
+        /// </summary>
+        [Parameter(ParameterSetName = VMwareToAzureWithDiskType, HelpMessage = "Specify the SQL Server license type of the VM.")]
+        [Parameter(ParameterSetName = VMwareToAzureParameterSet, HelpMessage = "Specify the SQL Server license type of the VM.")]
+        [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, HelpMessage = "Specify the SQL Server license type of the VM.")]
+        [ValidateNotNullOrEmpty]
+        public IDictionary<string, string> TargetVmTags { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tags for the disks.
+        /// </summary>
+        [Parameter(ParameterSetName = VMwareToAzureWithDiskType, HelpMessage = "Specify the SQL Server license type of the VM.")]
+        [Parameter(ParameterSetName = VMwareToAzureParameterSet, HelpMessage = "Specify the SQL Server license type of the VM.")]
+        [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, HelpMessage = "Specify the SQL Server license type of the VM.")]
+        [ValidateNotNullOrEmpty]
+        public IDictionary<string, string> DiskTags { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tags for the target NICs.
+        /// </summary>
+        [Parameter(ParameterSetName = VMwareToAzureWithDiskType, HelpMessage = "Specify the tags for the target NICs of the VM.")]
+        [Parameter(ParameterSetName = VMwareToAzureParameterSet, HelpMessage = "Specify the tags for the target NICs of the VM.")]
+        [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, HelpMessage = "Specify the tags for the target NICs of the VM.")]
+        [ValidateNotNullOrEmpty]
+        public IDictionary<string, string> TargetNicTags { get; set; }
 
         /// <summary>
         ///     Gets or sets if the Azure virtual machine that is created on failover should use managed disks.
@@ -508,7 +560,14 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 EnableRdpOnTargetOption = Constants.NeverEnableRDPOnTargetOption,
                 DiskEncryptionSetId = this.DiskEncryptionSetId,
                 TargetAvailabilityZone = this.RecoveryAvailabilityZone,
-                TargetProximityPlacementGroupId = this.RecoveryProximityPlacementGroupId
+                TargetProximityPlacementGroupId = this.RecoveryProximityPlacementGroupId,
+                TargetAvailabilitySetId = this.RecoveryAvailabilitySetId,
+                TargetVmSize = this.Size,
+                SqlServerLicenseType = this.SqlServerLicenseType,
+                TargetVmTags = this.TargetVmTags,
+                TargetNicTags = this.TargetNicTags,
+                SeedManagedDiskTags = this.DiskTags,
+                TargetManagedDiskTags = this.DiskTags
             };
 
             if (this.IsParameterBound(c => c.InMageAzureV2DiskInput))
@@ -604,6 +663,13 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             providerSettings.TargetProximityPlacementGroupId = this.RecoveryProximityPlacementGroupId;
             providerSettings.TargetAvailabilityZone = this.RecoveryAvailabilityZone;
             providerSettings.UseManagedDisks = this.UseManagedDisk;
+            providerSettings.TargetAvailabilitySetId = this.RecoveryAvailabilitySetId;
+            providerSettings.TargetVmSize = this.Size;
+            providerSettings.SqlServerLicenseType = this.SqlServerLicenseType;
+            providerSettings.TargetVmTags = this.TargetVmTags;
+            providerSettings.SeedManagedDiskTags = this.DiskTags;
+            providerSettings.TargetManagedDiskTags = this.DiskTags;
+            providerSettings.TargetNicTags = this.TargetNicTags;
 
             if (!string.IsNullOrEmpty(this.RecoveryAzureNetworkId))
             {
