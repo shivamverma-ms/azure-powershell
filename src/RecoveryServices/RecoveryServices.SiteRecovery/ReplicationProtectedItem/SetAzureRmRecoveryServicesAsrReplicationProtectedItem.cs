@@ -130,6 +130,38 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter]
         public string RecoveryAvailabilitySet { get; set; }
 
+        /// <summary>
+        /// Gets or sets the SQL Server license type to the machine to in the event of a failover.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        [ValidateSet(
+            Constants.NoLicenseType,
+            Constants.LicenseTypePAYG,
+            Constants.LicenseTypeAHUB)]
+        public string SqlServerLicenseType { get; set; }
+
+        /// <summary>
+        /// Gets or sets target VM tags.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public IDictionary<string, string> RecoveryVmTag { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tags for the disks.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public IDictionary<string, string> DiskTag { get; set; }
+
+        /// <summary>
+        /// Gets or sets the tags for the target NICs.
+        /// </summary>
+        [Parameter]
+        [ValidateNotNullOrEmpty]
+        public IDictionary<string, string> RecoveryNicTag { get; set; }
+
         // <summary>
         ///     Gets or sets the resource ID of the availability zone to failover this virtual machine to.
         /// </summary>
@@ -342,6 +374,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 var availabilityZone = this.RecoveryAvailabilityZone;
                 var primaryNic = this.PrimaryNic;
                 var diskIdToDiskEncryptionMap = this.DiskIdToDiskEncryptionSetMap;
+                var sqlServerLicenseType = this.SqlServerLicenseType;
+                var recoveryVmTag = this.RecoveryVmTag;
+                var recoveryNicTag = this.RecoveryNicTag;
+                var diskTag = this.DiskTag;
                 var tfoNetworkId = string.Empty;
                 var vMNicInputDetailsList = new List<VMNicInputDetails>();
                 var providerSpecificInput = new UpdateReplicationProtectedItemProviderInput();
@@ -371,6 +407,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     if (string.IsNullOrEmpty(this.LicenseType))
                     {
                         licenseType = providerSpecificDetails.LicenseType;
+                    }
+
+                    if (string.IsNullOrEmpty(this.SqlServerLicenseType))
+                    {
+                        sqlServerLicenseType = providerSpecificDetails.SqlServerLicenseType;
                     }
 
                     availabilitySetId = this.IsParameterBound(c => c.RecoveryAvailabilitySet)
@@ -409,6 +450,24 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                             ToDictionary(x => x.DiskId, x => x.DiskEncryptionSetId);
                     }
 
+                    if (this.RecoveryVmTag == null ||
+                      this.RecoveryVmTag.Count == 0)
+                    {
+                        recoveryVmTag = providerSpecificDetails.TargetVmTags;
+                    }
+
+                    if (this.RecoveryNicTag == null ||
+                       this.RecoveryNicTag.Count == 0)
+                    {
+                        recoveryNicTag = providerSpecificDetails.TargetNicTags;
+                    }
+
+                    if (this.DiskTag == null ||
+                      this.DiskTag.Count == 0)
+                    {
+                        diskTag = providerSpecificDetails.TargetManagedDiskTags;
+                    }
+
                     var deploymentType = Utilities.GetValueFromArmId(
                         providerSpecificDetails.RecoveryAzureStorageAccount,
                         ARMResourceTypeConstants.Providers);
@@ -432,7 +491,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                                 UseManagedDisks = useManagedDisk,
                                 DiskIdToDiskEncryptionMap = this.DiskIdToDiskEncryptionSetMap,
                                 TargetAvailabilityZone = availabilityZone,
-                                TargetProximityPlacementGroupId = proximityPlacementGroupId
+                                TargetProximityPlacementGroupId = proximityPlacementGroupId,
+                                SqlServerLicenseType = sqlServerLicenseType,
+                                TargetVmTags = recoveryVmTag,
+                                TargetManagedDiskTags = diskTag,
+                                TargetNicTags = recoveryNicTag
                             };
                     }
 
@@ -463,6 +526,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         licenseType = providerSpecificDetails.LicenseType;
                     }
 
+                    if (string.IsNullOrEmpty(this.SqlServerLicenseType))
+                    {
+                        sqlServerLicenseType = providerSpecificDetails.SqlServerLicenseType;
+                    }
+
                     availabilitySetId = this.IsParameterBound(c => c.RecoveryAvailabilitySet)
                         ? this.RecoveryAvailabilitySet : providerSpecificDetails.RecoveryAvailabilitySetId;
 
@@ -488,6 +556,24 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         primaryNic = providerSpecificDetails.SelectedSourceNicId;
                     }
 
+                    if (this.RecoveryVmTag == null ||
+                     this.RecoveryVmTag.Count == 0)
+                    {
+                        recoveryVmTag = providerSpecificDetails.TargetVmTags;
+                    }
+
+                    if (this.RecoveryNicTag == null ||
+                       this.RecoveryNicTag.Count == 0)
+                    {
+                        recoveryNicTag = providerSpecificDetails.TargetNicTags;
+                    }
+
+                    if (this.DiskTag == null ||
+                      this.DiskTag.Count == 0)
+                    {
+                        diskTag = providerSpecificDetails.TargetManagedDiskTags;
+                    }
+
                     var deploymentType = Utilities.GetValueFromArmId(
                         providerSpecificDetails.TargetVmId,
                         ARMResourceTypeConstants.Providers);
@@ -510,7 +596,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                                 RecoveryAzureV2ResourceGroupId = recoveryResourceGroupId,
                                 UseManagedDisks = useManagedDisk,
                                 TargetAvailabilityZone = availabilityZone,
-                                TargetProximityPlacementGroupId = proximityPlacementGroupId
+                                TargetProximityPlacementGroupId = proximityPlacementGroupId,
+                                SqlServerLicenseType = sqlServerLicenseType,
+                                TargetVmTags = recoveryVmTag,
+                                TargetNicTags = recoveryNicTag,
+                                TargetManagedDiskTags = diskTag
                             };
                     }
                     vMNicInputDetailsList = getNicListToUpdate(providerSpecificDetails.VmNics);
