@@ -326,7 +326,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter(ParameterSetName = ASRParameterSets.HyperVSiteToAzure, HelpMessage = "Specify the SQL Server license type of the VM.")]
         [ValidateNotNullOrEmpty]
         [ValidateSet(
-            Constants.NoLicenseType,
+            Constants.NoLicenseTypeSql,
             Constants.LicenseTypePAYG,
             Constants.LicenseTypeAHUB)]
         public string SqlServerLicenseType { get; set; }
@@ -673,21 +673,15 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             providerSettings.SqlServerLicenseType = this.SqlServerLicenseType;
             providerSettings.TargetVmTags = this.RecoveryVmTag;
             providerSettings.TargetNicTags = this.RecoveryNicTag;
+            providerSettings.TargetManagedDiskTags = this.DiskTag;
 
-            if(this.DiskTag != null || this.DiskTag.Count > 0)
+            if (this.DiskTag != null && this.DiskTag.Count > 0 && this.UseManagedDisk == Constants.False)
             {
-                if(this.UseManagedDisk == Constants.False)
-                {
-                    throw new PSArgumentException(
-                                string.Format(
-                                    Resources.DiskTagCannotBeSet,
-                                    this.DiskTag,
-                                    this.UseManagedDisk));
-                }
-                else
-                {
-                    providerSettings.TargetManagedDiskTags = this.DiskTag;
-                }
+                throw new PSArgumentException(
+                    string.Format(
+                        Resources.DiskTagCannotBeSet,
+                        this.DiskTag,
+                        this.UseManagedDisk));
             }
 
             if (!string.IsNullOrEmpty(this.RecoveryAzureNetworkId))

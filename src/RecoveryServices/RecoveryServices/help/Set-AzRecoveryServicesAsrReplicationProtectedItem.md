@@ -550,7 +550,7 @@ Accept wildcard characters: False
 ```
 
 ### -SqlServerLicenseType
-Specify the SQL Server license type of the VM.
+Specify the SQL Server license type of the VM. This is applicable for Vmware to Azure and HyperV to Azure providers.
 
 ```yaml
 Type: System.String

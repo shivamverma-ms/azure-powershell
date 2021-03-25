@@ -136,7 +136,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         [Parameter]
         [ValidateNotNullOrEmpty]
         [ValidateSet(
-            Constants.NoLicenseType,
+            Constants.NoLicenseTypeSql,
             Constants.LicenseTypePAYG,
             Constants.LicenseTypeAHUB)]
         public string SqlServerLicenseType { get; set; }
@@ -467,18 +467,13 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     {
                         diskTag = providerSpecificDetails.TargetManagedDiskTags;
                     }
-
-                    if(useManagedDisk == Constants.False)
+                    else if (useManagedDisk == Constants.False)
                     {
-                        if(diskTag != null ||
-                            diskTag.Count > 0)
-                        {
-                            throw new PSArgumentException(
-                               string.Format(
-                                   Resources.DiskTagCannotBeSet,
-                                   diskTag,
-                                   useManagedDisk));
-                        }
+                        throw new PSArgumentException(
+                                  string.Format(
+                                      Resources.DiskTagCannotBeSet,
+                                      diskTag,
+                                      useManagedDisk));
                     }
 
                     var deploymentType = Utilities.GetValueFromArmId(
