@@ -185,7 +185,7 @@ Accept wildcard characters: False
 ```
 
 ### -DiskTag
-Specify the tags for the disks of the VM.
+Specify the tags for the disks of the VM. This is applicable for Vmware to Azure and HyperV to Azure providers.
 
 ```yaml
 Type: System.Collections.Generic.IDictionary`2[System.String,System.String]
@@ -458,8 +458,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -RecoveryNicTag
-Specify the tags for the target NICs of the VM.
+### -RecoveryNicTag 
+Specify the tags for the target NICs of the VM. This is applicable for Vmware to Azure and HyperV to Azure providers.
 
 ```yaml
 Type: System.Collections.Generic.IDictionary`2[System.String,System.String]
@@ -519,7 +519,7 @@ Accept wildcard characters: False
 ```
 
 ### -RecoveryVmTag
-Specify the tags for target VM.
+Specify the tags for target VM. This is applicable for Vmware to Azure and HyperV to Azure providers.
 
 ```yaml
 Type: System.Collections.Generic.IDictionary`2[System.String,System.String]

@@ -541,6 +541,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 
         private void VMwareToAzureReplication(EnableProtectionInput input)
         {
+            var seedManagedDiskTag = this.DiskTag;
+            if (!string.IsNullOrEmpty(this.RecoveryAzureStorageAccountId))
+            {
+                seedManagedDiskTag = null;
+            }
             var providerSettings = new InMageAzureV2EnableProtectionInput
             {
                 ProcessServerId = this.ProcessServer.Id,
@@ -566,7 +571,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 SqlServerLicenseType = this.SqlServerLicenseType,
                 TargetVmTags = this.RecoveryVmTag,
                 TargetNicTags = this.RecoveryNicTag,
-                SeedManagedDiskTags = this.DiskTag,
+                SeedManagedDiskTags = seedManagedDiskTag,
                 TargetManagedDiskTags = this.DiskTag
             };
 
@@ -667,8 +672,23 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             providerSettings.TargetVmSize = this.Size;
             providerSettings.SqlServerLicenseType = this.SqlServerLicenseType;
             providerSettings.TargetVmTags = this.RecoveryVmTag;
-            providerSettings.TargetManagedDiskTags = this.DiskTag;
             providerSettings.TargetNicTags = this.RecoveryNicTag;
+
+            if(this.DiskTag != null || this.DiskTag.Count > 0)
+            {
+                if(this.UseManagedDisk == Constants.False)
+                {
+                    throw new PSArgumentException(
+                                string.Format(
+                                    Resources.DiskTagCannotBeSet,
+                                    this.DiskTag,
+                                    this.UseManagedDisk));
+                }
+                else
+                {
+                    providerSettings.TargetManagedDiskTags = this.DiskTag;
+                }
+            }
 
             if (!string.IsNullOrEmpty(this.RecoveryAzureNetworkId))
             {

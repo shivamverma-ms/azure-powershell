@@ -468,6 +468,19 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         diskTag = providerSpecificDetails.TargetManagedDiskTags;
                     }
 
+                    if(useManagedDisk == Constants.False)
+                    {
+                        if(diskTag != null ||
+                            diskTag.Count > 0)
+                        {
+                            throw new PSArgumentException(
+                               string.Format(
+                                   Resources.DiskTagCannotBeSet,
+                                   diskTag,
+                                   useManagedDisk));
+                        }
+                    }
+
                     var deploymentType = Utilities.GetValueFromArmId(
                         providerSpecificDetails.RecoveryAzureStorageAccount,
                         ARMResourceTypeConstants.Providers);

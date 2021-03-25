@@ -161,6 +161,15 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disk Tag &quot;{0}&quot; cannot be set if UseManagedDisk is &quot;{1}&quot;..
+        /// </summary>
+        internal static string DiskTagCannotBeSet {
+            get {
+                return ResourceManager.GetString("DiskTagCannotBeSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email is not in correct format..
         /// </summary>
         internal static string EmailFormatInvalid {

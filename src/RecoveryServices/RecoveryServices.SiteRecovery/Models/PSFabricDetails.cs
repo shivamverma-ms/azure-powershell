@@ -869,7 +869,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public string RecoveryProximityPlacementGroupId { get; set; }
 
         /// <summary>
-        /// Gets or sets the SQL Server license type to the machine to in the event of a failover.
+        /// Gets or sets the SQL Server license type of the machine to in the event of a failover.
         /// </summary>
         public string SqlServerLicenseType { get; set; }
 
@@ -885,7 +885,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
 
         /// <summary>
         /// Gets or sets the tags for the target NICs.
-        /// </summary>
+        /// </summary>S
         public IDictionary<string, string> RecoveryNicTag { get; set; }
     }
 
@@ -1211,7 +1211,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public string RecoveryProximityPlacementGroupId { get; set; }
 
         /// <summary>
-        /// Gets or sets the SQL Server license type to the machine to in the event of a failover.
+        /// Gets or sets the SQL Server license type of the machine to in the event of a failover.
         /// </summary>
         public string SqlServerLicenseType { get; set; }
 
