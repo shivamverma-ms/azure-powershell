@@ -932,7 +932,7 @@ function Test-RecoveryPlanReplication {
 #>
 
 function Test-VMSSReplication {
-    param([string] $seed = '127')
+    param([string] $seed = '1227')
     $primaryPolicyName = getPrimaryPolicy
     $recoveryPolicyName = getRecoveryPolicy
 
@@ -965,7 +965,7 @@ function Test-VMSSReplication {
     $index = $RecoveryAzureNetworkId.IndexOf("/providers/")
     $recRg = $RecoveryAzureNetworkId.Substring(0, $index)
     #create virtual Machine scale set
-	$vmssConfig = New-AzVmssConfig -Location $recoveryLocation -PlatformFaultDomainCount 1 -SinglePlacementGroup False
+	$vmssConfig = New-AzVmssConfig -Location $recoveryLocation -PlatformFaultDomainCount 1 -SinglePlacementGroup 0
 	$recVmss = new-azvmss -resourcegroupname $recRgName -vmscalesetname 'vmss-asr' -virtualmachinescaleset $vmssConfig
     $recVmss1 = new-azvmss -resourcegroupname $recRgName -vmscalesetname 'vmss1-asr' -virtualmachinescaleset $vmssConfig
 
@@ -1045,7 +1045,7 @@ function Test-VMSSReplication {
     WaitForJobCompletion -JobId $enableDRjob.Name
     WaitForIRCompletion -affectedObjectId $enableDRjob.TargetObjectId
 
-    #Validate PPG Set in replicated vm properties
+    #Validate vmss Set in replicated vm properties
     $pe = Get-AzRecoveryServicesAsrReplicationProtectedItem -ProtectionContainer $pc -Name  $vmName
     Assert-NotNull($pe.providerSpecificDetails.RecoveryVirtualMachineScaleSetId)
 
