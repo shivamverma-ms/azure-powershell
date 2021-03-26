@@ -703,3 +703,66 @@ function V2AUpdateRPIWithAvZone
         $rpi = Get-AsrReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $piName
         Assert-NotNull($rpi.ProviderSpecificDetails.RecoveryAvailabilityZone)
 }
+
+function V2ACreateRPIWithAdditionalProperties
+{
+    param([string] $vaultSettingsFilePath)
+        Import-AzRecoveryServicesAsrVaultSettingsFile -Path $vaultSettingsFilePath
+        $PrimaryFabricName = "PwsTestCS"
+        $pcName = "PwsTestCS"
+        $fabric =  Get-AsrFabric -FriendlyName $PrimaryFabricName
+        $pc =  Get-ASRProtectionContainer -FriendlyName $pcName -Fabric $fabric
+        $PolicyName1 = "V2aTestv2avm1"
+        $Policy1 = Get-AzRecoveryServicesAsrPolicy -Name $PolicyName1
+        $pcm = Get-AzRecoveryServicesAsrProtectionContainerMapping -ProtectionContainer $pc -Name "a82f1aa1-9c8c-4832-adf2-6a4aa3aa90d4" 
+        $piName = "W2k19-PSTest-1"
+        $pi = Get-ASRProtectableItem -ProtectionContainer $pc -FriendlyName $piName
+        $rpiName = "W2k19-PSTest-1-new"
+        $AccountHandles = $fabric[0].FabricSpecificDetails.RunAsAccounts
+        $ProcessServers = $fabric[0].FabricSpecificDetails.ProcessServers
+        $ResourceGroupId ="/subscriptions/b8aef8e1-37df-4f17-a537-f10e183c8eca/resourceGroups/PwsTestRG"
+        $RecoveryVnetId ="/subscriptions/b8aef8e1-37df-4f17-a537-f10e183c8eca/resourceGroups/PwsTestRG/providers/Microsoft.Network/virtualNetworks/PwsTestNw"
+        $LogStorageAccountId = "/subscriptions/b8aef8e1-37df-4f17-a537-f10e183c8eca/resourceGroups/PwsTestRG/providers/Microsoft.Storage/storageAccounts/pwsteststor"
+        $ppg = "/subscriptions/b8aef8e1-37df-4f17-a537-f10e183c8eca/resourceGroups/PwsTestRG/providers/Microsoft.Compute/proximityPlacementGroups/PwsTestPpg"
+        $avset="/subscriptions/b8aef8e1-37df-4f17-a537-f10e183c8eca/resourceGroups/PwsTestRG/providers/Microsoft.Compute/availabilitySets/PwsTestAvSet"
+        $size="Standard_F2s_v2"
+        $sqlLicenseType = "AHUB"
+        $vmTag = New-Object "System.Collections.Generic.Dictionary``2[System.String,System.String]"
+        $vmTag.Add("VmTag1","powershellVm")
+        $diskTag = New-Object "System.Collections.Generic.Dictionary``2[System.String,System.String]"
+        $diskTag.Add("DiskTag1","powershellDisk")
+        $nicTag = New-Object "System.Collections.Generic.Dictionary``2[System.String,System.String]"
+        $nicTag.Add("NicTag1","powershellNic")
+        $EnableDRjob = New-AzRecoveryServicesAsrReplicationProtectedItem -VMwareToAzure -ProtectableItem $pi -Name $rpiName -ProtectionContainerMapping $pcm -ProcessServer $ProcessServers[0] -Account $AccountHandles[0] -RecoveryResourceGroupId $ResourceGroupId -logStorageAccountId $LogStorageAccountId -RecoveryAzureNetworkId $RecoveryVnetId -RecoveryAzureSubnetName "Subnet-1" -RecoveryProximityPlacementGroupId $ppg -RecoveryAvailabilitySetId $avset -Size $size -SqlServerLicenseType $sqlLicenseType -RecoveryVmTag $vmTag -RecoveryNicTag $nicTag -DiskTag $diskTag
+}
+
+function V2AUpdateRPIWithAdditionalProperties
+{
+    param([string] $vaultSettingsFilePath)
+        Import-AzRecoveryServicesAsrVaultSettingsFile -Path $vaultSettingsFilePath
+        $PrimaryFabricName = "PwsTestCS"
+        $pcName = "PwsTestCS"
+        $fabric =  Get-AsrFabric -FriendlyName $PrimaryFabricName
+        $pc =  Get-ASRProtectionContainer -FriendlyName $pcName -Fabric $fabric
+        $PolicyName1 = "V2aTestv2avm1"
+        $Policy1 = Get-AzRecoveryServicesAsrPolicy -Name $PolicyName1
+        $pcm = Get-AzRecoveryServicesAsrProtectionContainerMapping -ProtectionContainer $pc -Name "a82f1aa1-9c8c-4832-adf2-6a4aa3aa90d4" 
+        $piName = "W2k19-PSTest-1"
+        $rpi = Get-ASRReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $piName
+        $rpiName = "W2k19-PSTest-1-new"
+        $sqlLicenseType = "PAYG"
+        $vmTag = New-Object "System.Collections.Generic.Dictionary``2[System.String,System.String]"
+        $vmTag.Add("VmTag2","powershellVm2")
+        $diskTag = New-Object "System.Collections.Generic.Dictionary``2[System.String,System.String]"
+        $diskTag.Add("DiskTag2","powershellDisk2")
+        $nicTag = New-Object "System.Collections.Generic.Dictionary``2[System.String,System.String]"
+        $nicTag.Add("NicTag2","powershellNic2")
+
+        $currentJob = Set-AsrReplicationProtectedItem -InputObject $rpi -Name $rpiName -SqlServerLicenseType $sqlLicenseType -RecoveryVmTag $vmTag -RecoveryNicTag $nicTag -DiskTag $diskTag
+        WaitForJobCompletion -JobId $currentJob.Name
+
+        $rpi = Get-AsrReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $piName
+        Assert-NotNull($rpi.ProviderSpecificDetails.RecoveryVmTag)
+        Assert-NotNull($rpi.ProviderSpecificDetails.DiskTag)
+        Assert-NotNull($rpi.ProviderSpecificDetails.RecoveryNicTag)
+}

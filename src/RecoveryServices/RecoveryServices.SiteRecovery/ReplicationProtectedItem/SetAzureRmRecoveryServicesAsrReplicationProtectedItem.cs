@@ -581,6 +581,14 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     {
                         diskTag = providerSpecificDetails.TargetManagedDiskTags;
                     }
+                    else if (useManagedDisk == Constants.False)
+                    {
+                        throw new PSArgumentException(
+                                  string.Format(
+                                      Resources.DiskTagCannotBeSet,
+                                      diskTag,
+                                      useManagedDisk));
+                    }
 
                     var deploymentType = Utilities.GetValueFromArmId(
                         providerSpecificDetails.TargetVmId,

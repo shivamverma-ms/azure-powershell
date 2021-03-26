@@ -344,5 +344,33 @@ namespace RecoveryServices.SiteRecovery.Test
                 this.VaultSettingsFilePath +
                 "\"");
         }
+
+        [Fact]
+        [Trait(
+           Category.AcceptanceType,
+           Category.CheckIn)]
+        public void V2ACreateRPIWithAdditionalProperties()
+        {
+            this.RunPowerShellTest(
+                _logger,
+                Constants.NewModel,
+                "V2ACreateRPIWithAdditionalProperties -vaultSettingsFilePath \"" +
+                this.VaultSettingsFilePath +
+                "\"");
+        }
+
+        [Fact]
+        [Trait(
+           Category.AcceptanceType,
+           Category.CheckIn)]
+        public void V2AUpdateRPIWithAdditionalProperties()
+        {
+            this.RunPowerShellTest(
+                _logger,
+                Constants.NewModel,
+                "V2AUpdateRPIWithAdditionalProperties -vaultSettingsFilePath \"" +
+                this.VaultSettingsFilePath +
+                "\"");
+        }
     }
 }
