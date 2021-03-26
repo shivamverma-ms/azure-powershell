@@ -301,8 +301,8 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// <summary>
         /// Gets or sets the resource ID of virtual machine scale set to failover this virtual machine to.
         /// </summary>
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, HelpMessage = "Specify the virtual machine scale set Id to used by the failover Vm in target recovery region.")]
-        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithoutDiskDetails, HelpMessage = "Specify the virtual machine scale set Id to used by the failover Vm in target recovery region.")]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzure, HelpMessage = "Specify the virtual machine scale set Id to be used by the failover Vm in target recovery region.")]
+        [Parameter(ParameterSetName = ASRParameterSets.AzureToAzureWithoutDiskDetails, HelpMessage = "Specify the virtual machine scale set Id to be used by the failover Vm in target recovery region.")]
         [ValidateNotNullOrEmpty]
         public string RecoveryVirtualMachineScaleSetId { get; set; }
 

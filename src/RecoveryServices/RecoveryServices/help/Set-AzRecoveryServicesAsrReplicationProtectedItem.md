@@ -493,7 +493,7 @@ Accept wildcard characters: False
 ```
 
 ### -RecoveryVirtualMachineScaleSetId
-{{ Fill RecoveryVirtualMachineScaleSetId Description }}
+Specifies the target virtual machine scale set to be configured.
 
 ```yaml
 Type: System.String

@@ -70,7 +70,7 @@ New-AzRecoveryServicesAsrReplicationProtectedItem [-AzureToAzure]
  [-RecoveryAzureNetworkId <String>] [-RecoveryAzureSubnetName <String>] -RecoveryResourceGroupId <String>
  [-ReplicationGroupName <String>] [-RecoveryCloudServiceId <String>] [-RecoveryAvailabilityZone <String>]
  [-RecoveryProximityPlacementGroupId <String>] [-RecoveryVirtualMachineScaleSetId <String>]
- [-RecoveryAvailabilitySetId <String>] [-UseManagedDisk <String>] [-RecoveryBootDiagStorageAccountId <String>]
+ [-RecoveryAvailabilitySetId <String>] [-RecoveryBootDiagStorageAccountId <String>]
  [-DiskEncryptionVaultId <String>] [-DiskEncryptionSecretUrl <String>] [-KeyEncryptionKeyUrl <String>]
  [-KeyEncryptionVaultId <String>] [-WaitForCompletion] [-DefaultProfile <IAzureContextContainer>] [-WhatIf]
  [-Confirm] [<CommonParameters>]
@@ -83,7 +83,7 @@ New-AzRecoveryServicesAsrReplicationProtectedItem [-AzureToAzure] -AzureVmId <St
  [-RecoveryAzureStorageAccountId <String>] -LogStorageAccountId <String> [-RecoveryAzureNetworkId <String>]
  [-RecoveryAzureSubnetName <String>] -RecoveryResourceGroupId <String> [-ReplicationGroupName <String>]
  [-RecoveryAvailabilityZone <String>] [-RecoveryProximityPlacementGroupId <String>]
- [-RecoveryVirtualMachineScaleSetId <String>] [-RecoveryAvailabilitySetId <String>] [-UseManagedDisk <String>]
+ [-RecoveryVirtualMachineScaleSetId <String>] [-RecoveryAvailabilitySetId <String>]
  [-RecoveryBootDiagStorageAccountId <String>] [-DiskEncryptionVaultId <String>]
  [-DiskEncryptionSecretUrl <String>] [-KeyEncryptionKeyUrl <String>] [-KeyEncryptionVaultId <String>]
  [-WaitForCompletion] [-DefaultProfile <IAzureContextContainer>] [-WhatIf] [-Confirm] [<CommonParameters>]
@@ -182,7 +182,7 @@ PS C:>$job = New-AzRecoveryServicesAsrReplicationProtectedItem -AzureToAzure -Az
 -Name "a2aprotectedItem" -RecoveryVmName "vmName" -ProtectionContainerMapping $pcmMapping -RecoveryResourceGroupId $recoveryResourceGroup -RecoveryVirtualMachineScaleSetId $vmss
 ```
 
-Starts the replication protected item creation operation for a Virtual Machine with target virtual machine sclase set configured and returns the ASR job used to track the operation (Azure to Azure scenario).
+Starts the replication protected item creation operation for a Virtual Machine with target virtual machine sclae set configured and returns the ASR job used to track the operation (Azure to Azure scenario).
 
 ## PARAMETERS
 
