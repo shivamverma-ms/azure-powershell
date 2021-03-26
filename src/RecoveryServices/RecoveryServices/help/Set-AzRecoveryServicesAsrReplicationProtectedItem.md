@@ -18,8 +18,8 @@ Set-AzRecoveryServicesAsrReplicationProtectedItem -InputObject <ASRReplicationPr
  [-RecoveryCloudServiceId <String>] [-RecoveryNicSubnetName <String>] [-RecoveryNicStaticIPAddress <String>]
  [-NicSelectionType <String>] [-RecoveryResourceGroupId <String>] [-LicenseType <String>]
  [-RecoveryAvailabilitySet <String>] [-RecoveryAvailabilityZone <String>]
- [-RecoveryProximityPlacementGroupId <String>] [-EnableAcceleratedNetworkingOnRecovery]
- [-RecoveryBootDiagStorageAccountId <String>]
+ [-RecoveryProximityPlacementGroupId <String>] [-RecoveryVirtualMachineScaleSetId <String>]
+ [-EnableAcceleratedNetworkingOnRecovery] [-RecoveryBootDiagStorageAccountId <String>]
  [-AzureToAzureUpdateReplicationConfiguration <ASRAzuretoAzureDiskReplicationConfig[]>]
  [-DiskEncryptionVaultId <String>] [-DiskEncryptionSecretUrl <String>] [-KeyEncryptionKeyUrl <String>]
  [-KeyEncryptionVaultId <String>] [-UseManagedDisk <String>]
@@ -87,6 +87,13 @@ PS C:\> $currentJob = Set-AzureRmRecoveryServicesAsrReplicationProtectedItem -In
 ```
 
 Start the update operation for the specified replication protected item to use the supplied proximity placement group for failover VM.
+
+### Example 8
+```
+PS C:\> $currentJob = Set-AzureRmRecoveryServicesAsrReplicationProtectedItem -InputObject $ rpi -RecoveryVirtualMachineScaleSetId $vmss
+```
+
+Start the update operation for the specified replication protected item to use the supplied virtual machine scale set for failover VM.
 
 ## PARAMETERS
 
@@ -472,6 +479,21 @@ Accept wildcard characters: False
 
 ### -RecoveryResourceGroupId
 The ID of the Azure resource group in the recovery region in which the protected item will be recovered on failover.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RecoveryVirtualMachineScaleSetId
+Specifies the target virtual machine scale set to be configured.
 
 ```yaml
 Type: System.String

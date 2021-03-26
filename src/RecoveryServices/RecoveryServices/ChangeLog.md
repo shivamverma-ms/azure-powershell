@@ -18,6 +18,7 @@
         - Additional information about change #1
 -->
 ## Upcoming Release
+* Azure Site Recovery support for Virtual Machine Scale Set for Azure to Azure provider.
 
 ## Version 3.5.0
 * Added Cross Zonal Restore for managed virtual machines. 
