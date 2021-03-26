@@ -17,8 +17,11 @@ Set-AzRecoveryServicesAsrReplicationProtectedItem -InputObject <ASRReplicationPr
  [-Size <String>] [-UpdateNic <String>] [-RecoveryNetworkId <String>] [-PrimaryNic <String>]
  [-RecoveryCloudServiceId <String>] [-RecoveryNicSubnetName <String>] [-RecoveryNicStaticIPAddress <String>]
  [-NicSelectionType <String>] [-RecoveryResourceGroupId <String>] [-LicenseType <String>]
- [-RecoveryAvailabilitySet <String>] [-RecoveryAvailabilityZone <String>]
- [-RecoveryProximityPlacementGroupId <String>] [-RecoveryVirtualMachineScaleSetId <String>]
+ [-RecoveryAvailabilitySet <String>] [-RecoveryVirtualMachineScaleSetId <String>] [-SqlServerLicenseType <String>]
+ [-RecoveryVmTag <System.Collections.Generic.IDictionary`2[System.String,System.String]>]
+ [-DiskTag <System.Collections.Generic.IDictionary`2[System.String,System.String]>]
+ [-RecoveryNicTag <System.Collections.Generic.IDictionary`2[System.String,System.String]>]
+ [-RecoveryAvailabilityZone <String>] [-RecoveryProximityPlacementGroupId <String>]
  [-EnableAcceleratedNetworkingOnRecovery] [-RecoveryBootDiagStorageAccountId <String>]
  [-AzureToAzureUpdateReplicationConfiguration <ASRAzuretoAzureDiskReplicationConfig[]>]
  [-DiskEncryptionVaultId <String>] [-DiskEncryptionSecretUrl <String>] [-KeyEncryptionKeyUrl <String>]
@@ -175,6 +178,21 @@ Accept wildcard characters: False
 
 ### -DiskIdToDiskEncryptionSetMap
 The dictionary of disk resource Id to disk encryption set ARM Id.
+
+```yaml
+Type: System.Collections.Generic.IDictionary`2[System.String,System.String]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DiskTag
+Specify the tags for the disks of the VM. This is applicable for Vmware to Azure and HyperV to Azure providers.
 
 ```yaml
 Type: System.Collections.Generic.IDictionary`2[System.String,System.String]
@@ -447,6 +465,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -RecoveryNicTag 
+Specify the tags for the target NICs of the VM. This is applicable for Vmware to Azure and HyperV to Azure providers.
+
+```yaml
+Type: System.Collections.Generic.IDictionary`2[System.String,System.String]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -RecoveryProximityPlacementGroupId
 Specifies the Resource Id of the recovery proximity placement group to failover teh virtual machine to.
 
@@ -492,11 +525,19 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+<<<<<<< HEAD
+### -RecoveryVmTag
+Specify the tags for target VM. This is applicable for Vmware to Azure and HyperV to Azure providers.
+
+```yaml
+Type: System.Collections.Generic.IDictionary`2[System.String,System.String]
+=======
 ### -RecoveryVirtualMachineScaleSetId
 Specifies the target virtual machine scale set to be configured.
 
 ```yaml
 Type: System.String
+>>>>>>> fc11807486ac43b169e4d43fd5bd9446a53df8e0
 Parameter Sets: (All)
 Aliases:
 
@@ -515,6 +556,22 @@ The value should be from the set of sizes supported by Azure virtual machines.
 Type: System.String
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SqlServerLicenseType
+Specify the SQL Server license type of the VM. This is applicable for Vmware to Azure and HyperV to Azure providers.
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+Accepted values: NoLicenseType, PAYG, AHUB
 
 Required: False
 Position: Named

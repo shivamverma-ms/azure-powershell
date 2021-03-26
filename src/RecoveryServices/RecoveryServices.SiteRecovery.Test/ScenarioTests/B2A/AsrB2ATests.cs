@@ -138,12 +138,12 @@ namespace RecoveryServices.SiteRecovery.Test
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
-        public void TestCreateRPIWithPPG()
+        public void TestCreateRPIWithAdditionalProperties()
         {
             this.RunPowerShellTest(
                 _logger,
                 Constants.NewModel,
-                "Test-CreateRPIWithProximityPlacementGroup -vaultSettingsFilePath \"" +
+                "Test-CreateRPIWithAdditionalProperties -vaultSettingsFilePath \"" +
                 this.VaultSettingsFilePath +
                 "\"");
         }
@@ -152,12 +152,12 @@ namespace RecoveryServices.SiteRecovery.Test
         [Trait(
             Category.AcceptanceType,
             Category.CheckIn)]
-        public void TestUpdateRPIWithPPG()
+        public void TestUpdateRPIWithAdditionalProperties()
         {
             this.RunPowerShellTest(
                 _logger,
                 Constants.NewModel,
-                "Test-UpdateRPIWithProximityPlacementGroup -vaultSettingsFilePath \"" +
+                "Test-UpdateRPIWithAdditionalProperties -vaultSettingsFilePath \"" +
                 this.VaultSettingsFilePath +
                 "\"");
         }
@@ -186,20 +186,6 @@ namespace RecoveryServices.SiteRecovery.Test
                 _logger,
                 Constants.NewModel,
                 "Test-UpdateRPIWithAvailabilityZone -vaultSettingsFilePath \"" +
-                this.VaultSettingsFilePath +
-                "\"");
-        }
-
-        [Fact]
-        [Trait(
-            Category.AcceptanceType,
-            Category.CheckIn)]
-        public void TestCreateRPIWithManagedDisk()
-        {
-            this.RunPowerShellTest(
-                _logger,
-                Constants.NewModel,
-                "Test-CreateRPIWithManagedDisk -vaultSettingsFilePath \"" +
                 this.VaultSettingsFilePath +
                 "\"");
         }

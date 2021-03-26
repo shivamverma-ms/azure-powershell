@@ -801,9 +801,9 @@ function Test-UpdateRPIWithDiskEncryptionSetMap
 
 <#
 .SYNOPSIS
-Site Recovery Create RPI with ProximityPlacementGroup
+Site Recovery Create RPI with ProximityPlacementGroup, AvailabilitySet, TargetVmSize, SqlServerLicenseType, UseManagedDisk, ResourceTagging
 #>
-function Test-CreateRPIWithProximityPlacementGroup
+function Test-CreateRPIWithAdditionalProperties
 {
     param([string] $vaultSettingsFilePath)
 
@@ -814,15 +814,24 @@ function Test-CreateRPIWithProximityPlacementGroup
     $pcm = Get-ASRProtectionContainerMapping -ProtectionContainer $pc
     $policy = Get-AzRecoveryServicesAsrPolicy -Name $PolicyName
     $VM= Get-AsrProtectableItem -ProtectionContainer $pc -FriendlyName $VMName
-    $ppg = "/subscriptions/b364ed8d-4279-4bf8-8fd1-56f8fa0ae05c/resourceGroups/Arpita-air/providers/Microsoft.Compute/proximityPlacementGroups/h2atestppgenable"
-    $EnableDRjob = New-AsrReplicationProtectedItem -ProtectableItem $VM -Name $VM.Name -ProtectionContainerMapping $pcm -RecoveryAzureStorageAccountId $StorageAccountID -OSDiskName $VMName -OS Windows -RecoveryResourceGroupId $RecoveryResourceGroupId -RecoveryProximityPlacementGroupId $ppg -UseManagedDisk true
+    $ppg = "/subscriptions/b364ed8d-4279-4bf8-8fd1-56f8fa0ae05c/resourceGroups/prakccyrg/providers/Microsoft.Compute/proximityPlacementGroups/h2appgenable"    
+    $avset="/subscriptions/b364ed8d-4279-4bf8-8fd1-56f8fa0ae05c/resourceGroups/prakccyrg/providers/Microsoft.Compute/availabilitySets/h2aavsetenable"
+    $size = "Standard_B1s"
+    $sqlLicenseType = "AHUB"
+    $vmTag = New-Object "System.Collections.Generic.Dictionary``2[System.String,System.String]"
+    $vmTag.Add("VmTag1","powershellVm")
+    $diskTag = New-Object "System.Collections.Generic.Dictionary``2[System.String,System.String]"
+    $diskTag.Add("DiskTag1","powershellDisk")
+    $nicTag = New-Object "System.Collections.Generic.Dictionary``2[System.String,System.String]"
+    $nicTag.Add("NicTag1","powershellNic")
+    $EnableDRjob = New-AsrReplicationProtectedItem -ProtectableItem $VM -Name $VM.Name -ProtectionContainerMapping $pcm -RecoveryAzureStorageAccountId $StorageAccountID -OSDiskName $VMName -OS Windows -RecoveryResourceGroupId $RecoveryResourceGroupId -RecoveryProximityPlacementGroupId $ppg -UseManagedDisk true -RecoveryAvailabilitySetId $avset -Size $size -SqlServerLicenseType $sqlLicenseType -RecoveryVmTag $vmTag -RecoveryNicTag $nicTag -DiskTag $diskTag -RecoveryAzureNetworkId $AzureVmNetworkId
 }
 
 <#
 .SYNOPSIS
-Site Recovery Update RPI with ProximityPlacementGroup
+Site Recovery Update RPI with ProximityPlacementGroup, AvailabilitySet, SqlServerLicenseType, ResourceTagging
 #>
-function Test-UpdateRPIWithProximityPlacementGroup
+function Test-UpdateRPIWithAdditionalProperties
 {
     param([string] $vaultSettingsFilePath)
 
@@ -830,14 +839,26 @@ function Test-UpdateRPIWithProximityPlacementGroup
     Import-AzRecoveryServicesAsrVaultSettingsFile -Path $vaultSettingsFilePath
     $fabric =  Get-AsrFabric -FriendlyName $PrimaryFabricName
     $pc =  Get-ASRProtectionContainer -Fabric $fabric
+    $pcm = Get-ASRProtectionContainerMapping -ProtectionContainer $pc
+    $policy = Get-AzRecoveryServicesAsrPolicy -Name $PolicyName
     $rpi = Get-AsrReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $VMName
+    $ppg = "/subscriptions/b364ed8d-4279-4bf8-8fd1-56f8fa0ae05c/resourceGroups/prakccyrg/providers/Microsoft.Compute/proximityPlacementGroups/h2appgupdate"
+    $avset="/subscriptions/b364ed8d-4279-4bf8-8fd1-56f8fa0ae05c/resourceGroups/prakccyrg/providers/Microsoft.Compute/availabilitySets/h2aavsetupdate"
+    $sqlLicenseType = "PAYG"
+    $vmTag = New-Object "System.Collections.Generic.Dictionary``2[System.String,System.String]"
+    $vmTag.Add("VmTag2","powershellVm")
+    $diskTag = New-Object "System.Collections.Generic.Dictionary``2[System.String,System.String]"
+    $diskTag.Add("DiskTag2","powershellDisk")
+    $nicTag = New-Object "System.Collections.Generic.Dictionary``2[System.String,System.String]"
+    $nicTag.Add("NicTag2","powershellNic")
 
-    $ppgSet="/subscriptions/b364ed8d-4279-4bf8-8fd1-56f8fa0ae05c/resourceGroups/Arpita-air/providers/Microsoft.Compute/proximityPlacementGroups/h2atestppgupdate"
-    $currentJob = Set-AsrReplicationProtectedItem -InputObject $rpi -RecoveryProximityPlacementGroupId $ppgSet -UpdateNic $rpi.NicDetailsList[0].NicId -RecoveryNetworkId $AzureNetworkID -RecoveryNicSubnetName $subnet
+    $currentJob = Set-AsrReplicationProtectedItem -InputObject $rpi -RecoveryProximityPlacementGroupId $ppg -UseManagedDisk true -RecoveryAvailabilitySet $avset -SqlServerLicenseType $sqlLicenseType -RecoveryVmTag $vmTag -RecoveryNicTag $nicTag -DiskTag $diskTag
     WaitForJobCompletion -JobId $currentJob.Name
-    
+
     $rpi = Get-AsrReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $VMName
-    Assert-NotNull($rpi.ProviderSpecificDetails.RecoveryProximityPlacementGroupId)
+    Assert-NotNull($rpi.ProviderSpecificDetails.RecoveryVmTag)
+    Assert-NotNull($rpi.ProviderSpecificDetails.DiskTag)
+    Assert-NotNull($rpi.ProviderSpecificDetails.RecoveryNicTag)
 }
 
 <#
@@ -876,19 +897,4 @@ function Test-UpdateRPIWithAvailabilityZone
     
     $rpi = Get-AsrReplicationProtectedItem -ProtectionContainer $pc -FriendlyName $VMName
     Assert-NotNull($rpi.ProviderSpecificDetails.RecoveryAvailabilityZone)
-}
-
-function Test-CreateRPIWithManagedDisk
-{
-    param([string] $vaultSettingsFilePath)
-
-    # Import Azure RecoveryServices Vault Settings File
-    Import-AzRecoveryServicesAsrVaultSettingsFile -Path $vaultSettingsFilePath
-    $fabric =  Get-AsrFabric -FriendlyName $PrimaryFabricName
-    $pc =  Get-ASRProtectionContainer -Fabric $fabric
-    $pcm = Get-ASRProtectionContainerMapping -ProtectionContainer $pc
-    $policy = Get-AzRecoveryServicesAsrPolicy -Name $PolicyName
-    $VM= Get-AsrProtectableItem -ProtectionContainer $pc -FriendlyName $VMName
-    
-    $EnableDRjob = New-AsrReplicationProtectedItem -ProtectableItem $VM -Name $VM.Name -ProtectionContainerMapping $pcm -RecoveryAzureStorageAccountId $StorageAccountID -OSDiskName $VMName -OS Windows -RecoveryResourceGroupId $RecoveryResourceGroupId -UseManagedDisk true
 }
