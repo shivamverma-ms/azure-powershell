@@ -17,7 +17,7 @@ Set-AzRecoveryServicesAsrReplicationProtectedItem -InputObject <ASRReplicationPr
  [-Size <String>] [-UpdateNic <String>] [-RecoveryNetworkId <String>] [-PrimaryNic <String>]
  [-RecoveryCloudServiceId <String>] [-RecoveryNicSubnetName <String>] [-RecoveryNicStaticIPAddress <String>]
  [-NicSelectionType <String>] [-RecoveryResourceGroupId <String>] [-LicenseType <String>]
- [-RecoveryAvailabilitySet <String>] [-SqlServerLicenseType <String>]
+ [-RecoveryAvailabilitySet <String>] [-RecoveryVirtualMachineScaleSetId <String>] [-SqlServerLicenseType <String>]
  [-RecoveryVmTag <System.Collections.Generic.IDictionary`2[System.String,System.String]>]
  [-DiskTag <System.Collections.Generic.IDictionary`2[System.String,System.String]>]
  [-RecoveryNicTag <System.Collections.Generic.IDictionary`2[System.String,System.String]>]
@@ -90,6 +90,13 @@ PS C:\> $currentJob = Set-AzureRmRecoveryServicesAsrReplicationProtectedItem -In
 ```
 
 Start the update operation for the specified replication protected item to use the supplied proximity placement group for failover VM.
+
+### Example 8
+```
+PS C:\> $currentJob = Set-AzureRmRecoveryServicesAsrReplicationProtectedItem -InputObject $ rpi -RecoveryVirtualMachineScaleSetId $vmss
+```
+
+Start the update operation for the specified replication protected item to use the supplied virtual machine scale set for failover VM.
 
 ## PARAMETERS
 
@@ -518,11 +525,19 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+<<<<<<< HEAD
 ### -RecoveryVmTag
 Specify the tags for target VM. This is applicable for Vmware to Azure and HyperV to Azure providers.
 
 ```yaml
 Type: System.Collections.Generic.IDictionary`2[System.String,System.String]
+=======
+### -RecoveryVirtualMachineScaleSetId
+Specifies the target virtual machine scale set to be configured.
+
+```yaml
+Type: System.String
+>>>>>>> fc11807486ac43b169e4d43fd5bd9446a53df8e0
 Parameter Sets: (All)
 Aliases:
 

@@ -1328,6 +1328,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             this.RecoveryFabricLocation = details.RecoveryFabricLocation;
             this.RecoveryAvailabilitySet = details.RecoveryAvailabilitySet;
             this.RecoveryProximityPlacementGroupId = details.RecoveryProximityPlacementGroupId;
+            this.RecoveryVirtualMachineScaleSetId = details.RecoveryVirtualMachineScaleSetId;
             this.TestFailoverRecoveryFabricObjectId = details.TestFailoverRecoveryFabricObjectId;
             this.MonitoringJobType = details.MonitoringJobType;
             this.MonitoringPercentageCompletion = details.MonitoringPercentageCompletion;
@@ -1439,6 +1440,11 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// Recovery proximity placement group Id.
         /// </summary>
         public string RecoveryProximityPlacementGroupId { get; set; }
+
+        /// <summary>
+        /// Recovery virtual machine scale set Id.
+        /// </summary>
+        public string RecoveryVirtualMachineScaleSetId { get; set; }
 
         /// <summary>
         /// Synced configuration details of the virtual machine.

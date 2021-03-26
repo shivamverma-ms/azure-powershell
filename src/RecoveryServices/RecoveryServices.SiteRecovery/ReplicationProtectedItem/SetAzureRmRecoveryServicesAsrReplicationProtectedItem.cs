@@ -175,6 +175,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         public string RecoveryProximityPlacementGroupId { get; set; }
 
         /// <summary>
+        ///     Gets or sets the virtual machine scale set Id for replication protected item after failover.
+        /// </summary>
+        [Parameter]
+        public string RecoveryVirtualMachineScaleSetId { get; set; }
+
+        /// <summary>
         ///     Gets or sets the availability set for replication protected item after failover.
         /// </summary>
         [Parameter]
@@ -317,6 +323,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                     this.IsParameterBound(c => c.RecoveryAvailabilitySet) &&
                     this.IsParameterBound(c => c.RecoveryAvailabilityZone) &&
                     this.IsParameterBound(c => c.RecoveryProximityPlacementGroupId) &&
+                    this.IsParameterBound(c => c.RecoveryVirtualMachineScaleSetId) &&
                     string.IsNullOrEmpty(this.RecoveryCloudServiceId) &&
                     string.IsNullOrEmpty(this.RecoveryResourceGroupId) &&
                     string.IsNullOrEmpty(this.LicenseType) &&
@@ -371,6 +378,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                 var useManagedDisk = this.UseManagedDisk;
                 var availabilitySetId = this.RecoveryAvailabilitySet;
                 var proximityPlacementGroupId = this.RecoveryProximityPlacementGroupId;
+                var virtualMachineScaleSetId = this.RecoveryVirtualMachineScaleSetId;
                 var availabilityZone = this.RecoveryAvailabilityZone;
                 var primaryNic = this.PrimaryNic;
                 var diskIdToDiskEncryptionMap = this.DiskIdToDiskEncryptionSetMap;
@@ -646,6 +654,10 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                        ? this.RecoveryProximityPlacementGroupId
                        : providerSpecificDetails.RecoveryProximityPlacementGroupId;
 
+                    virtualMachineScaleSetId = this.IsParameterBound(c => c.RecoveryVirtualMachineScaleSetId)
+                        ? this.RecoveryVirtualMachineScaleSetId
+                        : providerSpecificDetails.RecoveryVirtualMachineScaleSetId;
+
                     if (!this.MyInvocation.BoundParameters.ContainsKey(
                             Utilities.GetMemberName(() => this.RecoveryCloudServiceId)))
                     {
@@ -713,6 +725,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         RecoveryCloudServiceId = this.RecoveryCloudServiceId,
                         RecoveryResourceGroupId = this.RecoveryResourceGroupId,
                         RecoveryProximityPlacementGroupId = this.RecoveryProximityPlacementGroupId,
+                        RecoveryVirtualMachineScaleSetId = this.RecoveryVirtualMachineScaleSetId,
                         RecoveryBootDiagStorageAccountId = this.RecoveryBootDiagStorageAccountId,
                         ManagedDiskUpdateDetails = managedDiskUpdateDetails,
                         TfoAzureVMName = this.TfoAzureVMName,

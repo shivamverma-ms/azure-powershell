@@ -22,6 +22,7 @@
 * Azure Site Recovery support for Availability set for VMware to Azure and HyperV to Azure providers.
 * Azure Site Recovery support for TargetVmSize for VMware to Azure and HyperV to Azure providers.
 * Azure Site Recovery support for ResourceTagging for VMware to Azure and HyperV to Azure providers.
+* Azure Site Recovery support for Virtual Machine Scale Set for Azure to Azure provider.
 
 ## Version 3.5.0
 * Added Cross Zonal Restore for managed virtual machines.
