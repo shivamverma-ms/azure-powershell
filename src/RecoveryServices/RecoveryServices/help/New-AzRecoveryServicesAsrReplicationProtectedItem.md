@@ -182,7 +182,7 @@ PS C:>$job = New-AzRecoveryServicesAsrReplicationProtectedItem -AzureToAzure -Az
 -Name "a2aprotectedItem" -RecoveryVmName "vmName" -ProtectionContainerMapping $pcmMapping -RecoveryResourceGroupId $recoveryResourceGroup -RecoveryVirtualMachineScaleSetId $vmss
 ```
 
-Starts the replication protected item creation operation for a Virtual Machine with target virtual machine sclae set configured and returns the ASR job used to track the operation (Azure to Azure scenario).
+Starts the replication protected item creation operation for a Virtual Machine with target virtual machine scale set configured and returns the ASR job used to track the operation (Azure to Azure scenario).
 
 ## PARAMETERS
 
