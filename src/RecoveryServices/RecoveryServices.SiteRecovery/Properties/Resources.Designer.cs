@@ -161,7 +161,7 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Disk Tag &quot;{0}&quot; cannot be set if UseManagedDisk is &quot;{1}&quot;..
+        ///   Looks up a localized string similar to Disk Tag(s) &quot;{0}&quot; cannot be set if UseManagedDisk is &quot;{1}&quot;..
         /// </summary>
         internal static string DiskTagCannotBeSet {
             get {

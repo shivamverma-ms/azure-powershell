@@ -514,6 +514,6 @@ Recommended Action: To cleanup the resources created by Test failover run the Te
     <value>IP Config "{0}" not found in VM NIC "{1}".</value>
   </data>
   <data name="DiskTagCannotBeSet" xml:space="preserve">
-    <value>Disk Tag "{0}" cannot be set if UseManagedDisk is "{1}".</value>
+    <value>Disk Tag(s) "{0}" cannot be set if UseManagedDisk is "{1}".</value>
   </data>
 </root>
