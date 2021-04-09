@@ -145,21 +145,21 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
         /// Gets or sets target VM tags.
         /// </summary>
         [Parameter]
-        [ValidateNotNullOrEmpty]
+        [ValidateNotNull]
         public IDictionary<string, string> RecoveryVmTag { get; set; }
 
         /// <summary>
         /// Gets or sets the tags for the disks.
         /// </summary>
         [Parameter]
-        [ValidateNotNullOrEmpty]
+        [ValidateNotNull]
         public IDictionary<string, string> DiskTag { get; set; }
 
         /// <summary>
         /// Gets or sets the tags for the target NICs.
         /// </summary>
         [Parameter]
-        [ValidateNotNullOrEmpty]
+        [ValidateNotNull]
         public IDictionary<string, string> RecoveryNicTag { get; set; }
 
         // <summary>
@@ -458,20 +458,17 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                             ToDictionary(x => x.DiskId, x => x.DiskEncryptionSetId);
                     }
 
-                    if (this.RecoveryVmTag == null ||
-                      this.RecoveryVmTag.Count == 0)
+                    if (this.RecoveryVmTag == null)
                     {
                         recoveryVmTag = providerSpecificDetails.TargetVmTags;
                     }
 
-                    if (this.RecoveryNicTag == null ||
-                       this.RecoveryNicTag.Count == 0)
+                    if (this.RecoveryNicTag == null)
                     {
                         recoveryNicTag = providerSpecificDetails.TargetNicTags;
                     }
 
-                    if (this.DiskTag == null ||
-                      this.DiskTag.Count == 0)
+                    if (this.DiskTag == null)
                     {
                         diskTag = providerSpecificDetails.TargetManagedDiskTags;
                     }
@@ -572,20 +569,17 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
                         primaryNic = providerSpecificDetails.SelectedSourceNicId;
                     }
 
-                    if (this.RecoveryVmTag == null ||
-                     this.RecoveryVmTag.Count == 0)
+                    if (this.RecoveryVmTag == null)
                     {
                         recoveryVmTag = providerSpecificDetails.TargetVmTags;
                     }
 
-                    if (this.RecoveryNicTag == null ||
-                       this.RecoveryNicTag.Count == 0)
+                    if (this.RecoveryNicTag == null)
                     {
                         recoveryNicTag = providerSpecificDetails.TargetNicTags;
                     }
 
-                    if (this.DiskTag == null ||
-                      this.DiskTag.Count == 0)
+                    if (this.DiskTag == null)
                     {
                         diskTag = providerSpecificDetails.TargetManagedDiskTags;
                     }
