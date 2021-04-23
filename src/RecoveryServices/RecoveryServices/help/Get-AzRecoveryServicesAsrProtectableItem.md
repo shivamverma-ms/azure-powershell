@@ -153,19 +153,7 @@ Specifies the Azure Site Recovery Protection Container object.
 
 ```yaml
 Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRProtectionContainer
-Parameter Sets: ByObject, ByObjectWithName, ByObjectWithFriendlyName
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
-```yaml
-Type: Microsoft.Azure.Commands.RecoveryServices.SiteRecovery.ASRProtectionContainer
-Parameter Sets: ByObjectWithSiteIdAndFriendlyName, ByObjectWithSiteId
+Parameter Sets: (All)
 Aliases:
 
 Required: True

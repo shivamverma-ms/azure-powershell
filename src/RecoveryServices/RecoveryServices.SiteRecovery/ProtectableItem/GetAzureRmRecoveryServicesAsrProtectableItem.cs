@@ -80,10 +80,12 @@ namespace Microsoft.Azure.Commands.RecoveryServices.SiteRecovery
             ValueFromPipeline = true)]
         [Parameter(
             ParameterSetName = ASRParameterSets.ByObjectWithSiteId,
-            Mandatory = true)]
+            Mandatory = true,
+            ValueFromPipeline = true)]
         [Parameter(
             ParameterSetName = ASRParameterSets.ByObjectWithSiteIdAndFriendlyName,
-            Mandatory = true)]
+            Mandatory = true,
+            ValueFromPipeline = true)]
         [ValidateNotNullOrEmpty]
         public ASRProtectionContainer ProtectionContainer { get; set; }
 
