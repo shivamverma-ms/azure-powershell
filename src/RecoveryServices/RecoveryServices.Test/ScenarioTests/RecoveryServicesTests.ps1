@@ -145,14 +145,17 @@ function Test-RecoveryServicesVaultCRUD
 
 function Test-GetRSVaultSettingsFile
 {
-	$location = Get-ResourceGroupLocation
-	$resourceGroupName = Create-ResourceGroup $location
-	$name = "PSTestRSV" + @(Get-RandomSuffix)
+	#$location = Get-ResourceGroupLocation
+	#$resourceGroupName = Create-ResourceGroup $location
+	#$name = "PSTestRSV" + @(Get-RandomSuffix)
+
 
 	try
 	{
+	    $name = "h2a-vault-prod-gip-ccy"
+        $resourceGroupName = "h2a-rg-vault-prod-gip-ccy"
   		# 1. New-AzRecoveryServicesVault
-		$vault = New-AzRecoveryServicesVault -Name $name -ResourceGroupName $resourceGroupName -Location $location
+		$vault = Get-AzRecoveryServicesVault -Name $name -ResourceGroupName $resourceGroupName
 
 		# 2. Get-AzRecoveryServicesVaultSettingsFile
 		$file = Get-AzRecoveryServicesVaultSettingsFile -Vault $vault -Backup
