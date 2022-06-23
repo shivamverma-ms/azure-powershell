@@ -211,7 +211,7 @@ namespace Microsoft.Azure.Commands.KeyVault.Models
 
                 options.NextLink = result.NextPageLink;
                 return (result == null) ? new List<PSKeyVaultKeyIdentityItem>() :
-                    result.Select((keyItem) => new PSKeyVaultKeyIdentityItem(keyItem, this.vaultUriHelper));
+                    result.Select((keyItem) => new PSKeyVaultKeyIdentityItem(keyItem, this.vaultUriHelper, false));
             }
             catch (Exception ex)
             {
@@ -242,7 +242,7 @@ namespace Microsoft.Azure.Commands.KeyVault.Models
                     result = this.keyVaultClient.GetKeyVersionsNextAsync(options.NextLink).GetAwaiter().GetResult();
 
                 options.NextLink = result.NextPageLink;
-                return result.Select((keyItem) => new PSKeyVaultKeyIdentityItem(keyItem, this.vaultUriHelper));
+                return result.Select((keyItem) => new PSKeyVaultKeyIdentityItem(keyItem, this.vaultUriHelper, false));
             }
             catch (Exception ex)
             {
@@ -2202,6 +2202,11 @@ namespace Microsoft.Azure.Commands.KeyVault.Models
         public PSKeyOperationResult ManagedHsmWrapKey(string managedHsmName, string keyName, string keyVersion, byte[] wrapKey, string wrapAlgorithm)
         {
             throw new NotImplementedException("Wrapping keys on managed HSM is only possible in track 2 SDK.");
+        }
+
+        public byte[] GetManagedHsmRandomNumber(string managedHsmName, int count)
+        {
+            throw new NotImplementedException("Getting random number on managed HSM is only possible in track 2 SDK.");
         }
 
         #region Key rotation
