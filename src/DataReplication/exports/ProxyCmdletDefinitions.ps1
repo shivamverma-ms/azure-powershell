@@ -4923,6 +4923,528 @@ end {
 
 <#
 .Synopsis
+
+.Description
+
+.Example
+{{ Add code here }}
+.Example
+{{ Add code here }}
+
+.Outputs
+System.Object
+.Notes
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+CUSTOMPROPERTY <IProtectedItemModelCustomProperties>: 
+  InstanceType <String>: Gets or sets the instance type.
+
+INPUTOBJECT <IProtectedItemModel>: 
+  [CustomProperty <IProtectedItemModelCustomProperties>]: Protected item model custom properties.
+    InstanceType <String>: Gets or sets the instance type.
+  [PolicyName <String>]: Gets or sets the policy name.
+  [ReplicationExtensionName <String>]: Gets or sets the replication extension name.
+  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
+  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
+  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
+  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
+  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
+  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
+  [Tag <IProtectedItemModelTags>]: Gets or sets the resource tags.
+    [(Any) <String>]: This indicates any property can be added to this object.
+.Link
+https://docs.microsoft.com/powershell/module/az.datareplication/get-azdatareplicationprotecteditem
+#>
+function Get-AzDataReplicationProtectedItem {
+[CmdletBinding(DefaultParameterSetName='List', PositionalBinding=$false)]
+param(
+    [Parameter(ParameterSetName='List', Mandatory)]
+    [Parameter(ParameterSetName='GetByProtectedItemName', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${ResourceGroupName},
+
+    [Parameter(ParameterSetName='List', Mandatory)]
+    [Parameter(ParameterSetName='GetByProtectedItemName', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${VaultName},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
+    [System.String[]]
+    ${SubscriptionId},
+
+    [Parameter(ParameterSetName='GetByProtectedItemId', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${ProtectedItemId},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModelCustomProperties]
+    # To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
+    ${CustomProperty},
+
+    [Parameter(ParameterSetName='GetByInputObject', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel]
+    # To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
+    ${InputObject}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+
+        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
+            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
+        }         
+        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        if ($preTelemetryId -eq '') {
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
+        } else {
+            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+            if ($internalCalledCmdlets -eq '') {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
+            } else {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
+            }
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
+        }
+
+        $mapping = @{
+            List = 'Az.DataReplication.custom\Get-AzDataReplicationProtectedItem';
+            GetByProtectedItemName = 'Az.DataReplication.custom\Get-AzDataReplicationProtectedItem';
+            GetByProtectedItemId = 'Az.DataReplication.custom\Get-AzDataReplicationProtectedItem';
+            GetByInputObject = 'Az.DataReplication.custom\Get-AzDataReplicationProtectedItem';
+        }
+        if (('List', 'GetByProtectedItemName', 'GetByProtectedItemId', 'GetByInputObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+
+    finally {
+        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
+        if ($preTelemetryId -eq '') {
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        }
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
+
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+
+.Description
+
+.Example
+{{ Add code here }}
+.Example
+{{ Add code here }}
+
+.Outputs
+System.Object
+.Notes
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+CUSTOMPROPERTY <IPolicyModelCustomProperties>: 
+  InstanceType <String>: Gets or sets the instance type.
+.Link
+https://docs.microsoft.com/powershell/module/az.datareplication/new-azdatareplicationpolicy
+#>
+function New-AzDataReplicationPolicy {
+[CmdletBinding(DefaultParameterSetName='ByProperties', PositionalBinding=$false)]
+param(
+    [Parameter(Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${ResourceGroupName},
+
+    [Parameter(Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${Name},
+
+    [Parameter(Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${VaultName},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
+    [System.String]
+    ${SubscriptionId},
+
+    [Parameter(ParameterSetName='ByProperties', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${InstanceType},
+
+    [Parameter(ParameterSetName='ByProperties', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.Int32]
+    ${AppConsistentFrequencyInMinute},
+
+    [Parameter(ParameterSetName='ByProperties', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.Int32]
+    ${RecoveryPointHistoryInMinute},
+
+    [Parameter(ParameterSetName='ByProperties', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.Int32]
+    ${CrashConsistentFrequencyInMinute},
+
+    [Parameter(ParameterSetName='ByInputObject', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IPolicyModelCustomProperties]
+    # To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
+    ${CustomProperty}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+
+        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
+            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
+        }         
+        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        if ($preTelemetryId -eq '') {
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
+        } else {
+            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+            if ($internalCalledCmdlets -eq '') {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
+            } else {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
+            }
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
+        }
+
+        $mapping = @{
+            ByProperties = 'Az.DataReplication.custom\New-AzDataReplicationPolicy';
+            ByInputObject = 'Az.DataReplication.custom\New-AzDataReplicationPolicy';
+        }
+        if (('ByProperties', 'ByInputObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+
+    finally {
+        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
+        if ($preTelemetryId -eq '') {
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        }
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
+
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+
+.Description
+
+.Example
+{{ Add code here }}
+.Example
+{{ Add code here }}
+
+.Outputs
+System.Object
+.Notes
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+CUSTOMPROPERTY <IProtectedItemModelCustomProperties>: 
+  InstanceType <String>: Gets or sets the instance type.
+.Link
+https://docs.microsoft.com/powershell/module/az.datareplication/new-azdatareplicationprotecteditem
+#>
+function New-AzDataReplicationProtectedItem {
+[CmdletBinding(DefaultParameterSetName='ByProperties', PositionalBinding=$false)]
+param(
+    [Parameter(Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${ResourceGroupName},
+
+    [Parameter(Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${Name},
+
+    [Parameter(Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${VaultName},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
+    [System.String]
+    ${SubscriptionId},
+
+    [Parameter(ParameterSetName='ByProperties', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${InstanceType},
+
+    [Parameter(ParameterSetName='ByProperties')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${TargetAvsCloudId},
+
+    [Parameter(ParameterSetName='ByProperties')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${TargetAvsClusterName},
+
+    [Parameter(ParameterSetName='ByProperties')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${FabricDiscoveryMachineId},
+
+    [Parameter(ParameterSetName='ByProperties')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${LogStorageAccountId},
+
+    [Parameter(ParameterSetName='ByProperties')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${DiskType},
+
+    [Parameter(ParameterSetName='ByProperties')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${TargetVMName},
+
+    [Parameter(ParameterSetName='ByProperties')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${TargetResourceGroupId},
+
+    [Parameter(ParameterSetName='ByProperties')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${TargetVCenterId},
+
+    [Parameter(ParameterSetName='ByProperties')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${TargetDatastoreId},
+
+    [Parameter(ParameterSetName='ByProperties')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${TargetNetworkId},
+
+    [Parameter(ParameterSetName='ByProperties')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${TargetDiskPoolSubnetId},
+
+    [Parameter(ParameterSetName='ByProperties')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${TestNetworkId},
+
+    [Parameter(ParameterSetName='ByProperties')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${RunAsAccountId},
+
+    [Parameter(ParameterSetName='ByProperties')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${ApplianceId},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${PolicyName},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${ReplicationExtensionName},
+
+    [Parameter(ParameterSetName='ByInputObject', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModelCustomProperties]
+    # To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
+    ${CustomProperty}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+
+        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
+            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
+        }         
+        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        if ($preTelemetryId -eq '') {
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
+        } else {
+            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+            if ($internalCalledCmdlets -eq '') {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
+            } else {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
+            }
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
+        }
+
+        $mapping = @{
+            ByProperties = 'Az.DataReplication.custom\New-AzDataReplicationProtectedItem';
+            ByInputObject = 'Az.DataReplication.custom\New-AzDataReplicationProtectedItem';
+        }
+        if (('ByProperties', 'ByInputObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+
+    finally {
+        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
+        if ($preTelemetryId -eq '') {
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        }
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
+
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
 Create an in-memory object for VMwareToAvsFailbackPolicyModelCustomProperties.
 .Description
 Create an in-memory object for VMwareToAvsFailbackPolicyModelCustomProperties.
@@ -5223,6 +5745,1370 @@ begin {
 
         $mapping = @{
             __AllParameterSets = 'Az.DataReplication.custom\New-AzDataReplicationVMwareToAvsPolicyModelCustomPropertiesObject';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+
+    finally {
+        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
+        if ($preTelemetryId -eq '') {
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        }
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
+
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+
+.Description
+
+.Example
+{{ Add code here }}
+.Example
+{{ Add code here }}
+
+.Outputs
+System.Object
+.Notes
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+CUSTOMPROPERTY <IProtectedItemModelCustomProperties>: 
+  InstanceType <String>: Gets or sets the instance type.
+
+INPUTOBJECT <IProtectedItemModel>: 
+  [CustomProperty <IProtectedItemModelCustomProperties>]: Protected item model custom properties.
+    InstanceType <String>: Gets or sets the instance type.
+  [PolicyName <String>]: Gets or sets the policy name.
+  [ReplicationExtensionName <String>]: Gets or sets the replication extension name.
+  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
+  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
+  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
+  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
+  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
+  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
+  [Tag <IProtectedItemModelTags>]: Gets or sets the resource tags.
+    [(Any) <String>]: This indicates any property can be added to this object.
+.Link
+https://docs.microsoft.com/powershell/module/az.datareplication/set-azdatareplicationprotecteditem
+#>
+function Set-AzDataReplicationProtectedItem {
+[CmdletBinding(DefaultParameterSetName='ByProtectedItemId', PositionalBinding=$false)]
+param(
+    [Parameter(ParameterSetName='ByProtectedItemId', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${ProtectedItemId},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.Object]
+    ${Comment},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
+    [System.String]
+    ${SubscriptionId},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModelCustomProperties]
+    # To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
+    ${CustomProperty},
+
+    [Parameter(ParameterSetName='ByInputObject', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel]
+    # To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
+    ${InputObject}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+
+        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
+            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
+        }         
+        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        if ($preTelemetryId -eq '') {
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
+        } else {
+            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+            if ($internalCalledCmdlets -eq '') {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
+            } else {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
+            }
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
+        }
+
+        $mapping = @{
+            ByProtectedItemId = 'Az.DataReplication.custom\Set-AzDataReplicationProtectedItem';
+            ByInputObject = 'Az.DataReplication.custom\Set-AzDataReplicationProtectedItem';
+        }
+        if (('ByProtectedItemId', 'ByInputObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+
+    finally {
+        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
+        if ($preTelemetryId -eq '') {
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        }
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
+
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+
+.Description
+
+.Example
+{{ Add code here }}
+.Example
+{{ Add code here }}
+
+.Outputs
+System.Object
+.Notes
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+INPUTOBJECT <IChangeRecoveryPointModel>: 
+  [CustomPropertyInstanceType <String>]: Gets or sets the instance type.
+  [RecoveryPointName <String>]: Gets or sets the name of the recovery point.
+.Link
+https://docs.microsoft.com/powershell/module/az.datareplication/start-azdatareplicationapplyrecoverypoint
+#>
+function Start-AzDataReplicationApplyRecoveryPoint {
+[CmdletBinding(DefaultParameterSetName='ByRecoveryPointName', PositionalBinding=$false)]
+param(
+    [Parameter(ParameterSetName='ByRecoveryPointName', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${ResourceGroupName},
+
+    [Parameter(ParameterSetName='ByRecoveryPointName', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${ProtectedItemName},
+
+    [Parameter(ParameterSetName='ByRecoveryPointName', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${VaultName},
+
+    [Parameter(ParameterSetName='ByRecoveryPointName', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${RecoveryPointName},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
+    [System.String]
+    ${SubscriptionId},
+
+    [Parameter(ParameterSetName='ByRecoveryPointId', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${RecoveryPointId},
+
+    [Parameter(ParameterSetName='ByRecoveryPointName')]
+    [Parameter(ParameterSetName='ByRecoveryPointId')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${CustomPropertyInstanceType},
+
+    [Parameter(ParameterSetName='ByInputObject', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IChangeRecoveryPointModel]
+    # To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
+    ${InputObject}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+
+        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
+            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
+        }         
+        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        if ($preTelemetryId -eq '') {
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
+        } else {
+            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+            if ($internalCalledCmdlets -eq '') {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
+            } else {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
+            }
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
+        }
+
+        $mapping = @{
+            ByRecoveryPointName = 'Az.DataReplication.custom\Start-AzDataReplicationApplyRecoveryPoint';
+            ByRecoveryPointId = 'Az.DataReplication.custom\Start-AzDataReplicationApplyRecoveryPoint';
+            ByInputObject = 'Az.DataReplication.custom\Start-AzDataReplicationApplyRecoveryPoint';
+        }
+        if (('ByRecoveryPointName', 'ByRecoveryPointId', 'ByInputObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+
+    finally {
+        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
+        if ($preTelemetryId -eq '') {
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        }
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
+
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+
+.Description
+
+.Example
+{{ Add code here }}
+.Example
+{{ Add code here }}
+
+.Outputs
+System.Object
+.Notes
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+INPUTOBJECT <IProtectedItemModel>: 
+  [CustomProperty <IProtectedItemModelCustomProperties>]: Protected item model custom properties.
+    InstanceType <String>: Gets or sets the instance type.
+  [PolicyName <String>]: Gets or sets the policy name.
+  [ReplicationExtensionName <String>]: Gets or sets the replication extension name.
+  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
+  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
+  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
+  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
+  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
+  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
+  [Tag <IProtectedItemModelTags>]: Gets or sets the resource tags.
+    [(Any) <String>]: This indicates any property can be added to this object.
+.Link
+https://docs.microsoft.com/powershell/module/az.datareplication/start-azdatareplicationcommitfailoverjob
+#>
+function Start-AzDataReplicationCommitFailoverJob {
+[CmdletBinding(DefaultParameterSetName='ByProtectedItemId', PositionalBinding=$false)]
+param(
+    [Parameter(ParameterSetName='ByProtectedItemId', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${ProtectedItemId},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
+    [System.String]
+    ${SubscriptionId},
+
+    [Parameter(ParameterSetName='ByInputObject', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel]
+    # To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
+    ${InputObject}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+
+        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
+            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
+        }         
+        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        if ($preTelemetryId -eq '') {
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
+        } else {
+            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+            if ($internalCalledCmdlets -eq '') {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
+            } else {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
+            }
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
+        }
+
+        $mapping = @{
+            ByProtectedItemId = 'Az.DataReplication.custom\Start-AzDataReplicationCommitFailoverJob';
+            ByInputObject = 'Az.DataReplication.custom\Start-AzDataReplicationCommitFailoverJob';
+        }
+        if (('ByProtectedItemId', 'ByInputObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+
+    finally {
+        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
+        if ($preTelemetryId -eq '') {
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        }
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
+
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+
+.Description
+
+.Example
+{{ Add code here }}
+.Example
+{{ Add code here }}
+
+.Outputs
+System.Object
+.Notes
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+CUSTOMPROPERTY <IPlannedFailoverModelCustomProperties>: 
+  InstanceType <String>: Gets or sets the instance type.
+
+INPUTOBJECT <IProtectedItemModel>: 
+  [CustomProperty <IProtectedItemModelCustomProperties>]: Protected item model custom properties.
+    InstanceType <String>: Gets or sets the instance type.
+  [PolicyName <String>]: Gets or sets the policy name.
+  [ReplicationExtensionName <String>]: Gets or sets the replication extension name.
+  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
+  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
+  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
+  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
+  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
+  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
+  [Tag <IProtectedItemModelTags>]: Gets or sets the resource tags.
+    [(Any) <String>]: This indicates any property can be added to this object.
+.Link
+https://docs.microsoft.com/powershell/module/az.datareplication/start-azdatareplicationplannedfailoverjob
+#>
+function Start-AzDataReplicationPlannedFailoverJob {
+[CmdletBinding(DefaultParameterSetName='ByProtectedItemId', PositionalBinding=$false)]
+param(
+    [Parameter(ParameterSetName='ByProtectedItemId', Mandatory)]
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${ProtectedItemId},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
+    [System.String]
+    ${SubscriptionId},
+
+    [Parameter(ParameterSetName='ByProtectedItemId', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObject', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IPlannedFailoverModelCustomProperties]
+    # To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
+    ${CustomProperty},
+
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${InstanceType},
+
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
+    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${RecoveryPointType},
+
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObject', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel]
+    # To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
+    ${InputObject}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+
+        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
+            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
+        }         
+        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        if ($preTelemetryId -eq '') {
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
+        } else {
+            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+            if ($internalCalledCmdlets -eq '') {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
+            } else {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
+            }
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
+        }
+
+        $mapping = @{
+            ByProtectedItemId = 'Az.DataReplication.custom\Start-AzDataReplicationPlannedFailoverJob';
+            ByProtectedItemIdExpanded = 'Az.DataReplication.custom\Start-AzDataReplicationPlannedFailoverJob';
+            ByInputObjectExpanded = 'Az.DataReplication.custom\Start-AzDataReplicationPlannedFailoverJob';
+            ByInputObject = 'Az.DataReplication.custom\Start-AzDataReplicationPlannedFailoverJob';
+        }
+        if (('ByProtectedItemId', 'ByProtectedItemIdExpanded', 'ByInputObjectExpanded', 'ByInputObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+
+    finally {
+        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
+        if ($preTelemetryId -eq '') {
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        }
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
+
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+
+.Description
+
+.Example
+{{ Add code here }}
+.Example
+{{ Add code here }}
+
+.Outputs
+System.Object
+.Notes
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+CUSTOMPROPERTY <IReprotectModelCustomProperties>: 
+  [InstanceType <String>]: Gets or sets the instance type.
+
+INPUTOBJECT <IProtectedItemModel>: 
+  [CustomProperty <IProtectedItemModelCustomProperties>]: Protected item model custom properties.
+    InstanceType <String>: Gets or sets the instance type.
+  [PolicyName <String>]: Gets or sets the policy name.
+  [ReplicationExtensionName <String>]: Gets or sets the replication extension name.
+  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
+  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
+  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
+  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
+  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
+  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
+  [Tag <IProtectedItemModelTags>]: Gets or sets the resource tags.
+    [(Any) <String>]: This indicates any property can be added to this object.
+.Link
+https://docs.microsoft.com/powershell/module/az.datareplication/start-azdatareplicationreprotectionjob
+#>
+function Start-AzDataReplicationReprotectionJob {
+[CmdletBinding(DefaultParameterSetName='ByProtectedItemId', PositionalBinding=$false)]
+param(
+    [Parameter(ParameterSetName='ByProtectedItemId', Mandatory)]
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${ProtectedItemId},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
+    [System.String]
+    ${SubscriptionId},
+
+    [Parameter(ParameterSetName='ByProtectedItemId', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObject', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IReprotectModelCustomProperties]
+    # To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
+    ${CustomProperty},
+
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${InstanceType},
+
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
+    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.Boolean]
+    ${DatastoreName},
+
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
+    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${LogStorageAccountId},
+
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
+    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${ApplianceId},
+
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
+    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${ReplicationExtensionName},
+
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
+    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${PolicyName},
+
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObject', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel]
+    # To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
+    ${InputObject}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+
+        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
+            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
+        }         
+        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        if ($preTelemetryId -eq '') {
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
+        } else {
+            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+            if ($internalCalledCmdlets -eq '') {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
+            } else {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
+            }
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
+        }
+
+        $mapping = @{
+            ByProtectedItemId = 'Az.DataReplication.custom\Start-AzDataReplicationReprotectionJob';
+            ByProtectedItemIdExpanded = 'Az.DataReplication.custom\Start-AzDataReplicationReprotectionJob';
+            ByInputObjectExpanded = 'Az.DataReplication.custom\Start-AzDataReplicationReprotectionJob';
+            ByInputObject = 'Az.DataReplication.custom\Start-AzDataReplicationReprotectionJob';
+        }
+        if (('ByProtectedItemId', 'ByProtectedItemIdExpanded', 'ByInputObjectExpanded', 'ByInputObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+
+    finally {
+        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
+        if ($preTelemetryId -eq '') {
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        }
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
+
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+
+.Description
+
+.Example
+{{ Add code here }}
+.Example
+{{ Add code here }}
+
+.Outputs
+System.Object
+.Notes
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+INPUTOBJECT <IProtectedItemModel>: 
+  [CustomProperty <IProtectedItemModelCustomProperties>]: Protected item model custom properties.
+    InstanceType <String>: Gets or sets the instance type.
+  [PolicyName <String>]: Gets or sets the policy name.
+  [ReplicationExtensionName <String>]: Gets or sets the replication extension name.
+  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
+  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
+  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
+  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
+  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
+  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
+  [Tag <IProtectedItemModelTags>]: Gets or sets the resource tags.
+    [(Any) <String>]: This indicates any property can be added to this object.
+.Link
+https://docs.microsoft.com/powershell/module/az.datareplication/start-azdatareplicationresynchronizejob
+#>
+function Start-AzDataReplicationResynchronizeJob {
+[CmdletBinding(DefaultParameterSetName='ByProtectedItemId', PositionalBinding=$false)]
+param(
+    [Parameter(ParameterSetName='ByProtectedItemId', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${ProtectedItemId},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
+    [System.String]
+    ${SubscriptionId},
+
+    [Parameter(ParameterSetName='ByInputObject', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel]
+    # To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
+    ${InputObject}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+
+        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
+            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
+        }         
+        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        if ($preTelemetryId -eq '') {
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
+        } else {
+            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+            if ($internalCalledCmdlets -eq '') {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
+            } else {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
+            }
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
+        }
+
+        $mapping = @{
+            ByProtectedItemId = 'Az.DataReplication.custom\Start-AzDataReplicationResynchronizeJob';
+            ByInputObject = 'Az.DataReplication.custom\Start-AzDataReplicationResynchronizeJob';
+        }
+        if (('ByProtectedItemId', 'ByInputObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+
+    finally {
+        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
+        if ($preTelemetryId -eq '') {
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        }
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
+
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+
+.Description
+
+.Example
+{{ Add code here }}
+.Example
+{{ Add code here }}
+
+.Outputs
+System.Object
+.Notes
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+INPUTOBJECT <IProtectedItemModel>: 
+  [CustomProperty <IProtectedItemModelCustomProperties>]: Protected item model custom properties.
+    InstanceType <String>: Gets or sets the instance type.
+  [PolicyName <String>]: Gets or sets the policy name.
+  [ReplicationExtensionName <String>]: Gets or sets the replication extension name.
+  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
+  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
+  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
+  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
+  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
+  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
+  [Tag <IProtectedItemModelTags>]: Gets or sets the resource tags.
+    [(Any) <String>]: This indicates any property can be added to this object.
+.Link
+https://docs.microsoft.com/powershell/module/az.datareplication/start-azdatareplicationtestfailovercleanupjob
+#>
+function Start-AzDataReplicationTestFailoverCleanupJob {
+[CmdletBinding(DefaultParameterSetName='ByProtectedItemId', PositionalBinding=$false)]
+param(
+    [Parameter(ParameterSetName='ByProtectedItemId', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${ProtectedItemId},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.Object]
+    ${Comment},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
+    [System.String]
+    ${SubscriptionId},
+
+    [Parameter(ParameterSetName='ByInputObject', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel]
+    # To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
+    ${InputObject}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+
+        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
+            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
+        }         
+        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        if ($preTelemetryId -eq '') {
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
+        } else {
+            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+            if ($internalCalledCmdlets -eq '') {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
+            } else {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
+            }
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
+        }
+
+        $mapping = @{
+            ByProtectedItemId = 'Az.DataReplication.custom\Start-AzDataReplicationTestFailoverCleanupJob';
+            ByInputObject = 'Az.DataReplication.custom\Start-AzDataReplicationTestFailoverCleanupJob';
+        }
+        if (('ByProtectedItemId', 'ByInputObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+
+    finally {
+        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
+        if ($preTelemetryId -eq '') {
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        }
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
+
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+
+.Description
+
+.Example
+{{ Add code here }}
+.Example
+{{ Add code here }}
+
+.Outputs
+System.Object
+.Notes
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+CUSTOMPROPERTY <ITestFailoverModelCustomProperties>: 
+  InstanceType <String>: Gets or sets the instance type.
+
+INPUTOBJECT <IProtectedItemModel>: 
+  [CustomProperty <IProtectedItemModelCustomProperties>]: Protected item model custom properties.
+    InstanceType <String>: Gets or sets the instance type.
+  [PolicyName <String>]: Gets or sets the policy name.
+  [ReplicationExtensionName <String>]: Gets or sets the replication extension name.
+  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
+  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
+  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
+  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
+  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
+  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
+  [Tag <IProtectedItemModelTags>]: Gets or sets the resource tags.
+    [(Any) <String>]: This indicates any property can be added to this object.
+.Link
+https://docs.microsoft.com/powershell/module/az.datareplication/start-azdatareplicationtestfailoverjob
+#>
+function Start-AzDataReplicationTestFailoverJob {
+[CmdletBinding(DefaultParameterSetName='ByProtectedItemId', PositionalBinding=$false)]
+param(
+    [Parameter(ParameterSetName='ByProtectedItemId', Mandatory)]
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${ProtectedItemId},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
+    [System.String]
+    ${SubscriptionId},
+
+    [Parameter(ParameterSetName='ByProtectedItemId', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObject', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.ITestFailoverModelCustomProperties]
+    # To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
+    ${CustomProperty},
+
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${InstanceType},
+
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
+    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${NetworkId},
+
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
+    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${RecoveryPointName},
+
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObject', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel]
+    # To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
+    ${InputObject}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+
+        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
+            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
+        }         
+        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        if ($preTelemetryId -eq '') {
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
+        } else {
+            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+            if ($internalCalledCmdlets -eq '') {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
+            } else {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
+            }
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
+        }
+
+        $mapping = @{
+            ByProtectedItemId = 'Az.DataReplication.custom\Start-AzDataReplicationTestFailoverJob';
+            ByProtectedItemIdExpanded = 'Az.DataReplication.custom\Start-AzDataReplicationTestFailoverJob';
+            ByInputObjectExpanded = 'Az.DataReplication.custom\Start-AzDataReplicationTestFailoverJob';
+            ByInputObject = 'Az.DataReplication.custom\Start-AzDataReplicationTestFailoverJob';
+        }
+        if (('ByProtectedItemId', 'ByProtectedItemIdExpanded', 'ByInputObjectExpanded', 'ByInputObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+
+    finally {
+        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
+        if ($preTelemetryId -eq '') {
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        }
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
+
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+
+.Description
+
+.Example
+{{ Add code here }}
+.Example
+{{ Add code here }}
+
+.Outputs
+System.Object
+.Notes
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+CUSTOMPROPERTY <IUnplannedFailoverModelCustomProperties>: 
+  InstanceType <String>: Gets or sets the instance type.
+
+INPUTOBJECT <IProtectedItemModel>: 
+  [CustomProperty <IProtectedItemModelCustomProperties>]: Protected item model custom properties.
+    InstanceType <String>: Gets or sets the instance type.
+  [PolicyName <String>]: Gets or sets the policy name.
+  [ReplicationExtensionName <String>]: Gets or sets the replication extension name.
+  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
+  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
+  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
+  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
+  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
+  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
+  [Tag <IProtectedItemModelTags>]: Gets or sets the resource tags.
+    [(Any) <String>]: This indicates any property can be added to this object.
+.Link
+https://docs.microsoft.com/powershell/module/az.datareplication/start-azdatareplicationunplannedfailoverjob
+#>
+function Start-AzDataReplicationUnplannedFailoverJob {
+[CmdletBinding(DefaultParameterSetName='ByProtectedItemId', PositionalBinding=$false)]
+param(
+    [Parameter(ParameterSetName='ByProtectedItemId', Mandatory)]
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${ProtectedItemId},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
+    [System.String]
+    ${SubscriptionId},
+
+    [Parameter(ParameterSetName='ByProtectedItemId', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObject', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IUnplannedFailoverModelCustomProperties]
+    # To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
+    ${CustomProperty},
+
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${InstanceType},
+
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
+    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.Boolean]
+    ${PerformShutdown},
+
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
+    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${RecoveryPointName},
+
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObject', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel]
+    # To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
+    ${InputObject}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+
+        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
+            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
+        }         
+        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        if ($preTelemetryId -eq '') {
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
+        } else {
+            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+            if ($internalCalledCmdlets -eq '') {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
+            } else {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
+            }
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
+        }
+
+        $mapping = @{
+            ByProtectedItemId = 'Az.DataReplication.custom\Start-AzDataReplicationUnplannedFailoverJob';
+            ByProtectedItemIdExpanded = 'Az.DataReplication.custom\Start-AzDataReplicationUnplannedFailoverJob';
+            ByInputObjectExpanded = 'Az.DataReplication.custom\Start-AzDataReplicationUnplannedFailoverJob';
+            ByInputObject = 'Az.DataReplication.custom\Start-AzDataReplicationUnplannedFailoverJob';
+        }
+        if (('ByProtectedItemId', 'ByProtectedItemIdExpanded', 'ByInputObjectExpanded', 'ByInputObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
         $cmdInfo = Get-Command -Name $mapping[$parameterSet]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)

@@ -29,6 +29,9 @@ Gets the details of the fabric.
 ### [Get-AzDataReplicationPolicy](Get-AzDataReplicationPolicy.md)
 Gets the details of the policy.
 
+### [Get-AzDataReplicationProtectedItem](Get-AzDataReplicationProtectedItem.md)
+
+
 ### [Get-AzDataReplicationRecoveryPoint](Get-AzDataReplicationRecoveryPoint.md)
 Gets the details of the recovery point of a protected item.
 
@@ -43,6 +46,12 @@ Gets the details of the job.
 
 ### [New-AzDataReplicationExtension](New-AzDataReplicationExtension.md)
 Creates the replication extension in the given vault.
+
+### [New-AzDataReplicationPolicy](New-AzDataReplicationPolicy.md)
+
+
+### [New-AzDataReplicationProtectedItem](New-AzDataReplicationProtectedItem.md)
+
 
 ### [New-AzDataReplicationVault](New-AzDataReplicationVault.md)
 Creates the vault.
@@ -89,8 +98,35 @@ Performs update on the fabric.
 ### [Set-AzDataReplicationPolicy](Set-AzDataReplicationPolicy.md)
 Performs update on the policy.
 
+### [Set-AzDataReplicationProtectedItem](Set-AzDataReplicationProtectedItem.md)
+
+
 ### [Set-AzDataReplicationVault](Set-AzDataReplicationVault.md)
 Performs update on the vault.
+
+### [Start-AzDataReplicationApplyRecoveryPoint](Start-AzDataReplicationApplyRecoveryPoint.md)
+
+
+### [Start-AzDataReplicationCommitFailoverJob](Start-AzDataReplicationCommitFailoverJob.md)
+
+
+### [Start-AzDataReplicationPlannedFailoverJob](Start-AzDataReplicationPlannedFailoverJob.md)
+
+
+### [Start-AzDataReplicationReprotectionJob](Start-AzDataReplicationReprotectionJob.md)
+
+
+### [Start-AzDataReplicationResynchronizeJob](Start-AzDataReplicationResynchronizeJob.md)
+
+
+### [Start-AzDataReplicationTestFailoverCleanupJob](Start-AzDataReplicationTestFailoverCleanupJob.md)
+
+
+### [Start-AzDataReplicationTestFailoverJob](Start-AzDataReplicationTestFailoverJob.md)
+
+
+### [Start-AzDataReplicationUnplannedFailoverJob](Start-AzDataReplicationUnplannedFailoverJob.md)
+
 
 ### [Stop-AzDataReplicationProtectedItemFailover](Stop-AzDataReplicationProtectedItemFailover.md)
 Performs the cancel failover on the protected item.

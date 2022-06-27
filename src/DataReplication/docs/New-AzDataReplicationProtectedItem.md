@@ -1,0 +1,414 @@
+---
+external help file:
+Module Name: Az.DataReplication
+online version: https://docs.microsoft.com/powershell/module/az.datareplication/new-azdatareplicationprotecteditem
+schema: 2.0.0
+---
+
+# New-AzDataReplicationProtectedItem
+
+## SYNOPSIS
+
+
+## SYNTAX
+
+### ByProperties (Default)
+```
+New-AzDataReplicationProtectedItem -Name <String> -ResourceGroupName <String> -VaultName <String>
+ -InstanceType <String> [-SubscriptionId <String>] [-ApplianceId <String>] [-DiskType <String>]
+ [-FabricDiscoveryMachineId <String>] [-LogStorageAccountId <String>] [-PolicyName <String>]
+ [-ReplicationExtensionName <String>] [-RunAsAccountId <String>] [-TargetAvsCloudId <String>]
+ [-TargetAvsClusterName <String>] [-TargetDatastoreId <String>] [-TargetDiskPoolSubnetId <String>]
+ [-TargetNetworkId <String>] [-TargetResourceGroupId <String>] [-TargetVCenterId <String>]
+ [-TargetVMName <String>] [-TestNetworkId <String>] [<CommonParameters>]
+```
+
+### ByInputObject
+```
+New-AzDataReplicationProtectedItem -Name <String> -ResourceGroupName <String> -VaultName <String>
+ -CustomProperty <IProtectedItemModelCustomProperties> [-SubscriptionId <String>] [-PolicyName <String>]
+ [-ReplicationExtensionName <String>] [<CommonParameters>]
+```
+
+## DESCRIPTION
+
+
+## EXAMPLES
+
+### Example 1: {{ Add title here }}
+```powershell
+{{ Add code here }}
+```
+
+```output
+{{ Add output here }}
+```
+
+{{ Add description here }}
+
+### Example 2: {{ Add title here }}
+```powershell
+{{ Add code here }}
+```
+
+```output
+{{ Add output here }}
+```
+
+{{ Add description here }}
+
+## PARAMETERS
+
+### -ApplianceId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByProperties
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CustomProperty
+To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
+
+```yaml
+Type: Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModelCustomProperties
+Parameter Sets: ByInputObject
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DiskType
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByProperties
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -FabricDiscoveryMachineId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByProperties
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -InstanceType
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByProperties
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LogStorageAccountId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByProperties
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Name
+
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PolicyName
+
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ReplicationExtensionName
+
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ResourceGroupName
+
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RunAsAccountId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByProperties
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SubscriptionId
+
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: (Get-AzContext).Subscription.Id
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TargetAvsCloudId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByProperties
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TargetAvsClusterName
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByProperties
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TargetDatastoreId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByProperties
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TargetDiskPoolSubnetId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByProperties
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TargetNetworkId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByProperties
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TargetResourceGroupId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByProperties
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TargetVCenterId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByProperties
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TargetVMName
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByProperties
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TestNetworkId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByProperties
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -VaultName
+
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+### System.Object
+
+## NOTES
+
+ALIASES
+
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+
+CUSTOMPROPERTY <IProtectedItemModelCustomProperties>: 
+  - `InstanceType <String>`: Gets or sets the instance type.
+
+## RELATED LINKS
+
