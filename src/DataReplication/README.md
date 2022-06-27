@@ -36,7 +36,7 @@ require:
   - $(this-folder)/../readme.azure.noprofile.md
 # lock the commit
 input-file:
-  - $(this-folder)/../swagger.json
+  - https://github.com/AsrOneSdk/azure-powershell/blob/user/aryanw/DataReplicationInitialReview/src/DataReplication/swagger.json
 module-version: 0.1.0
 title: DataReplication
 subject-prefix: $(service-name)
@@ -45,6 +45,8 @@ resourcegroup-append: true
 nested-object-to-string: true
 
 directive:
+
+# Hide cmdlets for custom use
   - where:
       verb: Rename
       subject: ProtectedItemRecoveryPoint
@@ -59,15 +61,16 @@ directive:
     hide: true
 
   - where:
-      verb: ^Get$|^New$
+      verb: ^Get$|^New$|^Update$
       subject: ProtectedItem
     hide: true  
     
   - where:
       verb: New
       subject: Policy
-    hide: true     
+    hide: true 
 
+# Remove cmdlets
   - where:
       subject: (.*)Status$
     remove: true
@@ -82,7 +85,12 @@ directive:
       subject: NameAvailability
     remove: true
 
-  # For New-* cmdlets, ViaIdentity is not required, so CreateViaIdentityExpanded is removed as well
+  - where:
+      verb: Invoke
+      subject: DeploymentPreflight
+    remove: true    
+
+# For New-* cmdlets, ViaIdentity is not required, so CreateViaIdentityExpanded is removed as well
 
   - where:
       verb: Get
@@ -124,8 +132,6 @@ directive:
       variant: ^DeleteViaIdentity$
     remove: true
 
-  # remove cmdlets
-
   # Rename cmdlets
   - where:
       verb: Update
@@ -135,7 +141,7 @@ directive:
   - where:
       variant: List1
     set:
-      variant: ListByResourceGroup
+      variant: ListByResourceGroup   
 
   - no-inline:
       - PolicyModelCustomProperties
@@ -153,6 +159,8 @@ directive:
       - VMwareToAvsPolicyModelCustomProperties
       - VMwareToAvsFailbackPolicyModelCustomProperties
       - VMwareToAvsFailbackProtectedItemModelCustomProperties  
+
+    
        
 
 ```
