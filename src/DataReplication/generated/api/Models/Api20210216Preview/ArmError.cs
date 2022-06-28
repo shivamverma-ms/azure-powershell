@@ -46,7 +46,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216P
         Required = false,
         ReadOnly = false,
         Description = @"Gets or sets the error code returned by the service.",
-        SerializedName = @"Code",
+        SerializedName = @"code",
         PossibleTypes = new [] { typeof(string) })]
         string Code { get; set; }
         /// <summary>Gets or sets error Message returned by the service.</summary>
@@ -54,7 +54,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216P
         Required = false,
         ReadOnly = false,
         Description = @"Gets or sets error Message returned by the service.",
-        SerializedName = @"Message",
+        SerializedName = @"message",
         PossibleTypes = new [] { typeof(string) })]
         string Message { get; set; }
 

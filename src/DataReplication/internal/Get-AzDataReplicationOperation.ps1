@@ -25,12 +25,14 @@ Gets the operations.
 {{ Add code here }}
 
 .Outputs
+Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api202001.IOperation
+.Outputs
 Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IOperationModel
 .Link
 https://docs.microsoft.com/powershell/module/az.datareplication/get-azdatareplicationoperation
 #>
 function Get-AzDataReplicationOperation {
-[OutputType([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IOperationModel])]
+[OutputType([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IOperationModel], [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api202001.IOperation])]
 [CmdletBinding(DefaultParameterSetName='List', PositionalBinding=$false)]
 param(
     [Parameter()]
@@ -91,6 +93,7 @@ begin {
 
         $mapping = @{
             List = 'Az.DataReplication.private\Get-AzDataReplicationOperation_List';
+            ListByResourceGroup = 'Az.DataReplication.private\Get-AzDataReplicationOperation_ListByResourceGroup';
         }
 
         $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)

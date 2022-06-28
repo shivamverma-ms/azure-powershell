@@ -135,6 +135,38 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models
             {
                 ((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).WorkflowName = (string) content.GetValueForProperty("WorkflowName",((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).WorkflowName, global::System.Convert.ToString);
             }
+            if (content.Contains("SiteName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).SiteName = (string) content.GetValueForProperty("SiteName",((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).SiteName, global::System.Convert.ToString);
+            }
+            if (content.Contains("ClusterName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).ClusterName = (string) content.GetValueForProperty("ClusterName",((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).ClusterName, global::System.Convert.ToString);
+            }
+            if (content.Contains("HostName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).HostName = (string) content.GetValueForProperty("HostName",((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).HostName, global::System.Convert.ToString);
+            }
+            if (content.Contains("JobName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).JobName = (string) content.GetValueForProperty("JobName",((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).JobName, global::System.Convert.ToString);
+            }
+            if (content.Contains("MachineName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).MachineName = (string) content.GetValueForProperty("MachineName",((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).MachineName, global::System.Convert.ToString);
+            }
+            if (content.Contains("OperationStatusName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).OperationStatusName = (string) content.GetValueForProperty("OperationStatusName",((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).OperationStatusName, global::System.Convert.ToString);
+            }
+            if (content.Contains("AccountName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).AccountName = (string) content.GetValueForProperty("AccountName",((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).AccountName, global::System.Convert.ToString);
+            }
+            if (content.Contains("VcenterName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).VcenterName = (string) content.GetValueForProperty("VcenterName",((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).VcenterName, global::System.Convert.ToString);
+            }
             if (content.Contains("Id"))
             {
                 ((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).Id = (string) content.GetValueForProperty("Id",((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).Id, global::System.Convert.ToString);
@@ -215,6 +247,38 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models
             if (content.Contains("WorkflowName"))
             {
                 ((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).WorkflowName = (string) content.GetValueForProperty("WorkflowName",((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).WorkflowName, global::System.Convert.ToString);
+            }
+            if (content.Contains("SiteName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).SiteName = (string) content.GetValueForProperty("SiteName",((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).SiteName, global::System.Convert.ToString);
+            }
+            if (content.Contains("ClusterName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).ClusterName = (string) content.GetValueForProperty("ClusterName",((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).ClusterName, global::System.Convert.ToString);
+            }
+            if (content.Contains("HostName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).HostName = (string) content.GetValueForProperty("HostName",((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).HostName, global::System.Convert.ToString);
+            }
+            if (content.Contains("JobName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).JobName = (string) content.GetValueForProperty("JobName",((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).JobName, global::System.Convert.ToString);
+            }
+            if (content.Contains("MachineName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).MachineName = (string) content.GetValueForProperty("MachineName",((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).MachineName, global::System.Convert.ToString);
+            }
+            if (content.Contains("OperationStatusName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).OperationStatusName = (string) content.GetValueForProperty("OperationStatusName",((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).OperationStatusName, global::System.Convert.ToString);
+            }
+            if (content.Contains("AccountName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).AccountName = (string) content.GetValueForProperty("AccountName",((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).AccountName, global::System.Convert.ToString);
+            }
+            if (content.Contains("VcenterName"))
+            {
+                ((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).VcenterName = (string) content.GetValueForProperty("VcenterName",((Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal)this).VcenterName, global::System.Convert.ToString);
             }
             if (content.Contains("Id"))
             {

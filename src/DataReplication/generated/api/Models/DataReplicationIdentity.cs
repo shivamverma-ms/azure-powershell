@@ -12,6 +12,20 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models
         Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentityInternal
     {
 
+        /// <summary>Backing field for <see cref="AccountName" /> property.</summary>
+        private string _accountName;
+
+        /// <summary>Run as account ARM name.</summary>
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Origin(Microsoft.Azure.PowerShell.Cmdlets.DataReplication.PropertyOrigin.Owned)]
+        public string AccountName { get => this._accountName; set => this._accountName = value; }
+
+        /// <summary>Backing field for <see cref="ClusterName" /> property.</summary>
+        private string _clusterName;
+
+        /// <summary>Cluster ARM name.</summary>
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Origin(Microsoft.Azure.PowerShell.Cmdlets.DataReplication.PropertyOrigin.Owned)]
+        public string ClusterName { get => this._clusterName; set => this._clusterName = value; }
+
         /// <summary>Backing field for <see cref="DeploymentId" /> property.</summary>
         private string _deploymentId;
 
@@ -47,12 +61,26 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Origin(Microsoft.Azure.PowerShell.Cmdlets.DataReplication.PropertyOrigin.Owned)]
         public string FabricName { get => this._fabricName; set => this._fabricName = value; }
 
+        /// <summary>Backing field for <see cref="HostName" /> property.</summary>
+        private string _hostName;
+
+        /// <summary>Host ARM name.</summary>
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Origin(Microsoft.Azure.PowerShell.Cmdlets.DataReplication.PropertyOrigin.Owned)]
+        public string HostName { get => this._hostName; set => this._hostName = value; }
+
         /// <summary>Backing field for <see cref="Id" /> property.</summary>
         private string _id;
 
         /// <summary>Resource identity path</summary>
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Origin(Microsoft.Azure.PowerShell.Cmdlets.DataReplication.PropertyOrigin.Owned)]
         public string Id { get => this._id; set => this._id = value; }
+
+        /// <summary>Backing field for <see cref="JobName" /> property.</summary>
+        private string _jobName;
+
+        /// <summary>Job ARM name.</summary>
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Origin(Microsoft.Azure.PowerShell.Cmdlets.DataReplication.PropertyOrigin.Owned)]
+        public string JobName { get => this._jobName; set => this._jobName = value; }
 
         /// <summary>Backing field for <see cref="Location" /> property.</summary>
         private string _location;
@@ -61,12 +89,26 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Origin(Microsoft.Azure.PowerShell.Cmdlets.DataReplication.PropertyOrigin.Owned)]
         public string Location { get => this._location; set => this._location = value; }
 
+        /// <summary>Backing field for <see cref="MachineName" /> property.</summary>
+        private string _machineName;
+
+        /// <summary>Machine ARM name.</summary>
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Origin(Microsoft.Azure.PowerShell.Cmdlets.DataReplication.PropertyOrigin.Owned)]
+        public string MachineName { get => this._machineName; set => this._machineName = value; }
+
         /// <summary>Backing field for <see cref="OperationId" /> property.</summary>
         private string _operationId;
 
         /// <summary>Operation Id.</summary>
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Origin(Microsoft.Azure.PowerShell.Cmdlets.DataReplication.PropertyOrigin.Owned)]
         public string OperationId { get => this._operationId; set => this._operationId = value; }
+
+        /// <summary>Backing field for <see cref="OperationStatusName" /> property.</summary>
+        private string _operationStatusName;
+
+        /// <summary>Operation status ARM name.</summary>
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Origin(Microsoft.Azure.PowerShell.Cmdlets.DataReplication.PropertyOrigin.Owned)]
+        public string OperationStatusName { get => this._operationStatusName; set => this._operationStatusName = value; }
 
         /// <summary>Backing field for <see cref="PolicyName" /> property.</summary>
         private string _policyName;
@@ -103,6 +145,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Origin(Microsoft.Azure.PowerShell.Cmdlets.DataReplication.PropertyOrigin.Owned)]
         public string ResourceGroupName { get => this._resourceGroupName; set => this._resourceGroupName = value; }
 
+        /// <summary>Backing field for <see cref="SiteName" /> property.</summary>
+        private string _siteName;
+
+        /// <summary>Site name.</summary>
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Origin(Microsoft.Azure.PowerShell.Cmdlets.DataReplication.PropertyOrigin.Owned)]
+        public string SiteName { get => this._siteName; set => this._siteName = value; }
+
         /// <summary>Backing field for <see cref="SubscriptionId" /> property.</summary>
         private string _subscriptionId;
 
@@ -116,6 +165,13 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models
         /// <summary>Vault name.</summary>
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Origin(Microsoft.Azure.PowerShell.Cmdlets.DataReplication.PropertyOrigin.Owned)]
         public string VaultName { get => this._vaultName; set => this._vaultName = value; }
+
+        /// <summary>Backing field for <see cref="VcenterName" /> property.</summary>
+        private string _vcenterName;
+
+        /// <summary>VCenter ARM name.</summary>
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Origin(Microsoft.Azure.PowerShell.Cmdlets.DataReplication.PropertyOrigin.Owned)]
+        public string VcenterName { get => this._vcenterName; set => this._vcenterName = value; }
 
         /// <summary>Backing field for <see cref="WorkflowName" /> property.</summary>
         private string _workflowName;
@@ -133,6 +189,22 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models
     public partial interface IDataReplicationIdentity :
         Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.IJsonSerializable
     {
+        /// <summary>Run as account ARM name.</summary>
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"Run as account ARM name.",
+        SerializedName = @"accountName",
+        PossibleTypes = new [] { typeof(string) })]
+        string AccountName { get; set; }
+        /// <summary>Cluster ARM name.</summary>
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"Cluster ARM name.",
+        SerializedName = @"clusterName",
+        PossibleTypes = new [] { typeof(string) })]
+        string ClusterName { get; set; }
         /// <summary>Deployment Id.</summary>
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(
         Required = false,
@@ -173,6 +245,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models
         SerializedName = @"fabricName",
         PossibleTypes = new [] { typeof(string) })]
         string FabricName { get; set; }
+        /// <summary>Host ARM name.</summary>
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"Host ARM name.",
+        SerializedName = @"hostName",
+        PossibleTypes = new [] { typeof(string) })]
+        string HostName { get; set; }
         /// <summary>Resource identity path</summary>
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(
         Required = false,
@@ -181,6 +261,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models
         SerializedName = @"id",
         PossibleTypes = new [] { typeof(string) })]
         string Id { get; set; }
+        /// <summary>Job ARM name.</summary>
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"Job ARM name.",
+        SerializedName = @"jobName",
+        PossibleTypes = new [] { typeof(string) })]
+        string JobName { get; set; }
         /// <summary>Resource location.</summary>
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(
         Required = false,
@@ -189,6 +277,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models
         SerializedName = @"location",
         PossibleTypes = new [] { typeof(string) })]
         string Location { get; set; }
+        /// <summary>Machine ARM name.</summary>
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"Machine ARM name.",
+        SerializedName = @"machineName",
+        PossibleTypes = new [] { typeof(string) })]
+        string MachineName { get; set; }
         /// <summary>Operation Id.</summary>
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(
         Required = false,
@@ -197,6 +293,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models
         SerializedName = @"operationId",
         PossibleTypes = new [] { typeof(string) })]
         string OperationId { get; set; }
+        /// <summary>Operation status ARM name.</summary>
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"Operation status ARM name.",
+        SerializedName = @"operationStatusName",
+        PossibleTypes = new [] { typeof(string) })]
+        string OperationStatusName { get; set; }
         /// <summary>Policy name.</summary>
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(
         Required = false,
@@ -237,6 +341,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models
         SerializedName = @"resourceGroupName",
         PossibleTypes = new [] { typeof(string) })]
         string ResourceGroupName { get; set; }
+        /// <summary>Site name.</summary>
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"Site name.",
+        SerializedName = @"siteName",
+        PossibleTypes = new [] { typeof(string) })]
+        string SiteName { get; set; }
         /// <summary>The Subscription ID.</summary>
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(
         Required = false,
@@ -253,6 +365,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models
         SerializedName = @"vaultName",
         PossibleTypes = new [] { typeof(string) })]
         string VaultName { get; set; }
+        /// <summary>VCenter ARM name.</summary>
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(
+        Required = false,
+        ReadOnly = false,
+        Description = @"VCenter ARM name.",
+        SerializedName = @"vcenterName",
+        PossibleTypes = new [] { typeof(string) })]
+        string VcenterName { get; set; }
         /// <summary>Workflow name.</summary>
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(
         Required = false,
@@ -266,6 +386,10 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models
     internal partial interface IDataReplicationIdentityInternal
 
     {
+        /// <summary>Run as account ARM name.</summary>
+        string AccountName { get; set; }
+        /// <summary>Cluster ARM name.</summary>
+        string ClusterName { get; set; }
         /// <summary>Deployment Id.</summary>
         string DeploymentId { get; set; }
         /// <summary>Dra name.</summary>
@@ -276,12 +400,20 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models
         string EventName { get; set; }
         /// <summary>Fabric name.</summary>
         string FabricName { get; set; }
+        /// <summary>Host ARM name.</summary>
+        string HostName { get; set; }
         /// <summary>Resource identity path</summary>
         string Id { get; set; }
+        /// <summary>Job ARM name.</summary>
+        string JobName { get; set; }
         /// <summary>Resource location.</summary>
         string Location { get; set; }
+        /// <summary>Machine ARM name.</summary>
+        string MachineName { get; set; }
         /// <summary>Operation Id.</summary>
         string OperationId { get; set; }
+        /// <summary>Operation status ARM name.</summary>
+        string OperationStatusName { get; set; }
         /// <summary>Policy name.</summary>
         string PolicyName { get; set; }
         /// <summary>Protected item name.</summary>
@@ -292,10 +424,14 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models
         string ReplicationExtensionName { get; set; }
         /// <summary>Resource group name.</summary>
         string ResourceGroupName { get; set; }
+        /// <summary>Site name.</summary>
+        string SiteName { get; set; }
         /// <summary>The Subscription ID.</summary>
         string SubscriptionId { get; set; }
         /// <summary>Vault name.</summary>
         string VaultName { get; set; }
+        /// <summary>VCenter ARM name.</summary>
+        string VcenterName { get; set; }
         /// <summary>Workflow name.</summary>
         string WorkflowName { get; set; }
 

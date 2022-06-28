@@ -187,177 +187,6 @@ end {
 
 <#
 .Synopsis
-Gets the details of the alert configuration setting.
-.Description
-Gets the details of the alert configuration setting.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
-
-.Outputs
-Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IEmailConfigurationModel
-.Link
-https://docs.microsoft.com/powershell/module/az.datareplication/get-azdatareplicationemailconfiguration
-#>
-function Get-AzDataReplicationEmailConfiguration {
-[OutputType([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IEmailConfigurationModel])]
-[CmdletBinding(DefaultParameterSetName='List', PositionalBinding=$false)]
-param(
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Resource group name.
-    ${ResourceGroupName},
-
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Vault name.
-    ${VaultName},
-
-    [Parameter(ParameterSetName='Get', Mandatory)]
-    [Alias('EmailConfigurationName')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Email configuration name.
-    ${Name},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
-    [System.String[]]
-    # The Subscription ID.
-    ${SubscriptionId},
-
-    [Parameter()]
-    [Alias('AzureRMContext', 'AzureCredential')]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
-    [System.Management.Automation.PSObject]
-    # The credentials, account, tenant, and subscription used for communication with Azure.
-    ${DefaultProfile},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Wait for .NET debugger to attach
-    ${Break},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be appended to the front of the pipeline
-    ${HttpPipelineAppend},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
-    ${HttpPipelinePrepend},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Uri]
-    # The URI for the proxy server to use
-    ${Proxy},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.PSCredential]
-    # Credentials for a proxy server to use for the remote call
-    ${ProxyCredential},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Use the default credentials for the proxy
-    ${ProxyUseDefaultCredentials}
-)
-
-begin {
-    try {
-        $outBuffer = $null
-        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
-            $PSBoundParameters['OutBuffer'] = 1
-        }
-        $parameterSet = $PSCmdlet.ParameterSetName
-
-        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
-            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
-        }         
-        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        if ($preTelemetryId -eq '') {
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
-        } else {
-            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-            if ($internalCalledCmdlets -eq '') {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
-            } else {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
-            }
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
-        }
-
-        $mapping = @{
-            Get = 'Az.DataReplication.private\Get-AzDataReplicationEmailConfiguration_Get';
-            List = 'Az.DataReplication.private\Get-AzDataReplicationEmailConfiguration_List';
-        }
-        if (('Get', 'List') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
-            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
-        }
-        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
-        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
-        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
-        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
-        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
-        $steppablePipeline.Begin($PSCmdlet)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-}
-
-process {
-    try {
-        $steppablePipeline.Process($_)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-
-    finally {
-        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-    }
-
-}
-end {
-    try {
-        $steppablePipeline.End()
-
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
-        if ($preTelemetryId -eq '') {
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        }
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
-
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-} 
-}
-
-<#
-.Synopsis
 Gets the details of the event.
 .Description
 Gets the details of the event.
@@ -886,6 +715,432 @@ end {
 
 <#
 .Synopsis
+Gets the details of the job.
+.Description
+Gets the details of the job.
+.Example
+{{ Add code here }}
+.Example
+{{ Add code here }}
+
+.Outputs
+Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IWorkflowModel
+.Link
+https://docs.microsoft.com/powershell/module/az.datareplication/get-azdatareplicationjob
+#>
+function Get-AzDataReplicationJob {
+[OutputType([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IWorkflowModel])]
+[CmdletBinding(DefaultParameterSetName='List', PositionalBinding=$false)]
+param(
+    [Parameter(Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    # Resource group name.
+    ${ResourceGroupName},
+
+    [Parameter(Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    # Vault name.
+    ${VaultName},
+
+    [Parameter(ParameterSetName='Get', Mandatory)]
+    [Alias('WorkflowName')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    # Workflow name.
+    ${Name},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
+    [System.String[]]
+    # The Subscription ID.
+    ${SubscriptionId},
+
+    [Parameter(ParameterSetName='List')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Query')]
+    [System.String]
+    # Continuation token.
+    ${ContinuationToken},
+
+    [Parameter(ParameterSetName='List')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Query')]
+    [System.String]
+    # Filter string.
+    ${Filter},
+
+    [Parameter()]
+    [Alias('AzureRMContext', 'AzureCredential')]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
+    [System.Management.Automation.PSObject]
+    # The credentials, account, tenant, and subscription used for communication with Azure.
+    ${DefaultProfile},
+
+    [Parameter(DontShow)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+
+        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
+            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
+        }         
+        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        if ($preTelemetryId -eq '') {
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
+        } else {
+            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+            if ($internalCalledCmdlets -eq '') {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
+            } else {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
+            }
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
+        }
+
+        $mapping = @{
+            Get = 'Az.DataReplication.private\Get-AzDataReplicationJob_Get';
+            List = 'Az.DataReplication.private\Get-AzDataReplicationJob_List';
+        }
+        if (('Get', 'List') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+
+    finally {
+        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
+        if ($preTelemetryId -eq '') {
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        }
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
+
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Method to get machine.
+.Description
+Method to get machine.
+.Example
+{{ Add code here }}
+.Example
+{{ Add code here }}
+
+.Inputs
+Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentity
+.Outputs
+Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api202001.IVMwareMachine
+.Notes
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+INPUTOBJECT <IDataReplicationIdentity>: Identity Parameter
+  [AccountName <String>]: Run as account ARM name.
+  [ClusterName <String>]: Cluster ARM name.
+  [DeploymentId <String>]: Deployment Id.
+  [DraName <String>]: Dra name.
+  [EmailConfigurationName <String>]: Email configuration name.
+  [EventName <String>]: Event name.
+  [FabricName <String>]: Fabric name.
+  [HostName <String>]: Host ARM name.
+  [Id <String>]: Resource identity path
+  [JobName <String>]: Job ARM name.
+  [Location <String>]: Resource location.
+  [MachineName <String>]: Machine ARM name.
+  [OperationId <String>]: Operation Id.
+  [OperationStatusName <String>]: Operation status ARM name.
+  [PolicyName <String>]: Policy name.
+  [ProtectedItemName <String>]: Protected item name.
+  [RecoveryPointName <String>]: Recovery point name.
+  [ReplicationExtensionName <String>]: Replication extension name.
+  [ResourceGroupName <String>]: Resource group name.
+  [SiteName <String>]: Site name.
+  [SubscriptionId <String>]: The Subscription ID.
+  [VaultName <String>]: Vault name.
+  [VcenterName <String>]: VCenter ARM name.
+  [WorkflowName <String>]: Workflow name.
+.Link
+https://docs.microsoft.com/powershell/module/az.datareplication/get-azdatareplicationmachine
+#>
+function Get-AzDataReplicationMachine {
+[OutputType([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api202001.IVMwareMachine])]
+[CmdletBinding(DefaultParameterSetName='Get1', PositionalBinding=$false)]
+param(
+    [Parameter(ParameterSetName='Get', Mandatory)]
+    [Alias('MachineName')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    # Machine ARM name.
+    ${Name},
+
+    [Parameter(ParameterSetName='Get', Mandatory)]
+    [Parameter(ParameterSetName='Get1', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    # The name of the resource group.
+    # The name is case insensitive.
+    ${ResourceGroupName},
+
+    [Parameter(ParameterSetName='Get', Mandatory)]
+    [Parameter(ParameterSetName='Get1', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    # Site name.
+    ${SiteName},
+
+    [Parameter(ParameterSetName='Get')]
+    [Parameter(ParameterSetName='Get1')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
+    [System.String[]]
+    # The ID of the target subscription.
+    ${SubscriptionId},
+
+    [Parameter(ParameterSetName='GetViaIdentity1', Mandatory, ValueFromPipeline)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentity]
+    # Identity Parameter
+    # To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
+    ${InputObject},
+
+    [Parameter(ParameterSetName='Get1')]
+    [Parameter(ParameterSetName='GetViaIdentity1')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Query')]
+    [System.String]
+    # Optional parameter for continuation token.
+    ${ContinuationToken},
+
+    [Parameter(ParameterSetName='Get1')]
+    [Parameter(ParameterSetName='GetViaIdentity1')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Query')]
+    [System.String]
+    # .
+    ${Filter},
+
+    [Parameter(ParameterSetName='Get1')]
+    [Parameter(ParameterSetName='GetViaIdentity1')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Query')]
+    [System.Int32]
+    # .
+    ${Top},
+
+    [Parameter(ParameterSetName='Get1')]
+    [Parameter(ParameterSetName='GetViaIdentity1')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Query')]
+    [System.Int32]
+    # Total count of machines in the given site.
+    ${TotalRecordCount},
+
+    [Parameter()]
+    [Alias('AzureRMContext', 'AzureCredential')]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
+    [System.Management.Automation.PSObject]
+    # The credentials, account, tenant, and subscription used for communication with Azure.
+    ${DefaultProfile},
+
+    [Parameter(DontShow)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+
+        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
+            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
+        }         
+        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        if ($preTelemetryId -eq '') {
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
+        } else {
+            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+            if ($internalCalledCmdlets -eq '') {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
+            } else {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
+            }
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
+        }
+
+        $mapping = @{
+            Get = 'Az.DataReplication.private\Get-AzDataReplicationMachine_Get';
+            Get1 = 'Az.DataReplication.private\Get-AzDataReplicationMachine_Get1';
+            GetViaIdentity1 = 'Az.DataReplication.private\Get-AzDataReplicationMachine_GetViaIdentity1';
+        }
+        if (('Get', 'Get1') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+
+    finally {
+        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
+        if ($preTelemetryId -eq '') {
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        }
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
+
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
 Gets the details of the policy.
 .Description
 Gets the details of the policy.
@@ -1184,6 +1439,385 @@ begin {
             List = 'Az.DataReplication.private\Get-AzDataReplicationRecoveryPoint_List';
         }
         if (('Get', 'List') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+
+    finally {
+        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
+        if ($preTelemetryId -eq '') {
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        }
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
+
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Method to get run as account.
+.Description
+Method to get run as account.
+.Example
+{{ Add code here }}
+.Example
+{{ Add code here }}
+
+.Inputs
+Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentity
+.Outputs
+Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api202001.IVMwareRunAsAccount
+.Notes
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+INPUTOBJECT <IDataReplicationIdentity>: Identity Parameter
+  [AccountName <String>]: Run as account ARM name.
+  [ClusterName <String>]: Cluster ARM name.
+  [DeploymentId <String>]: Deployment Id.
+  [DraName <String>]: Dra name.
+  [EmailConfigurationName <String>]: Email configuration name.
+  [EventName <String>]: Event name.
+  [FabricName <String>]: Fabric name.
+  [HostName <String>]: Host ARM name.
+  [Id <String>]: Resource identity path
+  [JobName <String>]: Job ARM name.
+  [Location <String>]: Resource location.
+  [MachineName <String>]: Machine ARM name.
+  [OperationId <String>]: Operation Id.
+  [OperationStatusName <String>]: Operation status ARM name.
+  [PolicyName <String>]: Policy name.
+  [ProtectedItemName <String>]: Protected item name.
+  [RecoveryPointName <String>]: Recovery point name.
+  [ReplicationExtensionName <String>]: Replication extension name.
+  [ResourceGroupName <String>]: Resource group name.
+  [SiteName <String>]: Site name.
+  [SubscriptionId <String>]: The Subscription ID.
+  [VaultName <String>]: Vault name.
+  [VcenterName <String>]: VCenter ARM name.
+  [WorkflowName <String>]: Workflow name.
+.Link
+https://docs.microsoft.com/powershell/module/az.datareplication/get-azdatareplicationrunasaccount
+#>
+function Get-AzDataReplicationRunAsAccount {
+[OutputType([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api202001.IVMwareRunAsAccount])]
+[CmdletBinding(DefaultParameterSetName='Get1', PositionalBinding=$false)]
+param(
+    [Parameter(ParameterSetName='Get', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    # Run as account ARM name.
+    ${AccountName},
+
+    [Parameter(ParameterSetName='Get', Mandatory)]
+    [Parameter(ParameterSetName='Get1', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    # The name of the resource group.
+    # The name is case insensitive.
+    ${ResourceGroupName},
+
+    [Parameter(ParameterSetName='Get', Mandatory)]
+    [Parameter(ParameterSetName='Get1', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    # Site name.
+    ${SiteName},
+
+    [Parameter(ParameterSetName='Get')]
+    [Parameter(ParameterSetName='Get1')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
+    [System.String[]]
+    # The ID of the target subscription.
+    ${SubscriptionId},
+
+    [Parameter(ParameterSetName='GetViaIdentity1', Mandatory, ValueFromPipeline)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentity]
+    # Identity Parameter
+    # To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
+    ${InputObject},
+
+    [Parameter()]
+    [Alias('AzureRMContext', 'AzureCredential')]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
+    [System.Management.Automation.PSObject]
+    # The credentials, account, tenant, and subscription used for communication with Azure.
+    ${DefaultProfile},
+
+    [Parameter(DontShow)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+
+        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
+            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
+        }         
+        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        if ($preTelemetryId -eq '') {
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
+        } else {
+            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+            if ($internalCalledCmdlets -eq '') {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
+            } else {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
+            }
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
+        }
+
+        $mapping = @{
+            Get = 'Az.DataReplication.private\Get-AzDataReplicationRunAsAccount_Get';
+            Get1 = 'Az.DataReplication.private\Get-AzDataReplicationRunAsAccount_Get1';
+            GetViaIdentity1 = 'Az.DataReplication.private\Get-AzDataReplicationRunAsAccount_GetViaIdentity1';
+        }
+        if (('Get', 'Get1') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+
+    finally {
+        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
+        if ($preTelemetryId -eq '') {
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        }
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
+
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Method to get a site.
+.Description
+Method to get a site.
+.Example
+{{ Add code here }}
+.Example
+{{ Add code here }}
+
+.Outputs
+Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api202001.IVMwareSite
+.Link
+https://docs.microsoft.com/powershell/module/az.datareplication/get-azdatareplicationsite
+#>
+function Get-AzDataReplicationSite {
+[OutputType([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api202001.IVMwareSite])]
+[CmdletBinding(DefaultParameterSetName='Get', PositionalBinding=$false)]
+param(
+    [Parameter(Mandatory)]
+    [Alias('SiteName')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    # Site name.
+    ${Name},
+
+    [Parameter(Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    # The name of the resource group.
+    # The name is case insensitive.
+    ${ResourceGroupName},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
+    [System.String[]]
+    # The ID of the target subscription.
+    ${SubscriptionId},
+
+    [Parameter()]
+    [Alias('AzureRMContext', 'AzureCredential')]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
+    [System.Management.Automation.PSObject]
+    # The credentials, account, tenant, and subscription used for communication with Azure.
+    ${DefaultProfile},
+
+    [Parameter(DontShow)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+
+        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
+            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
+        }         
+        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        if ($preTelemetryId -eq '') {
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
+        } else {
+            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+            if ($internalCalledCmdlets -eq '') {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
+            } else {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
+            }
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
+        }
+
+        $mapping = @{
+            Get = 'Az.DataReplication.private\Get-AzDataReplicationSite_Get';
+        }
+        if (('Get') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
             $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
         $cmdInfo = Get-Command -Name $mapping[$parameterSet]
@@ -1571,59 +2205,97 @@ end {
 
 <#
 .Synopsis
-Gets the details of the job.
+Method to get a vCenter.
 .Description
-Gets the details of the job.
+Method to get a vCenter.
 .Example
 {{ Add code here }}
 .Example
 {{ Add code here }}
 
+.Inputs
+Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentity
 .Outputs
-Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IWorkflowModel
+Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api202001.IVCenter
+.Notes
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+INPUTOBJECT <IDataReplicationIdentity>: Identity Parameter
+  [AccountName <String>]: Run as account ARM name.
+  [ClusterName <String>]: Cluster ARM name.
+  [DeploymentId <String>]: Deployment Id.
+  [DraName <String>]: Dra name.
+  [EmailConfigurationName <String>]: Email configuration name.
+  [EventName <String>]: Event name.
+  [FabricName <String>]: Fabric name.
+  [HostName <String>]: Host ARM name.
+  [Id <String>]: Resource identity path
+  [JobName <String>]: Job ARM name.
+  [Location <String>]: Resource location.
+  [MachineName <String>]: Machine ARM name.
+  [OperationId <String>]: Operation Id.
+  [OperationStatusName <String>]: Operation status ARM name.
+  [PolicyName <String>]: Policy name.
+  [ProtectedItemName <String>]: Protected item name.
+  [RecoveryPointName <String>]: Recovery point name.
+  [ReplicationExtensionName <String>]: Replication extension name.
+  [ResourceGroupName <String>]: Resource group name.
+  [SiteName <String>]: Site name.
+  [SubscriptionId <String>]: The Subscription ID.
+  [VaultName <String>]: Vault name.
+  [VcenterName <String>]: VCenter ARM name.
+  [WorkflowName <String>]: Workflow name.
 .Link
-https://docs.microsoft.com/powershell/module/az.datareplication/get-azdatareplicationworkflow
+https://docs.microsoft.com/powershell/module/az.datareplication/get-azdatareplicationvcenter
 #>
-function Get-AzDataReplicationWorkflow {
-[OutputType([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IWorkflowModel])]
-[CmdletBinding(DefaultParameterSetName='List', PositionalBinding=$false)]
+function Get-AzDataReplicationVCenter {
+[OutputType([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api202001.IVCenter])]
+[CmdletBinding(DefaultParameterSetName='Get1', PositionalBinding=$false)]
 param(
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Resource group name.
-    ${ResourceGroupName},
-
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Vault name.
-    ${VaultName},
-
     [Parameter(ParameterSetName='Get', Mandatory)]
-    [Alias('WorkflowName')]
+    [Alias('VcenterName')]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
     [System.String]
-    # Workflow name.
+    # VCenter ARM name.
     ${Name},
 
-    [Parameter()]
+    [Parameter(ParameterSetName='Get', Mandatory)]
+    [Parameter(ParameterSetName='Get1', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    # The name of the resource group.
+    # The name is case insensitive.
+    ${ResourceGroupName},
+
+    [Parameter(ParameterSetName='Get', Mandatory)]
+    [Parameter(ParameterSetName='Get1', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    # Site name.
+    ${SiteName},
+
+    [Parameter(ParameterSetName='Get')]
+    [Parameter(ParameterSetName='Get1')]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String[]]
-    # The Subscription ID.
+    # The ID of the target subscription.
     ${SubscriptionId},
 
-    [Parameter(ParameterSetName='List')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Query')]
-    [System.String]
-    # Continuation token.
-    ${ContinuationToken},
+    [Parameter(ParameterSetName='GetViaIdentity1', Mandatory, ValueFromPipeline)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentity]
+    # Identity Parameter
+    # To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
+    ${InputObject},
 
-    [Parameter(ParameterSetName='List')]
+    [Parameter(ParameterSetName='Get1')]
+    [Parameter(ParameterSetName='GetViaIdentity1')]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Query')]
     [System.String]
-    # Filter string.
+    # .
     ${Filter},
 
     [Parameter()]
@@ -1700,235 +2372,11 @@ begin {
         }
 
         $mapping = @{
-            Get = 'Az.DataReplication.private\Get-AzDataReplicationWorkflow_Get';
-            List = 'Az.DataReplication.private\Get-AzDataReplicationWorkflow_List';
+            Get = 'Az.DataReplication.private\Get-AzDataReplicationVCenter_Get';
+            Get1 = 'Az.DataReplication.private\Get-AzDataReplicationVCenter_Get1';
+            GetViaIdentity1 = 'Az.DataReplication.private\Get-AzDataReplicationVCenter_GetViaIdentity1';
         }
-        if (('Get', 'List') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
-            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
-        }
-        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
-        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
-        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
-        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
-        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
-        $steppablePipeline.Begin($PSCmdlet)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-}
-
-process {
-    try {
-        $steppablePipeline.Process($_)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-
-    finally {
-        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-    }
-
-}
-end {
-    try {
-        $steppablePipeline.End()
-
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
-        if ($preTelemetryId -eq '') {
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        }
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
-
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-} 
-}
-
-<#
-.Synopsis
-Creates the replication extension in the given vault.
-.Description
-Creates the replication extension in the given vault.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
-
-.Inputs
-Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IReplicationExtensionModel
-.Outputs
-Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IReplicationExtensionModel
-.Notes
-COMPLEX PARAMETER PROPERTIES
-
-To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
-
-BODY <IReplicationExtensionModel>: Replication extension model.
-  [CustomProperty <IReplicationExtensionModelCustomProperties>]: Replication extension model custom properties.
-    InstanceType <String>: Gets or sets the instance type.
-  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
-  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
-  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
-  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
-  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
-  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
-  [Tag <IReplicationExtensionModelTags>]: Gets or sets the resource tags.
-    [(Any) <String>]: This indicates any property can be added to this object.
-
-CUSTOMPROPERTY <IReplicationExtensionModelCustomProperties>: Replication extension model custom properties.
-  InstanceType <String>: Gets or sets the instance type.
-.Link
-https://docs.microsoft.com/powershell/module/az.datareplication/new-azdatareplicationextension
-#>
-function New-AzDataReplicationExtension {
-[OutputType([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IReplicationExtensionModel])]
-[CmdletBinding(DefaultParameterSetName='CreateExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
-param(
-    [Parameter(Mandatory)]
-    [Alias('ReplicationExtensionName')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Replication extension name.
-    ${Name},
-
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Resource group name.
-    ${ResourceGroupName},
-
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Vault name.
-    ${VaultName},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
-    [System.String]
-    # The Subscription ID.
-    ${SubscriptionId},
-
-    [Parameter(ParameterSetName='Create', Mandatory, ValueFromPipeline)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IReplicationExtensionModel]
-    # Replication extension model.
-    # To construct, see NOTES section for BODY properties and create a hash table.
-    ${Body},
-
-    [Parameter(ParameterSetName='CreateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IReplicationExtensionModelCustomProperties]
-    # Replication extension model custom properties.
-    # To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
-    ${CustomProperty},
-
-    [Parameter(ParameterSetName='CreateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(PossibleTypes=([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IReplicationExtensionModelTags]))]
-    [System.Collections.Hashtable]
-    # Gets or sets the resource tags.
-    ${Tag},
-
-    [Parameter()]
-    [Alias('AzureRMContext', 'AzureCredential')]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
-    [System.Management.Automation.PSObject]
-    # The credentials, account, tenant, and subscription used for communication with Azure.
-    ${DefaultProfile},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Run the command as a job
-    ${AsJob},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Wait for .NET debugger to attach
-    ${Break},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be appended to the front of the pipeline
-    ${HttpPipelineAppend},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
-    ${HttpPipelinePrepend},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Run the command asynchronously
-    ${NoWait},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Uri]
-    # The URI for the proxy server to use
-    ${Proxy},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.PSCredential]
-    # Credentials for a proxy server to use for the remote call
-    ${ProxyCredential},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Use the default credentials for the proxy
-    ${ProxyUseDefaultCredentials}
-)
-
-begin {
-    try {
-        $outBuffer = $null
-        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
-            $PSBoundParameters['OutBuffer'] = 1
-        }
-        $parameterSet = $PSCmdlet.ParameterSetName
-
-        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
-            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
-        }         
-        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        if ($preTelemetryId -eq '') {
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
-        } else {
-            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-            if ($internalCalledCmdlets -eq '') {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
-            } else {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
-            }
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
-        }
-
-        $mapping = @{
-            Create = 'Az.DataReplication.private\New-AzDataReplicationExtension_Create';
-            CreateExpanded = 'Az.DataReplication.private\New-AzDataReplicationExtension_CreateExpanded';
-        }
-        if (('Create', 'CreateExpanded') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+        if (('Get', 'Get1') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
             $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
         $cmdInfo = Get-Command -Name $mapping[$parameterSet]
@@ -2143,564 +2591,6 @@ begin {
             CreateExpanded = 'Az.DataReplication.private\New-AzDataReplicationVault_CreateExpanded';
         }
         if (('Create', 'CreateExpanded') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
-            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
-        }
-        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
-        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
-        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
-        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
-        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
-        $steppablePipeline.Begin($PSCmdlet)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-}
-
-process {
-    try {
-        $steppablePipeline.Process($_)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-
-    finally {
-        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-    }
-
-}
-end {
-    try {
-        $steppablePipeline.End()
-
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
-        if ($preTelemetryId -eq '') {
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        }
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
-
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-} 
-}
-
-<#
-.Synopsis
-Deletes the fabric agent.
-.Description
-Deletes the fabric agent.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
-
-.Outputs
-System.Boolean
-.Link
-https://docs.microsoft.com/powershell/module/az.datareplication/remove-azdatareplicationdra
-#>
-function Remove-AzDataReplicationDra {
-[OutputType([System.Boolean])]
-[CmdletBinding(DefaultParameterSetName='Delete', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
-param(
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Fabric Name.
-    ${FabricName},
-
-    [Parameter(Mandatory)]
-    [Alias('DraName')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Dra Name.
-    ${Name},
-
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Resource group name.
-    ${ResourceGroupName},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
-    [System.String]
-    # The Subscription ID.
-    ${SubscriptionId},
-
-    [Parameter()]
-    [Alias('AzureRMContext', 'AzureCredential')]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
-    [System.Management.Automation.PSObject]
-    # The credentials, account, tenant, and subscription used for communication with Azure.
-    ${DefaultProfile},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Run the command as a job
-    ${AsJob},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Wait for .NET debugger to attach
-    ${Break},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be appended to the front of the pipeline
-    ${HttpPipelineAppend},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
-    ${HttpPipelinePrepend},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Run the command asynchronously
-    ${NoWait},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Returns true when the command succeeds
-    ${PassThru},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Uri]
-    # The URI for the proxy server to use
-    ${Proxy},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.PSCredential]
-    # Credentials for a proxy server to use for the remote call
-    ${ProxyCredential},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Use the default credentials for the proxy
-    ${ProxyUseDefaultCredentials}
-)
-
-begin {
-    try {
-        $outBuffer = $null
-        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
-            $PSBoundParameters['OutBuffer'] = 1
-        }
-        $parameterSet = $PSCmdlet.ParameterSetName
-
-        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
-            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
-        }         
-        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        if ($preTelemetryId -eq '') {
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
-        } else {
-            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-            if ($internalCalledCmdlets -eq '') {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
-            } else {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
-            }
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
-        }
-
-        $mapping = @{
-            Delete = 'Az.DataReplication.private\Remove-AzDataReplicationDra_Delete';
-        }
-        if (('Delete') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
-            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
-        }
-        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
-        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
-        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
-        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
-        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
-        $steppablePipeline.Begin($PSCmdlet)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-}
-
-process {
-    try {
-        $steppablePipeline.Process($_)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-
-    finally {
-        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-    }
-
-}
-end {
-    try {
-        $steppablePipeline.End()
-
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
-        if ($preTelemetryId -eq '') {
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        }
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
-
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-} 
-}
-
-<#
-.Synopsis
-Deletes the replication extension in the given vault.
-.Description
-Deletes the replication extension in the given vault.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
-
-.Outputs
-System.Boolean
-.Link
-https://docs.microsoft.com/powershell/module/az.datareplication/remove-azdatareplicationextension
-#>
-function Remove-AzDataReplicationExtension {
-[OutputType([System.Boolean])]
-[CmdletBinding(DefaultParameterSetName='Delete', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
-param(
-    [Parameter(Mandatory)]
-    [Alias('ReplicationExtensionName')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Replication extension name.
-    ${Name},
-
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Resource group name.
-    ${ResourceGroupName},
-
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Vault Name.
-    ${VaultName},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
-    [System.String]
-    # The Subscription ID.
-    ${SubscriptionId},
-
-    [Parameter()]
-    [Alias('AzureRMContext', 'AzureCredential')]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
-    [System.Management.Automation.PSObject]
-    # The credentials, account, tenant, and subscription used for communication with Azure.
-    ${DefaultProfile},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Run the command as a job
-    ${AsJob},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Wait for .NET debugger to attach
-    ${Break},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be appended to the front of the pipeline
-    ${HttpPipelineAppend},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
-    ${HttpPipelinePrepend},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Run the command asynchronously
-    ${NoWait},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Returns true when the command succeeds
-    ${PassThru},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Uri]
-    # The URI for the proxy server to use
-    ${Proxy},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.PSCredential]
-    # Credentials for a proxy server to use for the remote call
-    ${ProxyCredential},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Use the default credentials for the proxy
-    ${ProxyUseDefaultCredentials}
-)
-
-begin {
-    try {
-        $outBuffer = $null
-        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
-            $PSBoundParameters['OutBuffer'] = 1
-        }
-        $parameterSet = $PSCmdlet.ParameterSetName
-
-        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
-            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
-        }         
-        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        if ($preTelemetryId -eq '') {
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
-        } else {
-            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-            if ($internalCalledCmdlets -eq '') {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
-            } else {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
-            }
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
-        }
-
-        $mapping = @{
-            Delete = 'Az.DataReplication.private\Remove-AzDataReplicationExtension_Delete';
-        }
-        if (('Delete') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
-            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
-        }
-        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
-        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
-        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
-        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
-        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
-        $steppablePipeline.Begin($PSCmdlet)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-}
-
-process {
-    try {
-        $steppablePipeline.Process($_)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-
-    finally {
-        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-    }
-
-}
-end {
-    try {
-        $steppablePipeline.End()
-
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
-        if ($preTelemetryId -eq '') {
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        }
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
-
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-} 
-}
-
-<#
-.Synopsis
-Removes the fabric.
-.Description
-Removes the fabric.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
-
-.Outputs
-System.Boolean
-.Link
-https://docs.microsoft.com/powershell/module/az.datareplication/remove-azdatareplicationfabric
-#>
-function Remove-AzDataReplicationFabric {
-[OutputType([System.Boolean])]
-[CmdletBinding(DefaultParameterSetName='Delete', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
-param(
-    [Parameter(Mandatory)]
-    [Alias('FabricName')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Fabric Name.
-    ${Name},
-
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Resource group name.
-    ${ResourceGroupName},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
-    [System.String]
-    # The Subscription ID.
-    ${SubscriptionId},
-
-    [Parameter()]
-    [Alias('AzureRMContext', 'AzureCredential')]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
-    [System.Management.Automation.PSObject]
-    # The credentials, account, tenant, and subscription used for communication with Azure.
-    ${DefaultProfile},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Run the command as a job
-    ${AsJob},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Wait for .NET debugger to attach
-    ${Break},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be appended to the front of the pipeline
-    ${HttpPipelineAppend},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
-    ${HttpPipelinePrepend},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Run the command asynchronously
-    ${NoWait},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Returns true when the command succeeds
-    ${PassThru},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Uri]
-    # The URI for the proxy server to use
-    ${Proxy},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.PSCredential]
-    # Credentials for a proxy server to use for the remote call
-    ${ProxyCredential},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Use the default credentials for the proxy
-    ${ProxyUseDefaultCredentials}
-)
-
-begin {
-    try {
-        $outBuffer = $null
-        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
-            $PSBoundParameters['OutBuffer'] = 1
-        }
-        $parameterSet = $PSCmdlet.ParameterSetName
-
-        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
-            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
-        }         
-        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        if ($preTelemetryId -eq '') {
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
-        } else {
-            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-            if ($internalCalledCmdlets -eq '') {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
-            } else {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
-            }
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
-        }
-
-        $mapping = @{
-            Delete = 'Az.DataReplication.private\Remove-AzDataReplicationFabric_Delete';
-        }
-        if (('Delete') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
             $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
         $cmdInfo = Get-Command -Name $mapping[$parameterSet]
@@ -3315,1427 +3205,6 @@ end {
 
 <#
 .Synopsis
-Refreshes the fabric agent.
-.Description
-Refreshes the fabric agent.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
-
-.Inputs
-Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IDraModel
-.Outputs
-Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IDraModel
-.Outputs
-System.Boolean
-.Notes
-COMPLEX PARAMETER PROPERTIES
-
-To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
-
-BODY <IDraModel>: Dra model.
-  [AuthenticationIdentityAadAuthority <String>]: Gets or sets the authority of the SPN with which Dra communicates to service.
-  [AuthenticationIdentityApplicationId <String>]: Gets or sets the client/application Id of the SPN with which Dra communicates to         service.
-  [AuthenticationIdentityAudience <String>]: Gets or sets the audience of the SPN with which Dra communicates to service.
-  [AuthenticationIdentityObjectId <String>]: Gets or sets the object Id of the SPN with which Dra communicates to service.
-  [AuthenticationIdentityTenantId <String>]: Gets or sets the tenant Id of the SPN with which Dra communicates to service.
-  [CustomPropertyInstanceType <String>]: Gets or sets the instance type.
-  [MachineId <String>]: Gets or sets the machine Id where Dra is running.
-  [MachineName <String>]: Gets or sets the machine name where Dra is running.
-  [ResourceAccessIdentityAadAuthority <String>]: Gets or sets the authority of the SPN with which Dra communicates to service.
-  [ResourceAccessIdentityApplicationId <String>]: Gets or sets the client/application Id of the SPN with which Dra communicates to         service.
-  [ResourceAccessIdentityAudience <String>]: Gets or sets the audience of the SPN with which Dra communicates to service.
-  [ResourceAccessIdentityObjectId <String>]: Gets or sets the object Id of the SPN with which Dra communicates to service.
-  [ResourceAccessIdentityTenantId <String>]: Gets or sets the tenant Id of the SPN with which Dra communicates to service.
-  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
-  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
-  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
-  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
-  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
-  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
-  [Tag <IDraModelTags>]: Gets or sets the resource tags.
-    [(Any) <String>]: This indicates any property can be added to this object.
-.Link
-https://docs.microsoft.com/powershell/module/az.datareplication/set-azdatareplicationdra
-#>
-function Set-AzDataReplicationDra {
-[OutputType([System.Boolean], [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IDraModel])]
-[CmdletBinding(DefaultParameterSetName='Refresh', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
-param(
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Fabric name.
-    ${FabricName},
-
-    [Parameter(Mandatory)]
-    [Alias('DraName')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Dra name.
-    ${Name},
-
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Resource group name.
-    ${ResourceGroupName},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
-    [System.String]
-    # The Subscription ID.
-    ${SubscriptionId},
-
-    [Parameter(ParameterSetName='Update', Mandatory, ValueFromPipeline)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IDraModel]
-    # Dra model.
-    # To construct, see NOTES section for BODY properties and create a hash table.
-    ${Body},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.String]
-    # Gets or sets the authority of the SPN with which Dra communicates to service.
-    ${AuthenticationIdentityAadAuthority},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.String]
-    # Gets or sets the client/application Id of the SPN with which Dra communicates toservice.
-    ${AuthenticationIdentityApplicationId},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.String]
-    # Gets or sets the audience of the SPN with which Dra communicates to service.
-    ${AuthenticationIdentityAudience},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.String]
-    # Gets or sets the object Id of the SPN with which Dra communicates to service.
-    ${AuthenticationIdentityObjectId},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.String]
-    # Gets or sets the tenant Id of the SPN with which Dra communicates to service.
-    ${AuthenticationIdentityTenantId},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.String]
-    # Gets or sets the instance type.
-    ${CustomPropertyInstanceType},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.String]
-    # Gets or sets the machine Id where Dra is running.
-    ${MachineId},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.String]
-    # Gets or sets the machine name where Dra is running.
-    ${MachineName},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.String]
-    # Gets or sets the authority of the SPN with which Dra communicates to service.
-    ${ResourceAccessIdentityAadAuthority},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.String]
-    # Gets or sets the client/application Id of the SPN with which Dra communicates toservice.
-    ${ResourceAccessIdentityApplicationId},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.String]
-    # Gets or sets the audience of the SPN with which Dra communicates to service.
-    ${ResourceAccessIdentityAudience},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.String]
-    # Gets or sets the object Id of the SPN with which Dra communicates to service.
-    ${ResourceAccessIdentityObjectId},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.String]
-    # Gets or sets the tenant Id of the SPN with which Dra communicates to service.
-    ${ResourceAccessIdentityTenantId},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(PossibleTypes=([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IDraModelTags]))]
-    [System.Collections.Hashtable]
-    # Gets or sets the resource tags.
-    ${Tag},
-
-    [Parameter()]
-    [Alias('AzureRMContext', 'AzureCredential')]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
-    [System.Management.Automation.PSObject]
-    # The credentials, account, tenant, and subscription used for communication with Azure.
-    ${DefaultProfile},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Run the command as a job
-    ${AsJob},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Wait for .NET debugger to attach
-    ${Break},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be appended to the front of the pipeline
-    ${HttpPipelineAppend},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
-    ${HttpPipelinePrepend},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Run the command asynchronously
-    ${NoWait},
-
-    [Parameter(ParameterSetName='Refresh')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Returns true when the command succeeds
-    ${PassThru},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Uri]
-    # The URI for the proxy server to use
-    ${Proxy},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.PSCredential]
-    # Credentials for a proxy server to use for the remote call
-    ${ProxyCredential},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Use the default credentials for the proxy
-    ${ProxyUseDefaultCredentials}
-)
-
-begin {
-    try {
-        $outBuffer = $null
-        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
-            $PSBoundParameters['OutBuffer'] = 1
-        }
-        $parameterSet = $PSCmdlet.ParameterSetName
-
-        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
-            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
-        }         
-        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        if ($preTelemetryId -eq '') {
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
-        } else {
-            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-            if ($internalCalledCmdlets -eq '') {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
-            } else {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
-            }
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
-        }
-
-        $mapping = @{
-            Refresh = 'Az.DataReplication.private\Set-AzDataReplicationDra_Refresh';
-            Update = 'Az.DataReplication.private\Set-AzDataReplicationDra_Update';
-            UpdateExpanded = 'Az.DataReplication.private\Set-AzDataReplicationDra_UpdateExpanded';
-        }
-        if (('Refresh', 'Update', 'UpdateExpanded') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
-            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
-        }
-        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
-        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
-        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
-        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
-        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
-        $steppablePipeline.Begin($PSCmdlet)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-}
-
-process {
-    try {
-        $steppablePipeline.Process($_)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-
-    finally {
-        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-    }
-
-}
-end {
-    try {
-        $steppablePipeline.End()
-
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
-        if ($preTelemetryId -eq '') {
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        }
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
-
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-} 
-}
-
-<#
-.Synopsis
-Updates the alert configuration setting for the given vault.
-.Description
-Updates the alert configuration setting for the given vault.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
-
-.Inputs
-Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IEmailConfigurationModel
-.Outputs
-Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IEmailConfigurationModel
-.Notes
-COMPLEX PARAMETER PROPERTIES
-
-To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
-
-BODY <IEmailConfigurationModel>: Email configuration model.
-  [CustomEmailAddress <String[]>]: Gets or sets the custom email address for sending emails.
-  [Locale <String>]: Gets or sets the locale for the email notification.
-  [SendToOwner <Boolean?>]: Gets or sets a value indicating whether to send email to subscription administrator.
-  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
-  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
-  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
-  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
-  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
-  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
-  [Tag <IEmailConfigurationModelTags>]: Gets or sets the resource tags.
-    [(Any) <String>]: This indicates any property can be added to this object.
-.Link
-https://docs.microsoft.com/powershell/module/az.datareplication/set-azdatareplicationemailconfiguration
-#>
-function Set-AzDataReplicationEmailConfiguration {
-[OutputType([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IEmailConfigurationModel])]
-[CmdletBinding(DefaultParameterSetName='UpdateExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
-param(
-    [Parameter(Mandatory)]
-    [Alias('EmailConfigurationName')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Email configuration name.
-    ${Name},
-
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Resource group name.
-    ${ResourceGroupName},
-
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Vault name.
-    ${VaultName},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
-    [System.String]
-    # The Subscription ID.
-    ${SubscriptionId},
-
-    [Parameter(ParameterSetName='Update', Mandatory, ValueFromPipeline)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IEmailConfigurationModel]
-    # Email configuration model.
-    # To construct, see NOTES section for BODY properties and create a hash table.
-    ${Body},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [AllowEmptyCollection()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.String[]]
-    # Gets or sets the custom email address for sending emails.
-    ${CustomEmailAddress},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.String]
-    # Gets or sets the locale for the email notification.
-    ${Locale},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.Management.Automation.SwitchParameter]
-    # Gets or sets a value indicating whether to send email to subscription administrator.
-    ${SendToOwner},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(PossibleTypes=([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IEmailConfigurationModelTags]))]
-    [System.Collections.Hashtable]
-    # Gets or sets the resource tags.
-    ${Tag},
-
-    [Parameter()]
-    [Alias('AzureRMContext', 'AzureCredential')]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
-    [System.Management.Automation.PSObject]
-    # The credentials, account, tenant, and subscription used for communication with Azure.
-    ${DefaultProfile},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Wait for .NET debugger to attach
-    ${Break},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be appended to the front of the pipeline
-    ${HttpPipelineAppend},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
-    ${HttpPipelinePrepend},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Uri]
-    # The URI for the proxy server to use
-    ${Proxy},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.PSCredential]
-    # Credentials for a proxy server to use for the remote call
-    ${ProxyCredential},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Use the default credentials for the proxy
-    ${ProxyUseDefaultCredentials}
-)
-
-begin {
-    try {
-        $outBuffer = $null
-        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
-            $PSBoundParameters['OutBuffer'] = 1
-        }
-        $parameterSet = $PSCmdlet.ParameterSetName
-
-        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
-            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
-        }         
-        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        if ($preTelemetryId -eq '') {
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
-        } else {
-            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-            if ($internalCalledCmdlets -eq '') {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
-            } else {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
-            }
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
-        }
-
-        $mapping = @{
-            Update = 'Az.DataReplication.private\Set-AzDataReplicationEmailConfiguration_Update';
-            UpdateExpanded = 'Az.DataReplication.private\Set-AzDataReplicationEmailConfiguration_UpdateExpanded';
-        }
-        if (('Update', 'UpdateExpanded') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
-            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
-        }
-        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
-        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
-        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
-        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
-        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
-        $steppablePipeline.Begin($PSCmdlet)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-}
-
-process {
-    try {
-        $steppablePipeline.Process($_)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-
-    finally {
-        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-    }
-
-}
-end {
-    try {
-        $steppablePipeline.End()
-
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
-        if ($preTelemetryId -eq '') {
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        }
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
-
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-} 
-}
-
-<#
-.Synopsis
-Updates the replication extension in the given vault.
-.Description
-Updates the replication extension in the given vault.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
-
-.Inputs
-Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IReplicationExtensionModel
-.Outputs
-Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IReplicationExtensionModel
-.Notes
-COMPLEX PARAMETER PROPERTIES
-
-To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
-
-BODY <IReplicationExtensionModel>: Replication extension model.
-  [CustomProperty <IReplicationExtensionModelCustomProperties>]: Replication extension model custom properties.
-    InstanceType <String>: Gets or sets the instance type.
-  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
-  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
-  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
-  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
-  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
-  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
-  [Tag <IReplicationExtensionModelTags>]: Gets or sets the resource tags.
-    [(Any) <String>]: This indicates any property can be added to this object.
-
-CUSTOMPROPERTY <IReplicationExtensionModelCustomProperties>: Replication extension model custom properties.
-  InstanceType <String>: Gets or sets the instance type.
-.Link
-https://docs.microsoft.com/powershell/module/az.datareplication/set-azdatareplicationextension
-#>
-function Set-AzDataReplicationExtension {
-[OutputType([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IReplicationExtensionModel])]
-[CmdletBinding(DefaultParameterSetName='UpdateExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
-param(
-    [Parameter(Mandatory)]
-    [Alias('ReplicationExtensionName')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Replication extension name.
-    ${Name},
-
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Resource group name.
-    ${ResourceGroupName},
-
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Vault name.
-    ${VaultName},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
-    [System.String]
-    # The Subscription ID.
-    ${SubscriptionId},
-
-    [Parameter(ParameterSetName='Update', Mandatory, ValueFromPipeline)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IReplicationExtensionModel]
-    # Replication extension model.
-    # To construct, see NOTES section for BODY properties and create a hash table.
-    ${Body},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IReplicationExtensionModelCustomProperties]
-    # Replication extension model custom properties.
-    # To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
-    ${CustomProperty},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(PossibleTypes=([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IReplicationExtensionModelTags]))]
-    [System.Collections.Hashtable]
-    # Gets or sets the resource tags.
-    ${Tag},
-
-    [Parameter()]
-    [Alias('AzureRMContext', 'AzureCredential')]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
-    [System.Management.Automation.PSObject]
-    # The credentials, account, tenant, and subscription used for communication with Azure.
-    ${DefaultProfile},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Run the command as a job
-    ${AsJob},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Wait for .NET debugger to attach
-    ${Break},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be appended to the front of the pipeline
-    ${HttpPipelineAppend},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
-    ${HttpPipelinePrepend},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Run the command asynchronously
-    ${NoWait},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Uri]
-    # The URI for the proxy server to use
-    ${Proxy},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.PSCredential]
-    # Credentials for a proxy server to use for the remote call
-    ${ProxyCredential},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Use the default credentials for the proxy
-    ${ProxyUseDefaultCredentials}
-)
-
-begin {
-    try {
-        $outBuffer = $null
-        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
-            $PSBoundParameters['OutBuffer'] = 1
-        }
-        $parameterSet = $PSCmdlet.ParameterSetName
-
-        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
-            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
-        }         
-        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        if ($preTelemetryId -eq '') {
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
-        } else {
-            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-            if ($internalCalledCmdlets -eq '') {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
-            } else {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
-            }
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
-        }
-
-        $mapping = @{
-            Update = 'Az.DataReplication.private\Set-AzDataReplicationExtension_Update';
-            UpdateExpanded = 'Az.DataReplication.private\Set-AzDataReplicationExtension_UpdateExpanded';
-        }
-        if (('Update', 'UpdateExpanded') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
-            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
-        }
-        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
-        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
-        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
-        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
-        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
-        $steppablePipeline.Begin($PSCmdlet)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-}
-
-process {
-    try {
-        $steppablePipeline.Process($_)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-
-    finally {
-        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-    }
-
-}
-end {
-    try {
-        $steppablePipeline.End()
-
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
-        if ($preTelemetryId -eq '') {
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        }
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
-
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-} 
-}
-
-<#
-.Synopsis
-Performs update on the fabric.
-.Description
-Performs update on the fabric.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
-
-.Inputs
-Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IFabricModel
-.Outputs
-Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IFabricModel
-.Notes
-COMPLEX PARAMETER PROPERTIES
-
-To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
-
-BODY <IFabricModel>: Fabric model.
-  [CustomPropertyInstanceType <String>]: Gets or sets the instance type.
-  [Location <String>]: Gets or sets the location of the fabric.
-  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
-  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
-  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
-  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
-  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
-  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
-  [Tag <IFabricModelTags>]: Gets or sets the resource tags.
-    [(Any) <String>]: This indicates any property can be added to this object.
-.Link
-https://docs.microsoft.com/powershell/module/az.datareplication/set-azdatareplicationfabric
-#>
-function Set-AzDataReplicationFabric {
-[OutputType([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IFabricModel])]
-[CmdletBinding(DefaultParameterSetName='UpdateExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
-param(
-    [Parameter(Mandatory)]
-    [Alias('FabricName')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Fabric Name.
-    ${Name},
-
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Resource group name.
-    ${ResourceGroupName},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
-    [System.String]
-    # The Subscription ID.
-    ${SubscriptionId},
-
-    [Parameter(ParameterSetName='Update', Mandatory, ValueFromPipeline)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IFabricModel]
-    # Fabric model.
-    # To construct, see NOTES section for BODY properties and create a hash table.
-    ${Body},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.String]
-    # Gets or sets the instance type.
-    ${CustomPropertyInstanceType},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.String]
-    # Gets or sets the location of the fabric.
-    ${Location},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(PossibleTypes=([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IFabricModelTags]))]
-    [System.Collections.Hashtable]
-    # Gets or sets the resource tags.
-    ${Tag},
-
-    [Parameter()]
-    [Alias('AzureRMContext', 'AzureCredential')]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
-    [System.Management.Automation.PSObject]
-    # The credentials, account, tenant, and subscription used for communication with Azure.
-    ${DefaultProfile},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Run the command as a job
-    ${AsJob},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Wait for .NET debugger to attach
-    ${Break},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be appended to the front of the pipeline
-    ${HttpPipelineAppend},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
-    ${HttpPipelinePrepend},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Run the command asynchronously
-    ${NoWait},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Uri]
-    # The URI for the proxy server to use
-    ${Proxy},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.PSCredential]
-    # Credentials for a proxy server to use for the remote call
-    ${ProxyCredential},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Use the default credentials for the proxy
-    ${ProxyUseDefaultCredentials}
-)
-
-begin {
-    try {
-        $outBuffer = $null
-        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
-            $PSBoundParameters['OutBuffer'] = 1
-        }
-        $parameterSet = $PSCmdlet.ParameterSetName
-
-        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
-            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
-        }         
-        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        if ($preTelemetryId -eq '') {
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
-        } else {
-            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-            if ($internalCalledCmdlets -eq '') {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
-            } else {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
-            }
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
-        }
-
-        $mapping = @{
-            Update = 'Az.DataReplication.private\Set-AzDataReplicationFabric_Update';
-            UpdateExpanded = 'Az.DataReplication.private\Set-AzDataReplicationFabric_UpdateExpanded';
-        }
-        if (('Update', 'UpdateExpanded') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
-            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
-        }
-        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
-        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
-        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
-        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
-        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
-        $steppablePipeline.Begin($PSCmdlet)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-}
-
-process {
-    try {
-        $steppablePipeline.Process($_)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-
-    finally {
-        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-    }
-
-}
-end {
-    try {
-        $steppablePipeline.End()
-
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
-        if ($preTelemetryId -eq '') {
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        }
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
-
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-} 
-}
-
-<#
-.Synopsis
-Performs update on the policy.
-.Description
-Performs update on the policy.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
-
-.Inputs
-Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IPolicyModel
-.Outputs
-Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IPolicyModel
-.Notes
-COMPLEX PARAMETER PROPERTIES
-
-To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
-
-BODY <IPolicyModel>: Policy model.
-  [CustomProperty <IPolicyModelCustomProperties>]: Policy model custom properties.
-    InstanceType <String>: Gets or sets the instance type.
-  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
-  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
-  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
-  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
-  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
-  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
-  [Tag <IPolicyModelTags>]: Gets or sets the resource tags.
-    [(Any) <String>]: This indicates any property can be added to this object.
-
-CUSTOMPROPERTY <IPolicyModelCustomProperties>: Policy model custom properties.
-  InstanceType <String>: Gets or sets the instance type.
-.Link
-https://docs.microsoft.com/powershell/module/az.datareplication/set-azdatareplicationpolicy
-#>
-function Set-AzDataReplicationPolicy {
-[OutputType([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IPolicyModel])]
-[CmdletBinding(DefaultParameterSetName='UpdateExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
-param(
-    [Parameter(Mandatory)]
-    [Alias('PolicyName')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Policy name.
-    ${Name},
-
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Resource group name.
-    ${ResourceGroupName},
-
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Vault name.
-    ${VaultName},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
-    [System.String]
-    # The Subscription ID.
-    ${SubscriptionId},
-
-    [Parameter(ParameterSetName='Update', Mandatory, ValueFromPipeline)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IPolicyModel]
-    # Policy model.
-    # To construct, see NOTES section for BODY properties and create a hash table.
-    ${Body},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IPolicyModelCustomProperties]
-    # Policy model custom properties.
-    # To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
-    ${CustomProperty},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(PossibleTypes=([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IPolicyModelTags]))]
-    [System.Collections.Hashtable]
-    # Gets or sets the resource tags.
-    ${Tag},
-
-    [Parameter()]
-    [Alias('AzureRMContext', 'AzureCredential')]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
-    [System.Management.Automation.PSObject]
-    # The credentials, account, tenant, and subscription used for communication with Azure.
-    ${DefaultProfile},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Run the command as a job
-    ${AsJob},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Wait for .NET debugger to attach
-    ${Break},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be appended to the front of the pipeline
-    ${HttpPipelineAppend},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
-    ${HttpPipelinePrepend},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Run the command asynchronously
-    ${NoWait},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Uri]
-    # The URI for the proxy server to use
-    ${Proxy},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.PSCredential]
-    # Credentials for a proxy server to use for the remote call
-    ${ProxyCredential},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Use the default credentials for the proxy
-    ${ProxyUseDefaultCredentials}
-)
-
-begin {
-    try {
-        $outBuffer = $null
-        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
-            $PSBoundParameters['OutBuffer'] = 1
-        }
-        $parameterSet = $PSCmdlet.ParameterSetName
-
-        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
-            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
-        }         
-        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        if ($preTelemetryId -eq '') {
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
-        } else {
-            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-            if ($internalCalledCmdlets -eq '') {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
-            } else {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
-            }
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
-        }
-
-        $mapping = @{
-            Update = 'Az.DataReplication.private\Set-AzDataReplicationPolicy_Update';
-            UpdateExpanded = 'Az.DataReplication.private\Set-AzDataReplicationPolicy_UpdateExpanded';
-        }
-        if (('Update', 'UpdateExpanded') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
-            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
-        }
-        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
-        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
-        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
-        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
-        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
-        $steppablePipeline.Begin($PSCmdlet)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-}
-
-process {
-    try {
-        $steppablePipeline.Process($_)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-
-    finally {
-        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-    }
-
-}
-end {
-    try {
-        $steppablePipeline.End()
-
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
-        if ($preTelemetryId -eq '') {
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        }
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
-
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-} 
-}
-
-<#
-.Synopsis
-Performs update on the vault.
-.Description
-Performs update on the vault.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
-
-.Inputs
-Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IVaultModel
-.Outputs
-Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IVaultModel
-.Notes
-COMPLEX PARAMETER PROPERTIES
-
-To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
-
-BODY <IVaultModel>: Vault model.
-  [Location <String>]: Gets or sets the location of the vault.
-  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
-  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
-  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
-  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
-  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
-  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
-  [Tag <IVaultModelTags>]: Gets or sets the resource tags.
-    [(Any) <String>]: This indicates any property can be added to this object.
-.Link
-https://docs.microsoft.com/powershell/module/az.datareplication/set-azdatareplicationvault
-#>
-function Set-AzDataReplicationVault {
-[OutputType([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IVaultModel])]
-[CmdletBinding(DefaultParameterSetName='UpdateExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
-param(
-    [Parameter(Mandatory)]
-    [Alias('VaultName')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Vault Name.
-    ${Name},
-
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Resource group name.
-    ${ResourceGroupName},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
-    [System.String]
-    # The Subscription ID.
-    ${SubscriptionId},
-
-    [Parameter(ParameterSetName='Update', Mandatory, ValueFromPipeline)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IVaultModel]
-    # Vault model.
-    # To construct, see NOTES section for BODY properties and create a hash table.
-    ${Body},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.String]
-    # Gets or sets the location of the vault.
-    ${Location},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(PossibleTypes=([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IVaultModelTags]))]
-    [System.Collections.Hashtable]
-    # Gets or sets the resource tags.
-    ${Tag},
-
-    [Parameter()]
-    [Alias('AzureRMContext', 'AzureCredential')]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
-    [System.Management.Automation.PSObject]
-    # The credentials, account, tenant, and subscription used for communication with Azure.
-    ${DefaultProfile},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Run the command as a job
-    ${AsJob},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Wait for .NET debugger to attach
-    ${Break},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be appended to the front of the pipeline
-    ${HttpPipelineAppend},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
-    ${HttpPipelinePrepend},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Run the command asynchronously
-    ${NoWait},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Uri]
-    # The URI for the proxy server to use
-    ${Proxy},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.PSCredential]
-    # Credentials for a proxy server to use for the remote call
-    ${ProxyCredential},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Use the default credentials for the proxy
-    ${ProxyUseDefaultCredentials}
-)
-
-begin {
-    try {
-        $outBuffer = $null
-        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
-            $PSBoundParameters['OutBuffer'] = 1
-        }
-        $parameterSet = $PSCmdlet.ParameterSetName
-
-        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
-            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
-        }         
-        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        if ($preTelemetryId -eq '') {
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
-        } else {
-            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-            if ($internalCalledCmdlets -eq '') {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
-            } else {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
-            }
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
-        }
-
-        $mapping = @{
-            Update = 'Az.DataReplication.private\Set-AzDataReplicationVault_Update';
-            UpdateExpanded = 'Az.DataReplication.private\Set-AzDataReplicationVault_UpdateExpanded';
-        }
-        if (('Update', 'UpdateExpanded') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
-            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
-        }
-        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
-        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
-        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
-        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
-        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
-        $steppablePipeline.Begin($PSCmdlet)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-}
-
-process {
-    try {
-        $steppablePipeline.Process($_)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-
-    finally {
-        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-    }
-
-}
-end {
-    try {
-        $steppablePipeline.End()
-
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
-        if ($preTelemetryId -eq '') {
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        }
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
-
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-} 
-}
-
-<#
-.Synopsis
 Performs the cancel failover on the protected item.
 .Description
 Performs the cancel failover on the protected item.
@@ -4873,6 +3342,445 @@ begin {
             Cancel = 'Az.DataReplication.private\Stop-AzDataReplicationProtectedItemFailover_Cancel';
         }
         if (('Cancel') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+
+    finally {
+        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
+        if ($preTelemetryId -eq '') {
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        }
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
+
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Performs update on the policy.
+.Description
+Performs update on the policy.
+.Example
+{{ Add code here }}
+.Example
+{{ Add code here }}
+
+.Inputs
+Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IPolicyModel
+.Outputs
+Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IPolicyModel
+.Notes
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+BODY <IPolicyModel>: Policy model.
+  [CustomProperty <IPolicyModelCustomProperties>]: Policy model custom properties.
+    InstanceType <String>: Gets or sets the instance type.
+  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
+  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
+  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
+  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
+  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
+  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
+  [Tag <IPolicyModelTags>]: Gets or sets the resource tags.
+    [(Any) <String>]: This indicates any property can be added to this object.
+
+CUSTOMPROPERTY <IPolicyModelCustomProperties>: Policy model custom properties.
+  InstanceType <String>: Gets or sets the instance type.
+.Link
+https://docs.microsoft.com/powershell/module/az.datareplication/update-azdatareplicationpolicy
+#>
+function Update-AzDataReplicationPolicy {
+[OutputType([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IPolicyModel])]
+[CmdletBinding(DefaultParameterSetName='UpdateExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+param(
+    [Parameter(Mandatory)]
+    [Alias('PolicyName')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    # Policy name.
+    ${Name},
+
+    [Parameter(Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    # Resource group name.
+    ${ResourceGroupName},
+
+    [Parameter(Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    # Vault name.
+    ${VaultName},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
+    [System.String]
+    # The Subscription ID.
+    ${SubscriptionId},
+
+    [Parameter(ParameterSetName='Update', Mandatory, ValueFromPipeline)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IPolicyModel]
+    # Policy model.
+    # To construct, see NOTES section for BODY properties and create a hash table.
+    ${Body},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IPolicyModelCustomProperties]
+    # Policy model custom properties.
+    # To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
+    ${CustomProperty},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(PossibleTypes=([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IPolicyModelTags]))]
+    [System.Collections.Hashtable]
+    # Gets or sets the resource tags.
+    ${Tag},
+
+    [Parameter()]
+    [Alias('AzureRMContext', 'AzureCredential')]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
+    [System.Management.Automation.PSObject]
+    # The credentials, account, tenant, and subscription used for communication with Azure.
+    ${DefaultProfile},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Run the command as a job
+    ${AsJob},
+
+    [Parameter(DontShow)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Run the command asynchronously
+    ${NoWait},
+
+    [Parameter(DontShow)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+
+        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
+            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
+        }         
+        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        if ($preTelemetryId -eq '') {
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
+        } else {
+            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+            if ($internalCalledCmdlets -eq '') {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
+            } else {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
+            }
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
+        }
+
+        $mapping = @{
+            Update = 'Az.DataReplication.private\Update-AzDataReplicationPolicy_Update';
+            UpdateExpanded = 'Az.DataReplication.private\Update-AzDataReplicationPolicy_UpdateExpanded';
+        }
+        if (('Update', 'UpdateExpanded') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+
+    finally {
+        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
+        if ($preTelemetryId -eq '') {
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        }
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
+
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Performs update on the vault.
+.Description
+Performs update on the vault.
+.Example
+{{ Add code here }}
+.Example
+{{ Add code here }}
+
+.Inputs
+Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IVaultModel
+.Outputs
+Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IVaultModel
+.Notes
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+BODY <IVaultModel>: Vault model.
+  [Location <String>]: Gets or sets the location of the vault.
+  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
+  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
+  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
+  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
+  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
+  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
+  [Tag <IVaultModelTags>]: Gets or sets the resource tags.
+    [(Any) <String>]: This indicates any property can be added to this object.
+.Link
+https://docs.microsoft.com/powershell/module/az.datareplication/update-azdatareplicationvault
+#>
+function Update-AzDataReplicationVault {
+[OutputType([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IVaultModel])]
+[CmdletBinding(DefaultParameterSetName='UpdateExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+param(
+    [Parameter(Mandatory)]
+    [Alias('VaultName')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    # Vault Name.
+    ${Name},
+
+    [Parameter(Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    # Resource group name.
+    ${ResourceGroupName},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
+    [System.String]
+    # The Subscription ID.
+    ${SubscriptionId},
+
+    [Parameter(ParameterSetName='Update', Mandatory, ValueFromPipeline)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IVaultModel]
+    # Vault model.
+    # To construct, see NOTES section for BODY properties and create a hash table.
+    ${Body},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    # Gets or sets the location of the vault.
+    ${Location},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(PossibleTypes=([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IVaultModelTags]))]
+    [System.Collections.Hashtable]
+    # Gets or sets the resource tags.
+    ${Tag},
+
+    [Parameter()]
+    [Alias('AzureRMContext', 'AzureCredential')]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
+    [System.Management.Automation.PSObject]
+    # The credentials, account, tenant, and subscription used for communication with Azure.
+    ${DefaultProfile},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Run the command as a job
+    ${AsJob},
+
+    [Parameter(DontShow)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Run the command asynchronously
+    ${NoWait},
+
+    [Parameter(DontShow)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+
+        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
+            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
+        }         
+        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        if ($preTelemetryId -eq '') {
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
+        } else {
+            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+            if ($internalCalledCmdlets -eq '') {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
+            } else {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
+            }
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
+        }
+
+        $mapping = @{
+            Update = 'Az.DataReplication.private\Update-AzDataReplicationVault_Update';
+            UpdateExpanded = 'Az.DataReplication.private\Update-AzDataReplicationVault_UpdateExpanded';
+        }
+        if (('Update', 'UpdateExpanded') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
             $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
         $cmdInfo = Get-Command -Name $mapping[$parameterSet]
@@ -5745,152 +4653,6 @@ begin {
 
         $mapping = @{
             __AllParameterSets = 'Az.DataReplication.custom\New-AzDataReplicationVMwareToAvsPolicyModelCustomPropertiesObject';
-        }
-        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
-        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
-        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
-        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
-        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
-        $steppablePipeline.Begin($PSCmdlet)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-}
-
-process {
-    try {
-        $steppablePipeline.Process($_)
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-
-    finally {
-        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-    }
-
-}
-end {
-    try {
-        $steppablePipeline.End()
-
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
-        if ($preTelemetryId -eq '') {
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        }
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
-
-    } catch {
-        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
-        throw
-    }
-} 
-}
-
-<#
-.Synopsis
-
-.Description
-
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
-
-.Outputs
-System.Object
-.Notes
-COMPLEX PARAMETER PROPERTIES
-
-To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
-
-CUSTOMPROPERTY <IProtectedItemModelCustomProperties>: 
-  InstanceType <String>: Gets or sets the instance type.
-
-INPUTOBJECT <IProtectedItemModel>: 
-  [CustomProperty <IProtectedItemModelCustomProperties>]: Protected item model custom properties.
-    InstanceType <String>: Gets or sets the instance type.
-  [PolicyName <String>]: Gets or sets the policy name.
-  [ReplicationExtensionName <String>]: Gets or sets the replication extension name.
-  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
-  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
-  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
-  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
-  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
-  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
-  [Tag <IProtectedItemModelTags>]: Gets or sets the resource tags.
-    [(Any) <String>]: This indicates any property can be added to this object.
-.Link
-https://docs.microsoft.com/powershell/module/az.datareplication/set-azdatareplicationprotecteditem
-#>
-function Set-AzDataReplicationProtectedItem {
-[CmdletBinding(DefaultParameterSetName='ByProtectedItemId', PositionalBinding=$false)]
-param(
-    [Parameter(ParameterSetName='ByProtectedItemId', Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    ${ProtectedItemId},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.Object]
-    ${Comment},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
-    [System.String]
-    ${SubscriptionId},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModelCustomProperties]
-    # To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
-    ${CustomProperty},
-
-    [Parameter(ParameterSetName='ByInputObject', Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel]
-    # To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
-    ${InputObject}
-)
-
-begin {
-    try {
-        $outBuffer = $null
-        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
-            $PSBoundParameters['OutBuffer'] = 1
-        }
-        $parameterSet = $PSCmdlet.ParameterSetName
-
-        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
-            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
-        }         
-        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
-        if ($preTelemetryId -eq '') {
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
-            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
-        } else {
-            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
-            if ($internalCalledCmdlets -eq '') {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
-            } else {
-                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
-            }
-            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
-        }
-
-        $mapping = @{
-            ByProtectedItemId = 'Az.DataReplication.custom\Set-AzDataReplicationProtectedItem';
-            ByInputObject = 'Az.DataReplication.custom\Set-AzDataReplicationProtectedItem';
-        }
-        if (('ByProtectedItemId', 'ByInputObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
-            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
         $cmdInfo = Get-Command -Name $mapping[$parameterSet]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
@@ -7108,6 +5870,152 @@ begin {
             ByInputObject = 'Az.DataReplication.custom\Start-AzDataReplicationUnplannedFailoverJob';
         }
         if (('ByProtectedItemId', 'ByProtectedItemIdExpanded', 'ByInputObjectExpanded', 'ByInputObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+
+    finally {
+        $backupTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        $backupInternalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $backupTelemetryId
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $backupInternalCalledCmdlets
+        if ($preTelemetryId -eq '') {
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Send', $MyInvocation, $parameterSet, $PSCmdlet)
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        }
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = $preTelemetryId
+
+    } catch {
+        [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::ClearTelemetryContext()
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+
+.Description
+
+.Example
+{{ Add code here }}
+.Example
+{{ Add code here }}
+
+.Outputs
+System.Object
+.Notes
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+CUSTOMPROPERTY <IProtectedItemModelCustomProperties>: 
+  InstanceType <String>: Gets or sets the instance type.
+
+INPUTOBJECT <IProtectedItemModel>: 
+  [CustomProperty <IProtectedItemModelCustomProperties>]: Protected item model custom properties.
+    InstanceType <String>: Gets or sets the instance type.
+  [PolicyName <String>]: Gets or sets the policy name.
+  [ReplicationExtensionName <String>]: Gets or sets the replication extension name.
+  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
+  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
+  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
+  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
+  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
+  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
+  [Tag <IProtectedItemModelTags>]: Gets or sets the resource tags.
+    [(Any) <String>]: This indicates any property can be added to this object.
+.Link
+https://docs.microsoft.com/powershell/module/az.datareplication/update-azdatareplicationprotecteditem
+#>
+function Update-AzDataReplicationProtectedItem {
+[CmdletBinding(DefaultParameterSetName='ByProtectedItemId', PositionalBinding=$false)]
+param(
+    [Parameter(ParameterSetName='ByProtectedItemId', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${ProtectedItemId},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.Object]
+    ${Comment},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
+    [System.String]
+    ${SubscriptionId},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModelCustomProperties]
+    # To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
+    ${CustomProperty},
+
+    [Parameter(ParameterSetName='ByInputObject', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel]
+    # To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
+    ${InputObject}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+
+        if ($null -eq [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion) {
+            [Microsoft.WindowsAzure.Commands.Utilities.Common.AzurePSCmdlet]::PowerShellVersion = $Host.Version.ToString()
+        }         
+        $preTelemetryId = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId
+        if ($preTelemetryId -eq '') {
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId =(New-Guid).ToString()
+            [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.module]::Instance.Telemetry.Invoke('Create', $MyInvocation, $parameterSet, $PSCmdlet)
+        } else {
+            $internalCalledCmdlets = [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets
+            if ($internalCalledCmdlets -eq '') {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets = $MyInvocation.MyCommand.Name
+            } else {
+                [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::InternalCalledCmdlets += ',' + $MyInvocation.MyCommand.Name
+            }
+            [Microsoft.WindowsAzure.Commands.Common.MetricHelper]::TelemetryId = 'internal'
+        }
+
+        $mapping = @{
+            ByProtectedItemId = 'Az.DataReplication.custom\Update-AzDataReplicationProtectedItem';
+            ByInputObject = 'Az.DataReplication.custom\Update-AzDataReplicationProtectedItem';
+        }
+        if (('ByProtectedItemId', 'ByInputObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
             $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
         $cmdInfo = Get-Command -Name $mapping[$parameterSet]

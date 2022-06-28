@@ -14,9 +14,6 @@ Microsoft Azure PowerShell: DataReplication cmdlets
 ### [Get-AzDataReplicationDra](Get-AzDataReplicationDra.md)
 Gets the details of the fabric agent.
 
-### [Get-AzDataReplicationEmailConfiguration](Get-AzDataReplicationEmailConfiguration.md)
-Gets the details of the alert configuration setting.
-
 ### [Get-AzDataReplicationEvent](Get-AzDataReplicationEvent.md)
 Gets the details of the event.
 
@@ -25,6 +22,12 @@ Gets the details of the replication extension.
 
 ### [Get-AzDataReplicationFabric](Get-AzDataReplicationFabric.md)
 Gets the details of the fabric.
+
+### [Get-AzDataReplicationJob](Get-AzDataReplicationJob.md)
+Gets the details of the job.
+
+### [Get-AzDataReplicationMachine](Get-AzDataReplicationMachine.md)
+Method to get machine.
 
 ### [Get-AzDataReplicationPolicy](Get-AzDataReplicationPolicy.md)
 Gets the details of the policy.
@@ -35,17 +38,20 @@ Gets the details of the policy.
 ### [Get-AzDataReplicationRecoveryPoint](Get-AzDataReplicationRecoveryPoint.md)
 Gets the details of the recovery point of a protected item.
 
+### [Get-AzDataReplicationRunAsAccount](Get-AzDataReplicationRunAsAccount.md)
+Method to get run as account.
+
+### [Get-AzDataReplicationSite](Get-AzDataReplicationSite.md)
+Method to get a site.
+
 ### [Get-AzDataReplicationVault](Get-AzDataReplicationVault.md)
 Gets the details of the vault.
 
 ### [Get-AzDataReplicationVaultStatistics](Get-AzDataReplicationVaultStatistics.md)
 Gets the statistics for the vault.
 
-### [Get-AzDataReplicationWorkflow](Get-AzDataReplicationWorkflow.md)
-Gets the details of the job.
-
-### [New-AzDataReplicationExtension](New-AzDataReplicationExtension.md)
-Creates the replication extension in the given vault.
+### [Get-AzDataReplicationVCenter](Get-AzDataReplicationVCenter.md)
+Method to get a vCenter.
 
 ### [New-AzDataReplicationPolicy](New-AzDataReplicationPolicy.md)
 
@@ -65,15 +71,6 @@ Create an in-memory object for VMwareToAvsFailbackProtectedItemModelCustomProper
 ### [New-AzDataReplicationVMwareToAvsPolicyModelCustomPropertiesObject](New-AzDataReplicationVMwareToAvsPolicyModelCustomPropertiesObject.md)
 Create an in-memory object for VMwareToAvsPolicyModelCustomProperties.
 
-### [Remove-AzDataReplicationDra](Remove-AzDataReplicationDra.md)
-Deletes the fabric agent.
-
-### [Remove-AzDataReplicationExtension](Remove-AzDataReplicationExtension.md)
-Deletes the replication extension in the given vault.
-
-### [Remove-AzDataReplicationFabric](Remove-AzDataReplicationFabric.md)
-Removes the fabric.
-
 ### [Remove-AzDataReplicationPolicy](Remove-AzDataReplicationPolicy.md)
 Removes the policy.
 
@@ -82,27 +79,6 @@ Removes the protected item.
 
 ### [Remove-AzDataReplicationVault](Remove-AzDataReplicationVault.md)
 Removes the vault.
-
-### [Set-AzDataReplicationDra](Set-AzDataReplicationDra.md)
-Refreshes the fabric agent.
-
-### [Set-AzDataReplicationEmailConfiguration](Set-AzDataReplicationEmailConfiguration.md)
-Updates the alert configuration setting for the given vault.
-
-### [Set-AzDataReplicationExtension](Set-AzDataReplicationExtension.md)
-Updates the replication extension in the given vault.
-
-### [Set-AzDataReplicationFabric](Set-AzDataReplicationFabric.md)
-Performs update on the fabric.
-
-### [Set-AzDataReplicationPolicy](Set-AzDataReplicationPolicy.md)
-Performs update on the policy.
-
-### [Set-AzDataReplicationProtectedItem](Set-AzDataReplicationProtectedItem.md)
-
-
-### [Set-AzDataReplicationVault](Set-AzDataReplicationVault.md)
-Performs update on the vault.
 
 ### [Start-AzDataReplicationApplyRecoveryPoint](Start-AzDataReplicationApplyRecoveryPoint.md)
 
@@ -130,4 +106,13 @@ Performs update on the vault.
 
 ### [Stop-AzDataReplicationProtectedItemFailover](Stop-AzDataReplicationProtectedItemFailover.md)
 Performs the cancel failover on the protected item.
+
+### [Update-AzDataReplicationPolicy](Update-AzDataReplicationPolicy.md)
+Performs update on the policy.
+
+### [Update-AzDataReplicationProtectedItem](Update-AzDataReplicationProtectedItem.md)
+
+
+### [Update-AzDataReplicationVault](Update-AzDataReplicationVault.md)
+Performs update on the vault.
 

@@ -25,12 +25,14 @@ Gets the operations.
 {{ Add code here }}
 
 .Outputs
+Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api202001.IOperation
+.Outputs
 Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IOperationModel
 .Link
 https://docs.microsoft.com/powershell/module/az.datareplication/get-azdatareplicationoperation
 #>
 function Get-AzDataReplicationOperation {
-[OutputType([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IOperationModel])]
+[OutputType([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IOperationModel], [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api202001.IOperation])]
 [CmdletBinding(DefaultParameterSetName='List', PositionalBinding=$false)]
 param(
     [Parameter()]
@@ -91,6 +93,7 @@ begin {
 
         $mapping = @{
             List = 'Az.DataReplication.private\Get-AzDataReplicationOperation_List';
+            ListByResourceGroup = 'Az.DataReplication.private\Get-AzDataReplicationOperation_ListByResourceGroup';
         }
 
         $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
@@ -1708,213 +1711,6 @@ end {
 
 <#
 .Synopsis
-Performs update on the protected item.
-.Description
-Performs update on the protected item.
-.Example
-{{ Add code here }}
-.Example
-{{ Add code here }}
-
-.Inputs
-Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel
-.Outputs
-Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel
-.Notes
-COMPLEX PARAMETER PROPERTIES
-
-To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
-
-BODY <IProtectedItemModel>: Protected item model.
-  [CustomProperty <IProtectedItemModelCustomProperties>]: Protected item model custom properties.
-    InstanceType <String>: Gets or sets the instance type.
-  [PolicyName <String>]: Gets or sets the policy name.
-  [ReplicationExtensionName <String>]: Gets or sets the replication extension name.
-  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
-  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
-  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
-  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
-  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
-  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
-  [Tag <IProtectedItemModelTags>]: Gets or sets the resource tags.
-    [(Any) <String>]: This indicates any property can be added to this object.
-
-CUSTOMPROPERTY <IProtectedItemModelCustomProperties>: Protected item model custom properties.
-  InstanceType <String>: Gets or sets the instance type.
-.Link
-https://docs.microsoft.com/powershell/module/az.datareplication/set-azdatareplicationprotecteditem
-#>
-function Set-AzDataReplicationProtectedItem {
-[OutputType([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel])]
-[CmdletBinding(DefaultParameterSetName='UpdateExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
-param(
-    [Parameter(Mandatory)]
-    [Alias('ProtectedItemName')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Protected item name.
-    ${Name},
-
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Resource group name.
-    ${ResourceGroupName},
-
-    [Parameter(Mandatory)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [System.String]
-    # Vault name.
-    ${VaultName},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
-    [System.String]
-    # The Subscription ID.
-    ${SubscriptionId},
-
-    [Parameter(ParameterSetName='Update', Mandatory, ValueFromPipeline)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel]
-    # Protected item model.
-    # To construct, see NOTES section for BODY properties and create a hash table.
-    ${Body},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModelCustomProperties]
-    # Protected item model custom properties.
-    # To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
-    ${CustomProperty},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.String]
-    # Gets or sets the policy name.
-    ${PolicyName},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.String]
-    # Gets or sets the replication extension name.
-    ${ReplicationExtensionName},
-
-    [Parameter(ParameterSetName='UpdateExpanded')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(PossibleTypes=([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModelTags]))]
-    [System.Collections.Hashtable]
-    # Gets or sets the resource tags.
-    ${Tag},
-
-    [Parameter()]
-    [Alias('AzureRMContext', 'AzureCredential')]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
-    [System.Management.Automation.PSObject]
-    # The credentials, account, tenant, and subscription used for communication with Azure.
-    ${DefaultProfile},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Run the command as a job
-    ${AsJob},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Wait for .NET debugger to attach
-    ${Break},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be appended to the front of the pipeline
-    ${HttpPipelineAppend},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
-    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
-    ${HttpPipelinePrepend},
-
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Run the command asynchronously
-    ${NoWait},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Uri]
-    # The URI for the proxy server to use
-    ${Proxy},
-
-    [Parameter(DontShow)]
-    [ValidateNotNull()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.PSCredential]
-    # Credentials for a proxy server to use for the remote call
-    ${ProxyCredential},
-
-    [Parameter(DontShow)]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
-    [System.Management.Automation.SwitchParameter]
-    # Use the default credentials for the proxy
-    ${ProxyUseDefaultCredentials}
-)
-
-begin {
-    try {
-        $outBuffer = $null
-        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
-            $PSBoundParameters['OutBuffer'] = 1
-        }
-        $parameterSet = $PSCmdlet.ParameterSetName
-
-        $mapping = @{
-            Update = 'Az.DataReplication.private\Set-AzDataReplicationProtectedItem_Update';
-            UpdateExpanded = 'Az.DataReplication.private\Set-AzDataReplicationProtectedItem_UpdateExpanded';
-        }
-        if (('Update', 'UpdateExpanded') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
-            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
-        }
-
-        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
-        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
-        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
-        $steppablePipeline.Begin($PSCmdlet)
-    } catch {
-
-        throw
-    }
-}
-
-process {
-    try {
-        $steppablePipeline.Process($_)
-    } catch {
-
-        throw
-    }
-
-}
-end {
-    try {
-        $steppablePipeline.End()
-
-    } catch {
-
-        throw
-    }
-} 
-}
-
-<#
-.Synopsis
 Performs the test failover cleanup on the protected item.
 .Description
 Performs the test failover cleanup on the protected item.
@@ -2241,6 +2037,213 @@ begin {
             TestExpanded = 'Az.DataReplication.private\Test-AzDataReplicationProtectedItemFailover_TestExpanded';
         }
         if (('Test', 'TestExpanded') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+            $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
+        }
+
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Performs update on the protected item.
+.Description
+Performs update on the protected item.
+.Example
+{{ Add code here }}
+.Example
+{{ Add code here }}
+
+.Inputs
+Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel
+.Outputs
+Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel
+.Notes
+COMPLEX PARAMETER PROPERTIES
+
+To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
+
+BODY <IProtectedItemModel>: Protected item model.
+  [CustomProperty <IProtectedItemModelCustomProperties>]: Protected item model custom properties.
+    InstanceType <String>: Gets or sets the instance type.
+  [PolicyName <String>]: Gets or sets the policy name.
+  [ReplicationExtensionName <String>]: Gets or sets the replication extension name.
+  [SystemDataCreatedAt <DateTime?>]: Gets or sets the timestamp of resource creation (UTC).
+  [SystemDataCreatedBy <String>]: Gets or sets identity that created the resource.
+  [SystemDataCreatedByType <String>]: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
+  [SystemDataLastModifiedAt <DateTime?>]: Gets or sets the timestamp of resource last modification (UTC).
+  [SystemDataLastModifiedBy <String>]: Gets or sets the identity that last modified the resource.
+  [SystemDataLastModifiedByType <String>]: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
+  [Tag <IProtectedItemModelTags>]: Gets or sets the resource tags.
+    [(Any) <String>]: This indicates any property can be added to this object.
+
+CUSTOMPROPERTY <IProtectedItemModelCustomProperties>: Protected item model custom properties.
+  InstanceType <String>: Gets or sets the instance type.
+.Link
+https://docs.microsoft.com/powershell/module/az.datareplication/update-azdatareplicationprotecteditem
+#>
+function Update-AzDataReplicationProtectedItem {
+[OutputType([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel])]
+[CmdletBinding(DefaultParameterSetName='UpdateExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+param(
+    [Parameter(Mandatory)]
+    [Alias('ProtectedItemName')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    # Protected item name.
+    ${Name},
+
+    [Parameter(Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    # Resource group name.
+    ${ResourceGroupName},
+
+    [Parameter(Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    # Vault name.
+    ${VaultName},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
+    [System.String]
+    # The Subscription ID.
+    ${SubscriptionId},
+
+    [Parameter(ParameterSetName='Update', Mandatory, ValueFromPipeline)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel]
+    # Protected item model.
+    # To construct, see NOTES section for BODY properties and create a hash table.
+    ${Body},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModelCustomProperties]
+    # Protected item model custom properties.
+    # To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
+    ${CustomProperty},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    # Gets or sets the policy name.
+    ${PolicyName},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    # Gets or sets the replication extension name.
+    ${ReplicationExtensionName},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Info(PossibleTypes=([Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModelTags]))]
+    [System.Collections.Hashtable]
+    # Gets or sets the resource tags.
+    ${Tag},
+
+    [Parameter()]
+    [Alias('AzureRMContext', 'AzureCredential')]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
+    [System.Management.Automation.PSObject]
+    # The credentials, account, tenant, and subscription used for communication with Azure.
+    ${DefaultProfile},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Run the command as a job
+    ${AsJob},
+
+    [Parameter(DontShow)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Run the command asynchronously
+    ${NoWait},
+
+    [Parameter(DontShow)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+
+        $mapping = @{
+            Update = 'Az.DataReplication.private\Update-AzDataReplicationProtectedItem_Update';
+            UpdateExpanded = 'Az.DataReplication.private\Update-AzDataReplicationProtectedItem_UpdateExpanded';
+        }
+        if (('Update', 'UpdateExpanded') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
             $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
 

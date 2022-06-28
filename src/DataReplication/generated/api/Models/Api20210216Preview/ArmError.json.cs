@@ -65,7 +65,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216P
             {
                 return;
             }
-            {_error = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Json.JsonObject>("Error"), out var __jsonError) ? Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.ArmErrorInfo.FromJson(__jsonError) : Error;}
+            {_error = If( json?.PropertyT<Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Json.JsonObject>("error"), out var __jsonError) ? Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.ArmErrorInfo.FromJson(__jsonError) : Error;}
             AfterFromJson(json);
         }
 
@@ -100,7 +100,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216P
             {
                 return container;
             }
-            AddIf( null != this._error ? (Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Json.JsonNode) this._error.ToJson(null,serializationMode) : null, "Error" ,container.Add );
+            AddIf( null != this._error ? (Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.Json.JsonNode) this._error.ToJson(null,serializationMode) : null, "error" ,container.Add );
             AfterToJson(ref container);
             return container;
         }

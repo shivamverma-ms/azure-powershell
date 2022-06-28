@@ -36,7 +36,8 @@ require:
   - $(this-folder)/../readme.azure.noprofile.md
 # lock the commit
 input-file:
-  - https://github.com/AsrOneSdk/azure-powershell/blob/user/aryanw/DataReplicationInitialReview/src/DataReplication/swagger.json
+  - $(this-folder)/../swagger.json
+  - $(repo)/specification/migrate/resource-manager/Microsoft.OffAzure/stable/2020-01-01/migrate.json
 module-version: 0.1.0
 title: DataReplication
 subject-prefix: $(service-name)
@@ -45,6 +46,30 @@ resourcegroup-append: true
 nested-object-to-string: true
 
 directive:
+  - where:
+      verb: ^Set$|^Remove$|^Update$
+      subject: ^Site$|^VCenter$
+    remove: true  
+
+  - where:
+      verb: ^Start$|^Stop$
+      subject: ^Machine$
+    remove: true      
+
+  - where:
+      subject: ^.*HyperV.*$
+    remove: true
+
+  - where:
+      verb: ^Get$
+      subject: ^Job$|^SiteHealthSummary$|^SiteUsage$|^VMwareOperationStatus$
+    remove: true
+
+  - where:
+      verb: ^Get$
+      subject: RunAsAccountRunAsAccount
+    set: 
+      subject: RunAsAccount
 
 # Hide cmdlets for custom use
   - where:
@@ -71,14 +96,19 @@ directive:
     hide: true 
 
 # Remove cmdlets
+
   - where:
       subject: (.*)Status$
     remove: true
 
   - where:
-      verb: New
-      subject: ^Fabric$|^Dra$|^EmailConfiguration$
+      verb: ^New$|^Remove$|^Update$
+      subject: ^Fabric$|^Dra$|^.*Extension.*$
     remove: true
+
+  - where:
+      subject: ^EmailConfiguration$
+    remove: true    
 
   - where:
       verb: Test
@@ -89,6 +119,7 @@ directive:
       verb: Invoke
       subject: DeploymentPreflight
     remove: true    
+ 
 
 # For New-* cmdlets, ViaIdentity is not required, so CreateViaIdentityExpanded is removed as well
 
@@ -134,14 +165,14 @@ directive:
 
   # Rename cmdlets
   - where:
-      verb: Update
+      subject: Workflow
     set:
-      verb: Set
+      subject: Job
 
   - where:
       variant: List1
     set:
-      variant: ListByResourceGroup   
+      variant: ListByResourceGroup
 
   - no-inline:
       - PolicyModelCustomProperties
@@ -158,9 +189,6 @@ directive:
   - model-cmdlet:
       - VMwareToAvsPolicyModelCustomProperties
       - VMwareToAvsFailbackPolicyModelCustomProperties
-      - VMwareToAvsFailbackProtectedItemModelCustomProperties  
-
-    
-       
+      - VMwareToAvsFailbackProtectedItemModelCustomProperties 
 
 ```
