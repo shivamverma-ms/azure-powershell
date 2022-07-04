@@ -82,95 +82,119 @@ param(
     [System.String]
     ${ReplicationExtensionName},
 
-    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
-    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${InstanceType},
 
-    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
-    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${TargetAvsCloudId},
 
-    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
-    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${TargetAvsClusterName},
 
-    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
-    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${FabricDiscoveryMachineId},
 
-    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
-    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${LogStorageAccountId},
 
-    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
-    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${DiskType},
 
-    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
-    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${TargetVMName},
 
-    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
-    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${TargetResourceGroupId},
 
-    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
-    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${TargetVCenterId},
 
-    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
-    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${TargetDatastoreId},
 
-    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
-    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${TargetNetworkId},
 
-    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
-    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${TargetDiskPoolSubnetId},
 
-    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
-    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${TestNetworkId},
 
-    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
-    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${RunAsAccountId},
+
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded', Mandatory)]
+    [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${ApplianceId},
+
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
+    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.Array]
+    ${DisksToInclude},
+
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
+    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.Int32]
+    ${TargetCPUCores},
+
+    [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
+    [Parameter(ParameterSetName='ByInputObjectExpanded')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.Int32]
+    ${TargetMemoryInMB},
 
     [Parameter(ParameterSetName='ByProtectedItemIdExpanded')]
     [Parameter(ParameterSetName='ByInputObjectExpanded')]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
-    ${ApplianceId},
+    ${MultiVMGroupName},
 
     [Parameter(ParameterSetName='ByInputObject', Mandatory)]
     [Parameter(ParameterSetName='ByInputObjectExpanded', Mandatory)]

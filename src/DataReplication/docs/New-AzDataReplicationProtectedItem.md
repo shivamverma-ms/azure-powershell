@@ -15,21 +15,20 @@ schema: 2.0.0
 ### ByProperties (Default)
 ```
 New-AzDataReplicationProtectedItem -Name <String> -ResourceGroupName <String> -VaultName <String>
- -InstanceType <String> [-SubscriptionId <String>] [-ApplianceId <String>] [-DiskType <String>]
- [-FabricDiscoveryMachineId <String>] [-LogStorageAccountId <String>] [-PolicyName <String>]
- [-ReplicationExtensionName <String>] [-RunAsAccountId <String>] [-TargetAvsCloudId <String>]
- [-TargetAvsClusterName <String>] [-TargetDatastoreId <String>] [-TargetDiskPoolSubnetId <String>]
- [-TargetNetworkId <String>] [-TargetResourceGroupId <String>] [-TargetVCenterId <String>]
- [-TargetVMName <String>] [-TestNetworkId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait]
- [-PassThru] [<CommonParameters>]
+ -ApplianceId <String> -DiskType <String> -FabricDiscoveryMachineId <String> -InstanceType <String>
+ -LogStorageAccountId <String> -PolicyName <String> -ReplicationExtensionName <String>
+ -RunAsAccountId <String> -TargetAvsCloudId <String> -TargetAvsClusterName <String>
+ -TargetDatastoreId <String> -TargetDiskPoolSubnetId <String> -TargetNetworkId <String>
+ -TargetResourceGroupId <String> -TargetVCenterId <String> -TargetVMName <String> -TestNetworkId <String>
+ [-SubscriptionId <String>] [-DisksToInclude <Array>] [-MultiVMGroupName <String>] [-TargetCPUCores <Int32>]
+ [-TargetMemoryInMB <Int32>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-PassThru] [<CommonParameters>]
 ```
 
 ### ByCustomPropertyObject
 ```
 New-AzDataReplicationProtectedItem -Name <String> -ResourceGroupName <String> -VaultName <String>
- -CustomProperty <IProtectedItemModelCustomProperties> [-SubscriptionId <String>] [-PolicyName <String>]
- [-ReplicationExtensionName <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-PassThru]
- [<CommonParameters>]
+ -CustomProperty <IProtectedItemModelCustomProperties> -PolicyName <String> -ReplicationExtensionName <String>
+ [-SubscriptionId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-PassThru] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -69,7 +68,7 @@ Type: System.String
 Parameter Sets: ByProperties
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -121,6 +120,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -DisksToInclude
+
+
+```yaml
+Type: System.Array
+Parameter Sets: ByProperties
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -DiskType
 
 
@@ -129,7 +143,7 @@ Type: System.String
 Parameter Sets: ByProperties
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -144,7 +158,7 @@ Type: System.String
 Parameter Sets: ByProperties
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -167,6 +181,21 @@ Accept wildcard characters: False
 ```
 
 ### -LogStorageAccountId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByProperties
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -MultiVMGroupName
 
 
 ```yaml
@@ -234,7 +263,7 @@ Type: System.String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -249,7 +278,7 @@ Type: System.String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -279,7 +308,7 @@ Type: System.String
 Parameter Sets: ByProperties
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -309,7 +338,7 @@ Type: System.String
 Parameter Sets: ByProperties
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -321,6 +350,21 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
+Parameter Sets: ByProperties
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TargetCPUCores
+
+
+```yaml
+Type: System.Int32
 Parameter Sets: ByProperties
 Aliases:
 
@@ -339,7 +383,7 @@ Type: System.String
 Parameter Sets: ByProperties
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -351,6 +395,21 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
+Parameter Sets: ByProperties
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TargetMemoryInMB
+
+
+```yaml
+Type: System.Int32
 Parameter Sets: ByProperties
 Aliases:
 
@@ -369,7 +428,7 @@ Type: System.String
 Parameter Sets: ByProperties
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -384,7 +443,7 @@ Type: System.String
 Parameter Sets: ByProperties
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -399,7 +458,7 @@ Type: System.String
 Parameter Sets: ByProperties
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -414,7 +473,7 @@ Type: System.String
 Parameter Sets: ByProperties
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -429,7 +488,7 @@ Type: System.String
 Parameter Sets: ByProperties
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False

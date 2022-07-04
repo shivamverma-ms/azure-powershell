@@ -60,90 +60,110 @@ param(
     [System.String]
     ${SubscriptionId},
 
+    [Parameter(Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${PolicyName},
+
+    [Parameter(Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.String]
+    ${ReplicationExtensionName},
+
     [Parameter(ParameterSetName='ByProperties', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${InstanceType},
 
-    [Parameter(ParameterSetName='ByProperties')]
+    [Parameter(ParameterSetName='ByProperties', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${TargetAvsCloudId},
 
-    [Parameter(ParameterSetName='ByProperties')]
+    [Parameter(ParameterSetName='ByProperties', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${TargetAvsClusterName},
 
-    [Parameter(ParameterSetName='ByProperties')]
+    [Parameter(ParameterSetName='ByProperties', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${FabricDiscoveryMachineId},
 
-    [Parameter(ParameterSetName='ByProperties')]
+    [Parameter(ParameterSetName='ByProperties', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${LogStorageAccountId},
 
-    [Parameter(ParameterSetName='ByProperties')]
+    [Parameter(ParameterSetName='ByProperties', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${DiskType},
 
-    [Parameter(ParameterSetName='ByProperties')]
+    [Parameter(ParameterSetName='ByProperties', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${TargetVMName},
 
-    [Parameter(ParameterSetName='ByProperties')]
+    [Parameter(ParameterSetName='ByProperties', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${TargetResourceGroupId},
 
-    [Parameter(ParameterSetName='ByProperties')]
+    [Parameter(ParameterSetName='ByProperties', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${TargetVCenterId},
 
-    [Parameter(ParameterSetName='ByProperties')]
+    [Parameter(ParameterSetName='ByProperties', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${TargetDatastoreId},
 
-    [Parameter(ParameterSetName='ByProperties')]
+    [Parameter(ParameterSetName='ByProperties', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${TargetNetworkId},
 
-    [Parameter(ParameterSetName='ByProperties')]
+    [Parameter(ParameterSetName='ByProperties', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${TargetDiskPoolSubnetId},
 
-    [Parameter(ParameterSetName='ByProperties')]
+    [Parameter(ParameterSetName='ByProperties', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${TestNetworkId},
 
-    [Parameter(ParameterSetName='ByProperties')]
+    [Parameter(ParameterSetName='ByProperties', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${RunAsAccountId},
 
-    [Parameter(ParameterSetName='ByProperties')]
+    [Parameter(ParameterSetName='ByProperties', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
     ${ApplianceId},
 
-    [Parameter()]
+    [Parameter(ParameterSetName='ByProperties')]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [System.String]
-    ${PolicyName},
+    [System.Array]
+    ${DisksToInclude},
 
-    [Parameter()]
+    [Parameter(ParameterSetName='ByProperties')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.Int32]
+    ${TargetCPUCores},
+
+    [Parameter(ParameterSetName='ByProperties')]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.Int32]
+    ${TargetMemoryInMB},
+
+    [Parameter(ParameterSetName='ByProperties')]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [System.String]
-    ${ReplicationExtensionName},
+    ${MultiVMGroupName},
 
     [Parameter(ParameterSetName='ByCustomPropertyObject', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]

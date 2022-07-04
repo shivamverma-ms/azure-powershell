@@ -46,97 +46,121 @@ function New-AzDataReplicationProtectedItem {
         # Specifies instance type
         ${InstanceType},
 
-        [Parameter(ParameterSetName = 'ByProperties')]
+        [Parameter(ParameterSetName = 'ByProperties', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
         [System.String]
         # Specifies id of target AVS cloud
         ${TargetAvsCloudId},
 
-        [Parameter(ParameterSetName = 'ByProperties')]
+        [Parameter(ParameterSetName = 'ByProperties', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
         [System.String]
         # Specifies name of target cluster on AVS
         ${TargetAvsClusterName},
 
-        [Parameter(ParameterSetName = 'ByProperties')]
+        [Parameter(ParameterSetName = 'ByProperties', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
         [System.String]
         # Specifies the fabric discovery machine id
         ${FabricDiscoveryMachineId},
 
-        [Parameter(ParameterSetName = 'ByProperties')]
+        [Parameter(ParameterSetName = 'ByProperties', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
         [System.String]
         # Specifies the id of log storage account
         ${LogStorageAccountId},
 
-        [Parameter(ParameterSetName = 'ByProperties')]
+        [Parameter(ParameterSetName = 'ByProperties', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
         [System.String]
         # Specifies the type of disk to be used
         ${DiskType},
 
-        [Parameter(ParameterSetName = 'ByProperties')]
+        [Parameter(ParameterSetName = 'ByProperties', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
         [System.String]
         # Specifies the name of the target VM
         ${TargetVMName},
 
-        [Parameter(ParameterSetName = 'ByProperties')]
+        [Parameter(ParameterSetName = 'ByProperties', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
         [System.String]
         # Specifies the name of the target resource group
         ${TargetResourceGroupId},
 
-        [Parameter(ParameterSetName = 'ByProperties')]
+        [Parameter(ParameterSetName = 'ByProperties', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
         [System.String]
         # Specifies the id of the target vCenter
         ${TargetVCenterId},
         
-        [Parameter(ParameterSetName = 'ByProperties')]
+        [Parameter(ParameterSetName = 'ByProperties', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
         [System.String]
         # Specifies the id of the target datastore
         ${TargetDatastoreId},
 
-        [Parameter(ParameterSetName = 'ByProperties')]
+        [Parameter(ParameterSetName = 'ByProperties', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
         [System.String]
         # Specifies the id of the target network
         ${TargetNetworkId},
 
-        [Parameter(ParameterSetName = 'ByProperties')]
+        [Parameter(ParameterSetName = 'ByProperties', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
         [System.String]
         # Specifies the id of the target disk pool subnet
         ${TargetDiskPoolSubnetId},
 
-        [Parameter(ParameterSetName = 'ByProperties')]
+        [Parameter(ParameterSetName = 'ByProperties', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
         [System.String]
         # Specifies the id of the test network
         ${TestNetworkId},
 
-        [Parameter(ParameterSetName = 'ByProperties')]
+        [Parameter(ParameterSetName = 'ByProperties', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
         [System.String]
         # Specifies the id of the credentials
         ${RunAsAccountId},
 
-        [Parameter(ParameterSetName = 'ByProperties')]
+        [Parameter(ParameterSetName = 'ByProperties', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
         [System.String]
         # Specifies the id of the replication appliance
         ${ApplianceId},
 
-        [Parameter()]
+        [Parameter(ParameterSetName = 'ByProperties')]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+        [System.Array]
+        # Specifies array of VMwareToAvsDiskInput object
+        ${DisksToInclude},
+
+        [Parameter(ParameterSetName = 'ByProperties')]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+        [System.Int32]
+        # Specifies target CPU cores
+        ${TargetCPUCores},
+
+        [Parameter(ParameterSetName = 'ByProperties')]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+        [System.Int32]
+        # Specifies target memory
+        ${TargetMemoryInMB},
+
+        [Parameter(ParameterSetName = 'ByProperties')]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+        [System.String]
+        # Specifies name of multi VM group
+        ${MultiVMGroupName},
+
+        [Parameter(Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
         [System.String]
         # Gets or sets the policy name.
         ${PolicyName},
     
-        [Parameter()]
+        [Parameter(Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
         [System.String]
         # Gets or sets the replication extension name.
@@ -199,6 +223,10 @@ function New-AzDataReplicationProtectedItem {
             $CustomProperty.TestNetworkId = $TestNetworkId
             $CustomProperty.RunAsAccountId = $RunAsAccountId
             $CustomProperty.ApplianceId = $ApplianceId
+            $CustomProperty.DisksToInclude = $DisksToInclude
+            $CustomProperty.TargetCPUCores = $TargetCPUCores
+            $CustomProperty.TargetMemoryInMB = $TargetMemoryInMB
+            $CustomProperty.MultiVMGroupName = $MultiVMGroupName
           
             $null = $PSBoundParameters.Remove('InstanceType')
             $null = $PSBoundParameters.Remove('TargetAvsCloudId')
@@ -215,6 +243,10 @@ function New-AzDataReplicationProtectedItem {
             $null = $PSBoundParameters.Remove('TestNetworkId')
             $null = $PSBoundParameters.Remove('RunAsAccountId')
             $null = $PSBoundParameters.Remove('ApplianceId')
+            $null = $PSBoundParameters.Remove('DisksToInclude')
+            $null = $PSBoundParameters.Remove('TargetCPUCores')
+            $null = $PSBoundParameters.Remove('TargetMemoryInMB')
+            $null = $PSBoundParameters.Remove('MultiVMGroupName')
         } 
         $null = $PSBoundParameters.Remove('ProtectedItemId')
         $null = $PSBoundParameters.Remove('InputObject')
