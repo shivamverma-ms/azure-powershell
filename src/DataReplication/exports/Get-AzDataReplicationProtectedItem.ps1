@@ -31,9 +31,6 @@ COMPLEX PARAMETER PROPERTIES
 
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
-CUSTOMPROPERTY <IProtectedItemModelCustomProperties>: 
-  InstanceType <String>: Gets or sets the instance type.
-
 INPUTOBJECT <IProtectedItemModel>: 
   [CustomProperty <IProtectedItemModelCustomProperties>]: Protected item model custom properties.
     InstanceType <String>: Gets or sets the instance type.
@@ -54,13 +51,11 @@ function Get-AzDataReplicationProtectedItem {
 [CmdletBinding(DefaultParameterSetName='List', PositionalBinding=$false)]
 param(
     [Parameter(ParameterSetName='List', Mandatory)]
-    [Parameter(ParameterSetName='GetByProtectedItemName', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
     [System.String]
     ${ResourceGroupName},
 
     [Parameter(ParameterSetName='List', Mandatory)]
-    [Parameter(ParameterSetName='GetByProtectedItemName', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
     [System.String]
     ${VaultName},
@@ -76,17 +71,33 @@ param(
     [System.String]
     ${ProtectedItemId},
 
-    [Parameter()]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModelCustomProperties]
-    # To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
-    ${CustomProperty},
-
     [Parameter(ParameterSetName='GetByInputObject', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel]
     # To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
-    ${InputObject}
+    ${InputObject},
+
+    [Parameter()]
+    [Alias('AzureRMContext', 'AzureCredential')]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
+    [System.Management.Automation.PSObject]
+    ${DefaultProfile},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    ${AsJob},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    ${NoWait},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    ${PassThru}
 )
 
 begin {
@@ -116,11 +127,10 @@ begin {
 
         $mapping = @{
             List = 'Az.DataReplication.custom\Get-AzDataReplicationProtectedItem';
-            GetByProtectedItemName = 'Az.DataReplication.custom\Get-AzDataReplicationProtectedItem';
             GetByProtectedItemId = 'Az.DataReplication.custom\Get-AzDataReplicationProtectedItem';
             GetByInputObject = 'Az.DataReplication.custom\Get-AzDataReplicationProtectedItem';
         }
-        if (('List', 'GetByProtectedItemName', 'GetByProtectedItemId', 'GetByInputObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+        if (('List', 'GetByProtectedItemId', 'GetByInputObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
             $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
         $cmdInfo = Get-Command -Name $mapping[$parameterSet]

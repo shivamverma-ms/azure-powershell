@@ -15,25 +15,19 @@ schema: 2.0.0
 ### List (Default)
 ```
 Get-AzDataReplicationProtectedItem -ResourceGroupName <String> -VaultName <String>
- [-SubscriptionId <String[]>] [-CustomProperty <IProtectedItemModelCustomProperties>] [<CommonParameters>]
+ [-SubscriptionId <String[]>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-PassThru] [<CommonParameters>]
 ```
 
 ### GetByInputObject
 ```
 Get-AzDataReplicationProtectedItem -InputObject <IProtectedItemModel> [-SubscriptionId <String[]>]
- [-CustomProperty <IProtectedItemModelCustomProperties>] [<CommonParameters>]
+ [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-PassThru] [<CommonParameters>]
 ```
 
 ### GetByProtectedItemId
 ```
 Get-AzDataReplicationProtectedItem -ProtectedItemId <String> [-SubscriptionId <String[]>]
- [-CustomProperty <IProtectedItemModelCustomProperties>] [<CommonParameters>]
-```
-
-### GetByProtectedItemName
-```
-Get-AzDataReplicationProtectedItem -ResourceGroupName <String> -VaultName <String>
- [-SubscriptionId <String[]>] [-CustomProperty <IProtectedItemModelCustomProperties>] [<CommonParameters>]
+ [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-PassThru] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -65,13 +59,28 @@ Get-AzDataReplicationProtectedItem -ResourceGroupName <String> -VaultName <Strin
 
 ## PARAMETERS
 
-### -CustomProperty
-To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
+### -AsJob
+
 
 ```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModelCustomProperties
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DefaultProfile
+
+
+```yaml
+Type: System.Management.Automation.PSObject
+Parameter Sets: (All)
+Aliases: AzureRMContext, AzureCredential
 
 Required: False
 Position: Named
@@ -89,6 +98,36 @@ Parameter Sets: GetByInputObject
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoWait
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PassThru
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -115,7 +154,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: GetByProtectedItemName, List
+Parameter Sets: List
 Aliases:
 
 Required: True
@@ -145,7 +184,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: GetByProtectedItemName, List
+Parameter Sets: List
 Aliases:
 
 Required: True
@@ -172,9 +211,6 @@ COMPLEX PARAMETER PROPERTIES
 
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
-
-CUSTOMPROPERTY <IProtectedItemModelCustomProperties>: 
-  - `InstanceType <String>`: Gets or sets the instance type.
 
 INPUTOBJECT <IProtectedItemModel>: 
   - `[CustomProperty <IProtectedItemModelCustomProperties>]`: Protected item model custom properties.

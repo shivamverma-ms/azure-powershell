@@ -48,9 +48,9 @@ exclude-tableview-properties:
 > Directives
 ``` yaml
 directive:
-  - where:
-      subject: Operation
-    hide: true
+ # - where:
+  #    subject: Operation
+   # hide: true
   - where:
       parameter-name: SubscriptionId
     set:

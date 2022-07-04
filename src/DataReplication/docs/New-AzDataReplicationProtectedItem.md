@@ -20,14 +20,16 @@ New-AzDataReplicationProtectedItem -Name <String> -ResourceGroupName <String> -V
  [-ReplicationExtensionName <String>] [-RunAsAccountId <String>] [-TargetAvsCloudId <String>]
  [-TargetAvsClusterName <String>] [-TargetDatastoreId <String>] [-TargetDiskPoolSubnetId <String>]
  [-TargetNetworkId <String>] [-TargetResourceGroupId <String>] [-TargetVCenterId <String>]
- [-TargetVMName <String>] [-TestNetworkId <String>] [<CommonParameters>]
+ [-TargetVMName <String>] [-TestNetworkId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait]
+ [-PassThru] [<CommonParameters>]
 ```
 
-### ByInputObject
+### ByCustomPropertyObject
 ```
 New-AzDataReplicationProtectedItem -Name <String> -ResourceGroupName <String> -VaultName <String>
  -CustomProperty <IProtectedItemModelCustomProperties> [-SubscriptionId <String>] [-PolicyName <String>]
- [-ReplicationExtensionName <String>] [<CommonParameters>]
+ [-ReplicationExtensionName <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-PassThru]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -74,15 +76,45 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -AsJob
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -CustomProperty
 To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModelCustomProperties
-Parameter Sets: ByInputObject
+Parameter Sets: ByCustomPropertyObject
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DefaultProfile
+
+
+```yaml
+Type: System.Management.Automation.PSObject
+Parameter Sets: (All)
+Aliases: AzureRMContext, AzureCredential
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -158,6 +190,36 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoWait
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PassThru
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

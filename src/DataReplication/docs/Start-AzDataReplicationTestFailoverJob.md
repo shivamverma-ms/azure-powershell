@@ -15,25 +15,29 @@ schema: 2.0.0
 ### ByProtectedItemId (Default)
 ```
 Start-AzDataReplicationTestFailoverJob -ProtectedItemId <String>
- -CustomProperty <ITestFailoverModelCustomProperties> [-SubscriptionId <String>] [<CommonParameters>]
+ -CustomProperty <ITestFailoverModelCustomProperties> [-SubscriptionId <String>] [-DefaultProfile <PSObject>]
+ [-AsJob] [-NoWait] [-PassThru] [<CommonParameters>]
 ```
 
 ### ByInputObject
 ```
 Start-AzDataReplicationTestFailoverJob -CustomProperty <ITestFailoverModelCustomProperties>
- -InputObject <IProtectedItemModel> [-SubscriptionId <String>] [<CommonParameters>]
+ -InputObject <IProtectedItemModel> [-SubscriptionId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait]
+ [-PassThru] [<CommonParameters>]
 ```
 
 ### ByInputObjectExpanded
 ```
 Start-AzDataReplicationTestFailoverJob -InputObject <IProtectedItemModel> -InstanceType <String>
- [-SubscriptionId <String>] [-NetworkId <String>] [-RecoveryPointName <String>] [<CommonParameters>]
+ [-SubscriptionId <String>] [-NetworkId <String>] [-RecoveryPointName <String>] [-DefaultProfile <PSObject>]
+ [-AsJob] [-NoWait] [-PassThru] [<CommonParameters>]
 ```
 
 ### ByProtectedItemIdExpanded
 ```
 Start-AzDataReplicationTestFailoverJob -ProtectedItemId <String> -InstanceType <String>
- [-SubscriptionId <String>] [-NetworkId <String>] [-RecoveryPointName <String>] [<CommonParameters>]
+ [-SubscriptionId <String>] [-NetworkId <String>] [-RecoveryPointName <String>] [-DefaultProfile <PSObject>]
+ [-AsJob] [-NoWait] [-PassThru] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -65,6 +69,21 @@ Start-AzDataReplicationTestFailoverJob -ProtectedItemId <String> -InstanceType <
 
 ## PARAMETERS
 
+### -AsJob
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -CustomProperty
 To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
 
@@ -74,6 +93,21 @@ Parameter Sets: ByInputObject, ByProtectedItemId
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DefaultProfile
+
+
+```yaml
+Type: System.Management.Automation.PSObject
+Parameter Sets: (All)
+Aliases: AzureRMContext, AzureCredential
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -116,6 +150,36 @@ Accept wildcard characters: False
 ```yaml
 Type: System.String
 Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoWait
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PassThru
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
 Aliases:
 
 Required: False

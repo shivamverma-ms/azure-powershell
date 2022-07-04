@@ -14,7 +14,6 @@
 function Start-AzDataReplicationReprotectionJob {
     [CmdletBinding(DefaultParameterSetName = 'ByProtectedItemId', PositionalBinding = $false, ConfirmImpact = 'Medium')]
     param (
-
         [Parameter(ParameterSetName = 'ByProtectedItemId', Mandatory)]
         [Parameter(ParameterSetName = 'ByProtectedItemIdExpanded', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
@@ -39,6 +38,7 @@ function Start-AzDataReplicationReprotectionJob {
         [Parameter(ParameterSetName = 'ByInputObjectExpanded', Mandatory)]
         [Parameter(ParameterSetName = 'ByProtectedItemIdExpanded', Mandatory)]
         [ValidateSet("VMwareToAvsFailback")]
+        [ValidateNotNullOrEmpty()]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
         [System.String]
         # Specifies instance type
@@ -47,7 +47,7 @@ function Start-AzDataReplicationReprotectionJob {
         [Parameter(ParameterSetName = 'ByInputObjectExpanded')]
         [Parameter(ParameterSetName = 'ByProtectedItemIdExpanded')]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
-        [System.Boolean]
+        [System.String]
         # Specifies name of data store
         ${DatastoreName},
 
@@ -84,11 +84,35 @@ function Start-AzDataReplicationReprotectionJob {
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script = '(Get-AzContext).Subscription.Id')]
         [System.String]
         # Specifies the subscription id.
-        ${SubscriptionId}
+        ${SubscriptionId},
+
+        [Parameter()]
+        [Alias('AzureRMContext', 'AzureCredential')]
+        [ValidateNotNull()]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
+        [System.Management.Automation.PSObject]
+        # The credentials, account, tenant, and subscription used for communication with Azure.
+        ${DefaultProfile},
+    
+        [Parameter()]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+        [System.Management.Automation.SwitchParameter]
+        # Run the command as a job
+        ${AsJob},
+        
+        [Parameter()]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+        [System.Management.Automation.SwitchParameter]
+        # Run the command asynchronously
+        ${NoWait},
+    
+        [Parameter()]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+        [System.Management.Automation.SwitchParameter]
+        # Returns true when the command succeeds
+        ${PassThru}
     )
-
     process {
-
         $parameterSet = $PSCmdlet.ParameterSetName
         $acceptedInstanceTypes = "VMwareToAvsFailback"
 
@@ -115,19 +139,22 @@ function Start-AzDataReplicationReprotectionJob {
             if($null -ne $PolicyName){
                 $CustomProperty.PolicyName = $PolicyName
             }
+
+            $null = $PSBoundParameters.Remove('InstanceType')
+            $null = $PSBoundParameters.Remove('LogStorageAccountId')
+            $null = $PSBoundParameters.Remove('DatastoreName')
+            $null = $PSBoundParameters.Remove('ApplianceId')
+            $null = $PSBoundParameters.Remove('PolicyName')
+            $null = $PSBoundParameters.Remove('ReplicationExtensionName')
         }
-
-        $null = $PSBoundParameters.Clear()
-
+        $null = $PSBoundParameters.Remove('ProtectedItemId')
+        $null = $PSBoundParameters.Remove('InputObject')
+        $null = $PSBoundParameters.Remove('CustomProperty')
         $null = $PSBoundParameters.Add('ResourceGroupName', $ResourceGroupName)
         $null = $PSBoundParameters.Add('VaultName', $VaultName)
         $null = $PSBoundParameters.Add('ProtectedItemName', $ProtectedItemName)
         $null = $PSBoundParameters.Add('CustomProperty', $CustomProperty)
 
-        Az.DataReplication.internal\Invoke-AzDataReplicationReprotectProtectedItem @PSBoundParameters
+        return Az.DataReplication.internal\Invoke-AzDataReplicationReprotectProtectedItem @PSBoundParameters
     }
-
-}
-
-
-    
+}   

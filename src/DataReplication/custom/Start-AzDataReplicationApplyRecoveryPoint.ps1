@@ -13,8 +13,7 @@
 # ----------------------------------------------------------------------------------
 function Start-AzDataReplicationApplyRecoveryPoint{
     [CmdletBinding(DefaultParameterSetName='ByRecoveryPointName', PositionalBinding=$false, ConfirmImpact='Medium')]
-    param (
-        
+    param (   
         [Parameter(ParameterSetName='ByRecoveryPointName', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
         [System.String]
@@ -63,41 +62,61 @@ function Start-AzDataReplicationApplyRecoveryPoint{
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
         [System.String]
         # Specifies the subscription id.
-        ${SubscriptionId}
+        ${SubscriptionId},
+        
+        [Parameter()]
+        [Alias('AzureRMContext', 'AzureCredential')]
+        [ValidateNotNull()]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
+        [System.Management.Automation.PSObject]
+        # The credentials, account, tenant, and subscription used for communication with Azure.
+        ${DefaultProfile},
+    
+        [Parameter()]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+        [System.Management.Automation.SwitchParameter]
+        # Run the command as a job
+        ${AsJob},
+        
+        [Parameter()]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+        [System.Management.Automation.SwitchParameter]
+        # Run the command asynchronously
+        ${NoWait},
+    
+        [Parameter()]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+        [System.Management.Automation.SwitchParameter]
+        # Returns true when the command succeeds
+        ${PassThru}
     )
-
     process{
        $parameterSet = $PSCmdlet.ParameterSetName
-
        if(($parameterSet -eq 'ByInputObject' ) -or ($parameterSet -eq 'ByRecoveryPointId')){
-
         if($null -ne $InputObject){
             $ProtectedItemId = $InputObject.Id
             $CustomPropertyInstanceType = $InputObject.CustomPropertyInstanceType
-            $null = $PSBoundParameters.Remove('CustomPropertyInstanceType')
-            $null = $PSBoundParameters.Remove('InputObject')
         }
-        
-        
         $MachineIdArray = $ProtectedItemId.Split("/")
         $ResourceGroupName = $MachineIdArray[4]
         $VaultName = $MachineIdArray[8]
         $ProtectedItemName = $MachineIdArray[10]
         $RecoveryPointName = $MachineIdArray[12]      
-       }
-       
-       $PSBoundParameters.Clear()
+       }    
+       $null = $PSBoundParameters.Remove('RecoveryPointId')
+       $null = $PSBoundParameters.Remove('CustomPropertyInstanceType')
+       $null = $PSBoundParameters.Remove('InputObject')
+       $null = $PSBoundParameters.Remove('ResourceGroupName')
+       $null = $PSBoundParameters.Remove('VaultName')
+       $null = $PSBoundParameters.Remove('ProtectedItemName')
+       $null = $PSBoundParameters.Remove('RecoveryPointName')
 
        $null = $PSBoundParameters.Add("ResourceGroupName", $ResourceGroupName)
        $null = $PSBoundParameters.Add("VaultName", $VaultName)
        $null = $PSBoundParameters.Add("ProtectedItemName", $ProtectedItemName)
        $null = $PSBoundParameters.Add("RecoveryPointName", $RecoveryPointName)
+       $null = $PSBoundParameters.Add("CustomPropertyInstanceType", $CustomPropertyInstanceType)
 
-       Az.DataReplication.internal\Rename-ProtectedItemRecoveryPoint @PSBoundParameters
-        
+       return Az.DataReplication.internal\Rename-ProtectedItemRecoveryPoint @PSBoundParameters
     }
-
-}
-
-
-    
+} 

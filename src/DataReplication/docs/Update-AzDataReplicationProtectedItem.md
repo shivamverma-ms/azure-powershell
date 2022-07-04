@@ -14,14 +14,38 @@ schema: 2.0.0
 
 ### ByProtectedItemId (Default)
 ```
-Update-AzDataReplicationProtectedItem -ProtectedItemId <String> [-Comment <Object>] [-SubscriptionId <String>]
- [-CustomProperty <IProtectedItemModelCustomProperties>] [<CommonParameters>]
+Update-AzDataReplicationProtectedItem -ProtectedItemId <String> [-SubscriptionId <String>]
+ [-CustomProperty <IProtectedItemModelCustomProperties>] [-PolicyName <String>]
+ [-ReplicationExtensionName <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
 ```
 
 ### ByInputObject
 ```
-Update-AzDataReplicationProtectedItem -InputObject <IProtectedItemModel> [-Comment <Object>]
- [-SubscriptionId <String>] [-CustomProperty <IProtectedItemModelCustomProperties>] [<CommonParameters>]
+Update-AzDataReplicationProtectedItem -InputObject <IProtectedItemModel> [-SubscriptionId <String>]
+ [-CustomProperty <IProtectedItemModelCustomProperties>] [-PolicyName <String>]
+ [-ReplicationExtensionName <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
+```
+
+### ByInputObjectExpanded
+```
+Update-AzDataReplicationProtectedItem -InputObject <IProtectedItemModel> [-SubscriptionId <String>]
+ [-ApplianceId <String>] [-DiskType <String>] [-FabricDiscoveryMachineId <String>] [-InstanceType <String>]
+ [-LogStorageAccountId <String>] [-PolicyName <String>] [-ReplicationExtensionName <String>]
+ [-RunAsAccountId <String>] [-TargetAvsCloudId <String>] [-TargetAvsClusterName <String>]
+ [-TargetDatastoreId <String>] [-TargetDiskPoolSubnetId <String>] [-TargetNetworkId <String>]
+ [-TargetResourceGroupId <String>] [-TargetVCenterId <String>] [-TargetVMName <String>]
+ [-TestNetworkId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
+```
+
+### ByProtectedItemIdExpanded
+```
+Update-AzDataReplicationProtectedItem -ProtectedItemId <String> [-SubscriptionId <String>]
+ [-ApplianceId <String>] [-DiskType <String>] [-FabricDiscoveryMachineId <String>] [-InstanceType <String>]
+ [-LogStorageAccountId <String>] [-PolicyName <String>] [-ReplicationExtensionName <String>]
+ [-RunAsAccountId <String>] [-TargetAvsCloudId <String>] [-TargetAvsClusterName <String>]
+ [-TargetDatastoreId <String>] [-TargetDiskPoolSubnetId <String>] [-TargetNetworkId <String>]
+ [-TargetResourceGroupId <String>] [-TargetVCenterId <String>] [-TargetVMName <String>]
+ [-TestNetworkId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -53,11 +77,26 @@ Update-AzDataReplicationProtectedItem -InputObject <IProtectedItemModel> [-Comme
 
 ## PARAMETERS
 
-### -Comment
+### -ApplianceId
 
 
 ```yaml
-Type: System.Object
+Type: System.String
+Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AsJob
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -73,7 +112,52 @@ To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash 
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModelCustomProperties
+Parameter Sets: ByInputObject, ByProtectedItemId
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DefaultProfile
+
+
+```yaml
+Type: System.Management.Automation.PSObject
 Parameter Sets: (All)
+Aliases: AzureRMContext, AzureCredential
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DiskType
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -FabricDiscoveryMachineId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
 Aliases:
 
 Required: False
@@ -88,10 +172,70 @@ To construct, see NOTES section for INPUTOBJECT properties and create a hash tab
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel
-Parameter Sets: ByInputObject
+Parameter Sets: ByInputObject, ByInputObjectExpanded
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -InstanceType
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LogStorageAccountId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoWait
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PolicyName
+
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -103,10 +247,40 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: ByProtectedItemId
+Parameter Sets: ByProtectedItemId, ByProtectedItemIdExpanded
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ReplicationExtensionName
+
+
+```yaml
+Type: System.String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RunAsAccountId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -124,6 +298,141 @@ Aliases:
 Required: False
 Position: Named
 Default value: (Get-AzContext).Subscription.Id
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TargetAvsCloudId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TargetAvsClusterName
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TargetDatastoreId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TargetDiskPoolSubnetId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TargetNetworkId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TargetResourceGroupId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TargetVCenterId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TargetVMName
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TestNetworkId
+
+
+```yaml
+Type: System.String
+Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

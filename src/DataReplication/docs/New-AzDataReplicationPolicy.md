@@ -15,14 +15,16 @@ schema: 2.0.0
 ### ByProperties (Default)
 ```
 New-AzDataReplicationPolicy -Name <String> -ResourceGroupName <String> -VaultName <String>
- -AppConsistentFrequencyInMinute <Int32> -CrashConsistentFrequencyInMinute <Int32> -InstanceType <String>
- -RecoveryPointHistoryInMinute <Int32> [-SubscriptionId <String>] [<CommonParameters>]
+ -AppConsistentFrequencyInMinute <Int32> -CrashConsistentFrequencyInMinute <Int32>
+ -EnableMultiVmSync <Boolean> -InstanceType <String> -RecoveryPointHistoryInMinute <Int32>
+ [-SubscriptionId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-PassThru] [<CommonParameters>]
 ```
 
-### ByInputObject
+### ByCustomPropertyObject
 ```
 New-AzDataReplicationPolicy -Name <String> -ResourceGroupName <String> -VaultName <String>
- -CustomProperty <IPolicyModelCustomProperties> [-SubscriptionId <String>] [<CommonParameters>]
+ -CustomProperty <IPolicyModelCustomProperties> [-SubscriptionId <String>] [-DefaultProfile <PSObject>]
+ [-AsJob] [-NoWait] [-PassThru] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -69,6 +71,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -AsJob
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -CrashConsistentFrequencyInMinute
 
 
@@ -89,7 +106,37 @@ To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash 
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IPolicyModelCustomProperties
-Parameter Sets: ByInputObject
+Parameter Sets: ByCustomPropertyObject
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DefaultProfile
+
+
+```yaml
+Type: System.Management.Automation.PSObject
+Parameter Sets: (All)
+Aliases: AzureRMContext, AzureCredential
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableMultiVmSync
+
+
+```yaml
+Type: System.Boolean
+Parameter Sets: ByProperties
 Aliases:
 
 Required: True
@@ -123,6 +170,36 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoWait
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PassThru
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

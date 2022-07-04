@@ -39,13 +39,14 @@ input-file:
   - $(this-folder)/../swagger.json
   - $(repo)/specification/migrate/resource-manager/Microsoft.OffAzure/stable/2020-01-01/migrate.json
 module-version: 0.1.0
-title: DataReplication
+title: 'DataReplication'
 subject-prefix: $(service-name)
 
 resourcegroup-append: true
 nested-object-to-string: true
 
 directive:
+# Directives for SDS cmdlets
   - where:
       verb: ^Set$|^Remove$|^Update$
       subject: ^Site$|^VCenter$
@@ -96,7 +97,6 @@ directive:
     hide: true 
 
 # Remove cmdlets
-
   - where:
       subject: (.*)Status$
     remove: true
@@ -120,9 +120,7 @@ directive:
       subject: DeploymentPreflight
     remove: true    
  
-
-# For New-* cmdlets, ViaIdentity is not required, so CreateViaIdentityExpanded is removed as well
-
+# For cmdlets, ViaIdentity is not required
   - where:
       verb: Get
       variant: ^GetViaIdentity$|^GetViaIdentityExpanded$

@@ -80,11 +80,38 @@ param(
     [System.Int32]
     ${CrashConsistentFrequencyInMinute},
 
-    [Parameter(ParameterSetName='ByInputObject', Mandatory)]
+    [Parameter(ParameterSetName='ByProperties', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
+    [System.Boolean]
+    ${EnableMultiVmSync},
+
+    [Parameter(ParameterSetName='ByCustomPropertyObject', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IPolicyModelCustomProperties]
     # To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
-    ${CustomProperty}
+    ${CustomProperty},
+
+    [Parameter()]
+    [Alias('AzureRMContext', 'AzureCredential')]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
+    [System.Management.Automation.PSObject]
+    ${DefaultProfile},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    ${AsJob},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    ${NoWait},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    ${PassThru}
 )
 
 begin {
@@ -114,9 +141,9 @@ begin {
 
         $mapping = @{
             ByProperties = 'Az.DataReplication.custom\New-AzDataReplicationPolicy';
-            ByInputObject = 'Az.DataReplication.custom\New-AzDataReplicationPolicy';
+            ByCustomPropertyObject = 'Az.DataReplication.custom\New-AzDataReplicationPolicy';
         }
-        if (('ByProperties', 'ByInputObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+        if (('ByProperties', 'ByCustomPropertyObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
             $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
         $cmdInfo = Get-Command -Name $mapping[$parameterSet]

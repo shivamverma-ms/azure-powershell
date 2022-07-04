@@ -15,13 +15,13 @@ schema: 2.0.0
 ### ByProtectedItemId (Default)
 ```
 Start-AzDataReplicationTestFailoverCleanupJob -ProtectedItemId <String> [-Comment <Object>]
- [-SubscriptionId <String>] [<CommonParameters>]
+ [-SubscriptionId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-PassThru] [<CommonParameters>]
 ```
 
 ### ByInputObject
 ```
 Start-AzDataReplicationTestFailoverCleanupJob -InputObject <IProtectedItemModel> [-Comment <Object>]
- [-SubscriptionId <String>] [<CommonParameters>]
+ [-SubscriptionId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-PassThru] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -53,6 +53,21 @@ Start-AzDataReplicationTestFailoverCleanupJob -InputObject <IProtectedItemModel>
 
 ## PARAMETERS
 
+### -AsJob
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Comment
 
 
@@ -60,6 +75,21 @@ Start-AzDataReplicationTestFailoverCleanupJob -InputObject <IProtectedItemModel>
 Type: System.Object
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DefaultProfile
+
+
+```yaml
+Type: System.Management.Automation.PSObject
+Parameter Sets: (All)
+Aliases: AzureRMContext, AzureCredential
 
 Required: False
 Position: Named
@@ -77,6 +107,36 @@ Parameter Sets: ByInputObject
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoWait
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PassThru
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

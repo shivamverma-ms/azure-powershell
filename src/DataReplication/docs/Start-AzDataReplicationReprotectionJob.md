@@ -15,27 +15,31 @@ schema: 2.0.0
 ### ByProtectedItemId (Default)
 ```
 Start-AzDataReplicationReprotectionJob -ProtectedItemId <String>
- -CustomProperty <IReprotectModelCustomProperties> [-SubscriptionId <String>] [<CommonParameters>]
+ -CustomProperty <IReprotectModelCustomProperties> [-SubscriptionId <String>] [-DefaultProfile <PSObject>]
+ [-AsJob] [-NoWait] [-PassThru] [<CommonParameters>]
 ```
 
 ### ByInputObject
 ```
 Start-AzDataReplicationReprotectionJob -CustomProperty <IReprotectModelCustomProperties>
- -InputObject <IProtectedItemModel> [-SubscriptionId <String>] [<CommonParameters>]
+ -InputObject <IProtectedItemModel> [-SubscriptionId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait]
+ [-PassThru] [<CommonParameters>]
 ```
 
 ### ByInputObjectExpanded
 ```
 Start-AzDataReplicationReprotectionJob -InputObject <IProtectedItemModel> -InstanceType <String>
- [-SubscriptionId <String>] [-ApplianceId <String>] [-DatastoreName <Boolean>] [-LogStorageAccountId <String>]
- [-PolicyName <String>] [-ReplicationExtensionName <String>] [<CommonParameters>]
+ [-SubscriptionId <String>] [-ApplianceId <String>] [-DatastoreName <String>] [-LogStorageAccountId <String>]
+ [-PolicyName <String>] [-ReplicationExtensionName <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait]
+ [-PassThru] [<CommonParameters>]
 ```
 
 ### ByProtectedItemIdExpanded
 ```
 Start-AzDataReplicationReprotectionJob -ProtectedItemId <String> -InstanceType <String>
- [-SubscriptionId <String>] [-ApplianceId <String>] [-DatastoreName <Boolean>] [-LogStorageAccountId <String>]
- [-PolicyName <String>] [-ReplicationExtensionName <String>] [<CommonParameters>]
+ [-SubscriptionId <String>] [-ApplianceId <String>] [-DatastoreName <String>] [-LogStorageAccountId <String>]
+ [-PolicyName <String>] [-ReplicationExtensionName <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait]
+ [-PassThru] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -82,6 +86,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -AsJob
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -CustomProperty
 To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
 
@@ -101,9 +120,24 @@ Accept wildcard characters: False
 
 
 ```yaml
-Type: System.Boolean
+Type: System.String
 Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DefaultProfile
+
+
+```yaml
+Type: System.Management.Automation.PSObject
+Parameter Sets: (All)
+Aliases: AzureRMContext, AzureCredential
 
 Required: False
 Position: Named
@@ -148,6 +182,36 @@ Accept wildcard characters: False
 ```yaml
 Type: System.String
 Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoWait
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PassThru
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
 Aliases:
 
 Required: False

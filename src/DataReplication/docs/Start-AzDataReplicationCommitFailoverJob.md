@@ -15,13 +15,13 @@ schema: 2.0.0
 ### ByProtectedItemId (Default)
 ```
 Start-AzDataReplicationCommitFailoverJob -ProtectedItemId <String> [-SubscriptionId <String>]
- [<CommonParameters>]
+ [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-PassThru] [<CommonParameters>]
 ```
 
 ### ByInputObject
 ```
 Start-AzDataReplicationCommitFailoverJob -InputObject <IProtectedItemModel> [-SubscriptionId <String>]
- [<CommonParameters>]
+ [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-PassThru] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -53,6 +53,36 @@ Start-AzDataReplicationCommitFailoverJob -InputObject <IProtectedItemModel> [-Su
 
 ## PARAMETERS
 
+### -AsJob
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DefaultProfile
+
+
+```yaml
+Type: System.Management.Automation.PSObject
+Parameter Sets: (All)
+Aliases: AzureRMContext, AzureCredential
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -InputObject
 To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
 
@@ -62,6 +92,36 @@ Parameter Sets: ByInputObject
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoWait
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PassThru
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

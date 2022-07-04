@@ -70,7 +70,29 @@ param(
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel]
     # To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
-    ${InputObject}
+    ${InputObject},
+
+    [Parameter()]
+    [Alias('AzureRMContext', 'AzureCredential')]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
+    [System.Management.Automation.PSObject]
+    ${DefaultProfile},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    ${AsJob},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    ${NoWait},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    ${PassThru}
 )
 
 begin {

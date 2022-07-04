@@ -145,11 +145,33 @@ param(
     [System.String]
     ${ReplicationExtensionName},
 
-    [Parameter(ParameterSetName='ByInputObject', Mandatory)]
+    [Parameter(ParameterSetName='ByCustomPropertyObject', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModelCustomProperties]
     # To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
-    ${CustomProperty}
+    ${CustomProperty},
+
+    [Parameter()]
+    [Alias('AzureRMContext', 'AzureCredential')]
+    [ValidateNotNull()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
+    [System.Management.Automation.PSObject]
+    ${DefaultProfile},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    ${AsJob},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    ${NoWait},
+
+    [Parameter()]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    ${PassThru}
 )
 
 begin {
@@ -179,9 +201,9 @@ begin {
 
         $mapping = @{
             ByProperties = 'Az.DataReplication.custom\New-AzDataReplicationProtectedItem';
-            ByInputObject = 'Az.DataReplication.custom\New-AzDataReplicationProtectedItem';
+            ByCustomPropertyObject = 'Az.DataReplication.custom\New-AzDataReplicationProtectedItem';
         }
-        if (('ByProperties', 'ByInputObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+        if (('ByProperties', 'ByCustomPropertyObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
             $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
         $cmdInfo = Get-Command -Name $mapping[$parameterSet]

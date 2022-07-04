@@ -16,19 +16,21 @@ schema: 2.0.0
 ```
 Start-AzDataReplicationApplyRecoveryPoint -ProtectedItemName <String> -RecoveryPointName <String>
  -ResourceGroupName <String> -VaultName <String> [-SubscriptionId <String>]
- [-CustomPropertyInstanceType <String>] [<CommonParameters>]
+ [-CustomPropertyInstanceType <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-PassThru]
+ [<CommonParameters>]
 ```
 
 ### ByInputObject
 ```
 Start-AzDataReplicationApplyRecoveryPoint -InputObject <IChangeRecoveryPointModel> [-SubscriptionId <String>]
- [<CommonParameters>]
+ [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-PassThru] [<CommonParameters>]
 ```
 
 ### ByRecoveryPointId
 ```
 Start-AzDataReplicationApplyRecoveryPoint -RecoveryPointId <String> [-SubscriptionId <String>]
- [-CustomPropertyInstanceType <String>] [<CommonParameters>]
+ [-CustomPropertyInstanceType <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-PassThru]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -60,6 +62,21 @@ Start-AzDataReplicationApplyRecoveryPoint -RecoveryPointId <String> [-Subscripti
 
 ## PARAMETERS
 
+### -AsJob
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -CustomPropertyInstanceType
 
 
@@ -67,6 +84,21 @@ Start-AzDataReplicationApplyRecoveryPoint -RecoveryPointId <String> [-Subscripti
 Type: System.String
 Parameter Sets: ByRecoveryPointId, ByRecoveryPointName
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DefaultProfile
+
+
+```yaml
+Type: System.Management.Automation.PSObject
+Parameter Sets: (All)
+Aliases: AzureRMContext, AzureCredential
 
 Required: False
 Position: Named
@@ -84,6 +116,36 @@ Parameter Sets: ByInputObject
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NoWait
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PassThru
+
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

@@ -14,7 +14,6 @@
 function Start-AzDataReplicationUnplannedFailoverJob {
     [CmdletBinding(DefaultParameterSetName = 'ByProtectedItemId', PositionalBinding = $false, ConfirmImpact = 'Medium')]
     param (
-
         [Parameter(ParameterSetName = 'ByProtectedItemId', Mandatory)]
         [Parameter(ParameterSetName = 'ByProtectedItemIdExpanded', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
@@ -37,7 +36,8 @@ function Start-AzDataReplicationUnplannedFailoverJob {
 
         [Parameter(ParameterSetName = 'ByInputObjectExpanded', Mandatory)]
         [Parameter(ParameterSetName = 'ByProtectedItemIdExpanded', Mandatory)]
-        [ValidateSet("VMwareToAvs","VMwareToAvsFailback")]
+        [ValidateSet("VMwareToAvs")]
+        [ValidateNotNullOrEmpty()]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
         [System.String]
         # Specifies instance type
@@ -62,16 +62,39 @@ function Start-AzDataReplicationUnplannedFailoverJob {
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script = '(Get-AzContext).Subscription.Id')]
         [System.String]
         # Specifies the subscription id.
-        ${SubscriptionId}
+        ${SubscriptionId},
+
+        [Parameter()]
+        [Alias('AzureRMContext', 'AzureCredential')]
+        [ValidateNotNull()]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
+        [System.Management.Automation.PSObject]
+        # The credentials, account, tenant, and subscription used for communication with Azure.
+        ${DefaultProfile},
+    
+        [Parameter()]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+        [System.Management.Automation.SwitchParameter]
+        # Run the command as a job
+        ${AsJob},
+    
+        [Parameter()]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+        [System.Management.Automation.SwitchParameter]
+        # Run the command asynchronously
+        ${NoWait},
+    
+        [Parameter()]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+        [System.Management.Automation.SwitchParameter]
+        # Returns true when the command succeeds
+        ${PassThru}
     )
-
     process {
-
         $parameterSet = $PSCmdlet.ParameterSetName
-        $acceptedInstanceTypes = "VMwareToAvs","VMwareToAvsFailback"
-
+        $acceptedInstanceTypes = "VMwareToAvs"
         if ($null -ne $CustomProperty -and !$acceptedInstanceTypes.Contains($CustomProperty.InstanceType)) {
-            throw "Instance type is not supported. Only VMwareToAvs and VMwareToAvsFailback are applicable"
+            throw "Instance type is not supported. Only VMwareToAvs is applicable"
         }     
  
         if ($null -ne $InputObject) {
@@ -89,18 +112,18 @@ function Start-AzDataReplicationUnplannedFailoverJob {
             $CustomProperty.PerformShutdown = $PerformShutdown
             $CustomProperty.RecoveryPointName = $RecoveryPointName
         }
-
-        $null = $PSBoundParameters.Clear()
+        $null = $PSBoundParameters.Remove('InstanceType')
+        $null = $PSBoundParameters.Remove('PerformShutdown')
+        $null = $PSBoundParameters.Remove('RecoveryPointName')
+        $null = $PSBoundParameters.Remove('ProtectedItemId')
+        $null = $PSBoundParameters.Remove('InputObject')
+        $null = $PSBoundParameters.Remove('CustomProperty')
 
         $null = $PSBoundParameters.Add('ResourceGroupName', $ResourceGroupName)
         $null = $PSBoundParameters.Add('VaultName', $VaultName)
         $null = $PSBoundParameters.Add('ProtectedItemName', $ProtectedItemName)
         $null = $PSBoundParameters.Add('CustomProperty', $CustomProperty)
         
-        Az.DataReplication.internal\Invoke-AzDataReplicationUnplannedProtectedItemFailover @PSBoundParameters
+        return Az.DataReplication.internal\Invoke-AzDataReplicationUnplannedProtectedItemFailover @PSBoundParameters
     }
-
-}
-
-
-    
+}  

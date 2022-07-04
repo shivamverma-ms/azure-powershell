@@ -13,8 +13,7 @@
 # ----------------------------------------------------------------------------------
 function New-AzDataReplicationProtectedItem {
     [CmdletBinding(DefaultParameterSetName = 'ByProperties', PositionalBinding = $false, ConfirmImpact = 'Medium')]
-    param (
-        
+    param (  
         [Parameter(Mandatory)]    
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
         [System.String]
@@ -33,7 +32,7 @@ function New-AzDataReplicationProtectedItem {
         # Specifies the vault name
         ${VaultName},
 
-        [Parameter(ParameterSetName = 'ByInputObject', Mandatory)]
+        [Parameter(ParameterSetName = 'ByCustomPropertyObject', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModelCustomProperties]
         # Specifies the custom property for protected item
@@ -41,6 +40,7 @@ function New-AzDataReplicationProtectedItem {
 
         [Parameter(ParameterSetName = 'ByProperties', Mandatory)]
         [ValidateSet("VMwareToAvs", "VMwareToAvsFailback")]
+        [ValidateNotNullOrEmpty()]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
         [System.String]
         # Specifies instance type
@@ -147,18 +147,41 @@ function New-AzDataReplicationProtectedItem {
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script = '(Get-AzContext).Subscription.Id')]
         [System.String]
         # Specifies the subscription id.
-        ${SubscriptionId}
+        ${SubscriptionId},
+        
+        [Parameter()]
+        [Alias('AzureRMContext', 'AzureCredential')]
+        [ValidateNotNull()]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Azure')]
+        [System.Management.Automation.PSObject]
+        # The credentials, account, tenant, and subscription used for communication with Azure.
+        ${DefaultProfile},
+    
+        [Parameter()]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+        [System.Management.Automation.SwitchParameter]
+        # Run the command as a job
+        ${AsJob},
+        
+        [Parameter()]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+        [System.Management.Automation.SwitchParameter]
+        # Run the command asynchronously
+        ${NoWait},
+    
+        [Parameter()]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Runtime')]
+        [System.Management.Automation.SwitchParameter]
+        # Returns true when the command succeeds
+        ${PassThru}
     )
-
     process {
-
         $parameterSet = $PSCmdlet.ParameterSetName
         $acceptedInstanceTypes = "VMwareToAvs", "VMwareToAvsFailback"
 
         if ($null -ne $CustomProperty -and !$acceptedInstanceTypes.Contains($CustomProperty.InstanceType)) {
             throw "Instance type is not supported. Only VMwareToAvs and VMwareToAvsFailback are applicable"
-        }
-        
+        }        
         if ($parameterSet -eq 'ByProperties') {
             $CustomProperty = [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.VMwareToAvsProtectedItemModelCustomProperties]::new()
             $CustomProperty.InstanceType = $InstanceType
@@ -177,9 +200,31 @@ function New-AzDataReplicationProtectedItem {
             $CustomProperty.RunAsAccountId = $RunAsAccountId
             $CustomProperty.ApplianceId = $ApplianceId
           
-        }
- 
-        $PSBoundParameters.Clear()
+            $null = $PSBoundParameters.Remove('InstanceType')
+            $null = $PSBoundParameters.Remove('TargetAvsCloudId')
+            $null = $PSBoundParameters.Remove('TargetAvsClusterName')
+            $null = $PSBoundParameters.Remove('FabricDiscoveryMachineId')
+            $null = $PSBoundParameters.Remove('LogStorageAccountId')
+            $null = $PSBoundParameters.Remove('DiskType')
+            $null = $PSBoundParameters.Remove('TargetVMName')
+            $null = $PSBoundParameters.Remove('TargetResourceGroupId')
+            $null = $PSBoundParameters.Remove('TargetVCenterId')
+            $null = $PSBoundParameters.Remove('TargetDatastoreId')
+            $null = $PSBoundParameters.Remove('TargetNetworkId')
+            $null = $PSBoundParameters.Remove('TargetDiskPoolSubnetId')
+            $null = $PSBoundParameters.Remove('TestNetworkId')
+            $null = $PSBoundParameters.Remove('RunAsAccountId')
+            $null = $PSBoundParameters.Remove('ApplianceId')
+        } 
+        $null = $PSBoundParameters.Remove('ProtectedItemId')
+        $null = $PSBoundParameters.Remove('InputObject')
+        $null = $PSBoundParameters.Remove('Name')
+        $null = $PSBoundParameters.Remove('CustomProperty')
+        $null = $PSBoundParameters.Remove('ResourceGroupName')
+        $null = $PSBoundParameters.Remove('VaultName')
+        $null = $PSBoundParameters.Remove('PolicyName')
+        $null = $PSBoundParameters.Remove('ReplicationExtensionName')
+
         $null = $PSBoundParameters.Add('Name', $Name)
         $null = $PSBoundParameters.Add('CustomProperty', $CustomProperty)
         $null = $PSBoundParameters.Add('ResourceGroupName', $ResourceGroupName)
@@ -187,11 +232,6 @@ function New-AzDataReplicationProtectedItem {
         $null = $PSBoundParameters.Add('PolicyName', $PolicyName)
         $null = $PSBoundParameters.Add('ReplicationExtensionName', $ReplicationExtensionName)
         
- 
-        Az.DataReplication.internal\New-AzDataReplicationProtectedItem @PSBoundParameters
-
+        return Az.DataReplication.internal\New-AzDataReplicationProtectedItem @PSBoundParameters
     }
-
-
 }
-
