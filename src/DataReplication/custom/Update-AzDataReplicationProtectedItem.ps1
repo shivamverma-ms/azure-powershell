@@ -204,6 +204,8 @@ function Update-AzDataReplicationProtectedItem {
         $HasTargetCPUCores = $PSBoundParameters.ContainsKey('TargetCPUCores')
         $HasMultiVMGroupName = $PSBoundParameters.ContainsKey('MultiVMGroupName')
         $HasTargetMemoryInMB = $PSBoundParameters.ContainsKey('TargetMemoryInMB')
+        $HasPolicyName = $PSBoundParameters.ContainsKey('PolicyName')
+        $HasReplicationExtensionName = $PSBoundParameters.ContainsKey('ReplicationExtensionName')
 
         $null = $PSBoundParameters.Remove('InstanceType')
         $null = $PSBoundParameters.Remove('TargetAvsCloudId')
@@ -224,6 +226,8 @@ function Update-AzDataReplicationProtectedItem {
         $null = $PSBoundParameters.Remove('TargetCPUCores')
         $null = $PSBoundParameters.Remove('TargetMemoryInMB')
         $null = $PSBoundParameters.Remove('MultiVMGroupName')
+        $null = $PSBoundParameters.Remove('PolicyName')
+        $null = $PSBoundParameters.Remove('ReplicationExtensionName')
         
         $parameterSet = $PSCmdlet.ParameterSetName
         
@@ -267,6 +271,8 @@ function Update-AzDataReplicationProtectedItem {
             $CustomProperty.TargetCPUCores = ($HasTargetCPUCores) ? $TargetCPUCores : $ProtectedItem.CustomProperty.TargetCPUCores
             $CustomProperty.TargetMemoryInMB = ($HasTargetMemoryInMB) ? $TargetMemoryInMB : $ProtectedItem.CustomProperty.TargetMemoryInMB
             $CustomProperty.MultiVMGroupName = ($HasMultiVMGroupName) ? $MultiVMGroupName : $ProtectedItem.CustomProperty.MultiVMGroupName
+            $PolicyName = ($HasPolicyName) ? $PolicyName : $ProtectedItem.PolicyName
+            $ReplicationExtensionName = ($HasReplicationExtensionName) ? $ReplicationExtensionName : $ProtectedItem.ReplicationExtensionName
 
             $null = $PSBoundParameters.Add('CustomProperty', $CustomProperty)
             $null = $PSBoundParameters.Add('PolicyName', $PolicyName)
