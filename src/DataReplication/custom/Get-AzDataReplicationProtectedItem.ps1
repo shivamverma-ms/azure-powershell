@@ -12,7 +12,7 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 function Get-AzDataReplicationProtectedItem {
-    [CmdletBinding(DefaultParameterSetName = 'List', PositionalBinding = $false, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'List', PositionalBinding = $false)]
     param (
         
         [Parameter(ParameterSetName = 'List', Mandatory)]    

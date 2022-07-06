@@ -12,7 +12,7 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 function Start-AzDataReplicationApplyRecoveryPoint{
-    [CmdletBinding(DefaultParameterSetName='ByRecoveryPointName', PositionalBinding=$false, ConfirmImpact='Medium')]
+    [CmdletBinding(DefaultParameterSetName='ByRecoveryPointName', PositionalBinding=$false)]
     param (   
         [Parameter(ParameterSetName='ByRecoveryPointName', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]

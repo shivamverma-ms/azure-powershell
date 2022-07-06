@@ -15,39 +15,25 @@ schema: 2.0.0
 ### ByProtectedItemId (Default)
 ```
 Update-AzDataReplicationProtectedItem -ProtectedItemId <String> [-SubscriptionId <String>]
- [-CustomProperty <IProtectedItemModelCustomProperties>] [-PolicyName <String>]
- [-ReplicationExtensionName <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
+ [-ApplianceId <String>] [-DisksToInclude <Array>] [-DiskType <String>] [-FabricDiscoveryMachineId <String>]
+ [-InstanceType <String>] [-LogStorageAccountId <String>] [-MultiVMGroupName <String>] [-PolicyName <String>]
+ [-ReplicationExtensionName <String>] [-RunAsAccountId <String>] [-TargetAvsCloudId <String>]
+ [-TargetAvsClusterName <String>] [-TargetCPUCores <Int32>] [-TargetDatastoreId <String>]
+ [-TargetDiskPoolSubnetId <String>] [-TargetMemoryInMB <Int32>] [-TargetNetworkId <String>]
+ [-TargetResourceGroupId <String>] [-TargetVCenterId <String>] [-TargetVMName <String>]
+ [-TestNetworkId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
 ```
 
 ### ByInputObject
 ```
 Update-AzDataReplicationProtectedItem -InputObject <IProtectedItemModel> [-SubscriptionId <String>]
- [-CustomProperty <IProtectedItemModelCustomProperties>] [-PolicyName <String>]
- [-ReplicationExtensionName <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
-```
-
-### ByInputObjectExpanded
-```
-Update-AzDataReplicationProtectedItem -ApplianceId <String> -DiskType <String>
- -FabricDiscoveryMachineId <String> -InputObject <IProtectedItemModel> -InstanceType <String>
- -LogStorageAccountId <String> -RunAsAccountId <String> -TargetAvsCloudId <String>
- -TargetAvsClusterName <String> -TargetDatastoreId <String> -TargetDiskPoolSubnetId <String>
- -TargetNetworkId <String> -TargetResourceGroupId <String> -TargetVCenterId <String> -TargetVMName <String>
- -TestNetworkId <String> [-SubscriptionId <String>] [-DisksToInclude <Array>] [-MultiVMGroupName <String>]
- [-PolicyName <String>] [-ReplicationExtensionName <String>] [-TargetCPUCores <Int32>]
- [-TargetMemoryInMB <Int32>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
-```
-
-### ByProtectedItemIdExpanded
-```
-Update-AzDataReplicationProtectedItem -ProtectedItemId <String> -ApplianceId <String> -DiskType <String>
- -FabricDiscoveryMachineId <String> -InstanceType <String> -LogStorageAccountId <String>
- -RunAsAccountId <String> -TargetAvsCloudId <String> -TargetAvsClusterName <String>
- -TargetDatastoreId <String> -TargetDiskPoolSubnetId <String> -TargetNetworkId <String>
- -TargetResourceGroupId <String> -TargetVCenterId <String> -TargetVMName <String> -TestNetworkId <String>
- [-SubscriptionId <String>] [-DisksToInclude <Array>] [-MultiVMGroupName <String>] [-PolicyName <String>]
- [-ReplicationExtensionName <String>] [-TargetCPUCores <Int32>] [-TargetMemoryInMB <Int32>]
- [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
+ [-ApplianceId <String>] [-DisksToInclude <Array>] [-DiskType <String>] [-FabricDiscoveryMachineId <String>]
+ [-InstanceType <String>] [-LogStorageAccountId <String>] [-MultiVMGroupName <String>] [-PolicyName <String>]
+ [-ReplicationExtensionName <String>] [-RunAsAccountId <String>] [-TargetAvsCloudId <String>]
+ [-TargetAvsClusterName <String>] [-TargetCPUCores <Int32>] [-TargetDatastoreId <String>]
+ [-TargetDiskPoolSubnetId <String>] [-TargetMemoryInMB <Int32>] [-TargetNetworkId <String>]
+ [-TargetResourceGroupId <String>] [-TargetVCenterId <String>] [-TargetVMName <String>]
+ [-TestNetworkId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -84,10 +70,10 @@ Update-AzDataReplicationProtectedItem -ProtectedItemId <String> -ApplianceId <St
 
 ```yaml
 Type: System.String
-Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -100,21 +86,6 @@ Accept wildcard characters: False
 ```yaml
 Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -CustomProperty
-To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModelCustomProperties
-Parameter Sets: ByInputObject, ByProtectedItemId
 Aliases:
 
 Required: False
@@ -144,7 +115,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.Array
-Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -159,10 +130,10 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -174,10 +145,10 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -189,7 +160,7 @@ To construct, see NOTES section for INPUTOBJECT properties and create a hash tab
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IProtectedItemModel
-Parameter Sets: ByInputObject, ByInputObjectExpanded
+Parameter Sets: ByInputObject
 Aliases:
 
 Required: True
@@ -204,10 +175,10 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -219,10 +190,10 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -234,7 +205,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -279,7 +250,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: ByProtectedItemId, ByProtectedItemIdExpanded
+Parameter Sets: ByProtectedItemId
 Aliases:
 
 Required: True
@@ -309,10 +280,10 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -339,10 +310,10 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -354,10 +325,10 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -369,7 +340,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.Int32
-Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -384,10 +355,10 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -399,10 +370,10 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -414,7 +385,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.Int32
-Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -429,10 +400,10 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -444,10 +415,10 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -459,10 +430,10 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -474,10 +445,10 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -489,10 +460,10 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: ByInputObjectExpanded, ByProtectedItemIdExpanded
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -516,9 +487,6 @@ COMPLEX PARAMETER PROPERTIES
 
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
-
-CUSTOMPROPERTY <IProtectedItemModelCustomProperties>: 
-  - `InstanceType <String>`: Gets or sets the instance type.
 
 INPUTOBJECT <IProtectedItemModel>: 
   - `[CustomProperty <IProtectedItemModelCustomProperties>]`: Protected item model custom properties.

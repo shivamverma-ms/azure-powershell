@@ -12,7 +12,7 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 function Start-AzDataReplicationTestFailoverJob {
-    [CmdletBinding(DefaultParameterSetName = 'ByProtectedItemId', PositionalBinding = $false, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'ByProtectedItemId', PositionalBinding = $false)]
     param (
         [Parameter(ParameterSetName = 'ByProtectedItemId', Mandatory)]
         [Parameter(ParameterSetName = 'ByProtectedItemIdExpanded', Mandatory)]

@@ -4143,7 +4143,7 @@
       "description": "ARM error.",
       "type": "object",
       "properties": {
-        "error": {
+        "Error": {
           "$ref": "#/definitions/ArmErrorInfo"
         }
       }
@@ -4152,11 +4152,11 @@
       "description": "Arm error information.",
       "type": "object",
       "properties": {
-        "code": {
+        "Code": {
           "description": "Gets or sets the error code returned by the service.",
           "type": "string"
         },
-        "message": {
+        "Message": {
           "description": "Gets or sets error Message returned by the service.",
           "type": "string"
         }
@@ -5239,7 +5239,6 @@
           "$ref": "#/definitions/ApplianceComponentCustomProperties"
         }
       ],
-      "x-ms-discriminator-value": "ProcessServer",
       "properties": {
         "ipAddresses": {
           "description": "Gets or sets the list of IP addresses for communicating with the RCM component.",
@@ -6756,6 +6755,7 @@
     "VMwareToAvsFailbackProtectedItemModelCustomProperties": {
       "description": "VMware to AVS failback protected item model custom properties.",
       "type": "object",
+      "x-ms-discriminator-value": "VMwareToAvsFailback",
       "allOf": [
         {
           "$ref": "#/definitions/ProtectedItemModelCustomProperties"
@@ -7029,7 +7029,6 @@
     "VMwareToAvsPolicyModelCustomProperties": {
       "description": "Vmware To Avs Policy model custom properties.",
       "type": "object",
-      "x-ms-discriminator-value": "VMwareToAvs",
       "allOf": [
         {
           "$ref": "#/definitions/PolicyModelCustomProperties"
@@ -7114,6 +7113,7 @@
     "VMwareToAvsProtectedItemModelCustomProperties": {
       "description": "VMware To Avs Protected item model custom properties.",
       "type": "object",
+      "x-ms-discriminator-value": "VMwareToAvs",
       "allOf": [
         {
           "$ref": "#/definitions/ProtectedItemModelCustomProperties"

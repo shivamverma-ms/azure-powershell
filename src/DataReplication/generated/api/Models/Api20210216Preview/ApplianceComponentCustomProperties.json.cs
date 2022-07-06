@@ -93,7 +93,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216P
                 {
                     return new ApplianceComponentPropertiesCustomProperties(json);
                 }
-                case "ProcessServer":
+                case "ProcessServerProperties":
                 {
                     return new ProcessServerProperties(json);
                 }

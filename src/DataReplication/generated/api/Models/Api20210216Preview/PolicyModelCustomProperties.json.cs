@@ -76,7 +76,7 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216P
                 {
                     return new VMwareToAvsFailbackPolicyModelCustomProperties(json);
                 }
-                case "VMwareToAvs":
+                case "VMwareToAvsPolicyModelCustomProperties":
                 {
                     return new VMwareToAvsPolicyModelCustomProperties(json);
                 }

@@ -12,7 +12,7 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 function New-AzDataReplicationPolicy{
-    [CmdletBinding(DefaultParameterSetName='ByProperties', PositionalBinding=$false, ConfirmImpact='Medium')]
+    [CmdletBinding(DefaultParameterSetName='ByProperties', PositionalBinding=$false)]
     param ( 
         [Parameter(Mandatory)]    
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]

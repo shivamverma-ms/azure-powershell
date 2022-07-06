@@ -12,7 +12,7 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------------
 function New-AzDataReplicationProtectedItem {
-    [CmdletBinding(DefaultParameterSetName = 'ByProperties', PositionalBinding = $false, ConfirmImpact = 'Medium')]
+    [CmdletBinding(DefaultParameterSetName = 'ByProperties', PositionalBinding = $false)]
     param (  
         [Parameter(Mandatory)]    
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
@@ -39,7 +39,7 @@ function New-AzDataReplicationProtectedItem {
         ${CustomProperty},
 
         [Parameter(ParameterSetName = 'ByProperties', Mandatory)]
-        [ValidateSet("VMwareToAvs", "VMwareToAvsFailback")]
+        [ValidateSet("VMwareToAvs")]
         [ValidateNotNullOrEmpty()]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Body')]
         [System.String]
@@ -201,10 +201,10 @@ function New-AzDataReplicationProtectedItem {
     )
     process {
         $parameterSet = $PSCmdlet.ParameterSetName
-        $acceptedInstanceTypes = "VMwareToAvs", "VMwareToAvsFailback"
+        $acceptedInstanceTypes = "VMwareToAvs"
 
         if ($null -ne $CustomProperty -and !$acceptedInstanceTypes.Contains($CustomProperty.InstanceType)) {
-            throw "Instance type is not supported. Only VMwareToAvs and VMwareToAvsFailback are applicable"
+            throw "Instance type is not supported. Only VMwareToAvs is applicable"
         }        
         if ($parameterSet -eq 'ByProperties') {
             $CustomProperty = [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.VMwareToAvsProtectedItemModelCustomProperties]::new()

@@ -73,11 +73,11 @@ namespace Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216P
 
             switch ( json.StringProperty("instanceType") )
             {
-                case "VMwareToAvsFailbackProtectedItemModelCustomProperties":
+                case "VMwareToAvsFailback":
                 {
                     return new VMwareToAvsFailbackProtectedItemModelCustomProperties(json);
                 }
-                case "VMwareToAvsProtectedItemModelCustomProperties":
+                case "VMwareToAvs":
                 {
                     return new VMwareToAvsProtectedItemModelCustomProperties(json);
                 }
