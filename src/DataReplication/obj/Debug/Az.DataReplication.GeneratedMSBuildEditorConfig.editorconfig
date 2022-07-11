@@ -1,0 +1,3 @@
+is_global = true
+build_property.RootNamespace = Microsoft.Azure.PowerShell.Cmdlets.DataReplication
+build_property.ProjectDir = D:\AsrOneSdk\azure-powershell\src\DataReplication\

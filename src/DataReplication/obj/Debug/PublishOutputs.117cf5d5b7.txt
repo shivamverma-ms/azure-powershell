@@ -1,0 +1,5 @@
+D:\AsrOneSdk\azure-powershell\src\DataReplication\bin\Az.DataReplication.private.dll
+D:\AsrOneSdk\azure-powershell\src\DataReplication\bin\Az.DataReplication.private.deps.json
+D:\AsrOneSdk\azure-powershell\src\DataReplication\bin\Az.DataReplication.private.pdb
+D:\AsrOneSdk\azure-powershell\src\DataReplication\bin\Microsoft.CSharp.dll
+D:\AsrOneSdk\azure-powershell\src\DataReplication\bin\System.Management.Automation.dll

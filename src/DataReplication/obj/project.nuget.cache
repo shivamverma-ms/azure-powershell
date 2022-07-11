@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "cl7rcgk7mbXj+DPHBb7UlHfIpBQEgdUaAuWKu4tPP/Saao0kd580gqQ1lvrMQt4TrzU8SwFFRu+Qpu0V3nI34A==",
+  "success": true,
+  "projectFilePath": "D:\\AsrOneSdk\\azure-powershell\\src\\DataReplication\\Az.DataReplication.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\t-aryanw\\.nuget\\packages\\microsoft.csharp\\4.4.1\\microsoft.csharp.4.4.1.nupkg.sha512",
+    "C:\\Users\\t-aryanw\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\t-aryanw\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\t-aryanw\\.nuget\\packages\\powershellstandard.library\\5.1.0\\powershellstandard.library.5.1.0.nupkg.sha512"
+  ],
+  "logs": []
+}

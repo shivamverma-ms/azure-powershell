@@ -1,0 +1,15 @@
+D:\AsrOneSdk\azure-powershell\src\DataReplication\bin\Az.DataReplication.private.deps.json
+D:\AsrOneSdk\azure-powershell\src\DataReplication\bin\Az.DataReplication.private.dll
+D:\AsrOneSdk\azure-powershell\src\DataReplication\bin\Az.DataReplication.private.pdb
+D:\AsrOneSdk\azure-powershell\src\DataReplication\bin\Microsoft.CSharp.dll
+D:\AsrOneSdk\azure-powershell\src\DataReplication\bin\System.Management.Automation.dll
+D:\AsrOneSdk\azure-powershell\src\DataReplication\obj\Debug\Az.DataReplication.csproj.AssemblyReference.cache
+D:\AsrOneSdk\azure-powershell\src\DataReplication\obj\Debug\Microsoft.Azure.PowerShell.Cmdlets.DataReplication.generated.runtime.Properties.Resources.resources
+D:\AsrOneSdk\azure-powershell\src\DataReplication\obj\Debug\Az.DataReplication.csproj.GenerateResource.cache
+D:\AsrOneSdk\azure-powershell\src\DataReplication\obj\Debug\Az.DataReplication.GeneratedMSBuildEditorConfig.editorconfig
+D:\AsrOneSdk\azure-powershell\src\DataReplication\obj\Debug\Az.DataReplication.AssemblyInfoInputs.cache
+D:\AsrOneSdk\azure-powershell\src\DataReplication\obj\Debug\Az.DataReplication.AssemblyInfo.cs
+D:\AsrOneSdk\azure-powershell\src\DataReplication\obj\Debug\Az.DataReplication.csproj.CoreCompileInputs.cache
+D:\AsrOneSdk\azure-powershell\src\DataReplication\obj\Debug\Az.DataReplication.csproj.CopyComplete
+D:\AsrOneSdk\azure-powershell\src\DataReplication\obj\Debug\Az.DataReplication.private.dll
+D:\AsrOneSdk\azure-powershell\src\DataReplication\obj\Debug\Az.DataReplication.private.pdb
