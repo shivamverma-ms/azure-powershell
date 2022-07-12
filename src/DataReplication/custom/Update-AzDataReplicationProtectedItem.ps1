@@ -247,7 +247,7 @@ function Update-AzDataReplicationProtectedItem {
         # Get the existing properties of the protected item
         $ProtectedItem =  Az.DataReplication.internal\Get-AzDataReplicationProtectedItem @PSBoundParameters
         
-        # Check if protected item exists and crrect provider is given 
+        # Check if protected item exists and correct provider is given 
         if ($ProtectedItem -and $acceptedInstanceTypes.Contains($ProtectedItem.CustomProperty.InstanceType)) {
             $CustomProperty = [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.VMwareToAvsProtectedItemModelCustomProperties]::new()
             $CustomProperty.InstanceType = $ProtectedItem.CustomProperty.InstanceType
@@ -277,8 +277,22 @@ function Update-AzDataReplicationProtectedItem {
             $null = $PSBoundParameters.Add('CustomProperty', $CustomProperty)
             $null = $PSBoundParameters.Add('PolicyName', $PolicyName)
             $null = $PSBoundParameters.Add('ReplicationExtensionName', $ReplicationExtensionName)
-
-            return Az.DataReplication.internal\Update-AzDataReplicationProtectedItem @PSBoundParameters
+            $null = $PSBoundParameters.Add('NoWait', $true)
+        
+            $output = Az.DataReplication.internal\Update-AzDataReplicationProtectedItem @PSBoundParameters
+            $JobName = $output.Target.Split("/")[14].Split("?")[0]
+    
+            # Remove parameters which are not necessary for getting job
+            $null = $PSBoundParameters.Remove('Name')
+            $null = $PSBoundParameters.Remove('CustomProperty')
+            $null = $PSBoundParameters.Remove('PolicyName')
+            $null = $PSBoundParameters.Remove('ReplicationExtensionName')
+            $null = $PSBoundParameters.Remove('NoWait')
+    
+            # Add the parameters which are required for getting Job
+            $null = $PSBoundParameters.Add('Name', $JobName)
+            $job = Get-AzDataReplicationJob @PSBoundParameters 
+            return $job
         }
        else{
         throw "Either the protected item does not exist or the provider is not supported"

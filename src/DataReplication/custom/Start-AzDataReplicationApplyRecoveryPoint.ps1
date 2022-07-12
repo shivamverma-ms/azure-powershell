@@ -116,7 +116,20 @@ function Start-AzDataReplicationApplyRecoveryPoint{
        $null = $PSBoundParameters.Add("ProtectedItemName", $ProtectedItemName)
        $null = $PSBoundParameters.Add("RecoveryPointName", $RecoveryPointName)
        $null = $PSBoundParameters.Add("CustomPropertyInstanceType", $CustomPropertyInstanceType)
+       $null = $PSBoundParameters.Add('NoWait', $true)
 
-       return Az.DataReplication.internal\Rename-ProtectedItemRecoveryPoint @PSBoundParameters
+       $output = Az.DataReplication.internal\Rename-ProtectedItemRecoveryPoint @PSBoundParameters
+       $JobName = $output.Target.Split("/")[14].Split("?")[0]
+
+       # Remove parameters which are not necessary for getting job
+       $null = $PSBoundParameters.Remove('ProtectedItemName')
+       $null = $PSBoundParameters.Remove('CustomPropertyInstanceType')
+       $null = $PSBoundParameters.Remove('RecoveryPointName')
+       $null = $PSBoundParameters.Remove('NoWait')
+
+       # Add the parameters which are required for getting Job
+       $null = $PSBoundParameters.Add('Name', $JobName)
+       $job = Get-AzDataReplicationJob @PSBoundParameters 
+       return $job
     }
 } 

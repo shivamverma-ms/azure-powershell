@@ -30,6 +30,12 @@ Get-AzDataReplicationProtectedItem -ProtectedItemId <String> [-SubscriptionId <S
  [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-PassThru] [<CommonParameters>]
 ```
 
+### GetByProtectedItemName
+```
+Get-AzDataReplicationProtectedItem -ProtectedItemName <String> -ResourceGroupName <String> -VaultName <String>
+ [-SubscriptionId <String[]>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-PassThru] [<CommonParameters>]
+```
+
 ## DESCRIPTION
 
 
@@ -149,12 +155,27 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -ProtectedItemName
+
+
+```yaml
+Type: System.String
+Parameter Sets: GetByProtectedItemName
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -ResourceGroupName
 
 
 ```yaml
 Type: System.String
-Parameter Sets: List
+Parameter Sets: GetByProtectedItemName, List
 Aliases:
 
 Required: True
@@ -184,7 +205,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: List
+Parameter Sets: GetByProtectedItemName, List
 Aliases:
 
 Required: True

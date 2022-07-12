@@ -51,11 +51,13 @@ function Get-AzDataReplicationProtectedItem {
 [CmdletBinding(DefaultParameterSetName='List', PositionalBinding=$false)]
 param(
     [Parameter(ParameterSetName='List', Mandatory)]
+    [Parameter(ParameterSetName='GetByProtectedItemName', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
     [System.String]
     ${ResourceGroupName},
 
     [Parameter(ParameterSetName='List', Mandatory)]
+    [Parameter(ParameterSetName='GetByProtectedItemName', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
     [System.String]
     ${VaultName},
@@ -65,6 +67,11 @@ param(
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Runtime.DefaultInfo(Script='(Get-AzContext).Subscription.Id')]
     [System.String[]]
     ${SubscriptionId},
+
+    [Parameter(ParameterSetName='GetByProtectedItemName', Mandatory)]
+    [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+    [System.String]
+    ${ProtectedItemName},
 
     [Parameter(ParameterSetName='GetByProtectedItemId', Mandatory)]
     [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
@@ -127,10 +134,11 @@ begin {
 
         $mapping = @{
             List = 'Az.DataReplication.custom\Get-AzDataReplicationProtectedItem';
+            GetByProtectedItemName = 'Az.DataReplication.custom\Get-AzDataReplicationProtectedItem';
             GetByProtectedItemId = 'Az.DataReplication.custom\Get-AzDataReplicationProtectedItem';
             GetByInputObject = 'Az.DataReplication.custom\Get-AzDataReplicationProtectedItem';
         }
-        if (('List', 'GetByProtectedItemId', 'GetByInputObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
+        if (('List', 'GetByProtectedItemName', 'GetByProtectedItemId', 'GetByInputObject') -contains $parameterSet -and -not $PSBoundParameters.ContainsKey('SubscriptionId')) {
             $PSBoundParameters['SubscriptionId'] = (Get-AzContext).Subscription.Id
         }
         $cmdInfo = Get-Command -Name $mapping[$parameterSet]
