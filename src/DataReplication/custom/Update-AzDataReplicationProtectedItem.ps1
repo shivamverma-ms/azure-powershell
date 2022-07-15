@@ -247,55 +247,65 @@ function Update-AzDataReplicationProtectedItem {
         # Get the existing properties of the protected item
         $ProtectedItem =  Az.DataReplication.internal\Get-AzDataReplicationProtectedItem @PSBoundParameters
         
-        # Check if protected item exists and correct provider is given 
-        if ($ProtectedItem -and $acceptedInstanceTypes.Contains($ProtectedItem.CustomProperty.InstanceType)) {
-            $CustomProperty = [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.VMwareToAvsProtectedItemModelCustomProperties]::new()
-            $CustomProperty.InstanceType = $ProtectedItem.CustomProperty.InstanceType
+        # Check if protected item exists, no current job is going on and correct provider is given 
+        if ($ProtectedItem) {
+            if($acceptedInstanceTypes.Contains($ProtectedItem.CustomProperty.InstanceType)){
+                if($null -eq $ProtectedItem.CurrentJobName){
+                    $CustomProperty = [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.VMwareToAvsProtectedItemModelCustomProperties]::new()
+                    $CustomProperty.InstanceType = $ProtectedItem.CustomProperty.InstanceType
 
-            # Adding the properties which are entered by user or else taking from existing protected item
-            $CustomProperty.TargetAvsCloudId = ($HasTargetAvsCloudId) ? $TargetAvsCloudId : $ProtectedItem.CustomProperty.TargetAvsCloudId
-            $CustomProperty.TargetAvsClusterName = ($HasTargetAvsClusterName) ? $TargetAvsClusterName : $ProtectedItem.CustomProperty.TargetAvsClusterName
-            $CustomProperty.FabricDiscoveryMachineId = ($HasFabricDiscoveryMachineId) ? $FabricDiscoveryMachineId : $ProtectedItem.CustomProperty.FabricDiscoveryMachineId
-            $CustomProperty.DisksDefault.logStorageAccountId = ($HasLogStorageAccountId) ? $LogStorageAccountId : $ProtectedItem.CustomProperty.DisksDefault.logStorageAccountId
-            $CustomProperty.DisksDefault.diskType = ($HasDiskType) ? $DiskType : $ProtectedItem.CustomProperty.DisksDefault.diskType
-            $CustomProperty.TargetVMName = ($HasTargetVMName) ? $TargetVMName : $ProtectedItem.CustomProperty.TargetVMName
-            $CustomProperty.TargetResourceGroupId = ($HasTargetResourceGroupId) ? $TargetResourceGroupId : $ProtectedItem.CustomProperty.TargetResourceGroupId
-            $CustomProperty.TargetVCenterId = ($HasTargetVCenterId) ? $TargetVCenterId : $ProtectedItem.CustomProperty.TargetVCenterId
-            $CustomProperty.TargetDatastoreId = ($HasTargetDatastoreId) ? $TargetDatastoreId : $ProtectedItem.CustomProperty.TargetDatastoreId
-            $CustomProperty.TargetNetworkId = ($HasTargetNetworkId) ? $TargetNetworkId : $ProtectedItem.CustomProperty.TargetNetworkId
-            $CustomProperty.TargetDiskPoolSubnetId = ($HasTargetDiskPoolSubnetId) ? $TargetDiskPoolSubnetId : $ProtectedItem.CustomProperty.TargetDiskPoolSubnetId
-            $CustomProperty.TestNetworkId = ($HasTestNetworkId) ? $TestNetworkId : $ProtectedItem.CustomProperty.TestNetworkId
-            $CustomProperty.RunAsAccountId = ($HasRunAsAccountId) ? $RunAsAccountId : $ProtectedItem.CustomProperty.RunAsAccountId
-            $CustomProperty.ApplianceId = ($HasApplianceId) ? $ApplianceId : $ProtectedItem.CustomProperty.ApplianceId
-            $CustomProperty.DisksToInclude = ($HasDisksToInclude) ? $DisksToInclude : $ProtectedItem.CustomProperty.DisksToInclude
-            $CustomProperty.TargetCPUCores = ($HasTargetCPUCores) ? $TargetCPUCores : $ProtectedItem.CustomProperty.TargetCPUCores
-            $CustomProperty.TargetMemoryInMB = ($HasTargetMemoryInMB) ? $TargetMemoryInMB : $ProtectedItem.CustomProperty.TargetMemoryInMB
-            $CustomProperty.MultiVMGroupName = ($HasMultiVMGroupName) ? $MultiVMGroupName : $ProtectedItem.CustomProperty.MultiVMGroupName
-            $PolicyName = ($HasPolicyName) ? $PolicyName : $ProtectedItem.PolicyName
-            $ReplicationExtensionName = ($HasReplicationExtensionName) ? $ReplicationExtensionName : $ProtectedItem.ReplicationExtensionName
+                    # Adding the properties which are entered by user or else taking from existing protected item
+                    $CustomProperty.TargetAvsCloudId = ($HasTargetAvsCloudId) ? $TargetAvsCloudId : $ProtectedItem.CustomProperty.TargetAvsCloudId
+                    $CustomProperty.TargetAvsClusterName = ($HasTargetAvsClusterName) ? $TargetAvsClusterName : $ProtectedItem.CustomProperty.TargetAvsClusterName
+                    $CustomProperty.FabricDiscoveryMachineId = ($HasFabricDiscoveryMachineId) ? $FabricDiscoveryMachineId : $ProtectedItem.CustomProperty.FabricDiscoveryMachineId
+                    $CustomProperty.DisksDefault.logStorageAccountId = ($HasLogStorageAccountId) ? $LogStorageAccountId : $ProtectedItem.CustomProperty.DisksDefault.logStorageAccountId
+                    $CustomProperty.DisksDefault.diskType = ($HasDiskType) ? $DiskType : $ProtectedItem.CustomProperty.DisksDefault.diskType
+                    $CustomProperty.TargetVMName = ($HasTargetVMName) ? $TargetVMName : $ProtectedItem.CustomProperty.TargetVMName
+                    $CustomProperty.TargetResourceGroupId = ($HasTargetResourceGroupId) ? $TargetResourceGroupId : $ProtectedItem.CustomProperty.TargetResourceGroupId
+                    $CustomProperty.TargetVCenterId = ($HasTargetVCenterId) ? $TargetVCenterId : $ProtectedItem.CustomProperty.TargetVCenterId
+                    $CustomProperty.TargetDatastoreId = ($HasTargetDatastoreId) ? $TargetDatastoreId : $ProtectedItem.CustomProperty.TargetDatastoreId
+                    $CustomProperty.TargetNetworkId = ($HasTargetNetworkId) ? $TargetNetworkId : $ProtectedItem.CustomProperty.TargetNetworkId
+                    $CustomProperty.TargetDiskPoolSubnetId = ($HasTargetDiskPoolSubnetId) ? $TargetDiskPoolSubnetId : $ProtectedItem.CustomProperty.TargetDiskPoolSubnetId
+                    $CustomProperty.TestNetworkId = ($HasTestNetworkId) ? $TestNetworkId : $ProtectedItem.CustomProperty.TestNetworkId
+                    $CustomProperty.RunAsAccountId = ($HasRunAsAccountId) ? $RunAsAccountId : $ProtectedItem.CustomProperty.RunAsAccountId
+                    $CustomProperty.ApplianceId = ($HasApplianceId) ? $ApplianceId : $ProtectedItem.CustomProperty.ApplianceId
+                    $CustomProperty.DisksToInclude = ($HasDisksToInclude) ? $DisksToInclude : $ProtectedItem.CustomProperty.DisksToInclude
+                    $CustomProperty.TargetCPUCores = ($HasTargetCPUCores) ? $TargetCPUCores : $ProtectedItem.CustomProperty.TargetCPUCores
+                    $CustomProperty.TargetMemoryInMB = ($HasTargetMemoryInMB) ? $TargetMemoryInMB : $ProtectedItem.CustomProperty.TargetMemoryInMB
+                    $CustomProperty.MultiVMGroupName = ($HasMultiVMGroupName) ? $MultiVMGroupName : $ProtectedItem.CustomProperty.MultiVMGroupName
+                    $PolicyName = ($HasPolicyName) ? $PolicyName : $ProtectedItem.PolicyName
+                    $ReplicationExtensionName = ($HasReplicationExtensionName) ? $ReplicationExtensionName : $ProtectedItem.ReplicationExtensionName
 
-            $null = $PSBoundParameters.Add('CustomProperty', $CustomProperty)
-            $null = $PSBoundParameters.Add('PolicyName', $PolicyName)
-            $null = $PSBoundParameters.Add('ReplicationExtensionName', $ReplicationExtensionName)
-            $null = $PSBoundParameters.Add('NoWait', $true)
-        
-            $output = Az.DataReplication.internal\Update-AzDataReplicationProtectedItem @PSBoundParameters
-            $JobName = $output.Target.Split("/")[14].Split("?")[0]
+                    $null = $PSBoundParameters.Add('CustomProperty', $CustomProperty)
+                    $null = $PSBoundParameters.Add('PolicyName', $PolicyName)
+                    $null = $PSBoundParameters.Add('ReplicationExtensionName', $ReplicationExtensionName)
+                    $null = $PSBoundParameters.Add('NoWait', $true)
+
+                    $output = Az.DataReplication.internal\Update-AzDataReplicationProtectedItem @PSBoundParameters
+                    $JobName = $output.Target.Split("/")[14].Split("?")[0]
     
-            # Remove parameters which are not necessary for getting job
-            $null = $PSBoundParameters.Remove('Name')
-            $null = $PSBoundParameters.Remove('CustomProperty')
-            $null = $PSBoundParameters.Remove('PolicyName')
-            $null = $PSBoundParameters.Remove('ReplicationExtensionName')
-            $null = $PSBoundParameters.Remove('NoWait')
+                    # Remove parameters which are not necessary for getting job
+                    $null = $PSBoundParameters.Remove('Name')
+                    $null = $PSBoundParameters.Remove('CustomProperty')
+                    $null = $PSBoundParameters.Remove('PolicyName')
+                    $null = $PSBoundParameters.Remove('ReplicationExtensionName')
+                    $null = $PSBoundParameters.Remove('NoWait')
     
-            # Add the parameters which are required for getting Job
-            $null = $PSBoundParameters.Add('Name', $JobName)
-            $job = Get-AzDataReplicationJob @PSBoundParameters 
-            return $job
+                    # Add the parameters which are required for getting Job
+                    $null = $PSBoundParameters.Add('Name', $JobName)
+                    $job = Get-AzDataReplicationJob @PSBoundParameters 
+                    return $job
+                }
+                else{
+                    throw "An operation is currently going running on this protected item"
+                }
+            }
+            else{
+                throw "The given provider is not supported"
+            }
         }
-       else{
-        throw "Either the protected item does not exist or the provider is not supported"
+        else{
+        throw "This protected item does not exist"
        }
     }
 }
