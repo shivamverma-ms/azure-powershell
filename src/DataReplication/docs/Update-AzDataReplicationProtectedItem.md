@@ -41,9 +41,10 @@ Update-AzDataReplicationProtectedItem -InputObject <IProtectedItemModel> [-Subsc
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: "ByProtectedItemID"
+
 ```powershell
-{{ Add code here }}
+New-AzDataReplicationProtectedItem -ProtectedItemId "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Arpita-air/providers/Microsoft.DataReplication/replicationVaults/protectedItems/avsvcenter_50153f67-367e-440b-69a6-20870cec95a5" -PolicyName 24-hour-replication-policy -ReplicationExtensionName vmware-avs-replication-extension -InstanceType "VMwareToAvs" -TargetAvsCloudId "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Arpita-air/providers/Microsoft.AVS/privateClouds/avs-dr-cloud-cnc" -TargetAvsClusterName "Cluster-1" -FabricDiscoveryMachineId "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Arpita-air/providers/Microsoft.OffAzure/VMwareSites/vijamijun18b3evmwaresite/machines/avsvcenter_5015355d-7426-885a-87e6-24ecf766eb6d" -LogStorageAccountId "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Arpita-air/providers/Microsoft.Storage/storageAccounts/avssa" -DiskType "Premium_LRS" -TargetVMName "vijamiwinvm1" -TargetResourceGroupId "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Arpita-air" -TargetDatastoreId "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Arpita-air/providers/Microsoft.ConnectedVMwarevSphere/Datastores/avs-dr-cnc-datastore" -TargetVCenterId "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Arpita-Air/providers/Microsoft.ConnectedVMwarevSphere/vcenters/avs-dr-cloud-cnc-vcenter"
 ```
 
 ```output
@@ -52,9 +53,21 @@ Update-AzDataReplicationProtectedItem -InputObject <IProtectedItemModel> [-Subsc
 
 {{ Add description here }}
 
-### Example 2: {{ Add title here }}
+### Example 2: ByCustomPropertyObject
+
 ```powershell
-{{ Add code here }}
+$vmSpecificProperties = [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.VMwareToAvsProtectedItemModelCustomProperties]::new()
+$vmSpecificProperties.InstanceType = "VMwareToAvs"
+$vmSpecificProperties.TargetAvsCloudId = "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Arpita-air/providers/Microsoft.AVS/privateClouds/avs-dr-cloud-cnc"
+$vmSpecificProperties.TargetAvsClusterName = "Cluster-1"
+$vmSpecificProperties.FabricDiscoveryMachineId = "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Arpita-air/providers/Microsoft.OffAzure/VMwareSites/avsmay23c242vmwaresite/machines/avsvcenter_50153f67-367e-440b-69a6-20870cec95a5"
+$vmSpecificProperties.DisksDefault.logStorageAccountId = "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Arpita-air/providers/Microsoft.Storage/storageAccounts/avssa"
+$vmSpecificProperties.DisksDefault.diskType = "Premium_LRS"
+$vmSpecificProperties.TargetVMName = "vijamiWinVm3"
+$vmSpecificProperties.TargetResourceGroupId = "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Arpita-air"
+$vmSpecificProperties.TargetVCenterId = "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Arpita-Air/providers/Microsoft.ConnectedVMwarevSphere/vcenters/avs-dr-cloud-cnc-vcenter"
+
+New-AzDataReplicationProtectedItem -PolicyName "24-hour-replication-policy" -ReplicationExtensionName "vmware-avs-replication-extension" -CustomProperty $vmSpecificProperties -InputObject $InputObject
 ```
 
 ```output

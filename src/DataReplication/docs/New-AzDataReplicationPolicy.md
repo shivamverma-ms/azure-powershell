@@ -34,7 +34,9 @@ New-AzDataReplicationPolicy -Name <String> -ResourceGroupName <String> -VaultNam
 
 ### Example 1: {{ Add title here }}
 ```powershell
-{{ Add code here }}
+New-AzDataReplicationPolicy -Name new-policy -ResourceGroupName resource-group-name -VaultName vault-name
+ -AppConsistentFrequencyInMinute 240 -CrashConsistentFrequencyInMinute 60
+ -EnableMultiVmSync $false -InstanceType "VMwareToAvs" -RecoveryPointHistoryInMinute 4320
 ```
 
 ```output
@@ -43,9 +45,16 @@ New-AzDataReplicationPolicy -Name <String> -ResourceGroupName <String> -VaultNam
 
 {{ Add description here }}
 
-### Example 2: {{ Add title here }}
+### Example 2: ByCustomPropertyObject
 ```powershell
-{{ Add code here }}
+$providerSpecificPolicy = [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.VMwareToAvsPolicyModelCustomProperties]::new()
+$providerSpecificPolicy.InstanceType = "VMwareToAvs"
+$providerSpecificPolicy.AppConsistentFrequencyInMinute = 240
+$providerSpecificPolicy.RecoveryPointHistoryInMinute = 4320
+$providerSpecificPolicy.CrashConsistentFrequencyInMinute = 60
+$providerSpecificPolicy.enableMultiVmSync = $false
+
+New-AzDataReplicationPolicy -Name new-policy -ResourceGroupName resource-group-name -VaultName vault-name -CustomProperty $providerSpecificPolicy
 ```
 
 ```output

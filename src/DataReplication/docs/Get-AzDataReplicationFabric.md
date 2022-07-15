@@ -35,27 +35,25 @@ Gets the details of the fabric.
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: ListByResourceGroup
 ```powershell
-{{ Add code here }}
+Get-AzDataReplicationFabric -ResourceGroupName arpita-air
 ```
 
 ```output
-{{ Add output here }}
+Location      Name                             Type
+--------      ----                             ----
+westeurope    AVS-31Mar-Signoff-vmwarefabric   Microsoft.DataReplication/replicationFabrics
+centraluseuap Arpita-Jan10-vmwarefabric        Microsoft.DataReplication/replicationFabrics
+centraluseuap arpita-Jan19-vmwarefabric        Microsoft.DataReplication/replicationFabrics
+centraluseuap anbhatAVSVault22Jan-vmwarefabric Microsoft.DataReplication/replicationFabrics
+centraluseuap anbhat9FebVault-vmwarefabric     Microsoft.DataReplication/replicationFabrics
+centraluseuap AVSmarch02-vmwarefabric          Microsoft.DataReplication/replicationFabrics
+centraluseuap vijamiavsmay12-vmwarefabric      Microsoft.DataReplication/replicationFabrics
+centraluseuap avsmay23-vmwarefabric            Microsoft.DataReplication/replicationFabrics
+centraluseuap aryan-vault-vmwarefabric         Microsoft.DataReplication/replicationFabrics
+centraluseuap vijamijun15-vmwarefabric         Microsoft.DataReplication/replicationFabrics
 ```
-
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
-```powershell
-{{ Add code here }}
-```
-
-```output
-{{ Add output here }}
-```
-
-{{ Add description here }}
 
 ## PARAMETERS
 

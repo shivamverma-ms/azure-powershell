@@ -29,27 +29,42 @@ Gets the details of the fabric agent.
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: List
 ```powershell
-{{ Add code here }}
+Get-AzDataReplicationDra -FabricName "vijamijun15-vmwarefabric" -ResourceGroupName "arpita-air"
 ```
 
 ```output
-{{ Add output here }}
+AuthenticationIdentityAadAuthority  : https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47
+AuthenticationIdentityApplicationId : eea53622-cc14-4f30-ad67-835ac8bfcb83
+AuthenticationIdentityAudience      : api://72f988bf-86f1-41af-91ab-2d7cd011db47/vijamijun18b3eagentauthaadapp
+AuthenticationIdentityObjectId      : a68155cd-a470-43a7-8016-19c52badac4e
+AuthenticationIdentityTenantId      : 72f988bf-86f1-41af-91ab-2d7cd011db47
+CorrelationId                       : c56fafa4-303b-45b0-a4a7-21cffe877310
+CustomPropertyInstanceType          : VMware
+HealthError                         : {}
+Id                                  : /subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/arpita-air/providers/Microsoft.DataReplication/replicationFabrics/vijamijun15-vmwarefabric/fabricAgents/appjun15fbd3dra
+IsResponsive                        :
+LastHeartbeat                       : 7/14/2022 7:22:54 AM
+MachineId                           : b4d21e44-772b-421b-8c83-1bb7e268d00a
+MachineName                         : appjun15
+Name                                : appjun15fbd3dra
+ProvisioningState                   : Succeeded
+ResourceAccessIdentityAadAuthority  : https://login.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47
+ResourceAccessIdentityApplicationId : 6116cace-91c4-4e4b-bb86-b7518270d07e
+ResourceAccessIdentityAudience      : api://72f988bf-86f1-41af-91ab-2d7cd011db47/vijamijun18b3efailbackagentauthaadapp
+ResourceAccessIdentityObjectId      : d25c40ea-2dde-44f3-b97b-b5c4f62b7f7f
+ResourceAccessIdentityTenantId      : 72f988bf-86f1-41af-91ab-2d7cd011db47
+SystemDataCreatedAt                 :
+SystemDataCreatedBy                 :
+SystemDataCreatedByType             :
+SystemDataLastModifiedAt            :
+SystemDataLastModifiedBy            :
+SystemDataLastModifiedByType        :
+Tag                                 : Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.DraModelTags
+Type                                : Microsoft.DataReplication/replicationFabrics/fabricAgents
+VersionNumber                       : 1.22.614.4
 ```
-
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
-```powershell
-{{ Add code here }}
-```
-
-```output
-{{ Add output here }}
-```
-
-{{ Add description here }}
 
 ## PARAMETERS
 

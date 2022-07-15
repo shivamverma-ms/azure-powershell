@@ -41,27 +41,72 @@ Get-AzDataReplicationProtectedItem -ProtectedItemName <String> -ResourceGroupNam
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: GetByProtectedItemName
 ```powershell
-{{ Add code here }}
+ Get-AzDataReplicationProtectedItem -ResourceGroupName arpita-air -VaultName vijamijun15 -ProtectedItemName "avsvcenter_5015355d-7426-885a-87e6-24ecf766eb6d" | fl
 ```
 
 ```output
-{{ Add output here }}
+AllowedJob                                : {Reprotect, DisableProtection}
+CorrelationId                             : 717d62cb-12c7-46de-8bb3-1f070179aa8a
+CurrentJobDisplayName                     :
+CurrentJobEndTime                         :
+CurrentJobId                              :
+CurrentJobName                            :
+CurrentJobScenarioName                    :
+CurrentJobStartTime                       :
+CurrentJobState                           :
+CustomProperty                            : Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.VMwareToAvsProtectedItemModelCustomProperties
+DraId                                     : b4d21e44-772b-421b-8c83-1bb7e268d00a
+FabricId                                  : b6f5a785-0c89-4831-a950-b7d07416a1c7
+FabricObjectId                            : 94eb5410-718c-55e3-981b-ac09a9bffe6b
+FabricObjectName                          : vijamiwinvm1
+HealthError                               : {}
+Id                                        : /subscriptions/b364ed8d-4279-4bf8-8fd1-56f8fa0ae05c/resourceGroups/arpita-air/providers/Microsoft.DataReplication/replicationVaults/vijamijun15/protec
+tedItems/avsvcenter_5015355d-7426-885a-87e6-24ecf766eb6d
+LastFailedEnableProtectionJobDisplayName  :
+LastFailedEnableProtectionJobEndTime      :
+LastFailedEnableProtectionJobId           :
+LastFailedEnableProtectionJobName         :
+LastFailedEnableProtectionJobScenarioName :
+LastFailedEnableProtectionJobStartTime    :
+LastFailedEnableProtectionJobState        :
+LastSuccessfulPlannedFailoverTime         :
+LastSuccessfulTestFailoverTime            : 7/7/2022 7:24:37 AM
+LastSuccessfulUnplannedFailoverTime       : 7/8/2022 10:11:08 AM
+LastTestFailoverJobDisplayName            : Test failover
+LastTestFailoverJobEndTime                : 7/7/2022 7:54:12 AM
+LastTestFailoverJobId                     : /subscriptions/b364ed8d-4279-4bf8-8fd1-56f8fa0ae05c/resourceGroups/arpita-air/providers/Microsoft.DataReplication/replicationVaults/vijamijun15/jobs/8
+2adb394-73f2-410b-9823-81f482a91983
+LastTestFailoverJobName                   : 82adb394-73f2-410b-9823-81f482a91983
+LastTestFailoverJobScenarioName           : TestFailover
+LastTestFailoverJobStartTime              : 7/7/2022 7:24:37 AM
+LastTestFailoverJobState                  : Succeeded
+Name                                      : avsvcenter_5015355d-7426-885a-87e6-24ecf766eb6d
+PolicyName                                : 24-hour-replication-policy
+ProtectionState                           : CommitFailoverCompleted
+ProtectionStateDescription                : Failover committed
+ProvisioningState                         : Succeeded
+ReplicationExtensionName                  : vmware-avs-replication-extension
+ReplicationHealth                         : Normal
+ResyncRequired                            :
+ResynchronizationState                    : None
+SourceFabricProviderId                    : a22bd266-b3eb-49d5-af13-c72780831154
+SystemDataCreatedAt                       :
+SystemDataCreatedBy                       :
+SystemDataCreatedByType                   :
+SystemDataLastModifiedAt                  :
+SystemDataLastModifiedBy                  :
+SystemDataLastModifiedByType              :
+Tag                                       : Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Previe
+                                            w.ProtectedItemModelTags
+TargetDraId                               :
+TargetFabricId                            :
+TargetFabricProviderId                    : 6aeb30a5-9dee-498b-a575-5360e7798286
+TestFailoverState                         : MarkedForDeletion
+TestFailoverStateDescription              : Test failover cleanup operation has ended
+Type                                      : Microsoft.DataReplication/replicationVaults/protectedItems
 ```
-
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
-```powershell
-{{ Add code here }}
-```
-
-```output
-{{ Add output here }}
-```
-
-{{ Add description here }}
 
 ## PARAMETERS
 

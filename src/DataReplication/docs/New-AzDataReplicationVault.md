@@ -11,18 +11,9 @@ schema: 2.0.0
 Creates the vault.
 
 ## SYNTAX
-
-### CreateExpanded (Default)
 ```
 New-AzDataReplicationVault -Name <String> -ResourceGroupName <String> [-SubscriptionId <String>]
  [-Location <String>] [-Tag <Hashtable>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
- [<CommonParameters>]
-```
-
-### Create
-```
-New-AzDataReplicationVault -Name <String> -ResourceGroupName <String> -Body <IVaultModel>
- [-SubscriptionId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
  [<CommonParameters>]
 ```
 
@@ -33,18 +24,7 @@ Creates the vault.
 
 ### Example 1: {{ Add title here }}
 ```powershell
-{{ Add code here }}
-```
-
-```output
-{{ Add output here }}
-```
-
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
-```powershell
-{{ Add code here }}
+New-AzDataReplicationVault -Name test-vault -ResourceGroupName resource-group-name -Location "centraluseuap"
 ```
 
 ```output

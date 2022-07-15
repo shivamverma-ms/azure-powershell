@@ -23,20 +23,9 @@ Performs the cancel failover on the protected item.
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1:
 ```powershell
-{{ Add code here }}
-```
-
-```output
-{{ Add output here }}
-```
-
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
-```powershell
-{{ Add code here }}
+Stop-AzDataReplicationProtectedItemFailover -ProtectedItemName "avsvcenter_50153f67-367e-440b-69a6-20870cec95a5" -ResourceGroupName arpita-air -VaultName vijamijun15
 ```
 
 ```output

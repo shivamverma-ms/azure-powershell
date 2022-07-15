@@ -23,27 +23,14 @@ Removes the policy.
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1:
 ```powershell
-{{ Add code here }}
+Remove-AzDataReplicationPolicy -Name "test-policy" -ResourceGroupName arpita-air -VaultName vijamijun15 
 ```
 
 ```output
 {{ Add output here }}
 ```
-
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
-```powershell
-{{ Add code here }}
-```
-
-```output
-{{ Add output here }}
-```
-
-{{ Add description here }}
 
 ## PARAMETERS
 

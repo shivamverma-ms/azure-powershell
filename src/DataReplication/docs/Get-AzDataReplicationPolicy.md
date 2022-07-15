@@ -29,24 +29,40 @@ Gets the details of the policy.
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: List
 ```powershell
-{{ Add code here }}
+Get-AzDataReplicationPolicy -ResourceGroupName arpita-air -VaultName vijamijun15
 ```
 
 ```output
-{{ Add output here }}
+Name                                        Type
+----                                        ----
+24-hour-replication-policy                  Microsoft.DataReplication/replicationVaults/replicationPolicies
+appconsistency-vmware-avs-policy-failback   Microsoft.DataReplication/replicationVaults/replicationPolicies
+crashconsistency-vmware-avs-policy-failback Microsoft.DataReplication/replicationVaults/replicationPolicies
+test-policy                                 Microsoft.DataReplication/replicationVaults/replicationPolicies
 ```
 
 {{ Add description here }}
 
-### Example 2: {{ Add title here }}
+### Example 2: Get
 ```powershell
-{{ Add code here }}
+Get-AzDataReplicationPolicy -Name 24-hour-replication-policy -ResourceGroupName arpita-air -VaultName vijamijun15 | fl
 ```
 
 ```output
-{{ Add output here }}
+CustomProperty               : Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.PolicyModelCustomProperties
+Id                           : /subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/arpita-air/providers/Microsoft.DataReplication/replicationVaults/vijamijun15/replicationPolicies/24-hour-replication-policy
+Name                         : 24-hour-replication-policy
+ProvisioningState            : Succeeded
+SystemDataCreatedAt          :
+SystemDataCreatedBy          :
+SystemDataCreatedByType      :
+SystemDataLastModifiedAt     :
+SystemDataLastModifiedBy     :
+SystemDataLastModifiedByType :
+Tag                          : Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.PolicyModelTags
+Type                         : Microsoft.DataReplication/replicationVaults/replicationPolicies
 ```
 
 {{ Add description here }}

@@ -29,9 +29,9 @@ Start-AzDataReplicationCommitFailoverJob -InputObject <IProtectedItemModel> [-Su
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: ByInputObject
 ```powershell
-{{ Add code here }}
+Start-AzDataReplicationCommitFailoverJob -InputObject $protectedItem
 ```
 
 ```output
@@ -40,9 +40,9 @@ Start-AzDataReplicationCommitFailoverJob -InputObject <IProtectedItemModel> [-Su
 
 {{ Add description here }}
 
-### Example 2: {{ Add title here }}
+### Example 2: ByProtectedItemIdExpanded
 ```powershell
-{{ Add code here }}
+Start-AzDataReplicationCommitFailoverJob -ProtectedItemId "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Arpita-air/providers/Microsoft.DataReplication/replicationVaults/protectedItems/avsvcenter_50153f67-367e-440b-69a6-20870cec95a5" 
 ```
 
 ```output

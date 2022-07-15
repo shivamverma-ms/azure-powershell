@@ -45,9 +45,15 @@ Start-AzDataReplicationUnplannedFailoverJob -ProtectedItemId <String> -InstanceT
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: ByInputObject
 ```powershell
-{{ Add code here }}
+$FailoverObj =  [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.VMwareToAvsUnplannedFailoverModelCustomProperties]::new()
+$FailoverObj.InstanceType = "VMwareToAvs"
+$FailoverObj.PerformShutdown = $false
+$FailoverObj.RecoveryPointName = "e84f1e1d-e0c2-4840-a657-7dab5145838d"
+
+Start-AzDataReplicationUnplannedFailoverJob -CustomProperty $FailoverObj -InputObject $InputObject
+
 ```
 
 ```output
@@ -56,10 +62,11 @@ Start-AzDataReplicationUnplannedFailoverJob -ProtectedItemId <String> -InstanceT
 
 {{ Add description here }}
 
-### Example 2: {{ Add title here }}
+### Example 2: ByProtectedItemIdExpanded
 ```powershell
-{{ Add code here }}
+Start-AzDataReplicationUnplannedFailoverJob -ProtectedItemId "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Arpita-air/providers/Microsoft.DataReplication/replicationVaults/protectedItems/avsvcenter_50153f67-367e-440b-69a6-20870cec95a5" -InstanceType "VMwareToAvs" -PerformShutdown $false -RecoveryPointName "e84f1e1d-e0c2-4840-a657-7dab5145838d"
 ```
+
 
 ```output
 {{ Add output here }}

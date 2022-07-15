@@ -29,9 +29,9 @@ Gets the details of the replication extension.
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: List
 ```powershell
-{{ Add code here }}
+Get-AzDataReplicationExtension -ResourceGroupName "arpita-air" -VaultName "vijamijun15"
 ```
 
 ```output
@@ -40,9 +40,9 @@ Gets the details of the replication extension.
 
 {{ Add description here }}
 
-### Example 2: {{ Add title here }}
+### Example 2: Get
 ```powershell
-{{ Add code here }}
+Get-AzDataReplicationExtension -Name "vmware-to-avs-replication-extension" -ResourceGroupName "arpita-air" -VaultName "vijamijun15"
 ```
 
 ```output

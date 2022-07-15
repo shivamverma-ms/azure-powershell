@@ -45,9 +45,15 @@ Start-AzDataReplicationTestFailoverJob -ProtectedItemId <String> -InstanceType <
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: ByInputObject
 ```powershell
-{{ Add code here }}
+$testFailoverObj = [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.VMwareToAvsTestFailoverModelCustomProperties]::new()
+$testFailoverObj.InstanceType = "VMwareToAvs"
+$testFailoverObj.NetworkId = "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Arpita-air/providers/Microsoft.ConnectedVMwarevSphere/VirtualNetworks/TNT62-HCX-UPLINK"
+$testFailoverObj.RecoveryPointName = "9bf66374-fe4c-462d-8e08-0c83fc7583b1"
+
+Start-AzDataReplicationTestFailoverJob -CustomProperty $testFailoverObj -InputObject $InputObject
+
 ```
 
 ```output
@@ -56,9 +62,9 @@ Start-AzDataReplicationTestFailoverJob -ProtectedItemId <String> -InstanceType <
 
 {{ Add description here }}
 
-### Example 2: {{ Add title here }}
+### Example 2: ByProtectedItemIdExpanded
 ```powershell
-{{ Add code here }}
+Start-AzDataReplicationTesFailoverJob -ProtectedItemId "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Arpita-air/providers/Microsoft.DataReplication/replicationVaults/protectedItems/avsvcenter_50153f67-367e-440b-69a6-20870cec95a5" -InstanceType "VMwareToAvs" -NetworkId "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Arpita-air/providers/Microsoft.ConnectedVMwarevSphere/VirtualNetworks/TNT62-HCX-UPLINK" -RecoveryPointName "9bf66374-fe4c-462d-8e08-0c83fc7583b1"
 ```
 
 ```output

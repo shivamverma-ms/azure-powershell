@@ -12,7 +12,7 @@ Method to get machine.
 
 ## SYNTAX
 
-### Get1 (Default)
+### List (Default)
 ```
 Get-AzDataReplicationMachine -ResourceGroupName <String> -SiteName <String> [-SubscriptionId <String[]>]
  [-ContinuationToken <String>] [-Filter <String>] [-Top <Int32>] [-TotalRecordCount <Int32>]
@@ -25,39 +25,69 @@ Get-AzDataReplicationMachine -Name <String> -ResourceGroupName <String> -SiteNam
  [-SubscriptionId <String[]>] [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
-### GetViaIdentity1
-```
-Get-AzDataReplicationMachine -InputObject <IDataReplicationIdentity> [-ContinuationToken <String>]
- [-Filter <String>] [-Top <Int32>] [-TotalRecordCount <Int32>] [-DefaultProfile <PSObject>]
- [<CommonParameters>]
-```
-
 ## DESCRIPTION
 Method to get machine.
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: Get
 ```powershell
-{{ Add code here }}
+Get-AzDataReplicationMachine -ResourceGroupName arpita-air -SiteName avsmay23c242vmwaresite -Name avsvcenter_501570bd-ff46-4ac5-ff16-db65d03fc6f7 | fl
 ```
 
 ```output
-{{ Add output here }}
+AllocatedMemoryInMb               : 32768
+AppAndRoleApplication             :
+AppAndRoleBizTalkServer           :
+AppAndRoleExchangeServer          :
+AppAndRoleFeature                 :
+AppAndRoleOtherDatabase           :
+AppAndRoleSharePointServer        :
+AppAndRoleSqlServer               :
+AppAndRoleSystemCenter            :
+AppAndRoleWebApplication          :
+BiosGuid                          : 42157bd7-f566-08bb-ae41-65ada2f5bd74
+BiosSerialNumber                  : 42157bd7-f566-08bb-ae41-65ada2f5bd74
+ChangeTrackingEnabled             : False
+ChangeTrackingSupported           : True
+CreatedTimestamp                  : 2022-05-23T07:51:59.1275192Z
+DataCenterScope                   : AVSTest
+DependencyMapping                 : Disabled
+DependencyMappingStartTime        :
+Description                       : Microsoft Azure AVS DR Image on Windows Server 2016
+Disk                              : {scsi0:0, scsi0:1}
+DisplayName                       : AVSDRApplianceEUS
+Error                             : {}
+Firmware                          : bios
+GuestDetailsDiscoveryTimestamp    :
+GuestOSDetailOsname               :
+GuestOSDetailOstype               :
+GuestOSDetailOsversion            :
+HostInMaintenanceMode             : False
+HostName                          : 10.150.33.174
+HostPowerState                    : poweredOn
+HostVersion                       : 6.7.0
+Id                                : /subscriptions/b364ed8d-4279-4bf8-8fd1-56f8fa0ae05c/resourceGroups/arpita-air/providers/Microsoft.OffAzure/VMwareSites/avsmay23c242vmwaresite/machines/avsvcenter_501570bd-ff46-4ac5-ff16-db65d03fc6f7
+InstanceUuid                      : 501570bd-ff46-4ac5-ff16-db65d03fc6f7
+IsDeleted                         : False
+IsGuestDetailsDiscoveryInProgress : True
+MaxSnapshot                       : -1
+Name                              : avsvcenter_501570bd-ff46-4ac5-ff16-db65d03fc6f7
+NetworkAdapter                    : {VM Network}
+NumberOfApplication               : -1
+NumberOfProcessorCore             : 8
+OperatingSystemDetailOSName       : Microsoft Windows Server 2016 or later (64-bit)
+OperatingSystemDetailOSType       : windowsguest
+OperatingSystemDetailOSVersion    :
+PowerStatus                       : OFF
+Type                              : Microsoft.OffAzure/VMwareSites/machines
+UpdatedTimestamp                  : 2022-07-06T12:03:51.7801856Z
+VCenterFqdn                       : idclab-vcen67.fareast.corp.microsoft.com
+VCenterId                         : /subscriptions/b364ed8d-4279-4bf8-8fd1-56f8fa0ae05c/resourceGroups/arpita-air/providers/Microsoft.OffAzure/VMwareSites/avsmay23c242vmwaresite/vcenters/avsvcenter
+VMConfigurationFileLocation       : [datastore1] AVSDRApplianceEUS/AVSDRApplianceEUS.vmx
+VMFqdn                            : WIN-3O3A0HLP47L
+VMwareToolsStatus                 : NotRunning
 ```
-
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
-```powershell
-{{ Add code here }}
-```
-
-```output
-{{ Add output here }}
-```
-
-{{ Add description here }}
 
 ## PARAMETERS
 
@@ -66,7 +96,7 @@ Optional parameter for continuation token.
 
 ```yaml
 Type: System.String
-Parameter Sets: Get1, GetViaIdentity1
+Parameter Sets: List
 Aliases:
 
 Required: False
@@ -96,29 +126,13 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: Get1, GetViaIdentity1
+Parameter Sets: List
 Aliases:
 
 Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -InputObject
-Identity Parameter
-To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentity
-Parameter Sets: GetViaIdentity1
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
@@ -143,7 +157,7 @@ The name is case insensitive.
 
 ```yaml
 Type: System.String
-Parameter Sets: Get, Get1
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -158,7 +172,7 @@ Site name.
 
 ```yaml
 Type: System.String
-Parameter Sets: Get, Get1
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -173,7 +187,7 @@ The ID of the target subscription.
 
 ```yaml
 Type: System.String[]
-Parameter Sets: Get, Get1
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -188,7 +202,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.Int32
-Parameter Sets: Get1, GetViaIdentity1
+Parameter Sets: List
 Aliases:
 
 Required: False
@@ -203,7 +217,7 @@ Total count of machines in the given site.
 
 ```yaml
 Type: System.Int32
-Parameter Sets: Get1, GetViaIdentity1
+Parameter Sets: List
 Aliases:
 
 Required: False
@@ -218,8 +232,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentity
-
 ## OUTPUTS
 
 ### Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api202001.IVMwareMachine
@@ -227,37 +239,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ALIASES
-
-COMPLEX PARAMETER PROPERTIES
-
-To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
-
-
-INPUTOBJECT <IDataReplicationIdentity>: Identity Parameter
-  - `[AccountName <String>]`: Run as account ARM name.
-  - `[ClusterName <String>]`: Cluster ARM name.
-  - `[DeploymentId <String>]`: Deployment Id.
-  - `[DraName <String>]`: Dra name.
-  - `[EmailConfigurationName <String>]`: Email configuration name.
-  - `[EventName <String>]`: Event name.
-  - `[FabricName <String>]`: Fabric name.
-  - `[HostName <String>]`: Host ARM name.
-  - `[Id <String>]`: Resource identity path
-  - `[JobName <String>]`: Job ARM name.
-  - `[Location <String>]`: Resource location.
-  - `[MachineName <String>]`: Machine ARM name.
-  - `[OperationId <String>]`: Operation Id.
-  - `[OperationStatusName <String>]`: Operation status ARM name.
-  - `[PolicyName <String>]`: Policy name.
-  - `[ProtectedItemName <String>]`: Protected item name.
-  - `[RecoveryPointName <String>]`: Recovery point name.
-  - `[ReplicationExtensionName <String>]`: Replication extension name.
-  - `[ResourceGroupName <String>]`: Resource group name.
-  - `[SiteName <String>]`: Site name.
-  - `[SubscriptionId <String>]`: The Subscription ID.
-  - `[VaultName <String>]`: Vault name.
-  - `[VcenterName <String>]`: VCenter ARM name.
-  - `[WorkflowName <String>]`: Workflow name.
 
 ## RELATED LINKS
 
