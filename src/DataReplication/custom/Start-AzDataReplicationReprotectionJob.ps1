@@ -154,7 +154,19 @@ function Start-AzDataReplicationReprotectionJob {
         $null = $PSBoundParameters.Add('VaultName', $VaultName)
         $null = $PSBoundParameters.Add('ProtectedItemName', $ProtectedItemName)
         $null = $PSBoundParameters.Add('CustomProperty', $CustomProperty)
+        $null = $PSBoundParameters.Add('NoWait', $true)
 
-        return Az.DataReplication.internal\Invoke-AzDataReplicationReprotectProtectedItem @PSBoundParameters
+        $output = Az.DataReplication.internal\Invoke-AzDataReplicationReprotectProtectedItem @PSBoundParameters
+        $JobName = $output.Target.Split("/")[14].Split("?")[0]
+
+        # Remove parameters which are not necessary for getting job
+        $null = $PSBoundParameters.Remove('ProtectedItemName')
+        $null = $PSBoundParameters.Remove('CustomProperty')
+        $null = $PSBoundParameters.Remove('NoWait')
+
+        # Add the parameters which are required for getting Job
+        $null = $PSBoundParameters.Add('Name', $JobName)
+        $job = Get-AzDataReplicationJob @PSBoundParameters 
+        return $job
     }
 }   

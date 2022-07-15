@@ -14,18 +14,25 @@
 function Get-AzDataReplicationProtectedItem {
     [CmdletBinding(DefaultParameterSetName = 'List', PositionalBinding = $false)]
     param (
-        
         [Parameter(ParameterSetName = 'List', Mandatory)]    
+        [Parameter(ParameterSetName = 'GetByProtectedItemName', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
         [System.String]
         # Specifies the resource group name.
         ${ResourceGroupName},
 
         [Parameter(ParameterSetName = 'List', Mandatory)] 
+        [Parameter(ParameterSetName = 'GetByProtectedItemName', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
         [System.String]
         # Specifies the vault name
         ${VaultName},
+
+        [Parameter(ParameterSetName = 'GetByProtectedItemName', Mandatory)]
+        [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
+        [System.String]
+        # Specifies the Protected Item name
+        ${ProtectedItemName},
 
         [Parameter(ParameterSetName = 'GetByProtectedItemId', Mandatory)]
         [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Category('Path')]
@@ -85,12 +92,13 @@ function Get-AzDataReplicationProtectedItem {
             $ProtectedItemName = $MachineIdArray[10]
         }
         $null = $PSBoundParameters.Remove('ProtectedItemId')
+        $null = $PSBoundParameters.Remove('ProtectedItemName')
         $null = $PSBoundParameters.Remove('ResourceGroupName')
         $null = $PSBoundParameters.Remove('VaultName')
         $null = $PSBoundParameters.Remove('Name')
         $null = $PSBoundParameters.Remove('InputObject')
 
-        if ($null -ne $ProtectedItemName) {
+        if ($parameterSet -ne 'List') {
             $null = $PSBoundParameters.Add("Name", $ProtectedItemName)
         }   
         $null = $PSBoundParameters.Add("ResourceGroupName", $ResourceGroupName)

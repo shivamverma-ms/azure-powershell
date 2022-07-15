@@ -223,10 +223,10 @@ function New-AzDataReplicationProtectedItem {
             $CustomProperty.TestNetworkId = $TestNetworkId
             $CustomProperty.RunAsAccountId = $RunAsAccountId
             $CustomProperty.ApplianceId = $ApplianceId
-            $CustomProperty.DisksToInclude = $DisksToInclude
-            $CustomProperty.TargetCPUCores = $TargetCPUCores
-            $CustomProperty.TargetMemoryInMB = $TargetMemoryInMB
-            $CustomProperty.MultiVMGroupName = $MultiVMGroupName
+            $CustomProperty.DisksToInclude = ($DisksToInclude) ? $DisksToInclude : $null
+            $CustomProperty.TargetCPUCore = ($TargetCPUCores) ? $TargetCPUCores : $null
+            $CustomProperty.TargetMemoryInMegaByte = ($TargetMemoryInMB) ? $TargetMemoryInMB : $null
+            $CustomProperty.MultiVMGroupName = ($MultiVMGroupName) ? $MultiVMGroupName : $null
           
             $null = $PSBoundParameters.Remove('InstanceType')
             $null = $PSBoundParameters.Remove('TargetAvsCloudId')
@@ -263,7 +263,21 @@ function New-AzDataReplicationProtectedItem {
         $null = $PSBoundParameters.Add('VaultName', $VaultName)
         $null = $PSBoundParameters.Add('PolicyName', $PolicyName)
         $null = $PSBoundParameters.Add('ReplicationExtensionName', $ReplicationExtensionName)
+        $null = $PSBoundParameters.Add('NoWait', $true)
         
-        return Az.DataReplication.internal\New-AzDataReplicationProtectedItem @PSBoundParameters
+        $output = Az.DataReplication.internal\New-AzDataReplicationProtectedItem @PSBoundParameters
+        $JobName = $output.Target.Split("/")[14].Split("?")[0]
+
+        # Remove parameters which are not necessary for getting job
+        $null = $PSBoundParameters.Remove('Name')
+        $null = $PSBoundParameters.Remove('CustomProperty')
+        $null = $PSBoundParameters.Remove('PolicyName')
+        $null = $PSBoundParameters.Remove('ReplicationExtensionName')
+        $null = $PSBoundParameters.Remove('NoWait')
+
+        # Add the parameters which are required for getting Job
+        $null = $PSBoundParameters.Add('Name', $JobName)
+        $job = Get-AzDataReplicationJob @PSBoundParameters 
+        return $job
     }
 }
