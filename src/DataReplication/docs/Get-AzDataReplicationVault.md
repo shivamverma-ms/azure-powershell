@@ -35,24 +35,27 @@ Gets the details of the vault.
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: Get
 ```powershell
-{{ Add code here }}
+Get-AzDataReplicationVault -Name vijamijun15 -ResourceGroupName arpita-air | fl
 ```
 
 ```output
-{{ Add output here }}
-```
-
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
-```powershell
-{{ Add code here }}
-```
-
-```output
-{{ Add output here }}
+Id                           : /subscriptions/b364ed8d-4279-4bf8-8fd1-56f8fa0ae05c/resourceGroups/Arpita-air/providers/
+                               Microsoft.DataReplication/replicationVaults/vijamijun15
+Location                     : centraluseuap
+Name                         : vijamijun15
+ProvisioningState            : Succeeded
+ServiceResourceId            : 89d56ec8-08f3-49b4-9ffb-922923578e0a
+SystemDataCreatedAt          : 6/15/2022 3:06:17 PM
+SystemDataCreatedBy          : vijami@microsoft.com
+SystemDataCreatedByType      : User
+SystemDataLastModifiedAt     : 6/15/2022 3:06:17 PM
+SystemDataLastModifiedBy     : vijami@microsoft.com
+SystemDataLastModifiedByType : User
+Tag                          : Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.VaultModelT
+                               ags
+Type                         : Microsoft.DataReplication/replicationVaults
 ```
 
 {{ Add description here }}

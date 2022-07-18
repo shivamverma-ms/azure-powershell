@@ -22,27 +22,20 @@ Gets the statistics for the vault.
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1
 ```powershell
-{{ Add code here }}
+Get-AzDataReplicationVaultStatistics -VaultName vijamijun15 -ResourceGroupName arpita-air | fl
 ```
 
 ```output
-{{ Add output here }}
+FabricStatisticsFabricError             : {}
+JobStatisticsCategorizedCount           : Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.WorkflowStatisticsModelCategorizedCounts
+JobStatisticsCount                      : 2
+ProtectedItemStatisticsCategorizedCount : Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.ProtectedItemStatisticsModelCategorizedCounts
+ProtectedItemStatisticsCount            : 4
+ProtectedItemStatisticsHealthError      : {}
+VaultError                              : {}
 ```
-
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
-```powershell
-{{ Add code here }}
-```
-
-```output
-{{ Add output here }}
-```
-
-{{ Add description here }}
 
 ## PARAMETERS
 

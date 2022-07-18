@@ -29,27 +29,41 @@ Gets the details of the job.
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: Get
 ```powershell
-{{ Add code here }}
+Get-AzDataReplicationJob -ResourceGroupName arpita-air -VaultName vijamijun15 -Name b380d4a5-b1bd-44c9-a64e-27ef6476f01f | fl
 ```
 
 ```output
-{{ Add output here }}
+ActivityId                         :  ActivityId: 00000000-0000-0000-0000-000000000000
+AllowedAction                      : {}
+CustomPropertyAffectedObjectDetail : Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.WorkflowModelCustomPropertiesAffectedObjectDetails
+CustomPropertyInstanceType         : WorkflowDetails
+DisplayName                        : Create or update replication policy
+EndTime                            : 7/7/2022 10:42:24 AM
+Error                              : {}
+Id                                 : /subscriptions/b364ed8d-4279-4bf8-8fd1-56f8fa0ae05c/resourceGroups/arpita-air/providers/Microsoft.DataReplication/replicationVaults/vijamijun15/jobs/b380d4a5-b1bd-44c9-a64e-27ef6476f01f
+Name                               : b380d4a5-b1bd-44c9-a64e-27ef6476f01f
+ObjectId                           : /subscriptions/b364ed8d-4279-4bf8-8fd1-56f8fa0ae05c/resourceGroups/arpita-air/providers/Microsoft.DataReplication/replicationVaults/vijamijun15/replicationPolicies/test-policy
+ObjectInternalId                   : test-policy
+ObjectInternalName                 : test-policy
+ObjectName                         : test-policy
+ObjectType                         : Policy
+ReplicationProviderId              : a77470e3-0ef4-4fbf-a5a4-18b47e7048b3
+SourceFabricProviderId             :
+StartTime                          : 7/7/2022 10:42:22 AM
+State                              : Succeeded
+SystemDataCreatedAt                :
+SystemDataCreatedBy                :
+SystemDataCreatedByType            :
+SystemDataLastModifiedAt           :
+SystemDataLastModifiedBy           :
+SystemDataLastModifiedByType       :
+Tag                                : Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.WorkflowModelTags
+TargetFabricProviderId             :
+Task                               : {Creating or updating the replication policy}
+Type                               : Microsoft.DataReplication/replicationVaults/jobs
 ```
-
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
-```powershell
-{{ Add code here }}
-```
-
-```output
-{{ Add output here }}
-```
-
-{{ Add description here }}
 
 ## PARAMETERS
 

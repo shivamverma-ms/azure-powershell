@@ -12,7 +12,7 @@ Method to get run as account.
 
 ## SYNTAX
 
-### Get1 (Default)
+### List (Default)
 ```
 Get-AzDataReplicationRunAsAccount -ResourceGroupName <String> -SiteName <String> [-SubscriptionId <String[]>]
  [-DefaultProfile <PSObject>] [<CommonParameters>]
@@ -24,35 +24,42 @@ Get-AzDataReplicationRunAsAccount -AccountName <String> -ResourceGroupName <Stri
  [-SubscriptionId <String[]>] [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
-### GetViaIdentity1
-```
-Get-AzDataReplicationRunAsAccount -InputObject <IDataReplicationIdentity> [-DefaultProfile <PSObject>]
- [<CommonParameters>]
-```
-
 ## DESCRIPTION
 Method to get run as account.
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: List
 ```powershell
-{{ Add code here }}
+Get-AzDataReplicationRunAsAccount -ResourceGroupName arpita-air -SiteName avsmay23c242vmwaresite
 ```
 
 ```output
-{{ Add output here }}
+Name                                 Type
+----                                 ----
+3da4030e-fa0b-51d6-b743-102911271eb3 Microsoft.OffAzure/VMwareSites/runasaccounts
+5d018b30-06a5-502f-a35e-37495831840a Microsoft.OffAzure/VMwareSites/runasaccounts
+9866f3c4-d074-5027-8582-defc4f1ef4a8 Microsoft.OffAzure/VMwareSites/runasaccounts
+17878c3c-919f-5aba-9b36-455be7166322 Microsoft.OffAzure/VMwareSites/runasaccounts
+48e8ddc4-4425-5401-9e1b-74429c02f967 Microsoft.OffAzure/VMwareSites/runasaccounts
 ```
 
 {{ Add description here }}
 
-### Example 2: {{ Add title here }}
+### Example 2: Get
 ```powershell
-{{ Add code here }}
+Get-AzDataReplicationRunAsAccount -ResourceGroupName arpita-air -SiteName avsmay23c242vmwaresite -AccountName 48e8ddc4-4425-5401-9e1b-74429c02f967 | fl
 ```
 
 ```output
-{{ Add output here }}
+CreatedTimestamp : 2022-05-27T05:29:00.1666927Z
+CredentialType   : WindowsGuest
+DisplayName      : wincredsnew
+Id               : /subscriptions/b364ed8d-4279-4bf8-8fd1-56f8fa0ae05c/resourceGroups/arpita-air/providers/Microsoft.Of
+                   fAzure/VMwareSites/avsmay23c242vmwaresite/runasaccounts/48e8ddc4-4425-5401-9e1b-74429c02f967
+Name             : 48e8ddc4-4425-5401-9e1b-74429c02f967
+Type             : Microsoft.OffAzure/VMwareSites/runasaccounts
+UpdatedTimestamp : 2022-07-06T12:03:49.9207350Z
 ```
 
 {{ Add description here }}
@@ -89,29 +96,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -InputObject
-Identity Parameter
-To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentity
-Parameter Sets: GetViaIdentity1
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
 ### -ResourceGroupName
 The name of the resource group.
 The name is case insensitive.
 
 ```yaml
 Type: System.String
-Parameter Sets: Get, Get1
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -126,7 +117,7 @@ Site name.
 
 ```yaml
 Type: System.String
-Parameter Sets: Get, Get1
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -141,7 +132,7 @@ The ID of the target subscription.
 
 ```yaml
 Type: System.String[]
-Parameter Sets: Get, Get1
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -156,8 +147,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentity
-
 ## OUTPUTS
 
 ### Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api202001.IVMwareRunAsAccount
@@ -165,37 +154,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ALIASES
-
-COMPLEX PARAMETER PROPERTIES
-
-To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
-
-
-INPUTOBJECT <IDataReplicationIdentity>: Identity Parameter
-  - `[AccountName <String>]`: Run as account ARM name.
-  - `[ClusterName <String>]`: Cluster ARM name.
-  - `[DeploymentId <String>]`: Deployment Id.
-  - `[DraName <String>]`: Dra name.
-  - `[EmailConfigurationName <String>]`: Email configuration name.
-  - `[EventName <String>]`: Event name.
-  - `[FabricName <String>]`: Fabric name.
-  - `[HostName <String>]`: Host ARM name.
-  - `[Id <String>]`: Resource identity path
-  - `[JobName <String>]`: Job ARM name.
-  - `[Location <String>]`: Resource location.
-  - `[MachineName <String>]`: Machine ARM name.
-  - `[OperationId <String>]`: Operation Id.
-  - `[OperationStatusName <String>]`: Operation status ARM name.
-  - `[PolicyName <String>]`: Policy name.
-  - `[ProtectedItemName <String>]`: Protected item name.
-  - `[RecoveryPointName <String>]`: Recovery point name.
-  - `[ReplicationExtensionName <String>]`: Replication extension name.
-  - `[ResourceGroupName <String>]`: Resource group name.
-  - `[SiteName <String>]`: Site name.
-  - `[SubscriptionId <String>]`: The Subscription ID.
-  - `[VaultName <String>]`: Vault name.
-  - `[VcenterName <String>]`: VCenter ARM name.
-  - `[WorkflowName <String>]`: Workflow name.
 
 ## RELATED LINKS
 

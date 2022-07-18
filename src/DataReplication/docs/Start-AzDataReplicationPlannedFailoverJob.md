@@ -45,9 +45,13 @@ Start-AzDataReplicationPlannedFailoverJob -ProtectedItemId <String> -InstanceTyp
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: ByInputObject
 ```powershell
-{{ Add code here }}
+$CustomProperty = [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.VMwareToAvsFailbackPlannedFailoverModelCustomProperties]::new()
+$CustomProperty.InstanceType = "VMwareToAvsFailback"
+$CustomProperty.RecoveryPointType = "CrashConsistent"
+
+Start-AzDataReplicationPlannedFailoverJob -CustomProperty $CustomProperty -InputObject $protectedItem
 ```
 
 ```output
@@ -56,9 +60,9 @@ Start-AzDataReplicationPlannedFailoverJob -ProtectedItemId <String> -InstanceTyp
 
 {{ Add description here }}
 
-### Example 2: {{ Add title here }}
+### Example 2: ByProtectedItemIdExpanded
 ```powershell
-{{ Add code here }}
+Start-AzDataReplicationPlannedFailoverJob -ProtectedItemId "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/Arpita-air/providers/Microsoft.DataReplication/replicationVaults/protectedItems/avsvcenter_50153f67-367e-440b-69a6-20870cec95a5" -InstanceType "VMwareToAvsFailback" -RecoveryPointType "CrashConsistent"
 ```
 
 ```output
@@ -70,8 +74,6 @@ Start-AzDataReplicationPlannedFailoverJob -ProtectedItemId <String> -InstanceTyp
 ## PARAMETERS
 
 ### -AsJob
-
-
 ```yaml
 Type: System.Management.Automation.SwitchParameter
 Parameter Sets: (All)

@@ -12,7 +12,7 @@ Method to get a vCenter.
 
 ## SYNTAX
 
-### Get1 (Default)
+### List (Default)
 ```
 Get-AzDataReplicationVCenter -ResourceGroupName <String> -SiteName <String> [-SubscriptionId <String[]>]
  [-Filter <String>] [-DefaultProfile <PSObject>] [<CommonParameters>]
@@ -24,38 +24,33 @@ Get-AzDataReplicationVCenter -Name <String> -ResourceGroupName <String> -SiteNam
  [-SubscriptionId <String[]>] [-DefaultProfile <PSObject>] [<CommonParameters>]
 ```
 
-### GetViaIdentity1
-```
-Get-AzDataReplicationVCenter -InputObject <IDataReplicationIdentity> [-Filter <String>]
- [-DefaultProfile <PSObject>] [<CommonParameters>]
-```
-
 ## DESCRIPTION
 Method to get a vCenter.
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: List
 ```powershell
-{{ Add code here }}
+Get-AzDataReplicationVCenter -SiteName avsmay23c242vmwaresite -ResourceGroupName arpita-air | fl
 ```
 
 ```output
-{{ Add output here }}
+CreatedTimestamp    : 2022-05-23T07:50:36.9230225Z
+Error               : {}
+Fqdn                : idclab-vcen67.fareast.corp.microsoft.com
+Id                  : /subscriptions/b364ed8d-4279-4bf8-8fd1-56f8fa0ae05c/resourceGroups/arpita-air/providers/Microsoft.OffAzure/VMwareSites/avsmay23c242vmwaresite/vcenters/avsvcenter
+InstanceUuid        : db73f8f2-624c-4a0f-905b-8c6f34442cbc
+Name                : avsvcenter
+PerfStatisticsLevel : [{"Level":1,"Name":"past day","Enabled":true,"SamplingPeriod":300,"TimeLength":86400},{"Level":1,"Name":"past
+                      week","Enabled":true,"SamplingPeriod":1800,"TimeLength":604800},{"Level":1,"Name":"past month","Enabled":true,"SamplingPeriod":7200,"TimeLength":2592000},{"Level":1,"Name":"past
+                      year","Enabled":true,"SamplingPeriod":86400,"TimeLength":7776000}]
+Port                : 443
+RunAsAccountId      : /subscriptions/b364ed8d-4279-4bf8-8fd1-56f8fa0ae05c/resourceGroups/arpita-air/providers/Microsoft.OffAzure/VMwareSites/avsmay23c242vmwaresite/runasaccounts/9866f3c4-d074-5027-8582-defc4f1e
+                      f4a8
+Type                : Microsoft.OffAzure/VMwareSites/vcenters
+UpdatedTimestamp    : 2022-07-07T14:18:44.9097668Z
+Version             : 6.7.0
 ```
-
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
-```powershell
-{{ Add code here }}
-```
-
-```output
-{{ Add output here }}
-```
-
-{{ Add description here }}
 
 ## PARAMETERS
 
@@ -79,29 +74,13 @@ Accept wildcard characters: False
 
 ```yaml
 Type: System.String
-Parameter Sets: Get1, GetViaIdentity1
+Parameter Sets: List
 Aliases:
 
 Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -InputObject
-Identity Parameter
-To construct, see NOTES section for INPUTOBJECT properties and create a hash table.
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentity
-Parameter Sets: GetViaIdentity1
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
@@ -126,7 +105,7 @@ The name is case insensitive.
 
 ```yaml
 Type: System.String
-Parameter Sets: Get, Get1
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -141,7 +120,7 @@ Site name.
 
 ```yaml
 Type: System.String
-Parameter Sets: Get, Get1
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -156,7 +135,7 @@ The ID of the target subscription.
 
 ```yaml
 Type: System.String[]
-Parameter Sets: Get, Get1
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -171,8 +150,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.IDataReplicationIdentity
-
 ## OUTPUTS
 
 ### Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api202001.IVCenter
@@ -180,37 +157,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ALIASES
-
-COMPLEX PARAMETER PROPERTIES
-
-To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
-
-
-INPUTOBJECT <IDataReplicationIdentity>: Identity Parameter
-  - `[AccountName <String>]`: Run as account ARM name.
-  - `[ClusterName <String>]`: Cluster ARM name.
-  - `[DeploymentId <String>]`: Deployment Id.
-  - `[DraName <String>]`: Dra name.
-  - `[EmailConfigurationName <String>]`: Email configuration name.
-  - `[EventName <String>]`: Event name.
-  - `[FabricName <String>]`: Fabric name.
-  - `[HostName <String>]`: Host ARM name.
-  - `[Id <String>]`: Resource identity path
-  - `[JobName <String>]`: Job ARM name.
-  - `[Location <String>]`: Resource location.
-  - `[MachineName <String>]`: Machine ARM name.
-  - `[OperationId <String>]`: Operation Id.
-  - `[OperationStatusName <String>]`: Operation status ARM name.
-  - `[PolicyName <String>]`: Policy name.
-  - `[ProtectedItemName <String>]`: Protected item name.
-  - `[RecoveryPointName <String>]`: Recovery point name.
-  - `[ReplicationExtensionName <String>]`: Replication extension name.
-  - `[ResourceGroupName <String>]`: Resource group name.
-  - `[SiteName <String>]`: Site name.
-  - `[SubscriptionId <String>]`: The Subscription ID.
-  - `[VaultName <String>]`: Vault name.
-  - `[VcenterName <String>]`: VCenter ARM name.
-  - `[WorkflowName <String>]`: Workflow name.
 
 ## RELATED LINKS
 

@@ -31,23 +31,14 @@ Gets the details of the recovery point of a protected item.
 
 ### Example 1: {{ Add title here }}
 ```powershell
-{{ Add code here }}
+Get-AzDataReplicationRecoveryPoint -ProtectedItemName "avsvcenter_5015355d-7426-885a-87e6-24ecf766eb6d" -ResourceGroupName arpita-air -VaultName vijamijun15
 ```
 
 ```output
 {{ Add output here }}
 ```
 
-{{ Add description here }}
 
-### Example 2: {{ Add title here }}
-```powershell
-{{ Add code here }}
-```
-
-```output
-{{ Add output here }}
-```
 
 {{ Add description here }}
 

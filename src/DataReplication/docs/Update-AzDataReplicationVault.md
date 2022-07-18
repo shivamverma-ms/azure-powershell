@@ -12,17 +12,9 @@ Performs update on the vault.
 
 ## SYNTAX
 
-### UpdateExpanded (Default)
 ```
 Update-AzDataReplicationVault -Name <String> -ResourceGroupName <String> [-SubscriptionId <String>]
  [-Location <String>] [-Tag <Hashtable>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
- [<CommonParameters>]
-```
-
-### Update
-```
-Update-AzDataReplicationVault -Name <String> -ResourceGroupName <String> -Body <IVaultModel>
- [-SubscriptionId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf]
  [<CommonParameters>]
 ```
 
@@ -33,25 +25,12 @@ Performs update on the vault.
 
 ### Example 1: {{ Add title here }}
 ```powershell
-{{ Add code here }}
+Update-AzDataReplicationVault -Name vijamijun15 -ResourceGroupName arpita-air -Location "eastus"
 ```
 
 ```output
 {{ Add output here }}
 ```
-
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
-```powershell
-{{ Add code here }}
-```
-
-```output
-{{ Add output here }}
-```
-
-{{ Add description here }}
 
 ## PARAMETERS
 
@@ -67,22 +46,6 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Body
-Vault model.
-To construct, see NOTES section for BODY properties and create a hash table.
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IVaultModel
-Parameter Sets: Update
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
@@ -106,7 +69,7 @@ Gets or sets the location of the vault.
 
 ```yaml
 Type: System.String
-Parameter Sets: UpdateExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -181,7 +144,7 @@ Gets or sets the resource tags.
 
 ```yaml
 Type: System.Collections.Hashtable
-Parameter Sets: UpdateExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -227,8 +190,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IVaultModel
-
 ## OUTPUTS
 
 ### Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IVaultModel
@@ -236,22 +197,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## NOTES
 
 ALIASES
-
-COMPLEX PARAMETER PROPERTIES
-
-To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
-
-
-BODY <IVaultModel>: Vault model.
-  - `[Location <String>]`: Gets or sets the location of the vault.
-  - `[SystemDataCreatedAt <DateTime?>]`: Gets or sets the timestamp of resource creation (UTC).
-  - `[SystemDataCreatedBy <String>]`: Gets or sets identity that created the resource.
-  - `[SystemDataCreatedByType <String>]`: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
-  - `[SystemDataLastModifiedAt <DateTime?>]`: Gets or sets the timestamp of resource last modification (UTC).
-  - `[SystemDataLastModifiedBy <String>]`: Gets or sets the identity that last modified the resource.
-  - `[SystemDataLastModifiedByType <String>]`: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
-  - `[Tag <IVaultModelTags>]`: Gets or sets the resource tags.
-    - `[(Any) <String>]`: This indicates any property can be added to this object.
 
 ## RELATED LINKS
 

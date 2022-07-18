@@ -12,18 +12,10 @@ Performs update on the policy.
 
 ## SYNTAX
 
-### UpdateExpanded (Default)
 ```
 Update-AzDataReplicationPolicy -Name <String> -ResourceGroupName <String> -VaultName <String>
  [-SubscriptionId <String>] [-CustomProperty <IPolicyModelCustomProperties>] [-Tag <Hashtable>]
  [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm] [-WhatIf] [<CommonParameters>]
-```
-
-### Update
-```
-Update-AzDataReplicationPolicy -Name <String> -ResourceGroupName <String> -VaultName <String>
- -Body <IPolicyModel> [-SubscriptionId <String>] [-DefaultProfile <PSObject>] [-AsJob] [-NoWait] [-Confirm]
- [-WhatIf] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,27 +23,19 @@ Performs update on the policy.
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1:
 ```powershell
-{{ Add code here }}
+$providerSpecificPolicy = [Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.VMwareToAvsPolicyModelCustomProperties]::new()
+$providerSpecificPolicy.InstanceType = "VMwareToAvs"
+$providerSpecificPolicy.AppConsistentFrequencyInMinute = 240
+$providerSpecificPolicy.enableMultiVmSync = $false
+
+Update-AzDataReplicationPolicy -Name new-policy -ResourceGroupName resource-group-name -VaultName vault-name -CustomProperty $providerSpecificPolicy
 ```
 
 ```output
 {{ Add output here }}
 ```
-
-{{ Add description here }}
-
-### Example 2: {{ Add title here }}
-```powershell
-{{ Add code here }}
-```
-
-```output
-{{ Add output here }}
-```
-
-{{ Add description here }}
 
 ## PARAMETERS
 
@@ -70,29 +54,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Body
-Policy model.
-To construct, see NOTES section for BODY properties and create a hash table.
-
-```yaml
-Type: Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IPolicyModel
-Parameter Sets: Update
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
 ### -CustomProperty
 Policy model custom properties.
 To construct, see NOTES section for CUSTOMPROPERTY properties and create a hash table.
 
 ```yaml
 Type: Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IPolicyModelCustomProperties
-Parameter Sets: UpdateExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -182,7 +150,7 @@ Gets or sets the resource tags.
 
 ```yaml
 Type: System.Collections.Hashtable
-Parameter Sets: UpdateExpanded
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -243,8 +211,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IPolicyModel
-
 ## OUTPUTS
 
 ### Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.IPolicyModel
@@ -257,18 +223,6 @@ COMPLEX PARAMETER PROPERTIES
 
 To create the parameters described below, construct a hash table containing the appropriate properties. For information on hash tables, run Get-Help about_Hash_Tables.
 
-
-BODY <IPolicyModel>: Policy model.
-  - `[CustomProperty <IPolicyModelCustomProperties>]`: Policy model custom properties.
-    - `InstanceType <String>`: Gets or sets the instance type.
-  - `[SystemDataCreatedAt <DateTime?>]`: Gets or sets the timestamp of resource creation (UTC).
-  - `[SystemDataCreatedBy <String>]`: Gets or sets identity that created the resource.
-  - `[SystemDataCreatedByType <String>]`: Gets or sets the type of identity that created the resource: user, application,         managedIdentity.
-  - `[SystemDataLastModifiedAt <DateTime?>]`: Gets or sets the timestamp of resource last modification (UTC).
-  - `[SystemDataLastModifiedBy <String>]`: Gets or sets the identity that last modified the resource.
-  - `[SystemDataLastModifiedByType <String>]`: Gets or sets the type of identity that last modified the resource: user, application,         managedIdentity.
-  - `[Tag <IPolicyModelTags>]`: Gets or sets the resource tags.
-    - `[(Any) <String>]`: This indicates any property can be added to this object.
 
 CUSTOMPROPERTY <IPolicyModelCustomProperties>: Policy model custom properties.
   - `InstanceType <String>`: Gets or sets the instance type.

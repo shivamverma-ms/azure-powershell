@@ -29,13 +29,32 @@ Gets the details of the event.
 
 ## EXAMPLES
 
-### Example 1: {{ Add title here }}
+### Example 1: Get
 ```powershell
-{{ Add code here }}
+Get-AzDataReplicationEvent -ResourceGroupName arpita-air -VaultName vijamijun15 -Name ProtectedItem_avsvcenter_501531a0-6693-5861-a755-9c69897a51f9_95f89711-9b27-42d5-8a1c-864f93b0b879_ProtectedItemHealth_ProtectedItemHealthChanged_637933556299381531 | fl
 ```
 
 ```output
-{{ Add output here }}
+CorrelationId                : 97ae2bff-2715-4189-aed7-f25b7e099900
+CustomProperty               : Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.EventModelCustomProperties
+Description                  : Protected item health changed to Warning.
+EventName                    : ProtectedItemHealthChanged
+EventType                    : ProtectedItemHealth
+HealthError                  : {}
+Id                           : /subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/arpita-air/providers/Microsoft.DataReplication/replicationVaults/vijamijun15/events/ProtectedItem_avsvcenter_501531a0-6693-5861-a755-9c69897a51f9_95f89711-9b27-42d5-8a1c-864f93b0b879_ProtectedItemHealth_ProtectedItemHealthChanged_637933556299381531
+Name                         : ProtectedItem_avsvcenter_501531a0-6693-5861-a755-9c69897a51f9_95f89711-9b27-42d5-8a1c-864f93b0b879_ProtectedItemHealth_ProtectedItemHealthChanged_637933556299381531
+ResourceName                 : avsvcenter_501531a0-6693-5861-a755-9c69897a51f9
+ResourceType                 : ProtectedItem
+Severity                     : Warning
+SystemDataCreatedAt          :
+SystemDataCreatedBy          :
+SystemDataCreatedByType      :
+SystemDataLastModifiedAt     :
+SystemDataLastModifiedBy     :
+SystemDataLastModifiedByType :
+Tag                          : Microsoft.Azure.PowerShell.Cmdlets.DataReplication.Models.Api20210216Preview.EventModelTags
+TimeOfOccurrence             : 7/14/2022 12:33:49 AM
+Type                         : Microsoft.DataReplication/replicationVaults/events
 ```
 
 {{ Add description here }}
