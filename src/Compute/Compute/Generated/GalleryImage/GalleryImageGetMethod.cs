@@ -29,6 +29,8 @@ using Microsoft.Azure.Commands.ResourceManager.Common.ArgumentCompleters;
 using Microsoft.Azure.Management.Compute;
 using Microsoft.Azure.Management.Compute.Models;
 using Microsoft.WindowsAzure.Commands.Utilities.Common;
+using Microsoft.Azure.Management.ResourceGraph;
+using Microsoft.Azure.Management.Internal.Resources;
 
 namespace Microsoft.Azure.Commands.Compute.Automation
 {
@@ -51,6 +53,12 @@ namespace Microsoft.Azure.Commands.Compute.Automation
                         galleryName = GetResourceName(this.ResourceId, "Microsoft.Compute/Galleries", "Images");
                         galleryImageName = GetInstanceId(this.ResourceId, "Microsoft.Compute/Galleries", "Images");
                         break;
+                    case "SharedGalleryParameterSet":
+                        SharedGalleryGet();
+                        return;
+                    case "CommunityGalleryParameterSet":
+                        CommunityGalleryGet();
+                        return;
                     default:
                         resourceGroupName = this.ResourceGroupName;
                         galleryName = this.GalleryName;
@@ -90,6 +98,82 @@ namespace Microsoft.Azure.Commands.Compute.Automation
             });
         }
 
+        public void SharedGalleryGet()
+        {
+            if (this.IsParameterBound(c => c.Name))
+            {
+                SharedGalleryImage result = SharedGalleryImagesClient.Get(this.Location, this.GalleryUniqueName, this.Name);
+                var psObject = new PSSharedGalleryImage();
+                ComputeAutomationAutoMapperProfile.Mapper.Map<SharedGalleryImage, PSSharedGalleryImage>(result, psObject);
+                WriteObject(psObject);
+            }
+            else
+            {
+                Rest.Azure.IPage<SharedGalleryImage> result = new Microsoft.Azure.Management.Compute.Models.Page<SharedGalleryImage>();
+
+                if (this.IsParameterBound(c => c.Scope) && this.Scope != "subscription")
+                {
+                    result = SharedGalleryImagesClient.List(this.Location, this.GalleryUniqueName, this.Scope);
+                }
+                else
+                {
+                    result = SharedGalleryImagesClient.List(this.Location, this.GalleryUniqueName);
+                }
+
+                var resultList = result.ToList();
+                var nextPageLink = result.NextPageLink;
+                while (!string.IsNullOrEmpty(nextPageLink))
+                {
+                    var pageResult = SharedGalleryImagesClient.ListNext(nextPageLink);
+                    foreach (var pageItem in pageResult)
+                    {
+                        resultList.Add(pageItem);
+                    }
+                    nextPageLink = pageResult.NextPageLink;
+                }
+                var psObject = new List<PSSharedGalleryImageList>();
+                foreach (var r in resultList)
+                {
+                    psObject.Add(ComputeAutomationAutoMapperProfile.Mapper.Map<SharedGalleryImage, PSSharedGalleryImageList>(r));
+                }
+                WriteObject(psObject);
+            }
+        }
+
+        public void CommunityGalleryGet()
+        {
+            if (this.IsParameterBound(c => c.Name))
+            {
+                CommunityGalleryImage result = CommunityGalleryImagesClient.Get(this.Location, this.GalleryPublicName, this.Name);
+                var psObject = new PSCommunityGalleryImage();
+                ComputeAutomationAutoMapperProfile.Mapper.Map<CommunityGalleryImage, PSCommunityGalleryImage>(result, psObject);
+                WriteObject(psObject);
+            }
+            else
+            {
+                Rest.Azure.IPage<CommunityGalleryImage> result = new Microsoft.Azure.Management.Compute.Models.Page<CommunityGalleryImage>();
+
+                result = CommunityGalleryImagesClient.List(this.Location, this.GalleryPublicName);
+                var resultList = result.ToList();
+                var nextPageLink = result.NextPageLink;
+                while (!string.IsNullOrEmpty(nextPageLink))
+                {
+                    var pageResult = CommunityGalleryImagesClient.ListNext(nextPageLink);
+                    foreach (var pageItem in pageResult)
+                    {
+                        resultList.Add(pageItem);
+                    }
+                    nextPageLink = pageResult.NextPageLink;
+                }
+                var psObject = new List<PSCommunityGalleryImageList>();
+                foreach (var r in resultList)
+                {
+                    psObject.Add(ComputeAutomationAutoMapperProfile.Mapper.Map<CommunityGalleryImage, PSCommunityGalleryImageList>(r));
+                }
+                WriteObject(psObject);
+            }
+        }
+
         [Parameter(
             ParameterSetName = "DefaultParameter",
             Position = 0,
@@ -110,6 +194,12 @@ namespace Microsoft.Azure.Commands.Compute.Automation
             ParameterSetName = "DefaultParameter",
             Position = 2,
             ValueFromPipelineByPropertyName = true)]
+        [Parameter(
+            ParameterSetName = "SharedGalleryParameterSet",
+            ValueFromPipelineByPropertyName = true)]
+        [Parameter(
+            ParameterSetName = "CommunityGalleryParameterSet",
+            ValueFromPipelineByPropertyName = true)]
         [SupportsWildcards]
         public string Name { get; set; }
 
@@ -119,5 +209,39 @@ namespace Microsoft.Azure.Commands.Compute.Automation
             Mandatory = true,
             ValueFromPipelineByPropertyName = true)]
         public string ResourceId { get; set; }
+
+        [Parameter(
+           Mandatory = true,
+           ValueFromPipelineByPropertyName = true,
+           ParameterSetName = "SharedGalleryParameterSet",
+           HelpMessage = "The unique name of the Shared Image Gallery.")]
+        public string GalleryUniqueName { get; set; }
+
+        [Parameter(
+           Mandatory = true,
+           ValueFromPipelineByPropertyName = true,
+           ParameterSetName = "CommunityGalleryParameterSet",
+           HelpMessage = "The public name of the Shared Image Gallery.")]
+        public string GalleryPublicName { get; set; }
+
+        [Parameter(
+           Mandatory = false,
+           ValueFromPipelineByPropertyName = true,
+           ParameterSetName = "SharedGalleryParameterSet",
+           HelpMessage = "Specifies galleries shared to subscription or tenant.")]
+        [PSArgumentCompleter("subscription", "tenant")]
+        public string Scope { get; set; }
+
+        [Parameter(
+           Mandatory = true,
+           ValueFromPipelineByPropertyName = true,
+           ParameterSetName = "SharedGalleryParameterSet")]
+        [Parameter(
+           Mandatory = true,
+           ValueFromPipelineByPropertyName = true,
+           ParameterSetName = "CommunityGalleryParameterSet")]
+        [LocationCompleter("Microsoft.Compute/Galleries", "Microsoft.Compute/CommunityGalleries")]
+        [ValidateNotNullOrEmpty]
+        public string Location { get; set; }
     }
 }

@@ -234,17 +234,11 @@ function Delete-Vault($vault)
 	Remove-AzRecoveryServicesVault -Vault $vault
 }
 
-<# 
-.SYNOPSIS
-Sleeps but only during recording.
-#>
- 
-function Start-TestSleep($milliseconds)
+function Delete-VM(
+	[string] $rgName,
+	[string] $vmName)
 {
-    if ([Microsoft.Azure.Test.HttpRecorder.HttpMockServer]::Mode -ne [Microsoft.Azure.Test.HttpRecorder.HttpRecorderMode]::Playback)
-    {
-        Start-Sleep -Milliseconds $milliseconds
-    }
+	Remove-AzVM -ResourceGroupName $rgName -Name $vmName -Force
 }
 
 function Enable-Protection(
@@ -253,7 +247,7 @@ function Enable-Protection(
 	[string] $resourceGroupName = "")
 {
     # Sleep to give the service time to add the default policy to the vault
-    Start-TestSleep 5000
+    Start-TestSleep -Seconds 5
 	$container = Get-AzRecoveryServicesBackupContainer `
 		-VaultId $vault.ID `
 		-ContainerType AzureVM `
