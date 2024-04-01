@@ -185,18 +185,12 @@ function New-AzMigrateServerReplication {
         # Specifies the Operating System disk for the source server to be migrated.
         ${OSDiskID},
 
-        [ValidateSet("Standard" , "ConfidentialVM", "TrustedLaunch")]
-        [ArgumentCompleter( { "Standard" , "ConfidentialVM", "TrustedLaunch" })]
+        [ValidateSet("Standard" , "TrustedLaunch")]
+        [ArgumentCompleter( { "Standard" , "TrustedLaunch" })]
         [Microsoft.Azure.PowerShell.Cmdlets.Migrate.Category('Path')]
         [System.String]
         # Specifies the security type for the Azure VM.
         ${TargetSecurityType},
-
-        [Parameter()]
-        [Microsoft.Azure.PowerShell.Cmdlets.Migrate.Category('Path')]
-        [System.Management.Automation.SwitchParameter]
-        # Specifies whether the confidential encryption of OS disks needs to be enabled.
-        ${TargetVMConfidentialEncryptionEnabled},
 
         [ValidateSet("true" , "false")]
         [ArgumentCompleter( { "true" , "false" })]
@@ -282,7 +276,6 @@ function New-AzMigrateServerReplication {
         $HasDiskEncryptionSetID = $PSBoundParameters.ContainsKey('DiskEncryptionSetID')
         $HasTargetVMSize = $PSBoundParameters.ContainsKey('TargetVMSize')
         $HasTargetSecurityType = $PSBoundParameters.ContainsKey('TargetSecurityType')
-        $HasTargetVMConfidentialEncryptionEnabled = $PSBoundParameters.ContainsKey('TargetVMConfidentialEncryptionEnabled')
         $HasTargetVMSecureBootEnabled = $PSBoundParameters.ContainsKey('TargetVMSecureBootEnabled')
 
         $null = $PSBoundParameters.Remove('ReplicationContainerMapping')
@@ -310,7 +303,6 @@ function New-AzMigrateServerReplication {
         $null = $PSBoundParameters.Remove('LicenseType')
         $null = $PSBoundParameters.Remove('DiskEncryptionSetID')
         $null = $PSBoundParameters.Remove('TargetSecurityType')
-        $null = $PSBoundParameters.Remove('TargetVMConfidentialEncryptionEnabled')
         $null = $PSBoundParameters.Remove('TargetVMSecureBootEnabled')
 
         $null = $PSBoundParameters.Remove('MachineId')
@@ -565,9 +557,6 @@ public static int hashForArtifact(String artifact)
         $ProviderSpecificDetails.InstanceType = 'VMwareCbt'
         $ProviderSpecificDetails.LicenseType = $LicenseType
         $ProviderSpecificDetails.PerformAutoResync = $PerformAutoResync
-        if ($HasTargetVMConfidentialEncryptionEnabled) {
-            $ProviderSpecificDetails.TargetVMSecurityProfileIsTargetVmconfidentialEncryptionEnabled = $TargetVMConfidentialEncryptionEnabled.IsPresent
-        }
         if ($HasTargetVMSecureBootEnabled) {
             $ProviderSpecificDetails.TargetVMSecurityProfileIsTargetVmsecureBootEnabled = $TargetVMSecureBootEnabled
         }
@@ -575,15 +564,10 @@ public static int hashForArtifact(String artifact)
         if ($HasTargetSecurityType -and $TargetSecurityType -ne "Standard") {
             $ProviderSpecificDetails.TargetVMSecurityProfileTargetVmsecurityType = $TargetSecurityType
             $ProviderSpecificDetails.TargetVMSecurityProfileIsTargetVmtpmEnabled = $true
-
-            if ($TargetVMSecureBootEnabled -ne $true -and $HasTargetVMConfidentialEncryptionEnabled) {
-                throw "SecureBoot should be enabled when confidential encryption is enabled."
-            }
+        } elseif($HasTargetVMSecureBootEnabled) {
+            throw "SecureBoot when security type is trusted launch virtual machine."
         }
-        elseif ($HasTargetVMConfidentialEncryptionEnabled -or $HasTargetVMSecureBootEnabled) {
-            throw "SecureBoot and Confidential encryption is supported only when security type is confidential virtual machines."
-        }
-
+        
         if ($HasTargetAVSet) {
             $ProviderSpecificDetails.TargetAvailabilitySetId = $TargetAvailabilitySet
         }
@@ -710,9 +694,6 @@ public static int hashForArtifact(String artifact)
                     $DiskObject.IsOSDisk = "false"
                     $DiskObject.LogStorageAccountSasSecretName = $LogStorageAccountSas
                     $DiskObject.LogStorageAccountId = $LogStorageAccountID
-                    if (!$HasTargetVMConfidentialEncryptionEnabled -and $HasDiskEncryptionSetID) {
-                        $DiskObject.DiskEncryptionSetId = $DiskEncryptionSetID
-                    }
                     $DiskToInclude += $DiskObject
                 }
             }
@@ -724,61 +705,16 @@ public static int hashForArtifact(String artifact)
             $DiskObject.LogStorageAccountId = $LogStorageAccountID
             if ($HasDiskEncryptionSetID) {
                 $DiskObject.DiskEncryptionSetId = $DiskEncryptionSetID
-
-                if ($TargetSecurityType -eq "ConfidentialVM")
-                {
-                    $TargetSubscriptionId = $TargetResourceGroupId.Split('/')[2];
-                    $SourceSubscriptionId = (Get-AzContext -ErrorVariable notPresent -ErrorAction SilentlyContinue).Subscription.Id
-                    $context = Set-AzContext -SubscriptionId $TargetSubscriptionId -ErrorVariable notPresent -ErrorAction SilentlyContinue
-                    $DiskEncryptionSetName = $DiskEncryptionSetID.Split("/")[-1];
-                    $DiskEncryptionSetRg = $DiskEncryptionSetID.Split("/")[-5];
-                    $DiskEncryptionSet = Get-AzDiskEncryptionSet -ResourceGroupName $DiskEncryptionSetRg -Name $DiskEncryptionSetName
-
-                    if ($DiskEncryptionSet.EncryptionType -ne $null -and $HasTargetVMConfidentialEncryptionEnabled -and $DiskEncryptionSet.EncryptionType -ne "ConfidentialVmEncryptedWithCustomerKey") {
-                        throw "Disk encryption set should be of type ConfidentialVmEncryptedWithCustomerKey when confidential encryption is enabled."
-                    }
-                    elseif (!$HasTargetVMConfidentialEncryptionEnabled -and $DiskEncryptionSet.EncryptionType -eq "ConfidentialVmEncryptedWithCustomerKey") {
-                        throw "Disk encryption set should be of type ConfidentialVmEncryptedWithCustomerKey when confidential encryption is disabled."
-                    }
-                    $context = Set-AzContext -SubscriptionId $SourceSubscriptionId -ErrorVariable notPresent -ErrorAction SilentlyContinue
-                }
             }
 
             $DiskToInclude += $DiskObject
             $ProviderSpecificDetails.DisksToInclude = $DiskToInclude
         }
         else {
-            $TargetSubscriptionId = $TargetResourceGroupId.Split('/')[2];
-            $SourceSubscriptionId = (Get-AzContext -ErrorVariable notPresent -ErrorAction SilentlyContinue).Subscription.Id
-            $context = Set-AzContext -SubscriptionId $TargetSubscriptionId -ErrorVariable notPresent -ErrorAction SilentlyContinue
-            $DiskEncryptionSetHashset = New-Object System.Collections.Generic.HashSet[string]
             foreach ($DiskObject in $DiskToInclude) {
                 $DiskObject.LogStorageAccountSasSecretName = $LogStorageAccountSas
                 $DiskObject.LogStorageAccountId = $LogStorageAccountID
-                if (![string]::IsNullOrEmpty($DiskObject.DiskEncryptionSetId) -and $TargetSecurityType -eq "ConfidentialVM") {
-                    $DiskEncryptionSetName = $DiskObject.DiskEncryptionSetId.Split("/")[-1];
-                    $DiskEncryptionSetRg = $DiskObject.DiskEncryptionSetId.Split("/")[-5];
-                    if ($DiskObject.IsOSDisk -eq "true") {
-                        $DiskEncryptionSet = Get-AzDiskEncryptionSet -ResourceGroupName $DiskEncryptionSetRg -Name $DiskEncryptionSetName
-                        if ($HasTargetVMConfidentialEncryptionEnabled -and $DiskEncryptionSet.EncryptionType -ne $null -and $DiskEncryptionSet.EncryptionType -ne "ConfidentialVmEncryptedWithCustomerKey") {
-                            throw "Disk encryption set should be of type ConfidentialVmEncryptedWithCustomerKey when confidential encryption is enabled."
-                        }
-                        elseif (!$HasTargetVMConfidentialEncryptionEnabled -and $DiskEncryptionSet.EncryptionType -eq "ConfidentialVmEncryptedWithCustomerKey") {
-                            throw "Disk encryption set should be of type EncryptionAtRestWithCustomerKey when confidential encryption is disabled."
-                        }
-                    }
-                    else {
-                        if (!$DiskEncryptionSetHashset.Contains($DiskObject.DiskEncryptionSetId)) {
-                            $DiskEncryptionSet = Get-AzDiskEncryptionSet -ResourceGroupName $DiskEncryptionSetRg -Name $DiskEncryptionSetName
-                            if ($DiskEncryptionSet.EncryptionType -eq "ConfidentialVmEncryptedWithCustomerKey") {
-                                throw "Disk encryption set should be of type EncryptionAtRestWithCustomerKey for data disks."
-                            }
-                            $var =$DiskEncryptionSetHashset.Add($DiskObject.DiskEncryptionSetId)
-                        }
-                    }
-                }
             }
-            $context = Set-AzContext -SubscriptionId $SourceSubscriptionId -ErrorVariable notPresent -ErrorAction SilentlyContinue
             $ProviderSpecificDetails.DisksToInclude = $DiskToInclude
         }
 
