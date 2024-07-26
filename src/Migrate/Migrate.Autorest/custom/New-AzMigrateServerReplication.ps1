@@ -560,7 +560,7 @@ public static int hashForArtifact(String artifact)
         if ($HasTargetVMSecureBootEnabled) {
             $ProviderSpecificDetails.TargetVMSecurityProfileIsTargetVmsecureBootEnabled = $TargetVMSecureBootEnabled
         } elseif ($TargetSecurityType -eq "TrustedLaunch") {
-            $ProviderSpecificDetails.TargetVMSecurityProfileIsTargetVmsecureBootEnabled = $true
+            $ProviderSpecificDetails.TargetVMSecurityProfileIsTargetVmsecureBootEnabled = "true"
         }
 
         if ($HasTargetSecurityType -and $TargetSecurityType -ne "Standard") {
