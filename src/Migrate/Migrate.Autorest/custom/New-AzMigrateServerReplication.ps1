@@ -559,13 +559,15 @@ public static int hashForArtifact(String artifact)
         $ProviderSpecificDetails.PerformAutoResync = $PerformAutoResync
         if ($HasTargetVMSecureBootEnabled) {
             $ProviderSpecificDetails.TargetVMSecurityProfileIsTargetVmsecureBootEnabled = $TargetVMSecureBootEnabled
+        } elseif ($TargetSecurityType -eq "TrustedLaunch") {
+            $ProviderSpecificDetails.TargetVMSecurityProfileIsTargetVmsecureBootEnabled = $true
         }
 
         if ($HasTargetSecurityType -and $TargetSecurityType -ne "Standard") {
             $ProviderSpecificDetails.TargetVMSecurityProfileTargetVmsecurityType = $TargetSecurityType
             $ProviderSpecificDetails.TargetVMSecurityProfileIsTargetVmtpmEnabled = $true
-        } elseif($HasTargetVMSecureBootEnabled) {
-            throw "SecureBoot when security type is trusted launch virtual machine."
+        } elseif ($HasTargetVMSecureBootEnabled) {
+            throw "SecureBoot is supported only when security type is trusted launch virtual machine."
         }
         
         if ($HasTargetAVSet) {
